@@ -1,10 +1,356 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title></title>
+  <title>Calculette Tools — Page 3 (Toiture à Croupe, Unités, Pourcentage)</title>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --muted: #334155;
+      --accent: #1d4ed8;
+      --border: #94a3b8;
+      --ad-bg: #fffbeb;
+      --ad-border: #d97706;
+      --ok-bg: #ecfdf5;
+      --ok-border: #059669;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.65;
+    }
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 20px 18px 120px; }
+    .topbar {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .brand { margin: 0; font-size: 28px; font-weight: 900; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .nav-btn, .lang-btn {
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 800;
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      background: #fff;
+      cursor: pointer;
+    }
+    .nav-btn.active, .nav-btn:hover { background: var(--accent); color: #fff; }
+    .lang-btn { border-color: #0f172a; color: #0f172a; }
+    .lang-btn:hover { background: #0f172a; color: #fff; }
+    .ad-box {
+      background: var(--ad-bg);
+      border: 2px dashed var(--ad-border);
+      border-radius: 14px;
+      min-height: 150px;
+      margin: 34px 0;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .ad-badge {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+    .ad-text { font-size: 17px; font-weight: 800; color: #78350f; }
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 24px;
+      margin: 34px 0;
+    }
+    .tool-num {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 15px;
+      padding: 4px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    h2 { margin: 4px 0 12px; font-size: 26px; font-weight: 900; }
+    h3 { margin: 18px 0 8px; font-size: 21px; font-weight: 800; }
+    .desc { margin: 0 0 18px; color: var(--muted); font-size: 18px; }
+    .grid-inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    label { display: block; font-weight: 800; font-size: 16px; margin-bottom: 6px; }
+    input, select {
+      width: 100%;
+      padding: 13px 14px;
+      font-size: 19px;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      color: var(--ink);
+      background: #fff;
+    }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+    .action-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 13px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .reset-btn {
+      background: #e2e8f0;
+      color: #0f172a;
+      border: 2px solid #94a3b8;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 11px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .result-box {
+      margin-top: 18px;
+      background: var(--ok-bg);
+      border: 2px solid var(--ok-border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 21px;
+      font-weight: 900;
+      color: #065f46;
+    }
+    .long-block { min-height: 280px; }
+    .pager {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 38px;
+      flex-wrap: wrap;
+    }
+    .pager a {
+      text-decoration: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 15px 24px;
+      border-radius: 12px;
+    }
+    .sticky-ad {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: #fef3c7;
+      border-top: 2px solid var(--ad-border);
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 900;
+      color: #78350f;
+      z-index: 999;
+    }
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <header class="topbar">
+      <h1 class="brand">Calculette Tools — Page 3</h1>
+      <div class="controls">
+        <a class="nav-btn" href="index.html">Page 1</a>
+        <a class="nav-btn" href="page-2.html">Page 2</a>
+        <a class="nav-btn active" href="page-3.html">Page 3</a>
+        <button class="lang-btn" id="langToggle" type="button">EN / FR</button>
+      </div>
+    </header>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 1 — Page 3 Top Leaderboard</div></div>
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 2 — Above Tool 07</div></div>
+
+    <!-- TOOL 07 -->
+    <section class="card">
+      <span class="tool-num">07</span>
+      <h2 data-fr="Calculateur de toiture à croupe" data-en="Hipped Roof Calculator">Calculateur de toiture à croupe</h2>
+      <p class="desc" data-fr="Calculez la surface inclinée, le faîtage et la longueur des arêtiers d'une toiture à 4 pans (croupe)." data-en="Calculate sloped roof area, ridge length, and hip rafter length for a 4-sided hipped roof.">Calculez la surface inclinée, le faîtage et la longueur des arêtiers d'une toiture à 4 pans (croupe).</p>
+      <div class="grid-inputs">
+        <div><label for="roofL" data-fr="Longueur (m)" data-en="Length (m)">Longueur (m)</label><input type="number" id="roofL" step="any" placeholder="12" /></div>
+        <div><label for="roofW" data-fr="Largeur (m)" data-en="Width (m)">Largeur (m)</label><input type="number" id="roofW" step="any" placeholder="8" /></div>
+        <div><label for="roofPitch" data-fr="Pente (degrés °)" data-en="Pitch (degrees °)">Pente (degrés °)</label><input type="number" id="roofPitch" step="any" placeholder="30" /></div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" type="button" onclick="calcRoof()" data-fr="Calculer la toiture" data-en="Calculate Roof">Calculer la toiture</button>
+        <button class="reset-btn" type="button" onclick="resetRoof()" data-fr="Effacer" data-en="Clear">Effacer</button>
+      </div>
+      <div class="result-box" id="roofRes">Surface : 0.00 m² | Faîtage : 0.00 m | Arêtier : 0.00 m</div>
+    </section>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 3 — Between Tool 07 &amp; Tool 08</div></div>
+
+    <!-- TOOL 08 -->
+    <section class="card">
+      <span class="tool-num">08</span>
+      <h2 data-fr="Convertisseur d'unités de longueur" data-en="Length Unit Converter">Convertisseur d'unités de longueur</h2>
+      <p class="desc" data-fr="Convertissez instantanément entre mètres, centimètres, millimètres, pieds et pouces." data-en="Convert instantly between meters, centimeters, millimeters, feet, and inches.">Convertissez instantanément entre mètres, centimètres, millimètres, pieds et pouces.</p>
+      <div class="grid-inputs">
+        <div><label for="unitVal" data-fr="Valeur" data-en="Value">Valeur</label><input type="number" id="unitVal" step="any" placeholder="1" /></div>
+        <div>
+          <label for="unitFrom" data-fr="De" data-en="From">De</label>
+          <select id="unitFrom">
+            <option value="m">Mètres (m)</option>
+            <option value="cm">Centimètres (cm)</option>
+            <option value="mm">Millimètres (mm)</option>
+            <option value="ft">Pieds (ft)</option>
+            <option value="in">Pouces (in)</option>
+          </select>
+        </div>
+        <div>
+          <label for="unitTo" data-fr="Vers" data-en="To">Vers</label>
+          <select id="unitTo">
+            <option value="cm">Centimètres (cm)</option>
+            <option value="m">Mètres (m)</option>
+            <option value="mm">Millimètres (mm)</option>
+            <option value="ft">Pieds (ft)</option>
+            <option value="in">Pouces (in)</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" type="button" onclick="calcUnits()" data-fr="Convertir" data-en="Convert">Convertir</button>
+        <button class="reset-btn" type="button" onclick="resetUnits()" data-fr="Effacer" data-en="Clear">Effacer</button>
+      </div>
+      <div class="result-box" id="unitRes">Résultat : 0</div>
+    </section>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 4 — Between Tool 08 &amp; Tool 09</div></div>
+
+    <!-- TOOL 09 -->
+    <section class="card">
+      <span class="tool-num">09</span>
+      <h2 data-fr="Calculateur de pourcentage &amp; remise" data-en="Percentage &amp; Discount Calculator">Calculateur de pourcentage &amp; remise</h2>
+      <p class="desc" data-fr="Calculez le montant de la remise ou de la taxe ainsi que le prix final." data-en="Calculate the discount or tax amount along with the final price.">Calculez le montant de la remise ou de la taxe ainsi que le prix final.</p>
+      <div class="grid-inputs">
+        <div><label for="basePrice" data-fr="Montant initial" data-en="Base Amount">Montant initial</label><input type="number" id="basePrice" step="any" placeholder="100" /></div>
+        <div><label for="pctVal" data-fr="Pourcentage (%)" data-en="Percentage (%)">Pourcentage (%)</label><input type="number" id="pctVal" step="any" placeholder="20" /></div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" type="button" onclick="calcPct()" data-fr="Calculer" data-en="Calculate">Calculer</button>
+        <button class="reset-btn" type="button" onclick="resetPct()" data-fr="Effacer" data-en="Clear">Effacer</button>
+      </div>
+      <div class="result-box" id="pctRes">Part : 0.00 | Après remise : 0.00 | Avec majoration : 0.00</div>
+    </section>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 5 — Page 3 Mid Banner</div></div>
+
+    <section class="card long-block">
+      <h2 data-fr="Formules de la Toiture à Croupe" data-en="Hipped Roof Geometry Notes">Formules de la Toiture à Croupe</h2>
+      <h3 data-fr="Surface projetée et pente" data-en="Projected Area and Pitch">Surface projetée et pente</h3>
+      <p class="desc" data-fr="La surface réelle inclinée d'une toiture à 4 pans à pente uniforme est égale à la surface au sol (Longueur × Largeur) divisée par le cosinus de l'angle de pente. Le faîtage correspond à Longueur − Largeur (lorsque Longueur ≥ Largeur)." data-en="The true sloped surface of a uniform-pitch 4-sided hipped roof equals the footprint area (Length × Width) divided by cos(pitch). The ridge length equals Length − Width (when Length ≥ Width).">La surface réelle inclinée d'une toiture à 4 pans à pente uniforme est égale à la surface au sol (Longueur × Largeur) divisée par le cosinus de l'angle de pente. Le faîtage correspond à Longueur − Largeur (lorsque Longueur ≥ Largeur).</p>
+    </section>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 6 — Page 3 Lower Banner</div></div>
+
+    <section class="card long-block">
+      <h2 data-fr="Suite Complète Calculette Tools (9 Outils)" data-en="Complete Calculette Tools Suite (9 Tools)">Suite Complète Calculette Tools (9 Outils)</h2>
+      <p class="desc" data-fr="Naviguez librement entre la Page 1 (outils 01–03), la Page 2 (outils 04–06) et la Page 3 (outils 07–09) avec changement de langue instantané EN / FR." data-en="Switch freely between Page 1 (tools 01–03), Page 2 (tools 04–06), and Page 3 (tools 07–09) with instant EN / FR language switching.">Naviguez librement entre la Page 1 (outils 01–03), la Page 2 (outils 04–06) et la Page 3 (outils 07–09) avec changement de langue instantané EN / FR.</p>
+    </section>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 7 — Page 3 Pre-Footer Banner</div></div>
+
+    <div class="pager">
+      <a href="page-2.html">← Page 2</a>
+      <a href="index.html">Page 1 ↺</a>
+    </div>
+  </div>
+
+  <div class="sticky-ad">Advertisement — Sticky Ad Space 8</div>
+
+  <script>
+    let currentLang = 'fr';
+    document.getElementById('langToggle').addEventListener('click', () => {
+      currentLang = currentLang === 'fr' ? 'en' : 'fr';
+      document.querySelectorAll('[data-fr]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + currentLang);
+      });
+    });
+
+    function calcRoof() {
+      const L = parseFloat(document.getElementById('roofL').value) || 0;
+      const W = parseFloat(document.getElementById('roofW').value) || 0;
+      const deg = parseFloat(document.getElementById('roofPitch').value) || 0;
+      const rad = deg * Math.PI / 180;
+      const cosP = Math.cos(rad) || 1;
+      const area = (L * W) / cosP;
+      const ridge = Math.max(0, L - W);
+      const run = Math.min(L, W) / 2;
+      const rise = run * Math.tan(rad);
+      const hip = Math.sqrt((run * run) + (run * run) + (rise * rise));
+      document.getElementById('roofRes').textContent =
+        (currentLang === 'fr' ? 'Surface : ' : 'Area: ') + area.toFixed(2) + ' m² | ' +
+        (currentLang === 'fr' ? 'Faîtage : ' : 'Ridge: ') + ridge.toFixed(2) + ' m | ' +
+        (currentLang === 'fr' ? 'Arêtier : ' : 'Hip: ') + hip.toFixed(2) + ' m';
+    }
+    function resetRoof() {
+      ['roofL', 'roofW', 'roofPitch'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('roofRes').textContent = currentLang === 'fr'
+        ? 'Surface : 0.00 m² | Faîtage : 0.00 m | Arêtier : 0.00 m'
+        : 'Area: 0.00 m² | Ridge: 0.00 m | Hip: 0.00 m';
+    }
+
+    const toMeters = { m: 1, cm: 0.01, mm: 0.001, ft: 0.3048, in: 0.0254 };
+    function calcUnits() {
+      const v = parseFloat(document.getElementById('unitVal').value) || 0;
+      const from = document.getElementById('unitFrom').value;
+      const to = document.getElementById('unitTo').value;
+      const out = (v * toMeters[from]) / toMeters[to];
+      document.getElementById('unitRes').textContent = (currentLang === 'fr' ? 'Résultat : ' : 'Result: ') + Number(out.toFixed(6)) + ' ' + to;
+    }
+    function resetUnits() {
+      document.getElementById('unitVal').value = '';
+      document.getElementById('unitRes').textContent = currentLang === 'fr' ? 'Résultat : 0' : 'Result: 0';
+    }
+
+    function calcPct() {
+      const base = parseFloat(document.getElementById('basePrice').value) || 0;
+      const pct = parseFloat(document.getElementById('pctVal').value) || 0;
+      const part = base * (pct / 100);
+      document.getElementById('pctRes').textContent =
+        (currentLang === 'fr' ? 'Part : ' : 'Part: ') + part.toFixed(2) + ' | ' +
+        (currentLang === 'fr' ? 'Après remise : ' : 'After discount: ') + (base - part).toFixed(2) + ' | ' +
+        (currentLang === 'fr' ? 'Avec majoration : ' : 'With markup: ') + (base + part).toFixed(2);
+    }
+    function resetPct() {
+      ['basePrice', 'pctVal'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('pctRes').textContent = currentLang === 'fr'
+        ? 'Part : 0.00 | Après remise : 0.00 | Avec majoration : 0.00'
+        : 'Part: 0.00 | After discount: 0.00 | With markup: 0.00';
+    }
+  </script>
 </body>
 </html>
