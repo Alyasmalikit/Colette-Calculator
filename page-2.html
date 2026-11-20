@@ -1,1 +1,442 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculette Tools — Page 2</title>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --muted: #334155;
+      --accent: #1d4ed8;
+      --border: #94a3b8;
+      --ad-bg: #fffbeb;
+      --ad-border: #d97706;
+      --ok-bg: #ecfdf5;
+      --ok-border: #059669;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 18px 115px;
+    }
+
+    .topbar {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav-btn, .lang-btn {
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 800;
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .nav-btn.active,
+    .nav-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .lang-btn {
+      border-color: #0f172a;
+      color: #0f172a;
+    }
+
+    .lang-btn:hover {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .ad-box {
+      background: var(--ad-bg);
+      border: 2px dashed var(--ad-border);
+      border-radius: 14px;
+      min-height: 150px;
+      margin: 34px 0;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .ad-badge {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .ad-text {
+      font-size: 17px;
+      font-weight: 800;
+      color: #78350f;
+    }
+
+    .tool-card, .info-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 24px;
+      margin: 34px 0;
+    }
+
+    .tool-num {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 15px;
+      padding: 4px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      margin: 4px 0 12px;
+      font-size: 26px;
+      font-weight: 900;
+    }
+
+    .desc {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .grid-inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 800;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 14px;
+      font-size: 19px;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      color: var(--ink);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .action-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 13px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .reset-btn {
+      background: #e2e8f0;
+      color: #0f172a;
+      border: 2px solid #94a3b8;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 11px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .result-box {
+      margin-top: 18px;
+      background: var(--ok-bg);
+      border: 2px solid var(--ok-border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 22px;
+      font-weight: 900;
+      color: #065f46;
+    }
+
+    .long-block {
+      min-height: 290px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .pager {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 38px;
+      flex-wrap: wrap;
+    }
+
+    .pager a {
+      text-decoration: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 15px 24px;
+      border-radius: 12px;
+    }
+
+    .sticky-ad {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #fef3c7;
+      border-top: 2px solid var(--ad-border);
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 900;
+      color: #78350f;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <h1 class="brand">Calculette Tools — Page 2</h1>
+      <div class="controls">
+        <a class="nav-btn" href="index.html">Page 1</a>
+        <a class="nav-btn active" href="page-2.html">Page 2</a>
+        <a class="nav-btn" href="page-3.html">Page 3</a>
+        <button class="lang-btn" id="langToggle" type="button">EN / FR</button>
+      </div>
+    </header>
+
+    <!-- AD SPACE 1 -->
+    <div class="ad-box" data-ad="p2-ad-1">
+      <span class="ad-badge">Advertisement</span>
+      <div class="ad-text">Ad Space 1 — Page 2 Top Banner</div>
+    </div>
+
+    <!-- AD SPACE 2 -->
+    <div class="ad-box" data-ad="p2-ad-2">
+      <span class="ad-badge">Advertisement</span>
+      <div class="ad-text">Ad Space 2 — Above Tool 04</div>
+    </div>
+
+    <!-- TOOL 04: MULTIPLICATEUR -->
+    <section class="tool-card">
+      <span class="tool-num">04</span>
+      <h2 data-fr="Multiplicateur" data-en="Multiplier">Multiplicateur</h2>
+      <p class="desc" data-fr="Multipliez deux valeurs (ex: heures × taux horaire)." data-en="Multiply two values (e.g., hours × hourly rate).">Multipliez deux valeurs (ex: heures × taux horaire).</p>
+      <div class="grid-inputs">
+        <div>
+          <label for="mulA" data-fr="Valeur A" data-en="Value A">Valeur A</label>
+          <input type="number" id="mulA" step="any" placeholder="0" />
+        </div>
+        <div>
+          <label for="mulB" data-fr="Valeur B" data-en="Value B">Valeur B</label>
+          <input type="number" id="mulB" step="any" placeholder="0" />
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" type="button" onclick="calcMul()" data-fr="Calculer" data-en="Calculate">Calculer</button>
+        <button class="reset-btn" type="button" onclick="resetMul()" data-fr="Effacer" data-en="Clear">Effacer</button>
+      </div>
+      <div class="result-box" id="mulRes">Résultat : 0</div>
+    </section>
+
+    <!-- AD SPACE 3 -->
+    <div class="ad-box" data-ad="p2-ad-3">
+      <span class="ad-badge">Advertisement</span>
+      <div class="ad-text">Ad Space 3 — Between Tool 04 &amp; Tool 05</div>
+    </div>
+
+    <!-- TOOL 05: DIVISEUR -->
+    <section class="tool-card">
+      <span class="tool-num">05</span>
+      <h2 data-fr="Diviseur" data-en="Divider">Diviseur</h2>
+      <p class="desc" data-fr="Divisez un montant ou une durée en parts égales." data-en="Divide an amount or duration into equal parts.">Divisez un montant ou une durée en parts égales.</p>
+      <div class="grid-inputs">
+        <div>
+          <label for="divA" data-fr="Dividende" data-en="Dividend">Dividende</label>
+          <input type="number" id="divA" step="any" placeholder="0" />
+        </div>
+        <div>
+          <label for="divB" data-fr="Diviseur" data-en="Divisor">Diviseur</label>
+          <input type="number" id="divB" step="any" placeholder="1" />
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" type="button" onclick="calcDiv()" data-fr="Calculer" data-en="Calculate">Calculer</button>
+        <button class="reset-btn" type="button" onclick="resetDiv()" data-fr="Effacer" data-en="Clear">Effacer</button>
+      </div>
+      <div class="result-box" id="divRes">Résultat : 0</div>
+    </section>
+
+    <!-- AD SPACE 4 -->
+    <div class="ad-box" data-ad="p2-ad-4">
+      <span class="ad-badge">Advertisement</span>
+      <div class="ad-text">Ad Space 4 — Between Tool 05 &amp; Tool 06</div>
+    </div>
+
+    <!-- TOOL 06: POURCENTAGE -->
+    <section class="tool-card">
+      <span class="tool-num">06</span>
+      <h2 data-fr="Calculateur de Pourcentage" data-en="Percentage Calculator">Calculateur de Pourcentage</h2>
+      <p class="desc" data-fr="Calculez X % d'un montant total." data-en="Calculate X% of a total amount.">Calculez X % d'un montant total.</p>
+      <div class="grid-inputs">
+        <div>
+          <label for="pctRate" data-fr="Pourcentage (%)" data-en="Percentage (%)">Pourcentage (%)</label>
+          <input type="number" id="pctRate" step="any" placeholder="0" />
+        </div>
+        <div>
+          <label for="pctTotal" data-fr="Montant total" data-en="Total Amount">Montant total</label>
+          <input type="number" id="pctTotal" step="any" placeholder="0" />
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" type="button" onclick="calcPct()" data-fr="Calculer" data-en="Calculate">Calculer</button>
+        <button class="reset-btn" type="button" onclick="resetPct()" data-fr="Effacer" data-en="Clear">Effacer</button>
+      </div>
+      <div class="result-box" id="pctRes">Résultat : 0</div>
+    </section>
+
+    <!-- AD SPACE 5 -->
+    <div class="ad-box" data-ad="p2-ad-5">
+      <span class="ad-badge">Advertisement</span>
+      <div class="ad-text">Ad Space 5 — Page 2 Mid Banner</div>
+    </div>
+
+    <!-- LONG VISIBILITY SECTION -->
+    <section class="info-card long-block">
+      <h2 data-fr="Applications Quotidiennes" data-en="Daily Applications">Applications Quotidiennes</h2>
+      <p class="desc" data-fr="Combinez le Multiplicateur avec le Convertisseur 1/100e de la Page 1 pour estimer instantanément vos coûts horaires, marges et répartitions budgétaires." data-en="Combine the Multiplier with Page 1's 1/100th Converter to instantly estimate hourly costs, margins, and budget splits.">Combinez le Multiplicateur avec le Convertisseur 1/100e de la Page 1 pour estimer instantanément vos coûts horaires, marges et répartitions budgétaires.</p>
+    </section>
+
+    <!-- AD SPACE 6 -->
+    <div class="ad-box" data-ad="p2-ad-6">
+      <span class="ad-badge">Advertisement</span>
+      <div class="ad-text">Ad Space 6 — Page 2 Pre-Footer Banner</div>
+    </div>
+
+    <div class="pager">
+      <a href="index.html">← Page 1</a>
+      <a href="page-3.html">Page 3 →</a>
+    </div>
+  </div>
+
+  <div class="sticky-ad" data-ad="p2-sticky">
+    Advertisement — Sticky Ad Space 7
+  </div>
+
+  <script>
+    let currentLang = 'fr';
+
+    document.getElementById('langToggle').addEventListener('click', () => {
+      currentLang = currentLang === 'fr' ? 'en' : 'fr';
+      document.querySelectorAll('[data-fr]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + currentLang);
+      });
+    });
+
+    function calcMul() {
+      const a = parseFloat(document.getElementById('mulA').value) || 0;
+      const b = parseFloat(document.getElementById('mulB').value) || 0;
+      document.getElementById('mulRes').textContent = (currentLang === 'fr' ? 'Résultat : ' : 'Result: ') + Number((a * b).toFixed(6));
+    }
+
+    function resetMul() {
+      document.getElementById('mulA').value = '';
+      document.getElementById('mulB').value = '';
+      document.getElementById('mulRes').textContent = currentLang === 'fr' ? 'Résultat : 0' : 'Result: 0';
+    }
+
+    function calcDiv() {
+      const a = parseFloat(document.getElementById('divA').value) || 0;
+      const b = parseFloat(document.getElementById('divB').value);
+      if (!b) {
+        document.getElementById('divRes').textContent = currentLang === 'fr' ? 'Erreur : division par zéro' : 'Error: division by zero';
+        return;
+      }
+      document.getElementById('divRes').textContent = (currentLang === 'fr' ? 'Résultat : ' : 'Result: ') + Number((a / b).toFixed(6));
+    }
+
+    function resetDiv() {
+      document.getElementById('divA').value = '';
+      document.getElementById('divB').value = '';
+      document.getElementById('divRes').textContent = currentLang === 'fr' ? 'Résultat : 0' : 'Result: 0';
+    }
+
+    function calcPct() {
+      const rate = parseFloat(document.getElementById('pctRate').value) || 0;
+      const total = parseFloat(document.getElementById('pctTotal').value) || 0;
+      document.getElementById('pctRes').textContent = (currentLang === 'fr' ? 'Résultat : ' : 'Result: ') + Number(((rate / 100) * total).toFixed(6));
+    }
+
+    function resetPct() {
+      document.getElementById('pctRate').value = '';
+      document.getElementById('pctTotal').value = '';
+      document.getElementById('pctRes').textContent = currentLang === 'fr' ? 'Résultat : 0' : 'Result: 0';
+    }
+  </script>
+</body>
+</html>
