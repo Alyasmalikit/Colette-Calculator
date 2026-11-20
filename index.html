@@ -1,203 +1,814 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculette Tools — Page 1 (Additionneur, Soustracteur, 1/100e)</title>
-  <style>
-    :root {
-      --bg: #eef2f7;
-      --surface: #ffffff;
-      --ink: #0f172a;
-      --muted: #334155;
-      --accent: #1d4ed8;
-      --border: #94a3b8;
-      --ad-bg: #fffbeb;
-      --ad-border: #d97706;
-      --ok-bg: #ecfdf5;
-      --ok-border: #059669;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculette-tools | Page 1 — 3 Outils Temps, Pauses &amp; Centièmes (1/100e)</title>
+<meta name="description" content="Additionnez vos plages horaires, soustrayez vos pauses et convertissez vos heures-minutes en centièmes d'heure (1/100e) avec une interface claire et très visible.">
+<link rel="canonical" href="https://calculette-tools.github.io/">
+<style>
+  :root {
+    --bg: #eef2f7;
+    --surface: #ffffff;
+    --ink: #0f172a;
+    --muted: #475569;
+    --border: #94a3b8;
+    --border-soft: #cbd5e1;
+    --primary: #1a73e8;
+    --primary-hover: #1557b0;
+    --primary-dark: #174ea6;
+    --soft: #eff6ff;
+    --warn-bg: #fefce8;
+    --warn-border: #fde047;
+    --warn-ink: #854d0e;
+    --radius: 14px;
+    --shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+  }
+  .container {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 18px;
+  }
+
+  /* Header */
+  .site-header {
+    width: 100%;
+    background: var(--surface);
+    border-bottom: 2px solid var(--border-soft);
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 0;
+  }
+  .brand {
+    font-weight: 900;
+    font-size: 1.24rem;
+    color: var(--ink);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+  }
+  .brand-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: inline-block;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .site-header .nav-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-width: 0;
+  }
+  .site-header .nav-menu a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    background: #ffffff;
+    border: 1.5px solid var(--border);
+    border-bottom: 2px solid #64748b;
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease, transform 0.1s ease;
+  }
+  .site-header .nav-menu a:hover {
+    color: var(--primary);
+    background: var(--soft);
+    border-color: var(--primary);
+    border-bottom-color: var(--primary-dark);
+    transform: translateY(-1px);
+  }
+  .site-header .nav-menu a.active {
+    color: #ffffff;
+    background: var(--primary);
+    border-color: var(--primary);
+    border-bottom-color: var(--primary-dark);
+  }
+  .lang-btn {
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.84rem;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .lang-btn:hover { background: var(--primary); }
+
+  /* Page Title Section */
+  .page-head {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 26px 0 22px;
+  }
+  .page-head h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .page-head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 840px;
+  }
+
+  /* Quick Jump Strip */
+  .jump-strip {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 11px 0;
+    position: sticky;
+    top: 61px;
+    z-index: 20;
+  }
+  .jump-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+  }
+  .jump-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-right: 4px;
+  }
+  .jump-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--soft);
+    border: 1.5px solid #93c5fd;
+    color: var(--primary-dark);
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 800;
+  }
+  .jump-pill:hover {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+  }
+
+  /* Very Long Stacked Page Flow */
+  .page-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    padding: 32px 0 110px;
+  }
+
+  /* High-Visibility Tool Cards */
+  .tool-card {
+    background: var(--surface);
+    border: 2.5px solid #60a5fa;
+    border-top: 6px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 28px 26px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    min-width: 0;
+    scroll-margin-top: 120px;
+  }
+  .card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1.5px solid var(--border-soft);
+  }
+  .card-head h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .step-tag {
+    background: var(--primary);
+    color: #ffffff;
+    font-size: 0.86rem;
+    font-weight: 900;
+    padding: 4px 11px;
+    border-radius: 7px;
+  }
+  .tool-status {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    background: var(--soft);
+    border: 1px solid #93c5fd;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .tool-intro {
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: 0.98rem;
+  }
+
+  /* Tool Meta (Name, Features, Use) */
+  .tool-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 16px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .meta-box {
+    background: #f8fafc;
+    border: 1.5px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .meta-box h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+  .meta-box p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+  }
+  .meta-list {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: 0.94rem;
+  }
+  .meta-list li { margin-bottom: 6px; }
+  .meta-list li:last-child { margin-bottom: 0; }
+
+  /* Between-Tool & Long Content */
+  .between-content {
+    background: var(--surface);
+    border: 1.5px solid var(--border-soft);
+    border-left: 5px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 24px 24px;
+    box-shadow: var(--shadow);
+  }
+  .between-content h3 {
+    margin: 0 0 8px;
+    font-size: 1.12rem;
+    color: var(--ink);
+  }
+  .between-content p {
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-size: 0.96rem;
+  }
+  .between-list {
+    margin: 8px 0 12px;
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: 0.94rem;
+  }
+  .between-list li { margin-bottom: 5px; }
+  .example-strip {
+    padding: 11px 14px;
+    background: #f8fafc;
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .long-spacer {
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* High-Visibility Ad Space */
+  .ad-box {
+    width: 100%;
+    min-height: 135px;
+    padding: 18px 20px;
+    background: #fffbeb;
+    border: 2.5px dashed #d97706;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
+  }
+  .ad-tag {
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #92400e;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .ad-placeholder-text {
+    font-size: 0.9rem;
+    color: #78350f;
+    font-weight: 700;
+  }
+
+  /* Tool 1 Cells: Time Slot Row */
+  .slot-row {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 1.15fr) minmax(0, 0.9fr) 40px;
+    gap: 14px;
+    align-items: center;
+    padding: 15px 16px;
+    border: 1.5px solid var(--border-soft);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    background: #f8fafc;
+  }
+  .slot-row:hover {
+    border-color: #60a5fa;
+    background: #ffffff;
+  }
+  .slot-row.disabled { opacity: 0.5; }
+  .slot-check {
+    width: 19px;
+    height: 19px;
+    cursor: pointer;
+    justify-self: center;
+    margin-top: 16px;
+  }
+  @media (max-width: 760px) {
+    .slot-row {
+      grid-template-columns: 32px repeat(2, minmax(0, 1fr)) 38px;
+      gap: 12px;
     }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      font-size: 18px;
-      line-height: 1.65;
-    }
-    .wrap { max-width: 1140px; margin: 0 auto; padding: 20px 18px 120px; }
-    .topbar {
-      background: var(--surface);
-      border: 2px solid var(--border);
-      border-radius: 16px;
-      padding: 18px 22px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 28px;
-    }
-    .brand { margin: 0; font-size: 28px; font-weight: 900; }
-    .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-    .nav-btn, .lang-btn {
-      text-decoration: none;
-      font-size: 17px;
-      font-weight: 800;
-      padding: 11px 18px;
-      border-radius: 10px;
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      background: #fff;
-      cursor: pointer;
-    }
-    .nav-btn.active, .nav-btn:hover { background: var(--accent); color: #fff; }
-    .lang-btn { border-color: #0f172a; color: #0f172a; }
-    .lang-btn:hover { background: #0f172a; color: #fff; }
-    .ad-box {
-      background: var(--ad-bg);
-      border: 2px dashed var(--ad-border);
-      border-radius: 14px;
-      min-height: 150px;
-      margin: 34px 0;
-      padding: 22px 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    .ad-badge {
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #92400e;
-      background: #fef3c7;
-      padding: 4px 12px;
-      border-radius: 999px;
-      margin-bottom: 8px;
-    }
-    .ad-text { font-size: 17px; font-weight: 800; color: #78350f; }
-    .card {
-      background: var(--surface);
-      border: 2px solid var(--border);
-      border-radius: 18px;
-      padding: 28px 24px;
-      margin: 34px 0;
-    }
-    .tool-num {
-      display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 900;
-      font-size: 15px;
-      padding: 4px 12px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-    }
-    h2 { margin: 4px 0 12px; font-size: 26px; font-weight: 900; }
-    h3 { margin: 18px 0 8px; font-size: 21px; font-weight: 800; }
-    .desc { margin: 0 0 18px; color: var(--muted); font-size: 18px; }
-    .grid-inputs {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-    label { display: block; font-weight: 800; font-size: 16px; margin-bottom: 6px; }
-    input, select {
-      width: 100%;
-      padding: 13px 14px;
-      font-size: 19px;
-      font-weight: 700;
-      border: 2px solid var(--border);
-      border-radius: 10px;
-      color: var(--ink);
-      background: #fff;
-    }
-    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
-    .action-btn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      font-size: 18px;
-      font-weight: 800;
-      padding: 13px 22px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .reset-btn {
-      background: #e2e8f0;
-      color: #0f172a;
-      border: 2px solid #94a3b8;
-      font-size: 18px;
-      font-weight: 800;
-      padding: 11px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .result-box {
-      margin-top: 18px;
-      background: var(--ok-bg);
-      border: 2px solid var(--ok-border);
-      border-radius: 12px;
-      padding: 16px 18px;
-      font-size: 22px;
-      font-weight: 900;
-      color: #065f46;
-    }
-    .long-block { min-height: 280px; }
-    .pager {
-      display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      margin-top: 38px;
-      flex-wrap: wrap;
-    }
-    .pager a {
-      text-decoration: none;
-      background: var(--accent);
-      color: #fff;
-      font-size: 18px;
-      font-weight: 800;
-      padding: 15px 24px;
-      border-radius: 12px;
-    }
-    .sticky-ad {
-      position: fixed;
-      left: 0; right: 0; bottom: 0;
-      background: #fef3c7;
-      border-top: 2px solid var(--ad-border);
-      padding: 12px 16px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 900;
-      color: #78350f;
-      z-index: 999;
-    }
-  </style>
+    .slot-check, .del-btn { margin-top: 0; }
+  }
+  .slot-field label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  input[type="time"], input[type="number"] {
+    width: 100%;
+    min-width: 0;
+    padding: 11px 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1.02rem;
+    font-weight: 800;
+    background: #fff;
+    color: var(--ink);
+  }
+  input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.16);
+  }
+  .out-pill {
+    padding: 11px 13px;
+    background: #dbeafe;
+    border: 2px solid #60a5fa;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 0.98rem;
+    color: var(--primary-dark);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .overnight-tag {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: var(--primary);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    vertical-align: middle;
+  }
+  .del-btn {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 16px;
+  }
+  .del-btn:hover:not(:disabled) { background: #fecaca; }
+  .del-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 18px 0;
+  }
+  .btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 9px;
+    font-weight: 800;
+    font-size: 0.94rem;
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--primary-hover); }
+  .btn-sec {
+    background: #f1f5f9;
+    color: var(--ink);
+    border: 1.5px solid var(--border);
+    padding: 10px 16px;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+  }
+  .btn-sec:hover { background: #e2e8f0; }
+
+  .total-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--soft);
+    border: 2px solid #60a5fa;
+    border-radius: 12px;
+  }
+  .total-label {
+    font-size: 1.02rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+  .total-vals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .total-badge {
+    background: #fff;
+    border: 2px solid #60a5fa;
+    padding: 7px 15px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 1.12rem;
+    color: var(--primary-dark);
+  }
+  .notice-box {
+    margin-top: 12px;
+    padding: 11px 14px;
+    border-radius: 9px;
+    background: var(--warn-bg);
+    border: 1.5px solid var(--warn-border);
+    color: var(--warn-ink);
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: none;
+  }
+
+  /* Tool 2 & Tool 3 Grids */
+  .sub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 18px;
+    align-items: end;
+  }
+  .hm-pair {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hm-pair span {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--muted);
+  }
+
+  .conv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 20px;
+  }
+  .conv-box {
+    background: #f8fafc;
+    border: 1.5px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .conv-box h3 {
+    margin: 0;
+    font-size: 1.04rem;
+    color: var(--ink);
+  }
+
+  /* Pager */
+  .page-pager {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 18px 22px;
+    background: var(--surface);
+    border: 2px solid var(--border-soft);
+    border-radius: var(--radius);
+  }
+  .pager-btn {
+    text-decoration: none;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.96rem;
+    padding: 12px 20px;
+    border-radius: 10px;
+  }
+  .pager-btn:hover { background: var(--primary-hover); }
+
+  /* Footer */
+  .site-footer {
+    width: 100%;
+    border-top: 1px solid var(--border-soft);
+    background: var(--surface);
+    padding: 26px 0 84px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .footer-links {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+  }
+  .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .footer-links a:hover,
+  .footer-links a.active {
+    color: var(--primary);
+    font-weight: 800;
+  }
+
+  /* Sticky Bottom Ad */
+  .sticky-ad {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    background: #fef3c7;
+    border-top: 2px solid #d97706;
+    padding: 11px 16px;
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 900;
+    color: #78350f;
+    z-index: 999;
+  }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="topbar">
-      <h1 class="brand">Calculette Tools</h1>
-      <div class="controls">
-        <a class="nav-btn active" href="index.html">Page 1</a>
-        <a class="nav-btn" href="page-2.html">Page 2</a>
-        <a class="nav-btn" href="page-3.html">Page 3</a>
-        <button class="lang-btn" id="langToggle" type="button">EN / FR</button>
-      </div>
-    </header>
 
-    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 1 — Top Leaderboard (970x90 / Responsive)</div></div>
-    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 2 — Pre-Tool Banner</div></div>
+<header class="site-header">
+  <div class="container nav-bar">
+    <a href="index.html" class="brand"><span class="brand-dot"></span>Calculette-tools</a>
+    <div class="nav-right">
+      <nav class="nav-menu">
+        <a href="index.html" class="active" data-t="navP1">Page 1</a>
+        <a href="page-2.html" data-t="navP2">Page 2</a>
+        <a href="page-3.html" data-t="navP3">Page 3</a>
+      </nav>
+      <button type="button" id="langBtn" class="lang-btn" onclick="toggleLang()">EN</button>
+    </div>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="container">
+    <h1 data-t="pageTitle">Calculateur de Temps, Pauses &amp; Centièmes (1/100e) — Page 1</h1>
+    <p data-t="pageSub">Interface claire et très visible avec 3 outils de calcul, guides pratiques entre chaque bloc et emplacements publicitaires dédiés.</p>
+  </div>
+</section>
+
+<div class="jump-strip">
+  <div class="container jump-inner">
+    <span class="jump-label" data-t="jumpLabel">Accès direct :</span>
+    <a href="#tool-01" class="jump-pill">01 • <span data-t="jump1">Additionneur</span></a>
+    <a href="#tool-02" class="jump-pill">02 • <span data-t="jump2">Soustracteur</span></a>
+    <a href="#tool-03" class="jump-pill">03 • <span data-t="jump3">Convertisseur 1/100e</span></a>
+  </div>
+</div>
+
+<main class="container">
+  <div class="page-flow">
+
+    <!-- TOP AD SPACE -->
+    <div class="ad-box" id="adSlotTop" aria-label="Top Advertisement">
+      <span class="ad-tag" data-t="adLabel">Publicité / Ad Space</span>
+      <span class="ad-placeholder-text" data-t="adTopText">Emplacement publicitaire haut de page — Top Leaderboard (970×90 / 728×90 / Responsive)</span>
+    </div>
 
     <!-- TOOL 01 -->
-    <section class="card">
-      <span class="tool-num">01</span>
-      <h2 data-fr="Additionneur" data-en="Adder">Additionneur</h2>
-      <p class="desc" data-fr="Additionnez plusieurs nombres décimaux ou entiers instantanément avec une lisibilité maximale." data-en="Add multiple decimal or whole numbers instantly with maximum visibility.">Additionnez plusieurs nombres décimaux ou entiers instantanément avec une lisibilité maximale.</p>
-      <div class="grid-inputs">
-        <div><label for="addA" data-fr="Valeur A" data-en="Value
+    <section class="tool-card" id="tool-01" aria-labelledby="t1Heading">
+      <div class="card-head">
+        <h2 id="t1Heading"><span class="step-tag">01</span> <span data-t="t1Name">Additionneur de Plages Horaires</span></h2>
+        <span class="tool-status" data-t="liveBadge">Outil Actif</span>
+      </div>
+      <p class="tool-intro" data-t="secAddDesc">Saisissez vos heures de début et de fin pour obtenir la durée de chaque plage et le total journalier en heures-minutes et en centièmes.</p>
+
+      <div id="slotsContainer"></div>
+
+      <div class="toolbar">
+        <button type="button" class="btn" id="addSlotBtn" data-t="btnAddSlot">+ Ajouter une plage</button>
+        <button type="button" class="btn-sec" id="resetSlotsBtn" data-t="btnReset">Reset (0)</button>
+      </div>
+
+      <div class="total-bar">
+        <span class="total-label" data-t="lblTotal">TOTAL JOURNALIER</span>
+        <div class="total-vals">
+          <span class="total-badge" id="totalHM">00h 00min</span>
+          <span class="total-badge" id="totalDec">0.00 h</span>
+          <button type="button" class="btn-sec" id="copyTotalBtn" data-t="btnCopy">Copier</button>
+        </div>
+      </div>
+
+      <div class="tool-meta-grid">
+        <div class="meta-box">
+          <h3 data-t="lblFeatures">Fonctionnalités</h3>
+          <ul class="meta-list">
+            <li data-t="t1F1">Ajout et suppression dynamiques de plusieurs plages horaires.</li>
+            <li data-t="t1F2">Affichage simultané en heures-minutes (HH:MM) et en centièmes (1/100e).</li>
+            <li data-t="t1F3">Gestion des passages sur le lendemain (+1j) et copie rapide du total.</li>
+          </ul>
+        </div>
+        <div class="meta-box">
+          <h3 data-t="lblUse">Utilisation (Use)</h3>
+          <p data-t="t1U1">Idéal pour additionner les horaires du matin et de l'après-midi, les vacations ou les quarts de nuit afin d'obtenir le temps travaillé total de la journée.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT BETWEEN TOOL 01 & TOOL 02 -->
+    <article class="between-content">
+      <h3 data-t="c1Title">Comment additionner plusieurs plages horaires sans erreur ?</h3>
+      <p data-t="c1P1">Additionner plusieurs créneaux (matin, après-midi ou nuit) est plus rapide lorsqu'on convertit tout en minutes avant de repasser en heures-minutes et centièmes.</p>
+      <ul class="between-list">
+        <li data-t="c1B1">Décochez une ligne pour tester une variante sans effacer vos horaires.</li>
+        <li data-t="c1B2">Les passages après minuit (+1j / +1d) sont calculés automatiquement.</li>
+      </ul>
+      <div class="example-strip" data-t="c1Ex">Exemple : 08:00 → 12:00 (4h 00min) + 13:00 → 17:30 (4h 30min) = 08h 30min (8.50 h).</div>
+    </article>
+
+    <!-- AD SPACE 1 -->
+    <div class="ad-box" id="adSlot1" aria-label="Advertisement 1">
+      <span class="ad-tag" data-t="adLabel">Publicité / Ad Space</span>
+      <span class="ad-placeholder-text" data-t="ad1Text">Emplacement publicitaire entre l'outil 01 et l'outil 02 (728×90 / Responsive)</span>
+    </div>
+
+    <!-- TOOL 02 -->
+    <section class="tool-card" id="tool-02" aria-labelledby="t2Heading">
+      <div class="card-head">
+        <h2 id="t2Heading"><span class="step-tag">02</span> <span data-t="t2Name">Soustracteur de Durées &amp; Pauses</span></h2>
+        <span class="tool-status" data-t="liveBadge">Outil Actif</span>
+      </div>
+      <p class="tool-intro" data-t="secSubDesc">Déduisez une pause ou un temps d'arrêt (B) d'une durée globale (A) pour calculer le temps de travail effectif.</p>
+
+      <div class="sub-grid">
+        <div>
+          <label for="subAh" data-t="lblDurA" style="display:block;font-size:0.82rem;font-weight:800;color:var(--muted);margin-bottom:6px;">Durée totale (A)</label>
+          <div class="hm-pair">
+            <input type="number" id="subAh" min="0" value="0">
+            <span>h</span>
+            <input type="number" id="subAm" min="0" max="59" value="0">
+            <span>min</span>
+          </div>
+        </div>
+
+        <div>
+          <label for="subBh" data-t="lblDurB" style="display:block;font-size:0.82rem;font-weight:800;color:var(--muted);margin-bottom:6px;">Pause / Temps à déduire (B)</label>
+          <div class="hm-pair">
+            <input type="number" id="subBh" min="0" value="0">
+            <span>h</span>
+            <input type="number" id="subBm" min="0" max="59" value="0">
+            <span>min</span>
+          </div>
+        </div>
+
+        <div>
+          <label data-t="lblNetResult" style="display:block;font-size:0.82rem;font-weight:800;color:var(--muted);margin-bottom:6px;">Temps net (A − B)</label>
+          <div class="out-pill" id="subOut">00h 00min (0.00 h)</div>
+        </div>
+      </div>
+
+      <div id="subNotice" class="notice-box" role="status"></div>
+
+      <div class="toolbar">
+        <button type="button" class="btn-sec" id="resetSubBtn" data-t="btnReset">Reset (0)</button>
+      </div>
+
+      <div class="tool-meta-grid">
+        <div class="meta-box">
+          <h3 data-t="lblFeatures">Fonctionnalités</h3>
+          <ul class="meta-list">
+            <li data-t="t2F1">Soustraction directe de deux durées exprimées en heures et minutes.</li>
+            <li data-t="t2F2">Résultat net immédiat en heures-minutes et en centièmes d'heure.</li>
+            <li data-t="t2F3">Alerte automatique si la pause (B) dépasse la durée totale (A).</li>
+          </ul>
+        </div>
+        <div class="meta-box">
+          <h3 data-t="lblUse">Utilisation (Use)</h3>
+          <p data-t="t2U1">Sert à retirer une pause déjeuner, une coupure ou un temps d'arrêt d'une amplitude horaire globale pour connaître le temps net payé ou facturé.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT BETWEEN TOOL 02 & TOOL 03 -->
+    <article class="between-content">
+      <h3 data-t="c2Title">Déduire une pause repas ou un arrêt : comment éviter les erreurs ?</h3>
+      <p data-t="c2P1">Soustrayez la pause non rémunérée (B) de l'amplitude totale (A) pour connaître le temps de travail effectif à déclarer ou facturer.</p>
+      <ul class="between-list">
+        <li data-t="c2B1">Les minutes sont bornées de 0 à 59 pour garder un calcul précis.</li>
+        <li data-t="c2B2">Si B dépasse A, le résultat est ramené à 00h 00min avec un message d'alerte.</li>
+      </ul>
+      <div class="example-strip" data-t="c2Ex">Exemple : Durée totale 08h 00min − Pause 00h 45min = 07h 15min (7.25 h).</div>
+    </article>
+
+    <!-- AD SPACE 2 -->
+    <div class="ad-box" id="adSlot2" aria-label="Advertisement 2">
+      <span class="ad-tag" data-t="adLabel">Publicité / Ad Space</span>
+      <span class="ad-placeholder-text" data-t="ad2Text">Emplacement publicitaire entre l'outil 02 et l'outil 03 (728×90 / Responsive)</span>
+    </div>
+
+    <!-- TOOL 03 -->
+    <section class="tool-card" id="tool-03" aria-labelledby="t3Heading">
+      <div class="card-head">
+        <h2 id="t3Heading"><span class="step-tag">03</span> <span data-t="t3Name">Convertisseur Heures-Minutes ↔ Centièmes (1/100e)</span></h2>
+        <span class="tool-status" data-t="liveBadge">Outil Actif</span>
+      </div>
+      <p class="tool-intro
