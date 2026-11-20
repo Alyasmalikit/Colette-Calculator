@@ -1,1 +1,409 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculette Tools — Page 3</title>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --muted: #334155;
+      --accent: #1d4ed8;
+      --border: #94a3b8;
+      --ad-bg: #fffbeb;
+      --ad-border: #d97706;
+      --ok-bg: #ecfdf5;
+      --ok-border: #059669;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 18px 115px;
+    }
+
+    .topbar {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav-btn, .lang-btn {
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 800;
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .nav-btn.active,
+    .nav-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .lang-btn {
+      border-color: #0f172a;
+      color: #0f172a;
+    }
+
+    .lang-btn:hover {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .ad-box {
+      background: var(--ad-bg);
+      border: 2px dashed var(--ad-border);
+      border-radius: 14px;
+      min-height: 150px;
+      margin: 34px 0;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .ad-badge {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .ad-text {
+      font-size: 17px;
+      font-weight: 800;
+      color: #78350f;
+    }
+
+    .tool-card, .info-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 24px;
+      margin: 34px 0;
+    }
+
+    .tool-num {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 15px;
+      padding: 4px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      margin: 4px 0 12px;
+      font-size: 26px;
+      font-weight: 900;
+    }
+
+    .desc {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .grid-inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 800;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 14px;
+      font-size: 19px;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      color: var(--ink);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .action-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 13px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .reset-btn {
+      background: #e2e8f0;
+      color: #0f172a;
+      border: 2px solid #94a3b8;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 11px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .result-box {
+      margin-top: 18px;
+      background: var(--ok-bg);
+      border: 2px solid var(--ok-border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 22px;
+      font-weight: 900;
+      color: #065f46;
+    }
+
+    .long-block {
+      min-height: 290px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .pager {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 38px;
+      flex-wrap: wrap;
+    }
+
+    .pager a {
+      text-decoration: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 15px 24px;
+      border-radius: 12px;
+    }
+
+    .sticky-ad {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #fef3c7;
+      border-top: 2px solid var(--ad-border);
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 900;
+      color: #78350f;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <h1 class="brand">Calculette Tools — Page 3</h1>
+      <div class="controls">
+        <a class="nav-btn" href="index.html">Page 1</a>
+        <a class="nav-btn" href="page-2.html">Page 2</a>
+        <a class="nav-btn active" href="page-3.html">Page 3</a>
+        <button class="lang-btn" id="langToggle" type="button">EN / FR</button>
+      </div>
+    </header>
+
+    <!-- AD SPACE 1 -->
+    <div class="ad-box" data-ad="p3-ad-1">
+      <span class="ad-badge">Advertisement</span>
+      <div class="ad-text">Ad Space 1 — Page 3 Top Banner</div>
+    </div>
+
+    <!-- AD SPACE 2 -->
+    <div class="ad-box" data-ad="p3-ad-2">
+      <span class="ad-badge">Advertisement</span>
+      <div class="ad-text">Ad Space 2 — Above Tool 07</div>
+    </div>
+
+    <!-- TOOL 07: TOTAL HORAIRE -->
+    <section class="tool-card">
+      <span class="tool-num">07</span>
+      <h2 data-fr="Cumul Heures &amp; Minutes" data-en="Hours &amp; Minutes Total">Cumul Heures &amp; Minutes</h2>
+      <p class="desc" data-fr="Additionnez heures et minutes et obtenez automatiquement le total en HH:MM et en 1/100e." data-en="Add hours and minutes and automatically get the total in HH:MM and 1/100th.">Additionnez heures et minutes et obtenez automatiquement le total en HH:MM et en 1/100e.</p>
+      <div class="grid-inputs">
+        <div>
+          <label for="hrsInput" data-fr="Heures" data-en="Hours">Heures</label>
+          <input type="number" id="hrsInput" step="1" placeholder="0" />
+        </div>
+        <div>
+          <label for="minsInput" data-fr="Minutes" data-en="Minutes">Minutes</label>
+          <input type="number" id="minsInput" step="1" placeholder="0" />
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" type="button" onclick="calcTime()" data-fr="Calculer" data-en="Calculate">Calculer</button>
+        <button class="reset-btn" type="button" onclick="resetTime()" data-fr="Effacer" data-en="Clear">Effacer</button>
+      </div>
+      <div class="result-box" id="timeRes">Résultat : 0h 00m (0.00)</div>
+    </section>
+
+    <!-- AD SPACE 3 -->
+    <div class="ad-box" data-ad="p3-ad-3">
+      <span class="ad-badge">Advertisement</span>
+      <div class="ad-text">Ad Space 3 — Between Tool 07 &amp; Tool 08</div>
+    </div>
+
+    <!-- TOOL 08: VARIATION EN POURCENTAGE -->
+    <section class="tool-card">
+      <span class="tool-num">08</span>
+      <h2 data-fr="Variation (%)" data-en="Percentage Change (%)">Variation (%)</h2>
+      <p class="desc" data-fr="Mesurez l'augmentation ou la diminution entre une valeur initiale et une valeur finale." data-en="Measure the increase or decrease between an initial and final value.">Mesurez l'augmentation ou la diminution entre une valeur initiale et une valeur finale.</p>
+      <div class="grid-inputs">
+        <div>
+          <label for="varOld" data-fr="Valeur initiale" data-en="Initial Value">Valeur initiale</label>
+          <input type="number" id="varOld" step="any" placeholder="0" />
+        </div>
+        <div>
+          <label for="varNew" data-fr="Valeur finale" data-en="Final Value">Valeur finale</label>
+          <input type="number" id="varNew" step="any" placeholder="0" />
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" type="button" onclick="calcVar()" data-fr="Calculer" data-en="Calculate">Calculer</button>
+        <button class="reset-btn" type="button" onclick="resetVar()" data-fr="Effacer" data-en="Clear">Effacer</button>
+      </div>
+      <div class="result-box" id="varRes">Résultat : 0%</div>
+    </section>
+
+    <!-- AD SPACE 4 -->
+    <div class="ad-box" data-ad="p3-ad-4">
+      <span class="ad-badge">Advertisement</span>
+      <div class="ad-text">Ad Space 4 — Page 3 Mid Banner</div>
+    </div>
+
+    <!-- LONG VISIBILITY SECTION -->
+    <section class="info-card long-block">
+      <h2 data-fr="Navigation Complète sur 3 Pages" data-en="Complete 3-Page Navigation">Navigation Complète sur 3 Pages</h2>
+      <p class="desc" data-fr="Page 1 regroupe l'Additionneur (01), le Soustracteur (02) et le Convertisseur 1/100e (03). Page 2 propose le Multiplicateur (04), le Diviseur (05) et le Pourcentage (06). Page 3 complète l'ensemble avec le Cumul Horaire (07) et la Variation (08)." data-en="Page 1 includes Adder (01), Subtractor (02), and 1/100th Converter (03). Page 2 provides Multiplier (04), Divider (05), and Percentage (06). Page 3 completes the suite with Hours Total (07) and Percentage Change (08).">Page 1 regroupe l'Additionneur (01), le Soustracteur (02) et le Convertisseur 1/100e (03). Page 2 propose le Multiplicateur (04), le Diviseur (05) et le Pourcentage (06). Page 3 complète l'ensemble avec le Cumul Horaire (07) et la Variation (08).</p>
+    </section>
+
+    <!-- AD SPACE 5 -->
+    <div class="ad-box" data-ad="p3-ad-5">
+      <span class="ad-badge">Advertisement</span>
+      <div class="ad-text">Ad Space 5 — Page 3 Pre-Footer Banner</div>
+    </div>
+
+    <div class="pager">
+      <a href="page-2.html">← Page 2</a>
+      <a href="index.html">Page 1 ↺</a>
+    </div>
+  </div>
+
+  <div class="sticky-ad" data-ad="p3-sticky">
+    Advertisement — Sticky Ad Space 6
+  </div>
+
+  <script>
+    let currentLang = 'fr';
+
+    document.getElementById('langToggle').addEventListener('click', () => {
+      currentLang = currentLang === 'fr' ? 'en' : 'fr';
+      document.querySelectorAll('[data-fr]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + currentLang);
+      });
+    });
+
+    function calcTime() {
+      const h = parseInt(document.getElementById('hrsInput').value, 10) || 0;
+      const m = parseInt(document.getElementById('minsInput').value, 10) || 0;
+      const totalMins = h * 60 + m;
+      const outH = Math.floor(totalMins / 60);
+      const outM = totalMins % 60;
+      const dec = Number((totalMins / 60).toFixed(4));
+      document.getElementById('timeRes').textContent =
+        (currentLang === 'fr' ? 'Résultat : ' : 'Result: ') +
+        outH + 'h ' + String(outM).padStart(2, '0') + 'm (' + dec + ')';
+    }
+
+    function resetTime() {
+      document.getElementById('hrsInput').value = '';
+      document.getElementById('minsInput').value = '';
+      document.getElementById('timeRes').textContent = currentLang === 'fr' ? 'Résultat : 0h 00m (0.00)' : 'Result: 0h 00m (0.00)';
+    }
+
+    function calcVar() {
+      const oldVal = parseFloat(document.getElementById('varOld').value);
+      const newVal = parseFloat(document.getElementById('varNew').value) || 0;
+      if (!oldVal) {
+        document.getElementById('varRes').textContent = currentLang === 'fr' ? 'Erreur : valeur initiale requise' : 'Error: initial value required';
+        return;
+      }
+      const pct = Number((((newVal - oldVal) / oldVal) * 100).toFixed(2));
+      document.getElementById('varRes').textContent = (currentLang === 'fr' ? 'Résultat : ' : 'Result: ') + pct + '%';
+    }
+
+    function resetVar() {
+      document.getElementById('varOld').value = '';
+      document.getElementById('varNew').value = '';
+      document.getElementById('varRes').textContent = currentLang === 'fr' ? 'Résultat : 0%' : 'Result: 0%';
+    }
+  </script>
+</body>
+</html>
