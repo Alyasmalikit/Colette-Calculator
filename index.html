@@ -1,10 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title></title>
+  <title>Calculette Tools — Page 1 (Additionneur, Soustracteur, 1/100e)</title>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --muted: #334155;
+      --accent: #1d4ed8;
+      --border: #94a3b8;
+      --ad-bg: #fffbeb;
+      --ad-border: #d97706;
+      --ok-bg: #ecfdf5;
+      --ok-border: #059669;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.65;
+    }
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 20px 18px 120px; }
+    .topbar {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .brand { margin: 0; font-size: 28px; font-weight: 900; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .nav-btn, .lang-btn {
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 800;
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      background: #fff;
+      cursor: pointer;
+    }
+    .nav-btn.active, .nav-btn:hover { background: var(--accent); color: #fff; }
+    .lang-btn { border-color: #0f172a; color: #0f172a; }
+    .lang-btn:hover { background: #0f172a; color: #fff; }
+    .ad-box {
+      background: var(--ad-bg);
+      border: 2px dashed var(--ad-border);
+      border-radius: 14px;
+      min-height: 150px;
+      margin: 34px 0;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .ad-badge {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+    .ad-text { font-size: 17px; font-weight: 800; color: #78350f; }
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 24px;
+      margin: 34px 0;
+    }
+    .tool-num {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 15px;
+      padding: 4px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    h2 { margin: 4px 0 12px; font-size: 26px; font-weight: 900; }
+    h3 { margin: 18px 0 8px; font-size: 21px; font-weight: 800; }
+    .desc { margin: 0 0 18px; color: var(--muted); font-size: 18px; }
+    .grid-inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    label { display: block; font-weight: 800; font-size: 16px; margin-bottom: 6px; }
+    input, select {
+      width: 100%;
+      padding: 13px 14px;
+      font-size: 19px;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      color: var(--ink);
+      background: #fff;
+    }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+    .action-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 13px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .reset-btn {
+      background: #e2e8f0;
+      color: #0f172a;
+      border: 2px solid #94a3b8;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 11px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .result-box {
+      margin-top: 18px;
+      background: var(--ok-bg);
+      border: 2px solid var(--ok-border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 22px;
+      font-weight: 900;
+      color: #065f46;
+    }
+    .long-block { min-height: 280px; }
+    .pager {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 38px;
+      flex-wrap: wrap;
+    }
+    .pager a {
+      text-decoration: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 15px 24px;
+      border-radius: 12px;
+    }
+    .sticky-ad {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: #fef3c7;
+      border-top: 2px solid var(--ad-border);
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 900;
+      color: #78350f;
+      z-index: 999;
+    }
+  </style>
 </head>
 <body>
-</body>
-</html>
+  <div class="wrap">
+    <header class="topbar">
+      <h1 class="brand">Calculette Tools</h1>
+      <div class="controls">
+        <a class="nav-btn active" href="index.html">Page 1</a>
+        <a class="nav-btn" href="page-2.html">Page 2</a>
+        <a class="nav-btn" href="page-3.html">Page 3</a>
+        <button class="lang-btn" id="langToggle" type="button">EN / FR</button>
+      </div>
+    </header>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 1 — Top Leaderboard (970x90 / Responsive)</div></div>
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 2 — Pre-Tool Banner</div></div>
+
+    <!-- TOOL 01 -->
+    <section class="card">
+      <span class="tool-num">01</span>
+      <h2 data-fr="Additionneur" data-en="Adder">Additionneur</h2>
+      <p class="desc" data-fr="Additionnez plusieurs nombres décimaux ou entiers instantanément avec une lisibilité maximale." data-en="Add multiple decimal or whole numbers instantly with maximum visibility.">Additionnez plusieurs nombres décimaux ou entiers instantanément avec une lisibilité maximale.</p>
+      <div class="grid-inputs">
+        <div><label for="addA" data-fr="Valeur A" data-en="Value
