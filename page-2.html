@@ -1,10 +1,330 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title></title>
+  <title>Calculette Tools — Page 2 (Feuille Hebdomadaire, Salaire, Pauses)</title>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --muted: #334155;
+      --accent: #1d4ed8;
+      --border: #94a3b8;
+      --ad-bg: #fffbeb;
+      --ad-border: #d97706;
+      --ok-bg: #ecfdf5;
+      --ok-border: #059669;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.65;
+    }
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 20px 18px 120px; }
+    .topbar {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .brand { margin: 0; font-size: 28px; font-weight: 900; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .nav-btn, .lang-btn {
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 800;
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      background: #fff;
+      cursor: pointer;
+    }
+    .nav-btn.active, .nav-btn:hover { background: var(--accent); color: #fff; }
+    .lang-btn { border-color: #0f172a; color: #0f172a; }
+    .lang-btn:hover { background: #0f172a; color: #fff; }
+    .ad-box {
+      background: var(--ad-bg);
+      border: 2px dashed var(--ad-border);
+      border-radius: 14px;
+      min-height: 150px;
+      margin: 34px 0;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .ad-badge {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+    .ad-text { font-size: 17px; font-weight: 800; color: #78350f; }
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 24px;
+      margin: 34px 0;
+    }
+    .tool-num {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      font-size: 15px;
+      padding: 4px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    h2 { margin: 4px 0 12px; font-size: 26px; font-weight: 900; }
+    h3 { margin: 18px 0 8px; font-size: 21px; font-weight: 800; }
+    .desc { margin: 0 0 18px; color: var(--muted); font-size: 18px; }
+    .grid-inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    label { display: block; font-weight: 800; font-size: 16px; margin-bottom: 6px; }
+    input {
+      width: 100%;
+      padding: 13px 14px;
+      font-size: 19px;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      color: var(--ink);
+    }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+    .action-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 13px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .reset-btn {
+      background: #e2e8f0;
+      color: #0f172a;
+      border: 2px solid #94a3b8;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 11px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .result-box {
+      margin-top: 18px;
+      background: var(--ok-bg);
+      border: 2px solid var(--ok-border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 22px;
+      font-weight: 900;
+      color: #065f46;
+    }
+    .long-block { min-height: 280px; }
+    .pager {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 38px;
+      flex-wrap: wrap;
+    }
+    .pager a {
+      text-decoration: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 15px 24px;
+      border-radius: 12px;
+    }
+    .sticky-ad {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: #fef3c7;
+      border-top: 2px solid var(--ad-border);
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 900;
+      color: #78350f;
+      z-index: 999;
+    }
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <header class="topbar">
+      <h1 class="brand">Calculette Tools — Page 2</h1>
+      <div class="controls">
+        <a class="nav-btn" href="index.html">Page 1</a>
+        <a class="nav-btn active" href="page-2.html">Page 2</a>
+        <a class="nav-btn" href="page-3.html">Page 3</a>
+        <button class="lang-btn" id="langToggle" type="button">EN / FR</button>
+      </div>
+    </header>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 1 — Page 2 Top Leaderboard</div></div>
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 2 — Above Tool 04</div></div>
+
+    <!-- TOOL 04 -->
+    <section class="card">
+      <span class="tool-num">04</span>
+      <h2 data-fr="Feuille d'heures hebdomadaire" data-en="Weekly Timesheet Calculator">Feuille d'heures hebdomadaire</h2>
+      <p class="desc" data-fr="Saisissez vos heures décimales du lundi au dimanche pour obtenir votre cumul hebdomadaire." data-en="Enter your decimal hours from Monday to Sunday to calculate your weekly total.">Saisissez vos heures décimales du lundi au dimanche pour obtenir votre cumul hebdomadaire.</p>
+      <div class="grid-inputs">
+        <div><label for="d1" data-fr="Lundi" data-en="Monday">Lundi</label><input type="number" id="d1" step="any" placeholder="0" /></div>
+        <div><label for="d2" data-fr="Mardi" data-en="Tuesday">Mardi</label><input type="number" id="d2" step="any" placeholder="0" /></div>
+        <div><label for="d3" data-fr="Mercredi" data-en="Wednesday">Mercredi</label><input type="number" id="d3" step="any" placeholder="0" /></div>
+        <div><label for="d4" data-fr="Jeudi" data-en="Thursday">Jeudi</label><input type="number" id="d4" step="any" placeholder="0" /></div>
+        <div><label for="d5" data-fr="Vendredi" data-en="Friday">Vendredi</label><input type="number" id="d5" step="any" placeholder="0" /></div>
+        <div><label for="d6" data-fr="Samedi" data-en="Saturday">Samedi</label><input type="number" id="d6" step="any" placeholder="0" /></div>
+        <div><label for="d7" data-fr="Dimanche" data-en="Sunday">Dimanche</label><input type="number" id="d7" step="any" placeholder="0" /></div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" type="button" onclick="calcWeek()" data-fr="Calculer la semaine" data-en="Calculate Week">Calculer la semaine</button>
+        <button class="reset-btn" type="button" onclick="resetWeek()" data-fr="Effacer" data-en="Clear">Effacer</button>
+      </div>
+      <div class="result-box" id="weekRes">Total semaine : 0.00 h (0h 00m)</div>
+    </section>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 3 — Between Tool 04 &amp; Tool 05</div></div>
+
+    <!-- TOOL 05 -->
+    <section class="card">
+      <span class="tool-num">05</span>
+      <h2 data-fr="Calculateur de salaire horaire &amp; heures sup" data-en="Hourly Wage &amp; Overtime Calculator">Calculateur de salaire horaire &amp; heures sup</h2>
+      <p class="desc" data-fr="Calculez votre rémunération brute en incluant vos heures normales et vos heures supplémentaires majorées." data-en="Calculate gross pay including regular hours and overtime rate.">Calculez votre rémunération brute en incluant vos heures normales et vos heures supplémentaires majorées.</p>
+      <div class="grid-inputs">
+        <div><label for="regHrs" data-fr="Heures normales" data-en="Regular Hours">Heures normales</label><input type="number" id="regHrs" step="any" placeholder="35" /></div>
+        <div><label for="hrRate" data-fr="Taux horaire" data-en="Hourly Rate">Taux horaire</label><input type="number" id="hrRate" step="any" placeholder="15" /></div>
+        <div><label for="otHrs" data-fr="Heures sup" data-en="Overtime Hours">Heures sup</label><input type="number" id="otHrs" step="any" placeholder="0" /></div>
+        <div><label for="otMult" data-fr="Coefficient sup (ex: 1.25)" data-en="OT Multiplier (e.g. 1.25)">Coefficient sup (ex: 1.25)</label><input type="number" id="otMult" step="any" value="1.25" /></div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" type="button" onclick="calcWage()" data-fr="Calculer" data-en="Calculate">Calculer</button>
+        <button class="reset-btn" type="button" onclick="resetWage()" data-fr="Effacer" data-en="Clear">Effacer</button>
+      </div>
+      <div class="result-box" id="wageRes">Total brut : 0.00</div>
+    </section>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 4 — Between Tool 05 &amp; Tool 06</div></div>
+
+    <!-- TOOL 06 -->
+    <section class="card">
+      <span class="tool-num">06</span>
+      <h2 data-fr="Calculateur de pause &amp; temps net" data-en="Break &amp; Net Work Time Calculator">Calculateur de pause &amp; temps net</h2>
+      <p class="desc" data-fr="Déduisez vos pauses (en minutes) de votre amplitude journalière pour obtenir votre temps de travail net." data-en="Deduct break minutes from your shift duration to find net working hours.">Déduisez vos pauses (en minutes) de votre amplitude journalière pour obtenir votre temps de travail net.</p>
+      <div class="grid-inputs">
+        <div><label for="shiftHrs" data-fr="Heures de présence" data-en="Shift Hours">Heures de présence</label><input type="number" id="shiftHrs" step="any" placeholder="8" /></div>
+        <div><label for="breakMins" data-fr="Pause (minutes)" data-en="Break (minutes)">Pause (minutes)</label><input type="number" id="breakMins" step="any" placeholder="45" /></div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn" type="button" onclick="calcNet()" data-fr="Calculer" data-en="Calculate">Calculer</button>
+        <button class="reset-btn" type="button" onclick="resetNet()" data-fr="Effacer" data-en="Clear">Effacer</button>
+      </div>
+      <div class="result-box" id="netRes">Temps net : 0.00 h (0h 00m)</div>
+    </section>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 5 — Page 2 Mid Banner</div></div>
+
+    <section class="card long-block">
+      <h2 data-fr="Utilisation de la Feuille Hebdomadaire" data-en="How to Use the Weekly Timesheet">Utilisation de la Feuille Hebdomadaire</h2>
+      <h3 data-fr="Suivi des 35h / 39h / 40h" data-en="Tracking 35h / 39h / 40h Weeks">Suivi des 35h / 39h / 40h</h3>
+      <p class="desc" data-fr="Entrez chaque journée en heures décimales (converties via l'outil 03 de la Page 1). Le total affiche automatiquement le cumul décimal et l'équivalent exact en heures et minutes." data-en="Enter each day in decimal hours (converted via Tool 03 on Page 1). The total automatically displays both the decimal sum and exact hours and minutes.">Entrez chaque journée en heures décimales (converties via l'outil 03 de la Page 1). Le total affiche automatiquement le cumul décimal et l'équivalent exact en heures et minutes.</p>
+    </section>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 6 — Page 2 Lower Banner</div></div>
+
+    <section class="card long-block">
+      <h2 data-fr="Estimation des Heures Supplémentaires" data-en="Overtime Estimation">Estimation des Heures Supplémentaires</h2>
+      <p class="desc" data-fr="Utilisez un coefficient de 1.25 pour une majoration de 25 % ou 1.50 pour une majoration de 50 %. Pour les calculs de chantier et d'unités, continuez vers la Page 3." data-en="Use a 1.25 multiplier for +25% overtime or 1.50 for +50% overtime. For roof geometry and unit conversions, continue to Page 3.">Utilisez un coefficient de 1.25 pour une majoration de 25 % ou 1.50 pour une majoration de 50 %. Pour les calculs de chantier et d'unités, continuez vers la Page 3.</p>
+    </section>
+
+    <div class="ad-box"><span class="ad-badge">Advertisement</span><div class="ad-text">Ad Space 7 — Page 2 Pre-Footer Banner</div></div>
+
+    <div class="pager">
+      <a href="index.html">← Page 1</a>
+      <a href="page-3.html">Page 3 →</a>
+    </div>
+  </div>
+
+  <div class="sticky-ad">Advertisement — Sticky Ad Space 8</div>
+
+  <script>
+    let currentLang = 'fr';
+    document.getElementById('langToggle').addEventListener('click', () => {
+      currentLang = currentLang === 'fr' ? 'en' : 'fr';
+      document.querySelectorAll('[data-fr]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + currentLang);
+      });
+    });
+
+    function fmtHM(dec) {
+      const mins = Math.round(dec * 60);
+      const h = Math.floor(mins / 60);
+      const m = Math.abs(mins % 60);
+      return h + 'h ' + String(m).padStart(2, '0') + 'm';
+    }
+
+    function calcWeek() {
+      let sum = 0;
+      for (let i = 1; i <= 7; i++) sum += parseFloat(document.getElementById('d' + i).value) || 0;
+      document.getElementById('weekRes').textContent = (currentLang === 'fr' ? 'Total semaine : ' : 'Weekly total: ') + sum.toFixed(2) + ' h (' + fmtHM(sum) + ')';
+    }
+    function resetWeek() {
+      for (let i = 1; i <= 7; i++) document.getElementById('d' + i).value = '';
+      document.getElementById('weekRes').textContent = currentLang === 'fr' ? 'Total semaine : 0.00 h (0h 00m)' : 'Weekly total: 0.00 h (0h 00m)';
+    }
+    function calcWage() {
+      const reg = parseFloat(document.getElementById('regHrs').value) || 0;
+      const rate = parseFloat(document.getElementById('hrRate').value) || 0;
+      const ot = parseFloat(document.getElementById('otHrs').value) || 0;
+      const mult = parseFloat(document.getElementById('otMult').value) || 1.25;
+      const total = (reg * rate) + (ot * rate * mult);
+      document.getElementById('wageRes').textContent = (currentLang === 'fr' ? 'Total brut : ' : 'Gross total: ') + total.toFixed(2);
+    }
+    function resetWage() {
+      ['regHrs', 'hrRate', 'otHrs'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('otMult').value = '1.25';
+      document.getElementById('wageRes').textContent = currentLang === 'fr' ? 'Total brut : 0.00' : 'Gross total: 0.00';
+    }
+    function calcNet() {
+      const sh = parseFloat(document.getElementById('shiftHrs').value) || 0;
+      const br = parseFloat(document.getElementById('breakMins').value) || 0;
+      const net = Math.max(0, sh - (br / 60));
+      document.getElementById('netRes').textContent = (currentLang === 'fr' ? 'Temps net : ' : 'Net time: ') + net.toFixed(2) + ' h (' + fmtHM(net) + ')';
+    }
+    function resetNet() {
+      ['shiftHrs', 'breakMins'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('netRes').textContent = currentLang === 'fr' ? 'Temps net : 0.00 h (0h 00m)' : 'Net time: 0.00 h (0h 00m)';
+    }
+  </script>
 </body>
 </html>
