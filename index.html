@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculette-tools | Calculateur de Temps de Travail</title>
+<title>Calculette-tools | Calculateur de Temps de Travail &amp; Centièmes (1/100e)</title>
+<meta name="description" content="Calculez facilement vos heures de travail, pauses, feuille hebdomadaire et conversions en centièmes d'heure (1/100e). Gratuit et sans inscription.">
 <style>
   :root {
     --bg: #f1f5f9;
@@ -12,12 +13,13 @@
     --muted: #475569;
     --border: #cbd5e1;
     --primary: #2563eb;
-    --primary-dark: #1e40af;
+    --primary-dark: #1d4ed8;
     --soft: #eff6ff;
     --warn-bg: #fffbeb;
     --warn-border: #fde68a;
     --warn-ink: #92400e;
     --radius: 14px;
+    --shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
   }
   *, *::before, *::after { box-sizing: border-box; }
   body {
@@ -25,16 +27,17 @@
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     background: var(--bg);
     color: var(--ink);
-    line-height: 1.5;
+    line-height: 1.55;
   }
-  .container { max-width: 1020px; margin: 0 auto; padding: 0 16px; }
+  .container { max-width: 1060px; margin: 0 auto; padding: 0 16px; }
 
-  header {
+  /* Sticky Top Navigation */
+  .site-header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 20;
   }
   .nav-bar {
     display: flex;
@@ -44,59 +47,77 @@
     gap: 10px;
     padding: 12px 0;
   }
-  .brand { font-weight: 800; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
-  .nav-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-  .nav-link {
+  .brand {
+    font-weight: 800;
+    font-size: 1.18rem;
+    color: var(--ink);
     text-decoration: none;
-    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); }
+  .nav-right { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .nav-menu { display: flex; flex-wrap: wrap; gap: 6px; }
+  .nav-menu a {
+    text-decoration: none;
+    font-size: 0.8rem;
     font-weight: 700;
-    padding: 7px 12px;
+    padding: 6px 10px;
     border-radius: 8px;
-    background: #e2e8f0;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
     color: var(--ink);
   }
-  .nav-link.primary { background: var(--primary); color: #ffffff; }
+  .nav-menu a.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+  }
   .lang-btn {
     background: var(--ink);
     color: #ffffff;
     border: none;
-    padding: 7px 13px;
+    padding: 7px 12px;
     border-radius: 8px;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     cursor: pointer;
   }
 
+  /* Hero */
   .hero {
-    background: linear-gradient(135deg, #0f172a, #1d4ed8);
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #2563eb 100%);
     color: #ffffff;
-    padding: 24px 0;
+    padding: 26px 0;
     margin-bottom: 20px;
   }
-  .hero h1 { margin: 0 0 6px; font-size: 1.65rem; }
-  .hero p { margin: 0; color: #dbeafe; font-size: 0.95rem; }
+  .hero h1 { margin: 0 0 6px; font-size: clamp(1.4rem, 3vw, 1.95rem); }
+  .hero p { margin: 0; color: #dbeafe; font-size: 0.94rem; max-width: 720px; }
 
+  /* Cards & Calculator */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 20px;
+    box-shadow: var(--shadow);
     margin-bottom: 18px;
   }
-  .card h2 { margin: 0 0 14px; font-size: 1.1rem; }
+  .card h2 { margin: 0 0 14px; font-size: 1.12rem; }
 
   .slot-row {
     display: grid;
-    grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.8fr) 36px;
+    grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 0.85fr) 36px;
     gap: 10px;
     align-items: end;
-    padding: 10px;
+    padding: 11px;
     border: 1px solid var(--border);
     border-radius: 10px;
     margin-bottom: 10px;
     background: #f8fafc;
   }
-  .slot-row.disabled { opacity: 0.55; }
+  .slot-row.disabled { opacity: 0.52; }
   @media (max-width: 760px) {
     .slot-row { grid-template-columns: 28px repeat(2, minmax(0, 1fr)) 36px; }
   }
@@ -106,7 +127,8 @@
     padding: 8px 10px;
     border: 1px solid #94a3b8;
     border-radius: 8px;
-    font-size: 0.95rem;
+    font-size: 0.94rem;
+    font-weight: 600;
     background: #ffffff;
     color: var(--ink);
   }
@@ -166,6 +188,14 @@
     gap: 10px;
     font-weight: 800;
   }
+  .total-badge {
+    background: #ffffff;
+    border: 1px solid #93c5fd;
+    padding: 5px 12px;
+    border-radius: 8px;
+    color: var(--primary-dark);
+    font-size: 1.02rem;
+  }
   .sub-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -184,25 +214,79 @@
     font-size: 0.86rem;
     display: none;
   }
-  footer {
+
+  /* Ad Slot */
+  .ad-slot {
+    max-width: 728px;
+    min-height: 90px;
+    margin: 18px auto;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 0.8rem;
+  }
+
+  /* Tool Grid */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .tool-card:hover { border-color: var(--primary); }
+  .tool-card h3 { margin: 0 0 4px; font-size: 1.02rem; }
+  .tool-card p { margin: 0; color: var(--muted); font-size: 0.88rem; }
+  .tool-cta { font-weight: 800; font-size: 0.84rem; color: var(--primary); }
+
+  /* Guide / SEO Table */
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
+  th { background: #f8fafc; font-weight: 700; }
+
+  .site-footer {
     text-align: center;
-    padding: 20px 16px;
+    padding: 22px 16px;
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 0.86rem;
     border-top: 1px solid var(--border);
     background: var(--surface);
     margin-top: 24px;
   }
+  .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-weight: 600; }
 </style>
 </head>
 <body>
 
-<header>
+<header class="site-header">
   <div class="container nav-bar">
-    <a href="./index.html" class="brand">Calculette-tools</a>
-    <div class="nav-actions">
-      <a href="./index.html" class="nav-link" data-t="p1">Page 1: Temps</a>
-      <a href="./page2.html" class="nav-link primary" data-t="p2">Page 2: Autres Outils →</a>
+    <a href="index.html" class="brand"><span class="brand-dot"></span>Calculette-tools</a>
+    <div class="nav-right">
+      <nav class="nav-menu">
+        <a href="index.html" class="active" data-t="navHome">Temps de travail</a>
+        <a href="feuille-hebdo.html" data-t="navFh">Feuille Hebdo</a>
+        <a href="working-hour-calculator.html" data-t="navWh">Heures &amp; Salaire</a>
+        <a href="time-calculator.html" data-t="navTc">Calculateur Durées</a>
+        <a href="convertisseur.html" data-t="navCv">Convertisseur 1/100e</a>
+        <a href="toiture-croupe.html" data-t="navTo">Toiture Croupe</a>
+      </nav>
       <button type="button" class="lang-btn" id="langBtn">EN</button>
     </div>
   </div>
@@ -210,12 +294,13 @@
 
 <section class="hero">
   <div class="container">
-    <h1 data-t="title">Calculateur de Temps de Travail</h1>
-    <p data-t="sub">Additionnez vos plages horaires ou soustrayez vos pauses en heures-minutes et centièmes (1/100e).</p>
+    <h1 data-t="title">Calculateur d'Heures et Temps de Travail</h1>
+    <p data-t="sub">Calculez vos plages horaires journalières, déduisez vos pauses et obtenez le résultat instantané en heures-minutes et en centièmes d'heure (1/100e).</p>
   </div>
 </section>
 
 <main class="container">
+  <!-- Daily Time Slots -->
   <section class="card">
     <h2 data-t="s1">1. Additionner des plages horaires</h2>
     <div id="slotsWrap"></div>
@@ -226,16 +311,16 @@
     <div class="total-bar">
       <span data-t="total">TOTAL JOURNALIER</span>
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-        <span id="totHM">00h 00min</span>
-        <span>·</span>
-        <span id="totDec">0.00 h</span>
+        <span class="total-badge" id="totHM">00h 00min</span>
+        <span class="total-badge" id="totDec">0.00 h</span>
         <button type="button" class="btn-sec" id="copyTotBtn" data-t="copy">Copier</button>
       </div>
     </div>
   </section>
 
+  <!-- Subtract Break -->
   <section class="card">
-    <h2 data-t="s2">2. Soustraire deux durées (ex. pause)</h2>
+    <h2 data-t="s2">2. Soustraire deux durées (ex. déduire une pause)</h2>
     <div class="sub-grid">
       <div class="field">
         <label for="ah" data-t="durA">Durée totale (A)</label>
@@ -261,10 +346,85 @@
       <button type="button" class="btn-sec" id="resetSubBtn" data-t="reset">Reset (0)</button>
     </div>
   </section>
+
+  <div class="ad-slot" aria-label="Espace publicitaire">Ad Space 728×90</div>
+
+  <!-- Other Tools Directory -->
+  <h2 style="margin:22px 0 12px;font-size:1.18rem;" data-t="moreTools">Nos autres calculateurs gratuits</h2>
+  <section class="tools-grid">
+    <a href="feuille-hebdo.html" class="tool-card">
+      <div>
+        <h3 data-t="tFh">Feuille Hebdomadaire</h3>
+        <p data-t="dFh">Pointage du lundi au dimanche avec sauvegarde automatique, navigation par semaine et impression.</p>
+      </div>
+      <span class="tool-cta" data-t="open">Ouvrir le calculateur →</span>
+    </a>
+    <a href="working-hour-calculator.html" class="tool-card">
+      <div>
+        <h3 data-t="tWh">Heures &amp; Salaire</h3>
+        <p data-t="dWh">Calculez votre salaire brut à partir de vos heures normales, heures supplémentaires majorées et taux horaire.</p>
+      </div>
+      <span class="tool-cta" data-t="open">Ouvrir le calculateur →</span>
+    </a>
+    <a href="time-calculator.html" class="tool-card">
+      <div>
+        <h3 data-t="tTc">Calculateur de Durées</h3>
+        <p data-t="dTc">Additionnez ou soustrayez des durées en heures et minutes avec conversion simultanée en centièmes.</p>
+      </div>
+      <span class="tool-cta" data-t="open">Ouvrir le calculateur →</span>
+    </a>
+    <a href="convertisseur.html" class="tool-card">
+      <div>
+        <h3 data-t="tCv">Convertisseur 1/100e</h3>
+        <p data-t="dCv">Convertissez instantanément vos minutes en centièmes d'heure décimaux (ex. 30 min = 0.50 h) et inversement.</p>
+      </div>
+      <span class="tool-cta" data-t="open">Ouvrir le calculateur →</span>
+    </a>
+    <a href="toiture-croupe.html" class="tool-card">
+      <div>
+        <h3 data-t="tTo">Toiture en Croupe</h3>
+        <p data-t="dTo">Calculez les longueurs de chevrons, d'arêtiers, les angles de coupe et la surface totale des versants.</p>
+      </div>
+      <span class="tool-cta" data-t="open">Ouvrir le calculateur →</span>
+    </a>
+  </section>
+
+  <!-- Reference Guide -->
+  <section class="card">
+    <h2 data-t="guideTitle">Tableau de conversion rapide Minutes → Centièmes (1/100e)</h2>
+    <p style="margin:0 0 10px;color:var(--muted);font-size:0.9rem;" data-t="guideDesc">Pour passer des minutes aux centièmes d'heure utilisés en paie et comptabilité, divisez les minutes par 60.</p>
+    <table>
+      <thead>
+        <tr>
+          <th data-t="thMin">Minutes</th>
+          <th data-t="thDec">Centièmes (1/100e)</th>
+          <th data-t="thMin2">Minutes</th>
+          <th data-t="thDec2">Centièmes (1/100e)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>05 min</td><td>0.08 h</td><td>35 min</td><td>0.58 h</td></tr>
+        <tr><td>10 min</td><td>0.17 h</td><td>40 min</td><td>0.67 h</td></tr>
+        <tr><td>15 min</td><td>0.25 h</td><td>45 min</td><td>0.75 h</td></tr>
+        <tr><td>20 min</td><td>0.33 h</td><td>50 min</td><td>0.83 h</td></tr>
+        <tr><td>30 min</td><td>0.50 h</td><td>55 min</td><td>0.92 h</td></tr>
+      </tbody>
+    </table>
+  </section>
 </main>
 
-<footer>
-  Calculette-tools · <a href="./page2.html" data-t="p2">Page 2: Autres Outils →</a>
+<footer class="site-footer">
+  <div class="container">
+    <strong>Calculette-tools</strong> — Outils gratuits en ligne
+    <div class="footer-links">
+      <a href="index.html" data-t="navHome">Temps de travail</a>
+      <a href="feuille-hebdo.html" data-t="navFh">Feuille Hebdo</a>
+      <a href="working-hour-calculator.html" data-t="navWh">Heures &amp; Salaire</a>
+      <a href="time-calculator.html" data-t="navTc">Calculateur Durées</a>
+      <a href="convertisseur.html" data-t="navCv">Convertisseur 1/100e</a>
+      <a href="toiture-croupe.html" data-t="navTo">Toiture Croupe</a>
+    </div>
+  </div>
 </footer>
 
 <script>
@@ -278,24 +438,46 @@
 
   const t = {
     fr: {
-      btn: "EN", p1: "Page 1: Temps", p2: "Page 2: Autres Outils →",
-      title: "Calculateur de Temps de Travail",
-      sub: "Additionnez vos plages horaires ou soustrayez vos pauses en heures-minutes et centièmes (1/100e).",
+      btn: "EN",
+      navHome: "Temps de travail", navFh: "Feuille Hebdo", navWh: "Heures & Salaire",
+      navTc: "Calculateur Durées", navCv: "Convertisseur 1/100e", navTo: "Toiture Croupe",
+      title: "Calculateur d'Heures et Temps de Travail",
+      sub: "Calculez vos plages horaires journalières, déduisez vos pauses et obtenez le résultat instantané en heures-minutes et en centièmes d'heure (1/100e).",
       s1: "1. Additionner des plages horaires", add: "+ Ajouter une plage", reset: "Reset (0)",
       total: "TOTAL JOURNALIER", copy: "Copier", copied: "Copié !",
       start: "Heure début", end: "Heure fin", dur: "Durée", dec: "1/100e", ov: "+1j",
-      s2: "2. Soustraire deux durées (ex. pause)", durA: "Durée totale (A)", durB: "Pause / À déduire (B)",
-      net: "Temps net (A − B)", warn: "La pause (B) dépasse la durée (A) : temps net ramené à 00h 00min."
+      s2: "2. Soustraire deux durées (ex. déduire une pause)", durA: "Durée totale (A)", durB: "Pause / À déduire (B)",
+      net: "Temps net (A − B)", warn: "La pause (B) dépasse la durée (A) : temps net ramené à 00h 00min.",
+      moreTools: "Nos autres calculateurs gratuits", open: "Ouvrir le calculateur →",
+      tFh: "Feuille Hebdomadaire", dFh: "Pointage du lundi au dimanche avec sauvegarde automatique, navigation par semaine et impression.",
+      tWh: "Heures & Salaire", dWh: "Calculez votre salaire brut à partir de vos heures normales, heures supplémentaires majorées et taux horaire.",
+      tTc: "Calculateur de Durées", dTc: "Additionnez ou soustrayez des durées en heures et minutes avec conversion simultanée en centièmes.",
+      tCv: "Convertisseur 1/100e", dCv: "Convertissez instantanément vos minutes en centièmes d'heure décimaux (ex. 30 min = 0.50 h) et inversement.",
+      tTo: "Toiture en Croupe", dTo: "Calculez les longueurs de chevrons, d'arêtiers, les angles de coupe et la surface totale des versants.",
+      guideTitle: "Tableau de conversion rapide Minutes → Centièmes (1/100e)",
+      guideDesc: "Pour passer des minutes aux centièmes d'heure utilisés en paie et comptabilité, divisez les minutes par 60.",
+      thMin: "Minutes", thDec: "Centièmes (1/100e)", thMin2: "Minutes", thDec2: "Centièmes (1/100e)"
     },
     en: {
-      btn: "FR", p1: "Page 1: Time", p2: "Page 2: Other Tools →",
-      title: "Working Time Calculator",
-      sub: "Add daily time slots or subtract breaks in hours-minutes and hundredths (1/100e).",
+      btn: "FR",
+      navHome: "Working Time", navFh: "Weekly Sheet", navWh: "Hours & Pay",
+      navTc: "Time Calculator", navCv: "1/100e Converter", navTo: "Hip Roof",
+      title: "Working Hours & Time Calculator",
+      sub: "Calculate daily work shifts, deduct breaks, and get instant results in hours-minutes and hundredths of an hour (1/100e).",
       s1: "1. Add Time Slots", add: "+ Add time slot", reset: "Reset (0)",
       total: "DAILY TOTAL", copy: "Copy", copied: "Copied!",
       start: "Start time", end: "End time", dur: "Duration", dec: "1/100e", ov: "+1d",
-      s2: "2. Subtract Two Durations (e.g. break)", durA: "Total duration (A)", durB: "Break / Deduct (B)",
-      net: "Net time (A − B)", warn: "Break (B) exceeds duration (A); net time clamped to 00h 00min."
+      s2: "2. Subtract Two Durations (e.g. deduct a break)", durA: "Total duration (A)", durB: "Break / Deduct (B)",
+      net: "Net time (A − B)", warn: "Break (B) exceeds duration (A); net time clamped to 00h 00min.",
+      moreTools: "Our Other Free Calculators", open: "Open calculator →",
+      tFh: "Weekly Timesheet", dFh: "Monday-to-Sunday timesheet with auto-save, week navigation, and printable view.",
+      tWh: "Hours & Pay", dWh: "Estimate gross pay from regular hours, overtime bonus rates, and hourly pay.",
+      tTc: "Time Duration Calculator", dTc: "Add or subtract hours and minutes with simultaneous decimal hundredths output.",
+      tCv: "1/100e Converter", dCv: "Convert minutes to decimal hundredths of an hour (e.g. 30 min = 0.50 h) and back.",
+      tTo: "Hip Roof Framing", dTo: "Calculate common and hip rafter lengths, cut angles, and total roof slope area.",
+      guideTitle: "Quick Conversion Table: Minutes → Hundredths (1/100e)",
+      guideDesc: "To convert minutes into payroll decimal hundredths, divide the minutes by 60.",
+      thMin: "Minutes", thDec: "Hundredths (1/100e)", thMin2: "Minutes", thDec2: "Hundredths (1/100e)"
     }
   };
 
@@ -346,6 +528,7 @@
       chk.checked = !!s.active;
       chk.style.width = "18px";
       chk.style.height = "18px";
+      chk.style.marginBottom = "8px";
       chk.addEventListener("change", function () {
         slots[idx].active = this.checked;
         row.classList.toggle("disabled", !this.checked);
