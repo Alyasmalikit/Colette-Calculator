@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculette-tools | Page 2 — Outils</title>
+<title>Calculette-tools | Page 2 — Hebdo, Convertisseur &amp; Toiture</title>
 <style>
   :root {
     --bg: #f4f7fb;
@@ -12,6 +12,7 @@
     --muted: #475569;
     --border: #cbd5e1;
     --primary: #2563eb;
+    --primary-dark: #1d4ed8;
     --soft: #eff6ff;
     --warn-bg: #fffbeb;
     --warn-border: #fde68a;
@@ -26,14 +27,14 @@
     color: var(--ink);
     line-height: 1.5;
   }
-  .container { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  .container { max-width: 1020px; margin: 0 auto; padding: 0 16px; }
 
   header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 20;
   }
   .nav-bar {
     display: flex;
@@ -44,30 +45,37 @@
     padding: 12px 0;
   }
   .brand { font-weight: 800; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
-  .nav-right { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
-  .nav-menu { display: flex; flex-wrap: wrap; gap: 6px; }
-  .nav-menu a {
+  .nav-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .nav-link {
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    padding: 6px 10px;
-    border-radius: 7px;
+    padding: 7px 12px;
+    border-radius: 8px;
     background: #e2e8f0;
     color: var(--ink);
   }
+  .nav-link.active { background: var(--primary); color: #ffffff; }
   .lang-btn {
-    background: var(--primary);
+    background: var(--ink);
     color: #ffffff;
     border: none;
     padding: 7px 13px;
     border-radius: 8px;
     font-weight: 700;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     cursor: pointer;
   }
 
-  h1 { margin: 20px 0 6px; font-size: 1.65rem; }
-  .sub { margin: 0 0 18px; color: var(--muted); }
+  .hero {
+    background: linear-gradient(135deg, #0f172a, #1d4ed8);
+    color: #ffffff;
+    padding: 24px 0;
+    margin-bottom: 20px;
+  }
+  .hero h1 { margin: 0 0 6px; font-size: 1.65rem; }
+  .hero p { margin: 0; color: #dbeafe; font-size: 0.94rem; }
+
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -75,19 +83,18 @@
     padding: 20px;
     margin-bottom: 18px;
   }
-  .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
-  .card h2 { margin: 0; font-size: 1.12rem; }
+  .card h2 { margin: 0 0 14px; font-size: 1.12rem; }
   .split-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; align-items: end; }
   .field { margin-bottom: 12px; }
-  .field label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+  .field label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
   .hm-pair { display: flex; align-items: center; gap: 6px; }
-  input[type="number"], input[type="time"], select {
+  input[type="number"], input[type="time"] {
     width: 100%;
     padding: 8px 10px;
     border: 1px solid #94a3b8;
     border-radius: 8px;
     font-size: 0.92rem;
+    font-weight: 600;
     background: #ffffff;
     color: var(--ink);
   }
@@ -147,7 +154,7 @@
     gap: 10px;
     font-weight: 800;
   }
-  .out-val { color: var(--primary); }
+  .out-val { color: var(--primary-dark); }
 
   .week-bar {
     display: flex;
@@ -189,7 +196,7 @@
     text-align: center;
     white-space: nowrap;
   }
-  .day-totals { font-size: 0.85rem; font-weight: 800; color: var(--primary); padding-top: 5px; }
+  .day-totals { font-size: 0.85rem; font-weight: 800; color: var(--primary-dark); padding-top: 5px; }
 
   .res-row {
     display: flex;
@@ -204,7 +211,7 @@
   }
   .res-row.highlight { background: var(--soft); border-color: #93c5fd; font-weight: 800; }
   .res-label { font-size: 0.86rem; color: var(--muted); }
-  .res-val { font-size: 0.92rem; font-weight: 800; color: var(--primary); }
+  .res-val { font-size: 0.92rem; font-weight: 800; color: var(--primary-dark); }
   .notice {
     margin-top: 10px;
     padding: 9px 12px;
@@ -235,27 +242,26 @@
 
 <header>
   <div class="container nav-bar">
-    <a href="./index.html" class="brand">Calculette-tools</a>
-    <div class="nav-right">
-      <nav class="nav-menu">
-        <a href="./index.html" data-t="navHome">← Page 1</a>
-        <a href="#t-week" data-t="navFh">Feuille Hebdo</a>
-        <a href="#t-pay" data-t="navWh">Heures &amp; Salaire</a>
-        <a href="#t-dur" data-t="navTc">Durées</a>
-        <a href="#t-conv" data-t="navCv">Convertisseur</a>
-        <a href="#t-roof" data-t="navTo">Toiture</a>
-      </nav>
+    <a href="index.html" class="brand">Calculette-tools</a>
+    <div class="nav-actions">
+      <a href="index.html" class="nav-link" data-t="p1">← Page 1 (3 Outils)</a>
+      <a href="page2.html" class="nav-link active" data-t="p2">Page 2 (3 Outils)</a>
       <button type="button" class="lang-btn" id="langBtn">EN</button>
     </div>
   </div>
 </header>
 
-<main class="container">
-  <h1 data-t="p2Heading">Page 2 — Tous les Autres Calculateurs</h1>
-  <p class="sub" data-t="p2Sub">Feuille hebdomadaire, heures et salaire, calcul de durées, convertisseur 1/100e et toiture en croupe.</p>
+<section class="hero">
+  <div class="container">
+    <h1 data-t="title">Page 2 — Feuille Hebdo, Convertisseur 1/100e &amp; Toiture</h1>
+    <p data-t="sub">Trois outils complémentaires : feuille hebdomadaire, convertisseur centièmes 1/100e et toiture en croupe.</p>
+  </div>
+</section>
 
-  <section class="card" id="t-week">
-    <h2 data-t="secWeekTitle">1. Feuille de Pointage Hebdomadaire</h2>
+<main class="container">
+  <!-- Tool 1 on Page 2: Weekly Timesheet -->
+  <section class="card" id="p2-t1">
+    <h2 data-t="s1">1. Feuille de pointage hebdomadaire</h2>
     <div class="week-bar">
       <div>
         <strong id="weekLabel">Semaine</strong>
@@ -285,79 +291,9 @@
     </div>
   </section>
 
-  <section class="card" id="t-pay">
-    <div class="card-head">
-      <h2 data-t="secPayTitle">2. Calculateur d'Heures de Travail &amp; Salaire</h2>
-      <button type="button" class="btn-mini" id="copyPayBtn" data-t="btnCopy">Copier</button>
-    </div>
-    <div class="split-grid">
-      <div>
-        <div class="field"><label for="inRate" data-t="lblRate">Taux horaire (€ / heure)</label><input type="number" id="inRate" step="0.01" min="0" value="0"></div>
-        <div class="field"><label for="inRegHours" data-t="lblRegHours">Heures normales (en décimal 1/100e)</label><input type="number" id="inRegHours" step="0.01" min="0" value="0"></div>
-        <div class="field"><label for="inOtHours" data-t="lblOtHours">Heures supplémentaires (en décimal 1/100e)</label><input type="number" id="inOtHours" step="0.01" min="0" value="0"></div>
-        <div class="field">
-          <label for="inOtPct" data-t="lblOtPct">Taux de majoration heures sup (%)</label>
-          <input type="number" id="inOtPct" step="1" min="0" value="0">
-          <div class="presets">
-            <button type="button" class="preset-btn" data-ot="10">+10%</button>
-            <button type="button" class="preset-btn" data-ot="25">+25%</button>
-            <button type="button" class="preset-btn" data-ot="50">+50%</button>
-          </div>
-        </div>
-        <div class="toolbar"><button type="button" class="btn-sec" id="resetPayBtn" data-t="btnReset">Reset</button></div>
-      </div>
-      <div>
-        <div class="res-row"><span class="res-label" data-t="rTotalHours">Total heures travaillées</span><span class="res-val" id="outTotalHours">0.00 h (00h 00min)</span></div>
-        <div class="res-row"><span class="res-label" data-t="rBasePay">Montant heures normales</span><span class="res-val" id="outBasePay">0.00 €</span></div>
-        <div class="res-row"><span class="res-label" data-t="rOtRate">Taux horaire majoré</span><span class="res-val" id="outOtRate">0.00 € / h</span></div>
-        <div class="res-row"><span class="res-label" data-t="rOtPay">Montant heures supplémentaires</span><span class="res-val" id="outOtPay">0.00 €</span></div>
-        <div class="res-row highlight"><span class="res-label" data-t="rGrandTotal">TOTAL ESTIMÉ</span><span class="res-val" id="outGrandTotal">0.00 €</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="card" id="t-dur">
-    <h2 data-t="secDurTitle">3. Calculateur de Durées (Heures &amp; Minutes)</h2>
-    <div class="grid-3">
-      <div class="field">
-        <label for="durAh" data-t="lblA">Durée A</label>
-        <div class="hm-pair">
-          <input type="number" id="durAh" min="0" value="0"><span>h</span>
-          <input type="number" id="durAm" min="0" max="59" value="0"><span>min</span>
-        </div>
-      </div>
-      <div class="field">
-        <label for="opSel" data-t="lblOp">Opération</label>
-        <select id="opSel">
-          <option value="add" data-t="opAdd">Addition (+)</option>
-          <option value="sub" data-t="opSub">Soustraction (−)</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="durBh" data-t="lblB">Durée B</label>
-        <div class="hm-pair">
-          <input type="number" id="durBh" min="0" value="0"><span>h</span>
-          <input type="number" id="durBm" min="0" max="59" value="0"><span>min</span>
-        </div>
-      </div>
-    </div>
-    <div class="toolbar">
-      <button type="button" class="btn-sec" id="swapDurBtn" data-t="btnSwap">Inverser A ↔ B</button>
-      <button type="button" class="btn-sec" id="resetDurBtn" data-t="btnReset">Reset</button>
-    </div>
-    <div class="out-box">
-      <strong data-t="lblRes">RÉSULTAT</strong>
-      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-        <span class="out-val" id="outDurHM">00h 00min</span>
-        <span class="out-val" id="outDurDec">0.00 h</span>
-        <button type="button" class="btn-mini" id="copyDurBtn" data-t="btnCopy">Copier</button>
-      </div>
-    </div>
-    <div class="notice" id="durNotice"></div>
-  </section>
-
-  <section class="card" id="t-conv">
-    <h2 data-t="secConvTitle">4. Convertisseur Heures / Minutes ↔ Centièmes (1/100e)</h2>
+  <!-- Tool 2 on Page 2: 1/100e Converter -->
+  <section class="card" id="p2-t2">
+    <h2 data-t="s2">2. Convertisseur Heures / Minutes ↔ Centièmes (1/100e)</h2>
     <div class="split-grid">
       <div>
         <div class="field">
@@ -377,7 +313,6 @@
           <span class="res-label" data-t="lblOutDec">Résultat décimal</span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="out-val" id="outDec">0.00 h</span>
-            <button type="button" class="btn-mini" id="copyDecBtn" data-t="btnCopy">Copier</button>
             <button type="button" class="btn-mini" id="resetHmBtn" data-t="btnReset">Reset</button>
           </div>
         </div>
@@ -397,7 +332,6 @@
           <span class="res-label" data-t="lblOutHm">Résultat heures-minutes</span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="out-val" id="outHm">00h 00min</span>
-            <button type="button" class="btn-mini" id="copyHmBtn" data-t="btnCopy">Copier</button>
             <button type="button" class="btn-mini" id="resetDecBtn" data-t="btnReset">Reset</button>
           </div>
         </div>
@@ -405,11 +339,9 @@
     </div>
   </section>
 
-  <section class="card" id="t-roof">
-    <div class="card-head">
-      <h2 data-t="secRoofTitle">5. Calculateur Charpente : Toiture en Croupe</h2>
-      <button type="button" class="btn-mini" id="copyRoofBtn" data-t="btnCopy">Copier</button>
-    </div>
+  <!-- Tool 3 on Page 2: Hip Roof -->
+  <section class="card" id="p2-t3">
+    <h2 data-t="s3">3. Charpente : Toiture en croupe</h2>
     <div class="split-grid">
       <div>
         <div class="field"><label for="inEmpPan" data-t="lblEmpPan">Emprunt du long pan (m)</label><input type="number" id="inEmpPan" step="0.01" min="0" value="0"></div>
@@ -436,7 +368,7 @@
 </main>
 
 <footer>
-  Calculette-tools · <a href="./index.html" data-t="navHome">← Page 1</a>
+  Calculette-tools · <a href="index.html" data-t="p1">← Page 1 (3 Outils)</a>
 </footer>
 
 <script>
@@ -448,11 +380,10 @@
 
   const dict = {
     fr: {
-      btn: "EN", navHome: "← Page 1", navFh: "Feuille Hebdo", navWh: "Heures & Salaire",
-      navTc: "Durées", navCv: "Convertisseur", navTo: "Toiture",
-      p2Heading: "Page 2 — Tous les Autres Calculateurs",
-      p2Sub: "Feuille hebdomadaire, heures et salaire, calcul de durées, convertisseur 1/100e et toiture en croupe.",
-      secWeekTitle: "1. Feuille de Pointage Hebdomadaire",
+      btn: "EN", p1: "← Page 1 (3 Outils)", p2: "Page 2 (3 Outils)",
+      title: "Page 2 — Feuille Hebdo, Convertisseur 1/100e & Toiture",
+      sub: "Trois outils complémentaires : feuille hebdomadaire, convertisseur centièmes 1/100e et toiture en croupe.",
+      s1: "1. Feuille de pointage hebdomadaire",
       btnPrevWeek: "← Préc.", btnCurrWeek: "Actuelle", btnNextWeek: "Suiv. →",
       btnPrint: "Version imprimable", btnResetWeek: "Reset semaine (0)", btnReset: "Reset",
       btnCopy: "Copier", btnCopied: "Copié !",
@@ -461,19 +392,10 @@
       activeDaysFmt: n => `${n} ${n > 1 ? "jours actifs" : "jour actif"}`,
       days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
       weekWord: "Semaine",
-      secPayTitle: "2. Calculateur d'Heures de Travail & Salaire",
-      lblRate: "Taux horaire (€ / heure)", lblRegHours: "Heures normales (en décimal 1/100e)",
-      lblOtHours: "Heures supplémentaires (en décimal 1/100e)", lblOtPct: "Taux de majoration heures sup (%)",
-      rTotalHours: "Total heures travaillées", rBasePay: "Montant heures normales",
-      rOtRate: "Taux horaire majoré", rOtPay: "Montant heures supplémentaires", rGrandTotal: "TOTAL ESTIMÉ",
-      secDurTitle: "3. Calculateur de Durées (Heures & Minutes)",
-      lblA: "Durée A", lblOp: "Opération", opAdd: "Addition (+)", opSub: "Soustraction (−)",
-      lblB: "Durée B", btnSwap: "Inverser A ↔ B", lblRes: "RÉSULTAT",
-      subNegMsg: "La durée B est supérieure à la durée A : le résultat est négatif.",
-      secConvTitle: "4. Convertisseur Heures / Minutes ↔ Centièmes (1/100e)",
+      s2: "2. Convertisseur Heures / Minutes ↔ Centièmes (1/100e)",
       lblHmInput: "Saisir heures et minutes", lblOutDec: "Résultat décimal",
       lblDecInput: "Saisir heures décimales (ex. 7.50)", lblOutHm: "Résultat heures-minutes",
-      secRoofTitle: "5. Calculateur Charpente : Toiture en Croupe",
+      s3: "3. Charpente : Toiture en croupe",
       lblEmpPan: "Emprunt du long pan (m)", lblEmpCroupe: "Emprunt de la croupe (m)",
       lblEgout: "Longueur totale de la ligne d'égout (m)", lblHaut: "Hauteur de couronnement H (m)",
       ridgeShortMsg: "La longueur d'égout est inférieure ou égale à 2 × emprunt croupe : le faîtage est ramené à 0.00 m.",
@@ -484,11 +406,10 @@
       rCoupePied: "Angle de coupe de pied (arêtier)", rSurface: "Surface totale des versants (4 pans)"
     },
     en: {
-      btn: "FR", navHome: "← Page 1", navFh: "Weekly Timesheet", navWh: "Working Hours",
-      navTc: "Time Calculator", navCv: "Decimal Converter", navTo: "Hip Roof",
-      p2Heading: "Page 2 — All Other Calculators",
-      p2Sub: "Weekly timesheet, working hours & pay, duration math, 1/100e converter, and hip roof framing.",
-      secWeekTitle: "1. Weekly Timesheet",
+      btn: "FR", p1: "← Page 1 (3 Tools)", p2: "Page 2 (3 Tools)",
+      title: "Page 2 — Weekly Sheet, 1/100e Converter & Hip Roof",
+      sub: "Three extra tools: weekly timesheet, decimal hundredths converter, and hip roof framing.",
+      s1: "1. Weekly Timesheet",
       btnPrevWeek: "← Prev.", btnCurrWeek: "Current", btnNextWeek: "Next →",
       btnPrint: "Printable view", btnResetWeek: "Reset week (0)", btnReset: "Reset",
       btnCopy: "Copy", btnCopied: "Copied!",
@@ -497,19 +418,10 @@
       activeDaysFmt: n => `${n} ${n === 1 ? "active day" : "active days"}`,
       days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       weekWord: "Week",
-      secPayTitle: "2. Working Hours & Pay Calculator",
-      lblRate: "Hourly rate (€ / hour)", lblRegHours: "Regular hours (decimal 1/100e)",
-      lblOtHours: "Overtime hours (decimal 1/100e)", lblOtPct: "Overtime bonus percentage (%)",
-      rTotalHours: "Total hours worked", rBasePay: "Regular hours pay",
-      rOtRate: "Overtime hourly rate", rOtPay: "Overtime pay", rGrandTotal: "ESTIMATED TOTAL",
-      secDurTitle: "3. Time Duration Calculator (Hours & Minutes)",
-      lblA: "Duration A", lblOp: "Operation", opAdd: "Addition (+)", opSub: "Subtraction (−)",
-      lblB: "Duration B", btnSwap: "Swap A ↔ B", lblRes: "RESULT",
-      subNegMsg: "Duration B is greater than Duration A: the result is negative.",
-      secConvTitle: "4. Hours & Minutes ↔ Hundredths (1/100e) Converter",
+      s2: "2. Hours & Minutes ↔ Hundredths (1/100e) Converter",
       lblHmInput: "Enter hours and minutes", lblOutDec: "Decimal output",
       lblDecInput: "Enter decimal hours (e.g. 7.50)", lblOutHm: "Hours-minutes output",
-      secRoofTitle: "5. Framing Calculator: Hip Roof",
+      s3: "3. Framing: Hip Roof",
       lblEmpPan: "Main slope run / emprunt (m)", lblEmpCroupe: "Hip end run / emprunt (m)",
       lblEgout: "Total eave line length (m)", lblHaut: "Crown height H (m)",
       ridgeShortMsg: "Eave length is less than or equal to 2 × hip run: ridge length is clamped to 0.00 m.",
@@ -520,17 +432,6 @@
       rCoupePied: "Hip seat / level cut angle", rSurface: "Total roof area (4 slopes)"
     }
   };
-
-  function clampNonNeg(el) {
-    if (parseFloat(el.value) < 0) el.value = "0";
-  }
-
-  function clampMins(el) {
-    const v = parseFloat(el.value);
-    if (Number.isNaN(v)) return;
-    if (v < 0) el.value = "0";
-    else if (v > 59) el.value = "59";
-  }
 
   function fmtHM(mins) {
     const sign = mins < 0 ? "-" : "";
@@ -594,11 +495,9 @@
     try { localStorage.setItem(getWeekKey(monDate), JSON.stringify(data)); } catch (e) {}
   }
 
-  function updateWeekTotalsOnly(mon, weekData) {
+  function updateWeekTotalsOnly(weekData) {
     const d = dict[lang];
-    let weekMins = 0;
-    let activeDays = 0;
-
+    let weekMins = 0, activeDays = 0;
     weekData.forEach((dayObj, dIdx) => {
       if (dayObj.active) activeDays += 1;
       let dayMins = 0;
@@ -614,7 +513,6 @@
       const dTot = document.getElementById(`w-daytot-${dIdx}`);
       if (dTot) dTot.textContent = `${fmtHM(dayMins)} · ${(dayMins / 60).toFixed(2)} h`;
     });
-
     document.getElementById("activeDaysCount").textContent = d.activeDaysFmt(activeDays);
     document.getElementById("weekTotalHM").textContent = fmtHM(weekMins);
     document.getElementById("weekTotalDec").textContent = `${(weekMins / 60).toFixed(2)} h`;
@@ -646,7 +544,7 @@
         data[dIdx].active = this.checked;
         saveWeekData(mon, data);
         dayBox.classList.toggle("off", !this.checked);
-        updateWeekTotalsOnly(mon, data);
+        updateWeekTotalsOnly(data);
       });
       const lblSpan = document.createElement("span");
       lblSpan.innerHTML = `${d.days[dIdx]} <small style="color:var(--muted);font-weight:600;">${fmtShortDate(dayDate)}</small>`;
@@ -665,7 +563,7 @@
           const data = loadWeekData(mon);
           data[dIdx].slots[sIdx].start = this.value;
           saveWeekData(mon, data);
-          updateWeekTotalsOnly(mon, data);
+          updateWeekTotalsOnly(data);
         });
 
         const eInp = document.createElement("input");
@@ -675,7 +573,7 @@
           const data = loadWeekData(mon);
           data[dIdx].slots[sIdx].end = this.value;
           saveWeekData(mon, data);
-          updateWeekTotalsOnly(mon, data);
+          updateWeekTotalsOnly(data);
         });
 
         const p1 = document.createElement("div");
@@ -716,66 +614,40 @@
       const totDiv = document.createElement("div");
       totDiv.className = "day-totals";
       totDiv.id = `w-daytot-${dIdx}`;
-
       dayBox.append(titleDiv, slotsCol, totDiv);
       container.appendChild(dayBox);
     });
 
-    updateWeekTotalsOnly(mon, weekData);
-  }
-
-  function calcPay() {
-    const rate = Math.max(0, parseFloat(document.getElementById("inRate").value) || 0);
-    const regH = Math.max(0, parseFloat(document.getElementById("inRegHours").value) || 0);
-    const otH = Math.max(0, parseFloat(document.getElementById("inOtHours").value) || 0);
-    const otPct = Math.max(0, parseFloat(document.getElementById("inOtPct").value) || 0);
-    const totalH = regH + otH;
-    const basePay = regH * rate;
-    const otRate = rate * (1 + otPct / 100);
-    const otPay = otH * otRate;
-    document.getElementById("outTotalHours").textContent = `${totalH.toFixed(2)} h (${fmtHM(Math.round(totalH * 60))})`;
-    document.getElementById("outBasePay").textContent = `${basePay.toFixed(2)} €`;
-    document.getElementById("outOtRate").textContent = `${otRate.toFixed(2)} € / h`;
-    document.getElementById("outOtPay").textContent = `${otPay.toFixed(2)} €`;
-    document.getElementById("outGrandTotal").textContent = `${(basePay + otPay).toFixed(2)} €`;
-  }
-
-  function calcDur() {
-    const d = dict[lang];
-    const ah = Math.max(0, Math.floor(parseFloat(document.getElementById("durAh").value) || 0));
-    const am = Math.min(59, Math.max(0, Math.floor(parseFloat(document.getElementById("durAm").value) || 0)));
-    const bh = Math.max(0, Math.floor(parseFloat(document.getElementById("durBh").value) || 0));
-    const bm = Math.min(59, Math.max(0, Math.floor(parseFloat(document.getElementById("durBm").value) || 0)));
-    const op = document.getElementById("opSel").value;
-    const resMins = op === "sub" ? (ah * 60 + am) - (bh * 60 + bm) : (ah * 60 + am) + (bh * 60 + bm);
-    document.getElementById("outDurHM").textContent = fmtHM(resMins);
-    document.getElementById("outDurDec").textContent = `${(resMins / 60).toFixed(2)} h`;
-    const notice = document.getElementById("durNotice");
-    if (op === "sub" && resMins < 0) {
-      notice.textContent = d.subNegMsg;
-      notice.style.display = "block";
-    } else {
-      notice.style.display = "none";
-    }
+    updateWeekTotalsOnly(weekData);
   }
 
   function convHmToDec() {
-    const h = Math.max(0, Math.floor(parseFloat(document.getElementById("inH").value) || 0));
-    const m = Math.min(59, Math.max(0, parseFloat(document.getElementById("inM").value) || 0));
+    const hEl = document.getElementById("inH"), mEl = document.getElementById("inM");
+    if (parseFloat(hEl.value) < 0) hEl.value = "0";
+    if (parseFloat(mEl.value) < 0) mEl.value = "0";
+    if (parseFloat(mEl.value) > 59) mEl.value = "59";
+    const h = Math.floor(parseFloat(hEl.value) || 0);
+    const m = parseFloat(mEl.value) || 0;
     document.getElementById("outDec").textContent = `${(h + m / 60).toFixed(2)} h`;
   }
 
   function convDecToHm() {
-    const dec = Math.max(0, parseFloat(document.getElementById("inDec").value) || 0);
+    const dEl = document.getElementById("inDec");
+    if (parseFloat(dEl.value) < 0) dEl.value = "0";
+    const dec = parseFloat(dEl.value) || 0;
     document.getElementById("outHm").textContent = fmtHM(Math.round(dec * 60));
   }
 
   function calcRoof() {
     const d = dict[lang];
-    const empPan = Math.max(0, parseFloat(document.getElementById("inEmpPan").value) || 0);
-    const empCroupe = Math.max(0, parseFloat(document.getElementById("inEmpCroupe").value) || 0);
-    const egout = Math.max(0, parseFloat(document.getElementById("inEgout").value) || 0);
-    const h = Math.max(0, parseFloat(document.getElementById("inHaut").value) || 0);
+    ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => {
+      const el = document.getElementById(id);
+      if (parseFloat(el.value) < 0) el.value = "0";
+    });
+    const empPan = parseFloat(document.getElementById("inEmpPan").value) || 0;
+    const empCroupe = parseFloat(document.getElementById("inEmpCroupe").value) || 0;
+    const egout = parseFloat(document.getElementById("inEgout").value) || 0;
+    const h = parseFloat(document.getElementById("inHaut").value) || 0;
 
     const rawFaitage = egout - 2 * empCroupe;
     const faitage = Math.max(0, rawFaitage);
@@ -811,19 +683,6 @@
     document.getElementById("outSurface").textContent = `${totalArea.toFixed(2)} m²`;
   }
 
-  function copyStr(text, btn) {
-    const d = dict[lang];
-    const done = () => {
-      btn.textContent = d.btnCopied;
-      setTimeout(() => { btn.textContent = d.btnCopy; }, 1500);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done).catch(done);
-    } else {
-      done();
-    }
-  }
-
   function applyLang() {
     document.documentElement.lang = lang;
     const d = dict[lang];
@@ -833,8 +692,6 @@
       if (d[k] && typeof d[k] === "string") el.textContent = d[k];
     });
     buildWeekDOM();
-    calcPay();
-    calcDur();
     convHmToDec();
     convDecToHm();
     calcRoof();
@@ -857,105 +714,28 @@
   document.getElementById("printWeekBtn").addEventListener("click", () => window.print());
   document.getElementById("resetWeekBtn").addEventListener("click", function () {
     if (!window.confirm(dict[lang].confirmResetMsg)) return;
-    const mon = getMondayOfWeek(weekOffset);
-    saveWeekData(mon, defaultWeekData());
+    saveWeekData(getMondayOfWeek(weekOffset), defaultWeekData());
     buildWeekDOM();
   });
   document.getElementById("copyWeekBtn").addEventListener("click", function () {
-    const d = dict[lang];
-    const mon = getMondayOfWeek(weekOffset);
-    copyStr(`${d.weekWord} ${getISOWeekNumber(mon)} (${mon.getFullYear()}) — ${d.lblWeekTotal}: ${document.getElementById("weekTotalHM").textContent} (${document.getElementById("weekTotalDec").textContent})`, this);
+    const d = dict[lang], btn = this, mon = getMondayOfWeek(weekOffset);
+    const txt = `${d.weekWord} ${getISOWeekNumber(mon)} (${mon.getFullYear()}) — ${d.lblWeekTotal}: ${document.getElementById("weekTotalHM").textContent} (${document.getElementById("weekTotalDec").textContent})`;
+    const done = () => { btn.textContent = d.btnCopied; setTimeout(() => { btn.textContent = d.btnCopy; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done).catch(done);
+    else done();
   });
 
-  ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => {
-    document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcPay(); });
-  });
-  document.querySelectorAll("[data-ot]").forEach(b => {
-    b.addEventListener("click", () => { document.getElementById("inOtPct").value = b.getAttribute("data-ot"); calcPay(); });
-  });
-  document.getElementById("resetPayBtn").addEventListener("click", () => {
-    ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => { document.getElementById(id).value = "0"; });
-    calcPay();
-  });
-  document.getElementById("copyPayBtn").addEventListener("click", function () {
-    const d = dict[lang];
-    copyStr([
-      `${d.rTotalHours}: ${document.getElementById("outTotalHours").textContent}`,
-      `${d.rBasePay}: ${document.getElementById("outBasePay").textContent}`,
-      `${d.rOtRate}: ${document.getElementById("outOtRate").textContent}`,
-      `${d.rOtPay}: ${document.getElementById("outOtPay").textContent}`,
-      `${d.rGrandTotal}: ${document.getElementById("outGrandTotal").textContent}`
-    ].join("\n"), this);
-  });
+  document.getElementById("inH").addEventListener("input", convHmToDec);
+  document.getElementById("inM").addEventListener("input", convHmToDec);
+  document.querySelectorAll("[data-m]").forEach(b => b.addEventListener("click", () => { document.getElementById("inM").value = b.getAttribute("data-m"); convHmToDec(); }));
+  document.getElementById("resetHmBtn").addEventListener("click", () => { document.getElementById("inH").value = "0"; document.getElementById("inM").value = "0"; convHmToDec(); });
 
-  ["durAh", "durBh"].forEach(id => {
-    document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcDur(); });
-  });
-  ["durAm", "durBm"].forEach(id => {
-    document.getElementById(id).addEventListener("input", function () { clampMins(this); calcDur(); });
-  });
-  document.getElementById("opSel").addEventListener("change", calcDur);
-  document.getElementById("swapDurBtn").addEventListener("click", () => {
-    const ah = document.getElementById("durAh"), am = document.getElementById("durAm");
-    const bh = document.getElementById("durBh"), bm = document.getElementById("durBm");
-    [ah.value, bh.value] = [bh.value, ah.value];
-    [am.value, bm.value] = [bm.value, am.value];
-    calcDur();
-  });
-  document.getElementById("resetDurBtn").addEventListener("click", () => {
-    ["durAh", "durAm", "durBh", "durBm"].forEach(id => { document.getElementById(id).value = "0"; });
-    document.getElementById("opSel").value = "add";
-    calcDur();
-  });
-  document.getElementById("copyDurBtn").addEventListener("click", function () {
-    copyStr(`${document.getElementById("outDurHM").textContent} (${document.getElementById("outDurDec").textContent})`, this);
-  });
+  document.getElementById("inDec").addEventListener("input", convDecToHm);
+  document.querySelectorAll("[data-dec]").forEach(b => b.addEventListener("click", () => { document.getElementById("inDec").value = Number(b.getAttribute("data-dec")).toFixed(2); convDecToHm(); }));
+  document.getElementById("resetDecBtn").addEventListener("click", () => { document.getElementById("inDec").value = "0"; convDecToHm(); });
 
-  document.getElementById("inH").addEventListener("input", function () { clampNonNeg(this); convHmToDec(); });
-  document.getElementById("inM").addEventListener("input", function () { clampMins(this); convHmToDec(); });
-  document.querySelectorAll("[data-m]").forEach(b => {
-    b.addEventListener("click", () => { document.getElementById("inM").value = b.getAttribute("data-m"); convHmToDec(); });
-  });
-  document.getElementById("resetHmBtn").addEventListener("click", () => {
-    document.getElementById("inH").value = "0"; document.getElementById("inM").value = "0"; convHmToDec();
-  });
-  document.getElementById("copyDecBtn").addEventListener("click", function () {
-    copyStr(document.getElementById("outDec").textContent, this);
-  });
-
-  document.getElementById("inDec").addEventListener("input", function () { clampNonNeg(this); convDecToHm(); });
-  document.querySelectorAll("[data-dec]").forEach(b => {
-    b.addEventListener("click", () => { document.getElementById("inDec").value = Number(b.getAttribute("data-dec")).toFixed(2); convDecToHm(); });
-  });
-  document.getElementById("resetDecBtn").addEventListener("click", () => {
-    document.getElementById("inDec").value = "0"; convDecToHm();
-  });
-  document.getElementById("copyHmBtn").addEventListener("click", function () {
-    copyStr(document.getElementById("outHm").textContent, this);
-  });
-
-  ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => {
-    document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcRoof(); });
-  });
-  document.getElementById("resetRoofBtn").addEventListener("click", () => {
-    ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => { document.getElementById(id).value = "0"; });
-    calcRoof();
-  });
-  document.getElementById("copyRoofBtn").addEventListener("click", function () {
-    const d = dict[lang];
-    copyStr([
-      `${d.rFaitage}: ${document.getElementById("outFaitage").textContent}`,
-      `${d.rChevPan}: ${document.getElementById("outChevPan").textContent}`,
-      `${d.rChevCroupe}: ${document.getElementById("outChevCroupe").textContent}`,
-      `${d.rAretierPlan}: ${document.getElementById("outAretierPlan").textContent}`,
-      `${d.rAretierReel}: ${document.getElementById("outAretierReel").textContent}`,
-      `${d.rPentePan}: ${document.getElementById("outPentePan").textContent}`,
-      `${d.rPenteCroupe}: ${document.getElementById("outPenteCroupe").textContent}`,
-      `${d.rCoupeAplomb}: ${document.getElementById("outCoupeAplomb").textContent}`,
-      `${d.rCoupePied}: ${document.getElementById("outCoupePied").textContent}`,
-      `${d.rSurface}: ${document.getElementById("outSurface").textContent}`
-    ].join("\n"), this);
-  });
+  ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => document.getElementById(id).addEventListener("input", calcRoof));
+  document.getElementById("resetRoofBtn").addEventListener("click", () => { ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => { document.getElementById(id).value = "0"; }); calcRoof(); });
 
   applyLang();
 })();
