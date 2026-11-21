@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colette-Calculator | About, Contact, Terms &amp; Disclaimer</title>
+<style>
+  :root {
+    --bg: #e2e8f0;
+    --surface: #ffffff;
+    --ink: #0f172a;
+    --muted: #334155;
+    --border: #64748b;
+    --border-soft: #cbd5e1;
+    --primary: #1a73e8;
+    --primary-hover: #1557b0;
+    --primary-dark: #103c8c;
+    --soft: #dbeafe;
+    --radius: 16px;
+    --emboss-card: 0 10px 24px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    --emboss-btn: 0 3px 0 #103c8c, 0 5px 10px rgba(26, 115, 232, 0.25);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(180deg, #dce5f2 0%, #e8eef6 100%);
+    color: var(--ink);
+    line-height: 1.65;
+  }
+  .container { width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 18px; }
+
+  .site-header {
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    border-bottom: 2px solid #94a3b8;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .nav-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 12px 0; }
+  .brand { font-weight: 900; font-size: 1.24rem; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+  .brand-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 0 3px #bfdbfe; display: inline-block; }
+  .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .nav-menu a {
+    text-decoration: none; font-size: 0.82rem; font-weight: 800; padding: 6px 12px; border-radius: 9px;
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    border: 1.5px solid #64748b; border-bottom: 3px solid #475569; color: var(--ink);
+  }
+  .nav-menu a.active {
+    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+    border-color: #1e40af; border-bottom: 3px solid #172554; color: #fff;
+  }
+  .lang-btn {
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    color: #fff; border: 1px solid #0f172a; border-bottom: 3px solid #000;
+    padding: 6px 13px; border-radius: 9px; font-weight: 800; font-size: 0.82rem; cursor: pointer;
+  }
+
+  .page-head { background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border-bottom: 2px solid #cbd5e1; padding: 24px 0; margin-bottom: 22px; }
+  .page-head h1 { margin: 0 0 6px; font-size: 1.75rem; font-weight: 900; }
+  .page-head p { margin: 0; color: var(--muted); font-size: 0.96rem; }
+
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .tab-btn {
+    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+    border: 1.5px solid #64748b; border-bottom: 3px solid #475569;
+    color: var(--ink); padding: 8px 16px; border-radius: 9px; font-weight: 800; font-size: 0.86rem; cursor: pointer;
+  }
+  .tab-btn.active { background: var(--primary); border-color: var(--primary-dark); color: #fff; }
+
+  .card {
+    background: #ffffff; border: 2px solid #60a5fa; border-top: 6px solid var(--primary);
+    border-bottom: 4px solid #2563eb; border-radius: var(--radius);
+    padding: 24px; box-shadow: var(--emboss-card); margin-bottom: 22px;
+    scroll-margin-top: 78px;
+  }
+  .card h2 { margin: 0 0 12px; font-size: 1.25rem; font-weight: 900; color: var(--ink); }
+  .card p, .card li { color: var(--muted); font-size: 0.95rem; }
+  .card ul { padding-left: 20px; margin: 10px 0; }
+
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 0.84rem; font-weight: 800; color: var(--ink); margin-bottom: 6px; }
+  input, textarea {
+    width: 100%; padding: 10px 12px; border: 2px solid #64748b; border-radius: 9px;
+    font-size: 0.95rem; font-family: inherit; font-weight: 600;
+    box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.08);
+  }
+  textarea { min-height: 115px; resize: vertical; }
+  .btn {
+    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff; border: 1px solid #1e40af; padding: 10px 18px; border-radius: 10px;
+    font-weight: 800; cursor: pointer; box-shadow: var(--emboss-btn);
+  }
+  .btn:hover { background: var(--primary-hover); }
+  .msg-ok { margin-top: 14px; padding: 13px; border-radius: 9px; background: var(--soft); border: 2px solid #3b82f6; font-weight: 800; font-size: 0.9rem; color: var(--primary-dark); display: none; }
+
+  .site-footer { border-top: 2px solid #94a3b8; background: #ffffff; padding: 24px 0 32px; text-align: center; font-size: 0.88rem; color: var(--muted); margin-top: 30px; }
+  .footer-links { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+  .footer-links a { color: var(--ink); text-decoration: none; font-weight: 800; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav-bar">
+    <a href="index.html" class="brand"><span class="brand-dot"></span>Colette-Calculator</a>
+    <div class="nav-menu">
+      <a href="index.html" data-t="navP1">Page 1 (Outils 01–03)</a>
+      <a href="page2.html" data-t="navP2">Page 2 (Outils 04–06)</a>
+      <a href="pages.html" class="active" data-t="navInfo">About &amp; Legal</a>
+      <button type="button" id="langBtn" class="lang-btn" onclick="toggleLang()">EN</button>
+    </div>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="container">
+    <h1 data-t="headTitle">Colette-Calculator — About, Contact, Terms &amp; Disclaimer</h1>
+    <p data-t="headSub">Présentation complète des outils, formulaire de contact, conditions d'utilisation et avertissement légal.</p>
+  </div>
+</section>
+
+<main class="container">
+  <div class="tabs">
+    <button type="button" class="tab-btn active" data-sec="about" data-t="tabAbout">About</button>
+    <button type="button" class="tab-btn" data-sec="contact" data-t="tabContact">Contact</button>
+    <button type="button" class="tab-btn" data-sec="terms" data-t="tabTerms">Terms</button>
+    <button type="button" class="tab-btn" data-sec="disclaimer" data-t="tabDisclaimer">Disclaimer</button>
+  </div>
+
+  <section class="card" id="about">
+    <h2 data-t="aboutTitle">About Colette-Calculator</h2>
+    <p data-t="aboutP1">Colette-Calculator est une suite de 6 outils gratuits et instantanés répartis sur deux pages pour simplifier la gestion du temps, des feuilles d'heures, des calculs de rémunération et de la géométrie de toiture.</p>
+    <ul>
+      <li data-t="aboutLi1">Page 1 (Outils 01 à 03) : Additionneur de plages horaires, soustracteur de pauses et convertisseur heures-minutes ↔ centièmes (1/100e).</li>
+      <li data-t="aboutLi2">Page 2 (Outils 04 à 06) : Feuille de pointage hebdomadaire imprimable, calculateur heures &amp; salaire et calculateur charpente toiture en croupe avec schéma dynamique.</li>
+      <li data-t="aboutLi3">Confidentialité : tous les calculs s'exécutent localement dans votre navigateur sans création de compte.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="contact">
+    <h2 data-t="contactTitle">Contact Colette-Calculator</h2>
+    <p data-t="contactP1">Une question, une suggestion d'amélioration ou un signalement ? Utilisez le formulaire ci-dessous pour générer votre message de contact.</p>
+    <form id="contactForm">
+      <div class="field"><label for="cName" data-t="lblName">Votre nom</label><input type="text" id="cName" required></div>
+      <div class="field"><label for="cEmail" data-t="lblEmail">Votre adresse e-mail</label><input type="email" id="cEmail" required></div>
+      <div class="field"><label for="cMsg" data-t="lblMsg">Votre message</label><textarea id="cMsg" required></textarea></div>
+      <button type="submit" class="btn" data-t="btnSend">Envoyer / Générer le message</button>
+    </form>
+    <div id="contactStatus" class="msg-ok"></div>
+  </section>
+
+  <section class="card" id="terms">
+    <h2 data-t="termsTitle">Terms of Use (Conditions d'Utilisation)</h2>
+    <p data-t="termsP1">L'accès et l'utilisation de Colette-Calculator sont ouverts à tous à titre personnel ou professionnel pour des besoins d'estimation, d'organisation et de vérification.</p>
+    <ul>
+      <li data-t="termsLi1">Vous vous engagez à utiliser les outils de manière licite et à vérifier chaque résultat avant toute transmission comptable, salariale ou technique.</li>
+      <li data-t="termsLi2">Colette-Calculator peut faire évoluer ses outils, sa mise en page ou ses contenus à tout moment sans préavis.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="disclaimer">
+    <h2 data-t="discTitle">Disclaimer (Avertissement)</h2>
+    <p data-t="discP1">Tous les calculs fournis par Colette-Calculator sont donnés exclusivement à titre indicatif et pédagogique.</p>
+    <ul>
+      <li data-t="discLi1">Temps &amp; Paie : les règles de majoration, pauses obligatoires et conventions collectives varient selon votre pays et votre contrat.</li>
+      <li data-t="discLi2">Charpente &amp; Toiture : les dimensions, pentes et angles calculés doivent toujours être contrôlés sur site par un professionnel qualifié avant toute découpe.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div><strong>Colette-Calculator</strong></div>
+    <div class="footer-links">
+      <a href="index.html" data-t="navP1">Page 1 (Outils 01–03)</a>
+      <a href="page2.html" data-t="navP2">Page 2 (Outils 04–06)</a>
+      <a href="pages.html#about" data-t="tabAbout">About</a>
+      <a href="pages.html#contact" data-t="tabContact">Contact</a>
+      <a href="pages.html#terms" data-t="tabTerms">Terms</a>
+      <a href="pages.html#disclaimer" data-t="tabDisclaimer">Disclaimer</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const LANG_KEY = "colette_calc_lang_v1";
+  let lang = "fr";
+  const dict = {
+    fr: {
+      btn: "EN", navP1: "Page 1 (Outils 01–03)", navP2: "Page 2 (Outils 04–06)", navInfo: "About & Legal",
+      headTitle: "Colette-Calculator — About, Contact, Terms & Disclaimer",
+      headSub: "Présentation complète des outils, formulaire de contact, conditions d'utilisation et avertissement légal.",
+      tabAbout: "About", tabContact: "Contact", tabTerms: "Terms", tabDisclaimer: "Disclaimer",
+      aboutTitle: "About Colette-Calculator",
+      aboutP1: "Colette-Calculator est une suite de 6 outils gratuits et instantanés répartis sur deux pages pour simplifier la gestion du temps, des feuilles d'heures, des calculs de rémunération et de la géométrie de toiture.",
+      aboutLi1: "Page 1 (Outils 01 à 03) : Additionneur de plages horaires, soustracteur de pauses et convertisseur heures-minutes ↔ centièmes (1/100e).",
+      aboutLi2: "Page 2 (Outils 04 à 06) : Feuille de pointage hebdomadaire imprimable, calculateur heures & salaire et calculateur charpente toiture en croupe avec schéma dynamique.",
+      aboutLi3: "Confidentialité : tous les calculs s'exécutent localement dans votre navigateur sans création de compte.",
+      contactTitle: "Contact Colette-Calculator",
+      contactP1: "Une question, une suggestion d'amélioration ou un signalement ? Utilisez le formulaire ci-dessous pour générer votre message de contact.",
+      lblName: "Votre nom", lblEmail: "Votre adresse e-mail", lblMsg: "Votre message", btnSend: "Envoyer / Générer le message",
+      sentPrefix: "Message enregistré pour",
+      termsTitle: "Terms of Use (Conditions d'Utilisation)",
+      termsP1: "L'accès et l'utilisation de Colette-Calculator sont ouverts à tous à titre personnel ou professionnel pour des besoins d'estimation, d'organisation et de vérification.",
+      termsLi1: "Vous vous engagez à utiliser les outils de manière licite et à vérifier chaque résultat avant toute transmission comptable, salariale ou technique.",
+      termsLi2: "Colette-Calculator peut faire évoluer ses outils, sa mise en page ou ses contenus à tout moment sans préavis.",
+      discTitle: "Disclaimer (Avertissement)",
+      discP1: "Tous les calculs fournis par Colette-Calculator sont donnés exclusivement à titre indicatif et pédagogique.",
+      discLi1: "Temps & Paie : les règles de majoration, pauses obligatoires et conventions collectives varient selon votre pays et votre contrat.",
+      discLi2: "Charpente & Toiture : les dimensions, pentes et angles calculés doivent toujours être contrôlés sur site par un professionnel qualifié avant toute découpe."
+    },
+    en: {
+      btn: "FR", navP1: "Page 1 (Tools 01–03)", navP2: "Page 2 (Tools 04–06)", navInfo: "About & Legal",
+      headTitle: "Colette-Calculator — About, Contact, Terms & Disclaimer",
+      headSub: "Full overview of our tools, contact form, terms of use, and legal disclaimer.",
+      tabAbout: "About", tabContact: "Contact", tabTerms: "Terms", tabDisclaimer: "Disclaimer",
+      aboutTitle: "About Colette-Calculator",
+      aboutP1: "Colette-Calculator is a suite of 6 free, instant browser calculators across two pages designed to simplify time tracking, timesheets, pay estimates, and hip roof framing geometry.",
+      aboutLi1: "Page 1 (Tools 01 to 03): Time slot adder, break subtractor, and hours-minutes ↔ hundredths (1/100e) converter.",
+      aboutLi2: "Page 2 (Tools 04 to 06): Printable weekly timesheet, working hours & pay calculator, and hip roof framing calculator with live diagram.",
+      aboutLi3: "Privacy: all calculations run locally in your browser with no account required.",
+      contactTitle: "Contact Colette-Calculator",
+      contactP1: "Have a question, feature suggestion, or feedback? Use the form below to prepare your contact message.",
+      lblName: "Your name", lblEmail: "Your email address", lblMsg: "Your message", btnSend: "Send / Prepare Message",
+      sentPrefix: "Message prepared for",
+      termsTitle: "Terms of Use",
+      termsP1: "Colette-Calculator is provided for personal and professional estimation, planning, and verification purposes.",
+      termsLi1: "You agree to use the tools lawfully and verify all outputs before submitting official payroll, billing, or construction figures.",
+      termsLi2: "Colette-Calculator may update tools, layouts, or content at any time without prior notice.",
+      discTitle: "Disclaimer",
+      discP1: "All calculations provided by Colette-Calculator are for reference and educational purposes only.",
+      discLi1: "Time & Pay: overtime rules, mandatory breaks, and labor agreements vary by jurisdiction and contract.",
+      discLi2: "Framing & Roof: calculated dimensions, pitches, and cut angles must always be verified on site by a qualified professional prior to cutting."
+    }
+  };
+
+  function applyLang() {
+    document.documentElement.lang = lang; const d = dict[lang];
+    document.getElementById("langBtn").textContent = d.btn;
+    document.querySelectorAll("[data-t]").forEach(el => { const k = el.getAttribute("data-t"); if (d[k]) el.textContent = d[k]; });
+  }
+
+  window.toggleLang = function () { lang = lang === "fr" ? "en" : "fr"; try { localStorage.setItem(LANG_KEY, lang); } catch (e) {} applyLang(); };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    try { const s = localStorage.getItem(LANG_KEY); if (s === "en" || s === "fr") lang = s; } catch (e) {}
+    applyLang();
+
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const target = document.getElementById(btn.getAttribute("data-sec"));
+        if (target) target.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("cName").value.trim();
+      const email = document.getElementById("cEmail").value.trim();
+      const msg = document.getElementById("cMsg").value.trim();
+      const box = document.getElementById("contactStatus");
+      box.textContent = `${dict[lang].sentPrefix} Colette-Calculator — ${name} (${email}): "${msg}"`;
+      box.style.display = "block";
+    });
+  });
+})();
+</script>
+</body>
+</html>
