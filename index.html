@@ -3,222 +3,309 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colette-Calculator — Temps de Travail</title>
+<title>Calculette-tools | Calculateur de Temps de Travail</title>
 <style>
-  * { box-sizing: border-box; }
+  :root {
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --ink: #0f172a;
+    --muted: #475569;
+    --border: #cbd5e1;
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --soft: #eff6ff;
+    --warn-bg: #fffbeb;
+    --warn-border: #fde68a;
+    --warn-ink: #92400e;
+    --radius: 14px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f1f5f9;
-    color: #0f172a;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
     line-height: 1.5;
   }
+  .container { max-width: 1020px; margin: 0 auto; padding: 0 16px; }
+
   header {
-    background: #ffffff;
-    border-bottom: 1px solid #cbd5e1;
-    padding: 14px 20px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav-bar {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 0;
   }
-  .brand { font-size: 20px; font-weight: 800; color: #0f172a; text-decoration: none; }
-  .nav-group { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .brand { font-weight: 800; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+  .nav-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
   .nav-link {
     text-decoration: none;
-    background: #e2e8f0;
-    color: #0f172a;
-    padding: 8px 14px;
-    border-radius: 6px;
+    font-size: 0.85rem;
     font-weight: 700;
-    font-size: 14px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    background: #e2e8f0;
+    color: var(--ink);
   }
-  .nav-link.primary { background: #2563eb; color: #ffffff; }
+  .nav-link.primary { background: var(--primary); color: #ffffff; }
   .lang-btn {
-    background: #0f172a;
+    background: var(--ink);
     color: #ffffff;
     border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
+    padding: 7px 13px;
+    border-radius: 8px;
     font-weight: 700;
+    font-size: 0.85rem;
     cursor: pointer;
   }
-  main { max-width: 960px; margin: 24px auto; padding: 0 16px; }
-  .card {
-    background: #ffffff;
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    padding: 20px;
+
+  .hero {
+    background: linear-gradient(135deg, #0f172a, #1d4ed8);
+    color: #ffffff;
+    padding: 24px 0;
     margin-bottom: 20px;
   }
-  h1 { margin: 0 0 6px; font-size: 26px; }
-  h2 { margin: 0 0 14px; font-size: 19px; }
-  .sub { margin: 0 0 18px; color: #475569; }
+  .hero h1 { margin: 0 0 6px; font-size: 1.65rem; }
+  .hero p { margin: 0; color: #dbeafe; font-size: 0.95rem; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 18px;
+  }
+  .card h2 { margin: 0 0 14px; font-size: 1.1rem; }
+
   .slot-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.8fr) 36px;
     gap: 10px;
-    background: #f8fafc;
-    border: 1px solid #cbd5e1;
+    align-items: end;
     padding: 10px;
-    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
     margin-bottom: 10px;
+    background: #f8fafc;
   }
-  .slot-row label { font-size: 13px; font-weight: 700; color: #334155; }
+  .slot-row.disabled { opacity: 0.55; }
+  @media (max-width: 760px) {
+    .slot-row { grid-template-columns: 28px repeat(2, minmax(0, 1fr)) 36px; }
+  }
+  .field label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
   input[type="time"], input[type="number"] {
-    padding: 7px 9px;
+    width: 100%;
+    padding: 8px 10px;
     border: 1px solid #94a3b8;
-    border-radius: 6px;
-    font-size: 15px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #ffffff;
+    color: var(--ink);
   }
-  input[type="number"] { width: 85px; }
-  .pill {
-    background: #dbeafe;
-    color: #1e3a8a;
-    padding: 7px 10px;
-    border-radius: 6px;
-    font-weight: 700;
-    font-size: 14px;
+  .out-pill {
+    padding: 8px 10px;
+    background: var(--soft);
+    border: 1px solid #93c5fd;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.88rem;
+    color: var(--primary-dark);
+    text-align: center;
+    white-space: nowrap;
   }
+  .del-btn {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .del-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
   .btn {
-    background: #2563eb;
+    background: var(--primary);
     color: #ffffff;
     border: none;
-    padding: 9px 14px;
-    border-radius: 6px;
+    padding: 9px 15px;
+    border-radius: 8px;
     font-weight: 700;
     cursor: pointer;
-    font-size: 14px;
   }
-  .btn.sec { background: #e2e8f0; color: #0f172a; }
-  .btn.del { background: #fee2e2; color: #b91c1c; }
-  .total-box {
-    margin-top: 14px;
-    background: #eff6ff;
-    border: 1px solid #93c5fd;
-    padding: 14px;
+  .btn-sec {
+    background: #e2e8f0;
+    color: var(--ink);
+    border: none;
+    padding: 9px 14px;
     border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .total-bar {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: var(--soft);
+    border: 1px solid #93c5fd;
+    border-radius: 10px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
     font-weight: 800;
-    font-size: 17px;
   }
-  .sub-line { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
-  .warn {
+  .sub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+    align-items: end;
+  }
+  .hm-pair { display: flex; align-items: center; gap: 6px; }
+  .notice {
     margin-top: 10px;
-    padding: 10px;
-    background: #fef3c7;
-    border: 1px solid #f59e0b;
-    color: #92400e;
-    border-radius: 6px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    color: var(--warn-ink);
     font-weight: 700;
+    font-size: 0.86rem;
     display: none;
   }
   footer {
     text-align: center;
-    padding: 20px;
-    color: #475569;
-    font-size: 14px;
-    border-top: 1px solid #cbd5e1;
-    background: #ffffff;
-    margin-top: 30px;
+    padding: 20px 16px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    margin-top: 24px;
   }
 </style>
 </head>
 <body>
 
 <header>
-  <a class="brand" href="./index.html">Colette-Calculator</a>
-  <div class="nav-group">
-    <a class="nav-link" href="./index.html" data-t="p1">Page 1: Time</a>
-    <a class="nav-link primary" href="./page2.html" data-t="p2">Page 2: Other Tools →</a>
-    <button type="button" class="lang-btn" id="langBtn">EN</button>
+  <div class="container nav-bar">
+    <a href="./index.html" class="brand">Calculette-tools</a>
+    <div class="nav-actions">
+      <a href="./index.html" class="nav-link" data-t="p1">Page 1: Temps</a>
+      <a href="./page2.html" class="nav-link primary" data-t="p2">Page 2: Autres Outils →</a>
+      <button type="button" class="lang-btn" id="langBtn">EN</button>
+    </div>
   </div>
 </header>
 
-<main>
-  <h1 data-t="title">Working Time Calculator</h1>
-  <p class="sub" data-t="subtitle">Add daily time slots or subtract break durations in HH:MM and decimal hours (1/100e).</p>
+<section class="hero">
+  <div class="container">
+    <h1 data-t="title">Calculateur de Temps de Travail</h1>
+    <p data-t="sub">Additionnez vos plages horaires ou soustrayez vos pauses en heures-minutes et centièmes (1/100e).</p>
+  </div>
+</section>
 
+<main class="container">
   <section class="card">
-    <h2 data-t="s1">1. Daily Time Slots</h2>
+    <h2 data-t="s1">1. Additionner des plages horaires</h2>
     <div id="slotsWrap"></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
-      <button type="button" class="btn" id="addSlot" data-t="add">+ Add Slot</button>
-      <button type="button" class="btn sec" id="resetSlots" data-t="reset">Reset</button>
+    <div class="toolbar">
+      <button type="button" class="btn" id="addSlotBtn" data-t="add">+ Ajouter une plage</button>
+      <button type="button" class="btn-sec" id="resetSlotBtn" data-t="reset">Reset (0)</button>
     </div>
-    <div class="total-box">
-      <span data-t="total">TOTAL</span>
-      <div><span id="totHM">00h 00min</span> · <span id="totDec">0.00 h</span></div>
+    <div class="total-bar">
+      <span data-t="total">TOTAL JOURNALIER</span>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span id="totHM">00h 00min</span>
+        <span>·</span>
+        <span id="totDec">0.00 h</span>
+        <button type="button" class="btn-sec" id="copyTotBtn" data-t="copy">Copier</button>
+      </div>
     </div>
   </section>
 
   <section class="card">
-    <h2 data-t="s2">2. Subtract Duration (e.g. Break)</h2>
-    <div class="sub-line">
-      <div>
-        <strong data-t="durA">Duration A:</strong>
-        <input type="number" id="ah" min="0" value="8"> h
-        <input type="number" id="am" min="0" max="59" value="0"> min
+    <h2 data-t="s2">2. Soustraire deux durées (ex. pause)</h2>
+    <div class="sub-grid">
+      <div class="field">
+        <label for="ah" data-t="durA">Durée totale (A)</label>
+        <div class="hm-pair">
+          <input type="number" id="ah" min="0" value="0"><span>h</span>
+          <input type="number" id="am" min="0" max="59" value="0"><span>min</span>
+        </div>
       </div>
-      <div>
-        <strong data-t="durB">Subtract B:</strong>
-        <input type="number" id="bh" min="0" value="0"> h
-        <input type="number" id="bm" min="0" max="59" value="30"> min
+      <div class="field">
+        <label for="bh" data-t="durB">Pause / À déduire (B)</label>
+        <div class="hm-pair">
+          <input type="number" id="bh" min="0" value="0"><span>h</span>
+          <input type="number" id="bm" min="0" max="59" value="0"><span>min</span>
+        </div>
       </div>
-      <div>
-        <strong data-t="net">Net:</strong>
-        <span class="pill" id="subOut">07h 30min (7.50 h)</span>
+      <div class="field">
+        <label data-t="net">Temps net (A − B)</label>
+        <div class="out-pill" id="subOut">00h 00min (0.00 h)</div>
       </div>
     </div>
-    <div class="warn" id="subWarn"></div>
+    <div class="notice" id="subNotice"></div>
+    <div class="toolbar">
+      <button type="button" class="btn-sec" id="resetSubBtn" data-t="reset">Reset (0)</button>
+    </div>
   </section>
 </main>
 
 <footer>
-  Colette-Calculator · <a href="./page2.html" data-t="p2">Page 2: Other Tools →</a>
+  Calculette-tools · <a href="./page2.html" data-t="p2">Page 2: Autres Outils →</a>
 </footer>
 
 <script>
 (function () {
-  let lang = "en";
+  const LANG_KEY = "calculette_lang_v1";
+  let lang = "fr";
   let slots = [
-    { start: "08:00", end: "12:00", on: true },
-    { start: "13:00", end: "17:00", on: true }
+    { start: "00:00", end: "00:00", active: true },
+    { start: "00:00", end: "00:00", active: true }
   ];
 
   const t = {
+    fr: {
+      btn: "EN", p1: "Page 1: Temps", p2: "Page 2: Autres Outils →",
+      title: "Calculateur de Temps de Travail",
+      sub: "Additionnez vos plages horaires ou soustrayez vos pauses en heures-minutes et centièmes (1/100e).",
+      s1: "1. Additionner des plages horaires", add: "+ Ajouter une plage", reset: "Reset (0)",
+      total: "TOTAL JOURNALIER", copy: "Copier", copied: "Copié !",
+      start: "Heure début", end: "Heure fin", dur: "Durée", dec: "1/100e", ov: "+1j",
+      s2: "2. Soustraire deux durées (ex. pause)", durA: "Durée totale (A)", durB: "Pause / À déduire (B)",
+      net: "Temps net (A − B)", warn: "La pause (B) dépasse la durée (A) : temps net ramené à 00h 00min."
+    },
     en: {
       btn: "FR", p1: "Page 1: Time", p2: "Page 2: Other Tools →",
       title: "Working Time Calculator",
-      subtitle: "Add daily time slots or subtract break durations in HH:MM and decimal hours (1/100e).",
-      s1: "1. Daily Time Slots", add: "+ Add Slot", reset: "Reset", total: "TOTAL",
-      start: "Start", end: "End", del: "Remove", ov: "+1d",
-      s2: "2. Subtract Duration (e.g. Break)", durA: "Duration A:", durB: "Subtract B:", net: "Net:",
-      warn: "B is larger than A; net time is 00h 00min."
-    },
-    fr: {
-      btn: "EN", p1: "Page 1 : Temps", p2: "Page 2 : Autres Outils →",
-      title: "Calculateur de Temps de Travail",
-      subtitle: "Additionnez vos plages horaires ou soustrayez vos pauses en HH:MM et centièmes (1/100e).",
-      s1: "1. Plages horaires", add: "+ Ajouter", reset: "Reset", total: "TOTAL",
-      start: "Début", end: "Fin", del: "Suppr.", ov: "+1j",
-      s2: "2. Soustraire une durée (ex. pause)", durA: "Durée A :", durB: "Déduire B :", net: "Net :",
-      warn: "B dépasse A ; temps net ramené à 00h 00min."
+      sub: "Add daily time slots or subtract breaks in hours-minutes and hundredths (1/100e).",
+      s1: "1. Add Time Slots", add: "+ Add time slot", reset: "Reset (0)",
+      total: "DAILY TOTAL", copy: "Copy", copied: "Copied!",
+      start: "Start time", end: "End time", dur: "Duration", dec: "1/100e", ov: "+1d",
+      s2: "2. Subtract Two Durations (e.g. break)", durA: "Total duration (A)", durB: "Break / Deduct (B)",
+      net: "Net time (A − B)", warn: "Break (B) exceeds duration (A); net time clamped to 00h 00min."
     }
   };
 
-  function hm(mins) {
-    const m = Math.max(0, Math.round(mins));
-    return `${String(Math.floor(m / 60)).padStart(2, "0")}h ${String(m % 60).padStart(2, "0")}min`;
+  function fmtHM(mins) {
+    const sign = mins < 0 ? "-" : "";
+    const abs = Math.abs(Math.round(mins));
+    return `${sign}${String(Math.floor(abs / 60)).padStart(2, "0")}h ${String(abs % 60).padStart(2, "0")}min`;
   }
 
-  function slotMins(s) {
+  function calcSlot(s) {
     if (!s.start || !s.end) return { mins: 0, ov: false };
     const [sh, sm] = s.start.split(":").map(Number);
     const [eh, em] = s.end.split(":").map(Number);
@@ -230,88 +317,173 @@
     return { mins: Math.max(0, b - a), ov };
   }
 
-  function render() {
+  function updateTotalsOnly() {
+    const d = t[lang];
+    let sum = 0;
+    slots.forEach((s, idx) => {
+      const info = calcSlot(s);
+      if (s.active) sum += info.mins;
+      const pDur = document.getElementById(`slotDur-${idx}`);
+      const pDec = document.getElementById(`slotDec-${idx}`);
+      if (pDur) pDur.textContent = fmtHM(info.mins) + (info.ov ? ` ${d.ov}` : "");
+      if (pDec) pDec.textContent = `${(info.mins / 60).toFixed(2)} h`;
+    });
+    document.getElementById("totHM").textContent = fmtHM(sum);
+    document.getElementById("totDec").textContent = `${(sum / 60).toFixed(2)} h`;
+  }
+
+  function buildSlotsDOM() {
+    const d = t[lang];
+    const wrap = document.getElementById("slotsWrap");
+    wrap.innerHTML = "";
+
+    slots.forEach((s, idx) => {
+      const row = document.createElement("div");
+      row.className = "slot-row" + (s.active ? "" : " disabled");
+
+      const chk = document.createElement("input");
+      chk.type = "checkbox";
+      chk.checked = !!s.active;
+      chk.style.width = "18px";
+      chk.style.height = "18px";
+      chk.addEventListener("change", function () {
+        slots[idx].active = this.checked;
+        row.classList.toggle("disabled", !this.checked);
+        updateTotalsOnly();
+      });
+
+      const f1 = document.createElement("div");
+      f1.className = "field";
+      f1.innerHTML = `<label>${d.start}</label>`;
+      const i1 = document.createElement("input");
+      i1.type = "time";
+      i1.value = s.start;
+      i1.addEventListener("input", function () { slots[idx].start = this.value; updateTotalsOnly(); });
+      f1.appendChild(i1);
+
+      const f2 = document.createElement("div");
+      f2.className = "field";
+      f2.innerHTML = `<label>${d.end}</label>`;
+      const i2 = document.createElement("input");
+      i2.type = "time";
+      i2.value = s.end;
+      i2.addEventListener("input", function () { slots[idx].end = this.value; updateTotalsOnly(); });
+      f2.appendChild(i2);
+
+      const f3 = document.createElement("div");
+      f3.className = "field";
+      f3.innerHTML = `<label>${d.dur}</label><div class="out-pill" id="slotDur-${idx}">00h 00min</div>`;
+
+      const f4 = document.createElement("div");
+      f4.className = "field";
+      f4.innerHTML = `<label>${d.dec}</label><div class="out-pill" id="slotDec-${idx}">0.00 h</div>`;
+
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "del-btn";
+      del.textContent = "×";
+      del.disabled = slots.length <= 1;
+      del.addEventListener("click", function () {
+        if (slots.length > 1) { slots.splice(idx, 1); buildSlotsDOM(); }
+      });
+
+      row.append(chk, f1, f2, f3, f4, del);
+      wrap.appendChild(row);
+    });
+
+    updateTotalsOnly();
+  }
+
+  function calcSub() {
+    const d = t[lang];
+    const ahEl = document.getElementById("ah");
+    const amEl = document.getElementById("am");
+    const bhEl = document.getElementById("bh");
+    const bmEl = document.getElementById("bm");
+
+    if (parseFloat(ahEl.value) < 0) ahEl.value = "0";
+    if (parseFloat(bhEl.value) < 0) bhEl.value = "0";
+    if (parseFloat(amEl.value) < 0) amEl.value = "0";
+    if (parseFloat(amEl.value) > 59) amEl.value = "59";
+    if (parseFloat(bmEl.value) < 0) bmEl.value = "0";
+    if (parseFloat(bmEl.value) > 59) bmEl.value = "59";
+
+    const ah = Math.floor(parseFloat(ahEl.value) || 0);
+    const am = Math.floor(parseFloat(amEl.value) || 0);
+    const bh = Math.floor(parseFloat(bhEl.value) || 0);
+    const bm = Math.floor(parseFloat(bmEl.value) || 0);
+    const diff = (ah * 60 + am) - (bh * 60 + bm);
+    const notice = document.getElementById("subNotice");
+    const out = document.getElementById("subOut");
+
+    if (diff < 0) {
+      notice.textContent = d.warn;
+      notice.style.display = "block";
+      out.textContent = "00h 00min (0.00 h)";
+    } else {
+      notice.style.display = "none";
+      out.textContent = `${fmtHM(diff)} (${(diff / 60).toFixed(2)} h)`;
+    }
+  }
+
+  function applyLang() {
+    document.documentElement.lang = lang;
     const d = t[lang];
     document.getElementById("langBtn").textContent = d.btn;
     document.querySelectorAll("[data-t]").forEach(el => {
       const k = el.getAttribute("data-t");
       if (d[k]) el.textContent = d[k];
     });
-
-    const wrap = document.getElementById("slotsWrap");
-    wrap.innerHTML = "";
-    let sum = 0;
-
-    slots.forEach((s, i) => {
-      const info = slotMins(s);
-      if (s.on) sum += info.mins;
-
-      const row = document.createElement("div");
-      row.className = "slot-row";
-
-      const chk = document.createElement("input");
-      chk.type = "checkbox";
-      chk.checked = s.on;
-      chk.onchange = () => { s.on = chk.checked; render(); };
-
-      const l1 = document.createElement("label");
-      l1.textContent = d.start;
-      const i1 = document.createElement("input");
-      i1.type = "time";
-      i1.value = s.start;
-      i1.oninput = () => { s.start = i1.value; render(); };
-
-      const l2 = document.createElement("label");
-      l2.textContent = d.end;
-      const i2 = document.createElement("input");
-      i2.type = "time";
-      i2.value = s.end;
-      i2.oninput = () => { s.end = i2.value; render(); };
-
-      const p1 = document.createElement("span");
-      p1.className = "pill";
-      p1.textContent = hm(info.mins) + (info.ov ? ` (${d.ov})` : "");
-
-      const p2 = document.createElement("span");
-      p2.className = "pill";
-      p2.textContent = `${(info.mins / 60).toFixed(2)} h`;
-
-      const del = document.createElement("button");
-      del.type = "button";
-      del.className = "btn del";
-      del.textContent = d.del;
-      del.disabled = slots.length <= 1;
-      del.onclick = () => { slots.splice(i, 1); render(); };
-
-      row.append(chk, l1, i1, l2, i2, p1, p2, del);
-      wrap.appendChild(row);
-    });
-
-    document.getElementById("totHM").textContent = hm(sum);
-    document.getElementById("totDec").textContent = `${(sum / 60).toFixed(2)} h`;
-
-    const ah = Math.max(0, parseInt(document.getElementById("ah").value, 10) || 0);
-    const am = Math.min(59, Math.max(0, parseInt(document.getElementById("am").value, 10) || 0));
-    const bh = Math.max(0, parseInt(document.getElementById("bh").value, 10) || 0);
-    const bm = Math.min(59, Math.max(0, parseInt(document.getElementById("bm").value, 10) || 0));
-    const diff = (ah * 60 + am) - (bh * 60 + bm);
-    const warn = document.getElementById("subWarn");
-    if (diff < 0) {
-      warn.textContent = d.warn;
-      warn.style.display = "block";
-      document.getElementById("subOut").textContent = "00h 00min (0.00 h)";
-    } else {
-      warn.style.display = "none";
-      document.getElementById("subOut").textContent = `${hm(diff)} (${(diff / 60).toFixed(2)} h)`;
-    }
+    buildSlotsDOM();
+    calcSub();
   }
 
-  document.getElementById("langBtn").onclick = () => { lang = lang === "en" ? "fr" : "en"; render(); };
-  document.getElementById("addSlot").onclick = () => { slots.push({ start: "00:00", end: "00:00", on: true }); render(); };
-  document.getElementById("resetSlots").onclick = () => { slots = [{ start: "00:00", end: "00:00", on: true }]; render(); };
-  ["ah", "am", "bh", "bm"].forEach(id => { document.getElementById(id).oninput = render; });
+  try {
+    const saved = localStorage.getItem(LANG_KEY);
+    if (saved === "en" || saved === "fr") lang = saved;
+  } catch (e) {}
 
-  render();
+  document.getElementById("langBtn").addEventListener("click", function () {
+    lang = lang === "fr" ? "en" : "fr";
+    try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+    applyLang();
+  });
+
+  document.getElementById("addSlotBtn").addEventListener("click", function () {
+    slots.push({ start: "00:00", end: "00:00", active: true });
+    buildSlotsDOM();
+  });
+
+  document.getElementById("resetSlotBtn").addEventListener("click", function () {
+    slots = [{ start: "00:00", end: "00:00", active: true }, { start: "00:00", end: "00:00", active: true }];
+    buildSlotsDOM();
+  });
+
+  document.getElementById("copyTotBtn").addEventListener("click", function () {
+    const d = t[lang];
+    const btn = this;
+    const txt = `${document.getElementById("totHM").textContent} (${document.getElementById("totDec").textContent})`;
+    const done = () => {
+      btn.textContent = d.copied;
+      setTimeout(() => { btn.textContent = d.copy; }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done).catch(done);
+    } else {
+      done();
+    }
+  });
+
+  ["ah", "am", "bh", "bm"].forEach(id => {
+    document.getElementById(id).addEventListener("input", calcSub);
+  });
+
+  document.getElementById("resetSubBtn").addEventListener("click", function () {
+    ["ah", "am", "bh", "bm"].forEach(id => { document.getElementById(id).value = "0"; });
+    calcSub();
+  });
+
+  applyLang();
 })();
 </script>
 </body>
