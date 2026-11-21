@@ -3,447 +3,284 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colette-Calculator | Home — Temps, Pauses &amp; Centièmes (1/100e)</title>
+<title>Colette-Calculator | Home</title>
 <style>
   :root {
     --bg: #e2e8f0;
     --surface: #ffffff;
     --ink: #0f172a;
     --muted: #334155;
-    --border: #64748b;
-    --border-soft: #cbd5e1;
     --primary: #1a73e8;
     --primary-hover: #1557b0;
     --primary-dark: #103c8c;
-    --soft: #dbeafe;
-    --warn-bg: #fef9c3;
-    --warn-border: #eab308;
-    --warn-ink: #713f12;
-    --radius: 16px;
-    --emboss-card: 0 10px 24px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-    --emboss-btn: 0 3px 0 #103c8c, 0 5px 10px rgba(26, 115, 232, 0.25);
-    --emboss-sec: 0 3px 0 #64748b, 0 4px 8px rgba(15, 23, 42, 0.08);
+    --radius: 14px;
   }
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
   body {
     margin: 0;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(180deg, #dce5f2 0%, #e8eef6 100%);
+    background: #eef2f7;
     color: var(--ink);
     line-height: 1.6;
   }
-  .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 18px; }
+  .container { width: 100%; max-width: 1060px; margin: 0 auto; padding: 0 18px; }
 
   .site-header {
-    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-    border-bottom: 2px solid #94a3b8;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    background: #ffffff;
+    border-bottom: 2px solid #cbd5e1;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 20;
   }
-  .nav-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 12px 0; position: relative; z-index: 101; }
-  .brand {
-    font-weight: 900; font-size: 1.24rem; color: var(--ink); text-decoration: none;
-    display: inline-flex; align-items: center; gap: 10px; letter-spacing: -0.02em;
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 0;
   }
-  .brand-dot {
-    width: 12px; height: 12px; border-radius: 50%; background: var(--primary);
-    box-shadow: 0 0 0 3px #bfdbfe; display: inline-block;
-  }
-  .nav-right { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; position: relative; z-index: 102; }
-  .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; position: relative; z-index: 102; }
-  .nav-menu a, .jump-pill, .footer-links a {
-    pointer-events: auto;
-    position: relative;
-    z-index: 103;
-    cursor: pointer;
-  }
+  .brand { font-weight: 900; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
+  .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .nav-menu a {
-    display: inline-flex; align-items: center; justify-content: center;
-    color: var(--ink); background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-    border: 1.5px solid #64748b; border-bottom: 3px solid #475569;
-    text-decoration: none; font-size: 0.82rem; font-weight: 800; padding: 6px 12px; border-radius: 9px; white-space: nowrap;
+    text-decoration: none;
+    color: var(--ink);
+    background: #f8fafc;
+    border: 1.5px solid #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
   }
-  .nav-menu a:hover { color: var(--primary-dark); background: #eff6ff; border-color: var(--primary); }
   .nav-menu a.active {
-    color: #fff; background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-    border-color: #1e40af; border-bottom: 3px solid #172554;
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary-dark);
   }
   .lang-btn {
-    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-    color: #fff; border: 1px solid #0f172a; border-bottom: 3px solid #000;
-    padding: 6px 13px; border-radius: 9px; font-weight: 800; font-size: 0.82rem; cursor: pointer;
-    position: relative; z-index: 103; pointer-events: auto;
+    background: #0f172a;
+    color: #ffffff;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
   }
-  .lang-btn:hover { background: var(--primary); border-color: var(--primary-dark); }
+  .lang-btn:hover { background: var(--primary); }
 
-  .page-head {
-    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-    border-bottom: 2px solid #cbd5e1;
-    padding: 24px 0 20px;
-  }
-  .page-head h1 { margin: 0 0 6px; font-size: clamp(1.5rem, 3.2vw, 2.1rem); font-weight: 900; letter-spacing: -0.02em; }
-  .page-head p { margin: 0; color: var(--muted); font-size: 0.96rem; font-weight: 500; max-width: 820px; }
+  .page-head { padding: 24px 0 16px; }
+  .page-head h1 { margin: 0 0 6px; font-size: 1.8rem; font-weight: 900; }
+  .page-head p { margin: 0; color: var(--muted); }
 
-  .jump-strip { background: #f8fafc; border-bottom: 2px solid #cbd5e1; padding: 11px 0; position: relative; z-index: 20; }
-  .jump-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-  .jump-label { font-size: 0.78rem; font-weight: 900; color: var(--ink); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
-  .jump-pill {
-    display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px; border-radius: 999px;
-    background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
-    border: 1.5px solid #60a5fa; border-bottom: 3px solid #2563eb;
-    color: var(--primary-dark); text-decoration: none; font-size: 0.82rem; font-weight: 800;
-  }
-  .jump-pill:hover { background: var(--primary); color: #fff; border-color: var(--primary-dark); }
-
-  .page-flow { display: flex; flex-direction: column; gap: 26px; padding: 26px 0 32px; }
+  .page-flow { display: flex; flex-direction: column; gap: 22px; padding: 12px 0 36px; }
   .tool-card {
-    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-    border: 2px solid #3b82f6;
-    border-top: 6px solid var(--primary);
-    border-bottom: 4px solid #2563eb;
+    background: var(--surface);
+    border: 1.5px solid #cbd5e1;
+    border-top: 5px solid var(--primary);
     border-radius: var(--radius);
-    padding: 24px;
-    box-shadow: var(--emboss-card);
-    width: 100%;
-    scroll-margin-top: 78px;
+    padding: 20px;
   }
-  .card-head {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-    gap: 10px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0;
-  }
-  .card-head h2 { margin: 0; font-size: 1.22rem; font-weight: 900; display: flex; align-items: center; gap: 10px; }
-  .step-tag {
-    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-    color: #fff; font-size: 0.82rem; font-weight: 900; padding: 4px 11px; border-radius: 8px;
-    box-shadow: 0 2px 0 #1e3a8a;
-  }
-  .tool-status {
-    font-size: 0.76rem; font-weight: 900; color: var(--primary-dark);
-    background: #dbeafe; border: 1.5px solid #60a5fa; padding: 4px 11px; border-radius: 999px;
-  }
-  .tool-intro { margin: 0 0 18px; color: var(--muted); font-size: 0.95rem; font-weight: 500; }
-
-  .tool-meta-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-    gap: 14px; margin-top: 20px; padding-top: 16px; border-top: 2px solid #e2e8f0;
-  }
-  .meta-box {
-    background: #ffffff; border: 1.5px solid #cbd5e1; border-bottom: 3px solid #94a3b8;
-    border-radius: 12px; padding: 14px 16px;
-  }
-  .meta-box h3 { margin: 0 0 6px; font-size: 0.96rem; font-weight: 800; color: var(--ink); }
-  .meta-box p, .meta-list { margin: 0; color: var(--muted); font-size: 0.9rem; }
-  .meta-list { padding-left: 18px; }
-  .meta-list li { margin-bottom: 5px; }
-
-  .between-content {
-    background: #ffffff; border: 1.5px solid #94a3b8; border-left: 6px solid var(--primary);
-    border-bottom: 3px solid #64748b; border-radius: var(--radius); padding: 18px 20px;
-    box-shadow: var(--emboss-card);
-  }
-  .between-content h3 { margin: 0 0 6px; font-size: 1.04rem; font-weight: 800; }
-  .between-content p, .between-list { margin: 0 0 8px; color: var(--muted); font-size: 0.92rem; }
-  .between-list { padding-left: 18px; }
-  .between-list li { margin-bottom: 4px; }
-  .example-strip {
-    padding: 10px 13px; background: #eff6ff; border: 1.5px solid #93c5fd;
-    border-radius: 9px; font-size: 0.88rem; font-weight: 800; color: var(--primary-dark);
-  }
-
-  .ad-box {
-    width: 100%; min-height: 96px; padding: 14px 16px;
-    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-    border: 2px dashed #64748b; border-radius: var(--radius);
-    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 5px;
-  }
-  .ad-tag { font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); background: #e2e8f0; border: 1px solid #94a3b8; padding: 2px 9px; border-radius: 999px; }
-  .ad-placeholder-text { font-size: 0.84rem; color: var(--muted); font-weight: 700; }
+  .tool-card h2 { margin: 0 0 8px; font-size: 1.2rem; font-weight: 900; }
+  .tool-intro { margin: 0 0 16px; color: var(--muted); font-size: 0.94rem; }
 
   .slot-row {
-    display: grid; grid-template-columns: 30px minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 1.15fr) minmax(0, 0.9fr) 38px;
-    gap: 14px; align-items: center; padding: 14px 16px;
-    border: 1.5px solid #94a3b8; border-bottom: 3px solid #64748b;
-    border-radius: 12px; margin-bottom: 12px; background: #ffffff;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.9fr) 36px;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background: #f8fafc;
   }
-  .slot-row.disabled { opacity: 0.52; }
-  .slot-check { width: 19px; height: 19px; cursor: pointer; justify-self: center; margin-top: 16px; }
-  @media (max-width: 760px) { .slot-row { grid-template-columns: 32px repeat(2, minmax(0, 1fr)) 38px; gap: 12px; } .slot-check, .del-btn { margin-top: 0; } }
-  .slot-field label { display: block; font-size: 0.77rem; font-weight: 800; color: var(--muted); margin-bottom: 6px; }
+  @media (max-width: 760px) {
+    .slot-row { grid-template-columns: 28px repeat(2, minmax(0, 1fr)) 36px; }
+  }
+  .slot-field label { display: block; font-size: 0.76rem; font-weight: 800; color: var(--muted); margin-bottom: 4px; }
   input[type="time"], input[type="number"] {
-    width: 100%; min-width: 0; padding: 9px 11px;
-    border: 2px solid #64748b; border-radius: 9px;
-    font-size: 0.98rem; font-weight: 800; background: #ffffff; color: var(--ink);
-    box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.08);
+    width: 100%;
+    padding: 8px 10px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    background: #ffffff;
+    color: var(--ink);
   }
-  input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.22); }
   .out-pill {
-    padding: 9px 12px;
-    background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
-    border: 2px solid #3b82f6; border-bottom: 3px solid #1d4ed8;
-    border-radius: 9px; font-weight: 900; font-size: 0.95rem;
-    color: var(--primary-dark); text-align: center; white-space: nowrap;
+    padding: 8px 10px;
+    background: #eff6ff;
+    border: 1.5px solid #93c5fd;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 0.9rem;
+    color: var(--primary-dark);
+    text-align: center;
   }
-  .overnight-tag { display: inline-block; margin-left: 5px; padding: 1px 6px; border-radius: 999px; background: var(--primary); color: #fff; font-size: 0.7rem; font-weight: 800; }
-  .del-btn { background: #fee2e2; color: #991b1b; border: 1.5px solid #f87171; border-bottom: 3px solid #dc2626; width: 34px; height: 34px; border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 16px; }
-  .del-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-  .toolbar { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
+  .del-btn {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #f87171;
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
   .btn {
-    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-    color: #fff; border: 1px solid #1e40af; padding: 10px 18px; border-radius: 10px;
-    font-weight: 800; font-size: 0.9rem; cursor: pointer; box-shadow: var(--emboss-btn);
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 9px;
+    font-weight: 800;
+    cursor: pointer;
   }
   .btn:hover { background: var(--primary-hover); }
-  .btn:active { transform: translateY(2px); }
   .btn-sec {
-    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
-    color: var(--ink); border: 1.5px solid #64748b; padding: 9px 16px; border-radius: 10px;
-    font-weight: 800; font-size: 0.88rem; cursor: pointer; box-shadow: var(--emboss-sec);
+    background: #e2e8f0;
+    color: var(--ink);
+    border: none;
+    padding: 9px 15px;
+    border-radius: 9px;
+    font-weight: 800;
+    cursor: pointer;
   }
-  .btn-sec:hover { background: #e2e8f0; }
-  .btn-sec:active { transform: translateY(2px); }
-
   .total-bar {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;
-    padding: 16px 18px; background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
-    border: 2px solid #3b82f6; border-bottom: 4px solid #1d4ed8; border-radius: 13px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #eff6ff;
+    border: 1.5px solid #60a5fa;
+    border-radius: 11px;
+    font-weight: 900;
   }
-  .total-label { font-size: 1rem; font-weight: 900; color: var(--ink); }
-  .total-vals { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-  .total-badge {
-    background: #fff; border: 2px solid #2563eb; border-bottom: 3px solid #1e3a8a;
-    padding: 6px 14px; border-radius: 9px; font-weight: 900; font-size: 1.08rem; color: var(--primary-dark);
+  .sub-grid, .conv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 16px;
+    align-items: end;
   }
-  .notice-box { margin-top: 12px; padding: 10px 14px; border-radius: 9px; background: var(--warn-bg); border: 1.5px solid var(--warn-border); color: var(--warn-ink); font-size: 0.88rem; font-weight: 700; display: none; }
-
-  .sub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 18px; align-items: end; }
   .hm-pair { display: flex; align-items: center; gap: 8px; }
-  .hm-pair span { font-size: 0.86rem; font-weight: 800; color: var(--ink); }
-  .conv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; }
   .conv-box {
-    background: #ffffff; border: 1.5px solid #94a3b8; border-bottom: 3px solid #64748b;
-    border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 14px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
-  .conv-box h3 { margin: 0; font-size: 1.02rem; font-weight: 800; }
-
+  .conv-box h3 { margin: 0; font-size: 1rem; font-weight: 800; }
   .site-footer {
-    width: 100%; border-top: 2px solid #94a3b8; background: #ffffff;
-    padding: 24px 0 34px; text-align: center; font-size: 0.88rem; color: var(--muted); margin-top: 28px;
+    border-top: 2px solid #cbd5e1;
+    background: #ffffff;
+    padding: 20px 0 30px;
+    text-align: center;
+    font-size: 0.88rem;
+    color: var(--muted);
   }
-  .footer-links { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+  .footer-links { margin-top: 8px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
   .footer-links a { color: var(--ink); text-decoration: none; font-weight: 800; }
-  .footer-links a:hover { color: var(--primary); }
 </style>
 </head>
 <body>
 
 <header class="site-header">
   <div class="container nav-bar">
-    <a href="index.html" class="brand"><span class="brand-dot"></span>Colette-Calculator</a>
-    <div class="nav-right">
-      <nav class="nav-menu">
-        <a href="index.html" class="active" data-t="navHome">Home (Outils 01–03)</a>
-        <a href="page2.html" id="navPage2Link" data-t="navP2">Page 2 (Outils 04–06)</a>
-        <a href="pages.html" data-t="navInfo">About &amp; Legal</a>
-      </nav>
+    <a href="index.html" class="brand">Colette-Calculator</a>
+    <nav class="nav-menu">
+      <a href="index.html" class="active" data-t="navHome">Home</a>
+      <a href="page2.html" data-t="navP2">Page 2</a>
+      <a href="pages.html" data-t="navInfo">About &amp; Legal</a>
       <button type="button" id="langBtn" class="lang-btn">EN</button>
-    </div>
+    </nav>
   </div>
 </header>
 
 <section class="page-head">
   <div class="container">
     <h1 data-t="pageTitle">Colette-Calculator — Temps, Pauses &amp; Centièmes (1/100e)</h1>
-    <p data-t="pageSub">Home : 3 calculateurs haute visibilité (plages horaires, soustracteur de pause et convertisseur 1/100e) avec guides et espaces publicitaires.</p>
+    <p data-t="pageSub">3 outils essentiels pour vos horaires, pauses et conversions en centièmes.</p>
   </div>
 </section>
-
-<div class="jump-strip">
-  <div class="container jump-inner">
-    <span class="jump-label" data-t="jumpLabel">Accès direct :</span>
-    <a href="#tool-01" class="jump-pill">01 • <span data-t="jump1">Additionneur</span></a>
-    <a href="#tool-02" class="jump-pill">02 • <span data-t="jump2">Soustracteur</span></a>
-    <a href="#tool-03" class="jump-pill">03 • <span data-t="jump3">Convertisseur 1/100e</span></a>
-    <a href="page2.html" class="jump-pill"><span data-t="navP2">Page 2 (Outils 04–06)</span> →</a>
-  </div>
-</div>
 
 <main class="container">
   <div class="page-flow">
 
-    <section class="tool-card" id="tool-01" aria-labelledby="t1Heading">
-      <div class="card-head">
-        <h2 id="t1Heading"><span class="step-tag">01</span> <span data-t="t1Name">Additionneur de Plages Horaires</span></h2>
-        <span class="tool-status" data-t="liveBadge">Outil Actif</span>
-      </div>
-      <p class="tool-intro" data-t="secAddDesc">Saisissez vos heures de début et de fin pour obtenir la durée de chaque plage et le total journalier en heures-minutes et en centièmes.</p>
-
+    <section class="tool-card">
+      <h2 data-t="t1Name">01 • Additionneur de Plages Horaires</h2>
+      <p class="tool-intro" data-t="t1Desc">Ajoutez vos plages horaires pour obtenir la durée et le total en heures-minutes et en centièmes.</p>
       <div id="slotsContainer"></div>
-
       <div class="toolbar">
-        <button type="button" class="btn" id="addSlotBtn" data-t="btnAddSlot">+ Ajouter une plage</button>
+        <button type="button" class="btn" id="addSlotBtn" data-t="btnAdd">+ Ajouter une plage</button>
         <button type="button" class="btn-sec" id="resetSlotsBtn" data-t="btnReset">Reset (0)</button>
       </div>
-
       <div class="total-bar">
-        <span class="total-label" data-t="lblTotal">TOTAL JOURNALIER</span>
-        <div class="total-vals">
-          <span class="total-badge" id="totalHM">00h 00min</span>
-          <span class="total-badge" id="totalDec">0.00 h</span>
-          <button type="button" class="btn-sec" id="copyTotalBtn" data-t="btnCopy">Copier</button>
-        </div>
-      </div>
-
-      <div class="tool-meta-grid">
-        <div class="meta-box">
-          <h3 data-t="lblFeatures">Fonctionnalités</h3>
-          <ul class="meta-list">
-            <li data-t="t1F1">Ajout et suppression dynamiques de plusieurs plages horaires.</li>
-            <li data-t="t1F2">Affichage simultané en heures-minutes (HH:MM) et en centièmes (1/100e).</li>
-            <li data-t="t1F3">Gestion des passages sur le lendemain (+1j) et copie rapide du total.</li>
-          </ul>
-        </div>
-        <div class="meta-box">
-          <h3 data-t="lblUse">Utilisation (Use)</h3>
-          <p data-t="t1U1">Idéal pour additionner les horaires du matin et de l'après-midi, les vacations ou les quarts de nuit afin d'obtenir le temps travaillé total de la journée.</p>
+        <span data-t="lblTotal">TOTAL JOURNALIER</span>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <span class="out-pill" id="totalHM">00h 00min</span>
+          <span class="out-pill" id="totalDec">0.00 h</span>
         </div>
       </div>
     </section>
 
-    <article class="between-content">
-      <h3 data-t="c1Title">Comment additionner plusieurs plages horaires sans erreur ?</h3>
-      <p data-t="c1P1">Additionner plusieurs créneaux (matin, après-midi ou nuit) est plus rapide lorsqu'on convertit tout en minutes avant de repasser en heures-minutes et centièmes.</p>
-      <ul class="between-list">
-        <li data-t="c1B1">Décochez une ligne pour tester une variante sans effacer vos horaires.</li>
-        <li data-t="c1B2">Les passages après minuit (+1j / +1d) sont calculés automatiquement.</li>
-      </ul>
-      <div class="example-strip" data-t="c1Ex">Exemple : 08:00 → 12:00 (4h 00min) + 13:00 → 17:30 (4h 30min) = 08h 30min (8.50 h).</div>
-    </article>
-
-    <div class="ad-box" id="adSlot1" aria-label="Advertisement 1">
-      <span class="ad-tag" data-t="adLabel">Publicité / Ad Space</span>
-      <span class="ad-placeholder-text" data-t="ad1Text">Emplacement publicitaire entre l'outil 01 et l'outil 02 (728×90 / Responsive)</span>
-    </div>
-
-    <section class="tool-card" id="tool-02" aria-labelledby="t2Heading">
-      <div class="card-head">
-        <h2 id="t2Heading"><span class="step-tag">02</span> <span data-t="t2Name">Soustracteur de Durées &amp; Pauses</span></h2>
-        <span class="tool-status" data-t="liveBadge">Outil Actif</span>
-      </div>
-      <p class="tool-intro" data-t="secSubDesc">Déduisez une pause ou un temps d'arrêt (B) d'une durée globale (A) pour calculer le temps de travail effectif.</p>
-
+    <section class="tool-card">
+      <h2 data-t="t2Name">02 • Soustracteur de Durées &amp; Pauses</h2>
+      <p class="tool-intro" data-t="t2Desc">Déduisez une pause (B) d'une durée globale (A).</p>
       <div class="sub-grid">
         <div>
-          <label for="subAh" data-t="lblDurA" style="display:block;font-size:0.8rem;font-weight:800;color:var(--muted);margin-bottom:6px;">Durée totale (A)</label>
+          <label style="display:block;font-size:0.8rem;font-weight:800;margin-bottom:4px;" data-t="lblA">Durée totale (A)</label>
           <div class="hm-pair">
             <input type="number" id="subAh" min="0" value="0"><span>h</span>
             <input type="number" id="subAm" min="0" max="59" value="0"><span>min</span>
           </div>
         </div>
         <div>
-          <label for="subBh" data-t="lblDurB" style="display:block;font-size:0.8rem;font-weight:800;color:var(--muted);margin-bottom:6px;">Pause / Temps à déduire (B)</label>
+          <label style="display:block;font-size:0.8rem;font-weight:800;margin-bottom:4px;" data-t="lblB">Pause à déduire (B)</label>
           <div class="hm-pair">
             <input type="number" id="subBh" min="0" value="0"><span>h</span>
             <input type="number" id="subBm" min="0" max="59" value="0"><span>min</span>
           </div>
         </div>
         <div>
-          <label data-t="lblNetResult" style="display:block;font-size:0.8rem;font-weight:800;color:var(--muted);margin-bottom:6px;">Temps net (A − B)</label>
+          <label style="display:block;font-size:0.8rem;font-weight:800;margin-bottom:4px;" data-t="lblNet">Temps net (A − B)</label>
           <div class="out-pill" id="subOut">00h 00min (0.00 h)</div>
         </div>
       </div>
-
-      <div id="subNotice" class="notice-box" role="status"></div>
-      <div class="toolbar"><button type="button" class="btn-sec" id="resetSubBtn" data-t="btnReset">Reset (0)</button></div>
-
-      <div class="tool-meta-grid">
-        <div class="meta-box">
-          <h3 data-t="lblFeatures">Fonctionnalités</h3>
-          <ul class="meta-list">
-            <li data-t="t2F1">Soustraction directe de deux durées exprimées en heures et minutes.</li>
-            <li data-t="t2F2">Résultat net immédiat en heures-minutes et en centièmes d'heure.</li>
-            <li data-t="t2F3">Alerte automatique si la pause (B) dépasse la durée totale (A).</li>
-          </ul>
-        </div>
-        <div class="meta-box">
-          <h3 data-t="lblUse">Utilisation (Use)</h3>
-          <p data-t="t2U1">Sert à retirer une pause déjeuner, une coupure ou un temps d'arrêt d'une amplitude horaire globale pour connaître le temps net payé ou facturé.</p>
-        </div>
+      <div class="toolbar">
+        <button type="button" class="btn-sec" id="resetSubBtn" data-t="btnReset">Reset (0)</button>
       </div>
     </section>
 
-    <article class="between-content">
-      <h3 data-t="c2Title">Déduire une pause repas ou un arrêt : comment éviter les erreurs ?</h3>
-      <p data-t="c2P1">Soustrayez la pause non rémunérée (B) de l'amplitude totale (A) pour connaître le temps de travail effectif à déclarer ou facturer.</p>
-      <ul class="between-list">
-        <li data-t="c2B1">Les minutes sont bornées de 0 à 59 pour garder un calcul précis.</li>
-        <li data-t="c2B2">Si B dépasse A, le résultat est ramené à 00h 00min avec un message d'alerte.</li>
-      </ul>
-      <div class="example-strip" data-t="c2Ex">Exemple : Durée totale 08h 00min − Pause 00h 45min = 07h 15min (7.25 h).</div>
-    </article>
-
-    <div class="ad-box" id="adSlot2" aria-label="Advertisement 2">
-      <span class="ad-tag" data-t="adLabel">Publicité / Ad Space</span>
-      <span class="ad-placeholder-text" data-t="ad2Text">Emplacement publicitaire entre l'outil 02 et l'outil 03 (728×90 / Responsive)</span>
-    </div>
-
-    <section class="tool-card" id="tool-03" aria-labelledby="t3Heading">
-      <div class="card-head">
-        <h2 id="t3Heading"><span class="step-tag">03</span> <span data-t="t3Name">Convertisseur Heures-Minutes ↔ Centièmes (1/100e)</span></h2>
-        <span class="tool-status" data-t="liveBadge">Outil Actif</span>
-      </div>
-      <p class="tool-intro" data-t="secConvDesc">Convertissez rapidement des heures et minutes en heures décimales (base 100) ou des heures décimales en heures et minutes.</p>
-
+    <section class="tool-card">
+      <h2 data-t="t3Name">03 • Convertisseur Heures-Minutes ↔ Centièmes (1/100e)</h2>
+      <p class="tool-intro" data-t="t3Desc">Convertissez entre heures-minutes et heures décimales.</p>
       <div class="conv-grid">
         <div class="conv-box">
-          <h3 data-t="convHmToDecTitle">Heures &amp; Minutes → Centièmes (1/100e)</h3>
+          <h3 data-t="cHmDec">Heures &amp; Minutes → Centièmes</h3>
           <div class="hm-pair">
             <input type="number" id="convH" min="0" value="0"><span>h</span>
             <input type="number" id="convM" min="0" max="59" value="0"><span>min</span>
           </div>
-          <div>
-            <label data-t="lblDecOut" style="display:block;font-size:0.8rem;font-weight:800;color:var(--muted);margin-bottom:6px;">Résultat décimal</label>
-            <div class="out-pill" id="convDecOut">0.00 h</div>
-          </div>
+          <div class="out-pill" id="convDecOut">0.00 h</div>
         </div>
         <div class="conv-box">
-          <h3 data-t="convDecToHmTitle">Centièmes (1/100e) → Heures &amp; Minutes</h3>
-          <div>
-            <label for="convDecIn" data-t="lblDecIn" style="display:block;font-size:0.8rem;font-weight:800;color:var(--muted);margin-bottom:6px;">Heures décimales (ex. 7.50)</label>
-            <input type="number" id="convDecIn" min="0" step="0.01" value="0.00">
-          </div>
-          <div>
-            <label data-t="lblHmOut" style="display:block;font-size:0.8rem;font-weight:800;color:var(--muted);margin-bottom:6px;">Résultat heures-minutes</label>
-            <div class="out-pill" id="convHmOut">00h 00min</div>
-          </div>
+          <h3 data-t="cDecHm">Centièmes → Heures &amp; Minutes</h3>
+          <input type="number" id="convDecIn" min="0" step="0.01" value="0.00">
+          <div class="out-pill" id="convHmOut">00h 00min</div>
         </div>
       </div>
-
-      <div class="toolbar"><button type="button" class="btn-sec" id="resetConvBtn" data-t="btnReset">Reset (0)</button></div>
-
-      <div class="tool-meta-grid">
-        <div class="meta-box">
-          <h3 data-t="lblFeatures">Fonctionnalités</h3>
-          <ul class="meta-list">
-            <li data-t="t3F1">Conversion bidirectionnelle entre base 60 (heures/minutes) et base 100 (1/100e).</li>
-            <li data-t="t3F2">Calcul instantané à chaque saisie sans rechargement de page.</li>
-            <li data-t="t3F3">Réinitialisation en un clic vers zéro.</li>
-          </ul>
-        </div>
-        <div class="meta-box">
-          <h3 data-t="lblUse">Utilisation (Use)</h3>
-          <p data-t="t3U1">Utile pour la paie, la facturation horaire, les feuilles de temps et la comparaison avec des logiciels qui expriment les heures en centièmes.</p>
-        </div>
+      <div class="toolbar">
+        <button type="button" class="btn-sec" id="resetConvBtn" data-t="btnReset">Reset (0)</button>
       </div>
     </section>
-
-    <div class="ad-box" id="adSlot3" aria-label="Advertisement 3">
-      <span class="ad-tag" data-t="adLabel">Publicité / Ad Space</span>
-      <span class="ad-placeholder-text" data-t="ad3Text">Emplacement publicitaire après l'outil 03 (728×90 / Responsive)</span>
-    </div>
 
   </div>
 </main>
@@ -452,19 +289,15 @@
   <div class="container">
     <div><strong>Colette-Calculator</strong></div>
     <div class="footer-links">
-      <a href="index.html" data-t="navHome">Home (Outils 01–03)</a>
-      <a href="page2.html" data-t="navP2">Page 2 (Outils 04–06)</a>
-      <a href="pages.html#about" data-t="fAbout">About</a>
-      <a href="pages.html#contact" data-t="fContact">Contact</a>
-      <a href="pages.html#terms" data-t="fTerms">Terms</a>
-      <a href="pages.html#disclaimer" data-t="fDisclaimer">Disclaimer</a>
+      <a href="index.html" data-t="navHome">Home</a>
+      <a href="page2.html" data-t="navP2">Page 2</a>
+      <a href="pages.html" data-t="navInfo">About &amp; Legal</a>
     </div>
   </div>
 </footer>
 
 <script>
 (function () {
-  const LANG_KEY = "colette_calc_lang_v1";
   let lang = "fr";
   let slots = [
     { start: "00:00", end: "00:00", active: true },
@@ -473,58 +306,171 @@
 
   const dict = {
     fr: {
-      btn: "EN", navHome: "Home (Outils 01–03)", navP2: "Page 2 (Outils 04–06)", navInfo: "About & Legal",
-      fAbout: "About", fContact: "Contact", fTerms: "Terms", fDisclaimer: "Disclaimer",
+      btn: "EN", navHome: "Home", navP2: "Page 2", navInfo: "About & Legal",
       pageTitle: "Colette-Calculator — Temps, Pauses & Centièmes (1/100e)",
-      pageSub: "Home : 3 calculateurs haute visibilité (plages horaires, soustracteur de pause et convertisseur 1/100e) avec guides et espaces publicitaires.",
-      jumpLabel: "Accès direct :", jump1: "Additionneur", jump2: "Soustracteur", jump3: "Convertisseur 1/100e",
-      liveBadge: "Outil Actif",
-      t1Name: "Additionneur de Plages Horaires",
-      secAddDesc: "Saisissez vos heures de début et de fin pour obtenir la durée de chaque plage et le total journalier en heures-minutes et en centièmes.",
-      lblStart: "Heure début", lblEnd: "Heure fin", lblDur: "Durée", lblDec: "1/100e", overnightBadge: "+1j",
-      btnAddSlot: "+ Ajouter une plage", btnReset: "Reset (0)", lblTotal: "TOTAL JOURNALIER",
-      btnCopy: "Copier", btnCopied: "Copié !", lblFeatures: "Fonctionnalités", lblUse: "Utilisation (Use)",
-      t1F1: "Ajout et suppression dynamiques de plusieurs plages horaires.",
-      t1F2: "Affichage simultané en heures-minutes (HH:MM) et en centièmes (1/100e).",
-      t1F3: "Gestion des passages sur le lendemain (+1j) et copie rapide du total.",
-      t1U1: "Idéal pour additionner les horaires du matin et de l'après-midi, les vacations ou les quarts de nuit afin d'obtenir le temps travaillé total de la journée.",
-      c1Title: "Comment additionner plusieurs plages horaires sans erreur ?",
-      c1P1: "Additionner plusieurs créneaux (matin, après-midi ou nuit) est plus rapide lorsqu'on convertit tout en minutes avant de repasser en heures-minutes et centièmes.",
-      c1B1: "Décochez une ligne pour tester une variante sans effacer vos horaires.",
-      c1B2: "Les passages après minuit (+1j / +1d) sont calculés automatiquement.",
-      c1Ex: "Exemple : 08:00 → 12:00 (4h 00min) + 13:00 → 17:30 (4h 30min) = 08h 30min (8.50 h).",
-      adLabel: "Publicité / Ad Space",
-      ad1Text: "Emplacement publicitaire entre l'outil 01 et l'outil 02 (728×90 / Responsive)",
-      ad2Text: "Emplacement publicitaire entre l'outil 02 et l'outil 03 (728×90 / Responsive)",
-      ad3Text: "Emplacement publicitaire après l'outil 03 (728×90 / Responsive)",
-      t2Name: "Soustracteur de Durées & Pauses",
-      secSubDesc: "Déduisez une pause ou un temps d'arrêt (B) d'une durée globale (A) pour calculer le temps de travail effectif.",
-      lblDurA: "Durée totale (A)", lblDurB: "Pause / Temps à déduire (B)", lblNetResult: "Temps net (A − B)",
-      subExceedMsg: "La pause (B) dépasse la durée totale (A) : le temps net est ramené à 00h 00min.",
-      t2F1: "Soustraction directe de deux durées exprimées en heures et minutes.",
-      t2F2: "Résultat net immédiat en heures-minutes et en centièmes d'heure.",
-      t2F3: "Alerte automatique si la pause (B) dépasse la durée totale (A).",
-      t2U1: "Sert à retirer une pause déjeuner, une coupure ou un temps d'arrêt d'une amplitude horaire globale pour connaître le temps net payé ou facturé.",
-      c2Title: "Déduire une pause repas ou un arrêt : comment éviter les erreurs ?",
-      c2P1: "Soustrayez la pause non rémunérée (B) de l'amplitude totale (A) pour connaître le temps de travail effectif à déclarer ou facturer.",
-      c2B1: "Les minutes sont bornées de 0 à 59 pour garder un calcul précis.",
-      c2B2: "Si B dépasse A, le résultat est ramené à 00h 00min avec un message d'alerte.",
-      c2Ex: "Exemple : Durée totale 08h 00min − Pause 00h 45min = 07h 15min (7.25 h).",
-      t3Name: "Convertisseur Heures-Minutes ↔ Centièmes (1/100e)",
-      secConvDesc: "Convertissez rapidement des heures et minutes en heures décimales (base 100) ou des heures décimales en heures et minutes.",
-      convHmToDecTitle: "Heures & Minutes → Centièmes (1/100e)", lblDecOut: "Résultat décimal",
-      convDecToHmTitle: "Centièmes (1/100e) → Heures & Minutes", lblDecIn: "Heures décimales (ex. 7.50)", lblHmOut: "Résultat heures-minutes",
-      t3F1: "Conversion bidirectionnelle entre base 60 (heures/minutes) et base 100 (1/100e).",
-      t3F2: "Calcul instantané à chaque saisie sans rechargement de page.",
-      t3F3: "Réinitialisation en un clic vers zéro.",
-      t3U1: "Utile pour la paie, la facturation horaire, les feuilles de temps et la comparaison avec des logiciels qui expriment les heures en centièmes."
+      pageSub: "3 outils essentiels pour vos horaires, pauses et conversions en centièmes.",
+      t1Name: "01 • Additionneur de Plages Horaires",
+      t1Desc: "Ajoutez vos plages horaires pour obtenir la durée et le total en heures-minutes et en centièmes.",
+      t2Name: "02 • Soustracteur de Durées & Pauses",
+      t2Desc: "Déduisez une pause (B) d'une durée globale (A).",
+      t3Name: "03 • Convertisseur Heures-Minutes ↔ Centièmes (1/100e)",
+      t3Desc: "Convertissez entre heures-minutes et heures décimales.",
+      lblStart: "Début", lblEnd: "Fin", lblDur: "Durée", lblDec: "1/100e",
+      btnAdd: "+ Ajouter une plage", btnReset: "Reset (0)", lblTotal: "TOTAL JOURNALIER",
+      lblA: "Durée totale (A)", lblB: "Pause à déduire (B)", lblNet: "Temps net (A − B)",
+      cHmDec: "Heures & Minutes → Centièmes", cDecHm: "Centièmes → Heures & Minutes"
     },
     en: {
-      btn: "FR", navHome: "Home (Tools 01–03)", navP2: "Page 2 (Tools 04–06)", navInfo: "About & Legal",
-      fAbout: "About", fContact: "Contact", fTerms: "Terms", fDisclaimer: "Disclaimer",
+      btn: "FR", navHome: "Home", navP2: "Page 2", navInfo: "About & Legal",
       pageTitle: "Colette-Calculator — Time, Breaks & 1/100e",
-      pageSub: "Home: 3 high-visibility calculators (time slots, break subtractor, and 1/100e converter) with guides and ad spaces.",
-      jumpLabel: "Quick jump:", jump1: "Slot Adder", jump2: "Subtractor", jump3: "1/100e Converter",
-      liveBadge: "Active Tool",
-      t1Name: "Time Slot Adder",
-      secAddDesc: "Enter start and end times to see each slot's
+      pageSub: "3 essential tools for time slots, breaks, and hundredth conversions.",
+      t1Name: "01 • Time Slot Adder",
+      t1Desc: "Add time slots to get duration and totals in hours-minutes and hundredths.",
+      t2Name: "02 • Duration & Break Subtractor",
+      t2Desc: "Deduct a break (B) from a total duration (A).",
+      t3Name: "03 • Hours-Minutes ↔ Hundredths (1/100e) Converter",
+      t3Desc: "Convert between hours-minutes and decimal hours.",
+      lblStart: "Start", lblEnd: "End", lblDur: "Duration", lblDec: "1/100e",
+      btnAdd: "+ Add slot", btnReset: "Reset (0)", lblTotal: "DAILY TOTAL",
+      lblA: "Total duration (A)", lblB: "Break to deduct (B)", lblNet: "Net time (A − B)",
+      cHmDec: "Hours & Minutes → Hundredths", cDecHm: "Hundredths → Hours & Minutes"
+    }
+  };
+
+  function fmtHM(mins) {
+    const abs = Math.abs(Math.round(mins));
+    return `${String(Math.floor(abs / 60)).padStart(2, "0")}h ${String(abs % 60).padStart(2, "0")}min`;
+  }
+
+  function slotMins(s) {
+    if (!s.start || !s.end) return 0;
+    const [sh, sm] = s.start.split(":").map(Number);
+    const [eh, em] = s.end.split(":").map(Number);
+    if ([sh, sm, eh, em].some(Number.isNaN)) return 0;
+    const a = sh * 60 + sm;
+    let b = eh * 60 + em;
+    if (b < a) b += 1440;
+    return Math.max(0, b - a);
+  }
+
+  function renderSlots() {
+    const d = dict[lang];
+    const box = document.getElementById("slotsContainer");
+    box.innerHTML = "";
+    let total = 0;
+
+    slots.forEach((s, idx) => {
+      const m = slotMins(s);
+      if (s.active) total += m;
+      const row = document.createElement("div");
+      row.className = "slot-row";
+
+      const chk = document.createElement("input");
+      chk.type = "checkbox";
+      chk.checked = !!s.active;
+      chk.onchange = () => { slots[idx].active = chk.checked; renderSlots(); };
+
+      const f1 = document.createElement("div");
+      f1.className = "slot-field";
+      f1.innerHTML = `<label>${d.lblStart}</label>`;
+      const i1 = document.createElement("input");
+      i1.type = "time";
+      i1.value = s.start;
+      i1.oninput = () => { slots[idx].start = i1.value; renderSlots(); };
+      f1.appendChild(i1);
+
+      const f2 = document.createElement("div");
+      f2.className = "slot-field";
+      f2.innerHTML = `<label>${d.lblEnd}</label>`;
+      const i2 = document.createElement("input");
+      i2.type = "time";
+      i2.value = s.end;
+      i2.oninput = () => { slots[idx].end = i2.value; renderSlots(); };
+      f2.appendChild(i2);
+
+      const f3 = document.createElement("div");
+      f3.className = "slot-field";
+      f3.innerHTML = `<label>${d.lblDur}</label><div class="out-pill">${fmtHM(m)}</div>`;
+
+      const f4 = document.createElement("div");
+      f4.className = "slot-field";
+      f4.innerHTML = `<label>${d.lblDec}</label><div class="out-pill">${(m / 60).toFixed(2)} h</div>`;
+
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "del-btn";
+      del.textContent = "×";
+      del.onclick = () => { if (slots.length > 1) { slots.splice(idx, 1); renderSlots(); } };
+
+      row.append(chk, f1, f2, f3, f4, del);
+      box.appendChild(row);
+    });
+
+    document.getElementById("totalHM").textContent = fmtHM(total);
+    document.getElementById("totalDec").textContent = `${(total / 60).toFixed(2)} h`;
+  }
+
+  function calcSub() {
+    const ah = Math.max(0, parseInt(document.getElementById("subAh").value, 10) || 0);
+    const am = Math.min(59, Math.max(0, parseInt(document.getElementById("subAm").value, 10) || 0));
+    const bh = Math.max(0, parseInt(document.getElementById("subBh").value, 10) || 0);
+    const bm = Math.min(59, Math.max(0, parseInt(document.getElementById("subBm").value, 10) || 0));
+    const diff = Math.max(0, (ah * 60 + am) - (bh * 60 + bm));
+    document.getElementById("subOut").textContent = `${fmtHM(diff)} (${(diff / 60).toFixed(2)} h)`;
+  }
+
+  function calcConv() {
+    const h = Math.max(0, parseInt(document.getElementById("convH").value, 10) || 0);
+    const m = Math.min(59, Math.max(0, parseInt(document.getElementById("convM").value, 10) || 0));
+    document.getElementById("convDecOut").textContent = `${(h + m / 60).toFixed(2)} h`;
+    const dec = Math.max(0, parseFloat(document.getElementById("convDecIn").value) || 0);
+    document.getElementById("convHmOut").textContent = fmtHM(Math.round(dec * 60));
+  }
+
+  function applyLang() {
+    document.documentElement.lang = lang;
+    const d = dict[lang];
+    document.getElementById("langBtn").textContent = d.btn;
+    document.querySelectorAll("[data-t]").forEach(el => {
+      const k = el.getAttribute("data-t");
+      if (d[k]) el.textContent = d[k];
+    });
+    renderSlots();
+    calcSub();
+    calcConv();
+  }
+
+  document.getElementById("langBtn").onclick = function () {
+    lang = lang === "fr" ? "en" : "fr";
+    applyLang();
+  };
+  document.getElementById("addSlotBtn").onclick = function () {
+    slots.push({ start: "00:00", end: "00:00", active: true });
+    renderSlots();
+  };
+  document.getElementById("resetSlotsBtn").onclick = function () {
+    slots = [{ start: "00:00", end: "00:00", active: true }, { start: "00:00", end: "00:00", active: true }];
+    renderSlots();
+  };
+  ["subAh", "subAm", "subBh", "subBm"].forEach(id => {
+    document.getElementById(id).oninput = calcSub;
+  });
+  document.getElementById("resetSubBtn").onclick = function () {
+    ["subAh", "subAm", "subBh", "subBm"].forEach(id => { document.getElementById(id).value = "0"; });
+    calcSub();
+  };
+  ["convH", "convM", "convDecIn"].forEach(id => {
+    document.getElementById(id).oninput = calcConv;
+  });
+  document.getElementById("resetConvBtn").onclick = function () {
+    document.getElementById("convH").value = "0";
+    document.getElementById("convM").value = "0";
+    document.getElementById("convDecIn").value = "0.00";
+    calcConv();
+  };
+
+  applyLang();
+})();
+</script>
+</body>
+</html>
