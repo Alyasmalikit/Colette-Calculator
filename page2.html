@@ -41,9 +41,9 @@
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
     position: sticky;
     top: 0;
-    z-index: 30;
+    z-index: 100;
   }
-  .nav-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 12px 0; }
+  .nav-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 12px 0; position: relative; z-index: 101; }
   .brand {
     font-weight: 900; font-size: 1.24rem; color: var(--ink); text-decoration: none;
     display: inline-flex; align-items: center; gap: 10px; letter-spacing: -0.02em;
@@ -52,8 +52,14 @@
     width: 12px; height: 12px; border-radius: 50%; background: var(--primary);
     box-shadow: 0 0 0 3px #bfdbfe; display: inline-block;
   }
-  .nav-right { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-  .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; }
+  .nav-right { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; position: relative; z-index: 102; }
+  .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; position: relative; z-index: 102; }
+  .nav-menu a, .jump-pill, .footer-links a {
+    pointer-events: auto;
+    position: relative;
+    z-index: 103;
+    cursor: pointer;
+  }
   .nav-menu a {
     display: inline-flex; align-items: center; justify-content: center;
     color: var(--ink); background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
@@ -69,6 +75,7 @@
     background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
     color: #fff; border: 1px solid #0f172a; border-bottom: 3px solid #000;
     padding: 6px 13px; border-radius: 9px; font-weight: 800; font-size: 0.82rem; cursor: pointer;
+    position: relative; z-index: 103; pointer-events: auto;
   }
   .lang-btn:hover { background: var(--primary); border-color: var(--primary-dark); }
 
@@ -80,7 +87,7 @@
   .page-head h1 { margin: 0 0 6px; font-size: clamp(1.5rem, 3.2vw, 2.1rem); font-weight: 900; letter-spacing: -0.02em; }
   .page-head p { margin: 0; color: var(--muted); font-size: 0.96rem; font-weight: 500; max-width: 820px; }
 
-  .jump-strip { background: #f8fafc; border-bottom: 2px solid #cbd5e1; padding: 11px 0; }
+  .jump-strip { background: #f8fafc; border-bottom: 2px solid #cbd5e1; padding: 11px 0; position: relative; z-index: 20; }
   .jump-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .jump-label { font-size: 0.78rem; font-weight: 900; color: var(--ink); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
   .jump-pill {
@@ -239,7 +246,7 @@
     <div class="nav-right">
       <nav class="nav-menu">
         <a href="index.html" class="active" data-t="navHome">Home (Outils 01–03)</a>
-        <a href="page2.html" data-t="navP2">Page 2 (Outils 04–06)</a>
+        <a href="page2.html" id="navPage2Link" data-t="navP2">Page 2 (Outils 04–06)</a>
         <a href="pages.html" data-t="navInfo">About &amp; Legal</a>
       </nav>
       <button type="button" id="langBtn" class="lang-btn">EN</button>
@@ -520,127 +527,4 @@
       jumpLabel: "Quick jump:", jump1: "Slot Adder", jump2: "Subtractor", jump3: "1/100e Converter",
       liveBadge: "Active Tool",
       t1Name: "Time Slot Adder",
-      secAddDesc: "Enter start and end times to see each slot's duration and the daily total in hours-minutes and hundredths.",
-      lblStart: "Start time", lblEnd: "End time", lblDur: "Duration", lblDec: "1/100e", overnightBadge: "+1d",
-      btnAddSlot: "+ Add time slot", btnReset: "Reset (0)", lblTotal: "DAILY TOTAL",
-      btnCopy: "Copy", btnCopied: "Copied!", lblFeatures: "Features", lblUse: "Use",
-      t1F1: "Dynamically add or remove multiple daily time slots.",
-      t1F2: "Dual output in hours-minutes (HH:MM) and decimal hundredths (1/100e).",
-      t1F3: "Automatic next-day handling (+1d) and one-click total copy.",
-      t1U1: "Use it to add morning and afternoon shifts, split schedules, or night shifts to get total worked hours for the day.",
-      c1Title: "How to Add Multiple Time Slots Without Mistakes",
-      c1P1: "Adding multiple shifts (morning, afternoon, or overnight) is fastest when total minutes are summed and converted into hours-minutes and hundredths.",
-      c1B1: "Uncheck a row to test a scenario without losing your entered times.",
-      c1B2: "Overnight shifts (+1j / +1d) are calculated automatically.",
-      c1Ex: "Example: 08:00 → 12:00 (4h 00min) + 13:00 → 17:30 (4h 30min) = 08h 30min (8.50 h).",
-      adLabel: "Advertisement / Ad Space",
-      ad1Text: "Visible ad slot between Tool 01 and Tool 02 (728×90 / Responsive)",
-      ad2Text: "Visible ad slot between Tool 02 and Tool 03 (728×90 / Responsive)",
-      ad3Text: "Visible ad slot below Tool 03 (728×90 / Responsive)",
-      t2Name: "Duration & Break Subtractor",
-      secSubDesc: "Deduct a break or downtime (B) from a total duration (A) to calculate net working time.",
-      lblDurA: "Total duration (A)", lblDurB: "Break / Time to deduct (B)", lblNetResult: "Net time (A − B)",
-      subExceedMsg: "Break (B) exceeds total duration (A): net time is clamped to 00h 00min.",
-      t2F1: "Direct subtraction of two durations in hours and minutes.",
-      t2F2: "Instant net result in both hours-minutes and decimal hundredths.",
-      t2F3: "Clear notice when break duration (B) exceeds total duration (A).",
-      t2U1: "Use it to subtract meal breaks, rest periods, or stoppages from a gross shift duration to find net payable or billable time.",
-      c2Title: "Deducting Meal Breaks or Downtime Accurately",
-      c2P1: "Subtract unpaid break time (B) from total span (A) to calculate net active hours for payroll or billing.",
-      c2B1: "Minutes stay bounded between 0 and 59 for clear tracking.",
-      c2B2: "If B exceeds A, net time clamps to 00h 00min with a warning notice.",
-      c2Ex: "Example: Total duration 08h 00min − Break 00h 45min = 07h 15min (7.25 h).",
-      t3Name: "Hours-Minutes ↔ Hundredths (1/100e) Converter",
-      secConvDesc: "Convert hours and minutes into decimal hours (base 100) or decimal hours into hours and minutes.",
-      convHmToDecTitle: "Hours & Minutes → Hundredths (1/100e)", lblDecOut: "Decimal output",
-      convDecToHmTitle: "Hundredths (1/100e) → Hours & Minutes", lblDecIn: "Decimal hours (e.g. 7.50)", lblHmOut: "Hours-minutes output",
-      t3F1: "Two-way conversion between base 60 (hours/minutes) and base 100 (1/100e).",
-      t3F2: "Live updates on every input without page reloads.",
-      t3F3: "One-click reset back to zero.",
-      t3U1: "Use it for payroll preparation, hourly billing, timesheets, and matching software that reports hours in hundredths."
-    }
-  };
-
-  function clampNonNeg(el) { const v = parseFloat(el.value); if (!Number.isNaN(v) && v < 0) el.value = "0"; }
-  function clampMins(el) { const v = parseFloat(el.value); if (!Number.isNaN(v)) { if (v < 0) el.value = "0"; else if (v > 59) el.value = "59"; } }
-  function fmtHM(mins) { const abs = Math.abs(Math.round(mins)); return `${String(Math.floor(abs / 60)).padStart(2, "0")}h ${String(abs % 60).padStart(2, "0")}min`; }
-  function calcSlotInfo(s) {
-    if (!s.start || !s.end) return { mins: 0, overnight: false };
-    const [sh, sm] = s.start.split(":").map(Number), [eh, em] = s.end.split(":").map(Number);
-    if ([sh, sm, eh, em].some(Number.isNaN)) return { mins: 0, overnight: false };
-    const a = sh * 60 + sm; let b = eh * 60 + em; const overnight = b < a; if (overnight) b += 1440;
-    return { mins: Math.max(0, b - a), overnight };
-  }
-
-  function renderSlots() {
-    const d = dict[lang], container = document.getElementById("slotsContainer");
-    container.innerHTML = ""; let totalMins = 0;
-    slots.forEach((s, idx) => {
-      const { mins, overnight } = calcSlotInfo(s);
-      if (s.active) totalMins += mins;
-      const badge = overnight ? `<span class="overnight-tag">${d.overnightBadge}</span>` : "";
-      const row = document.createElement("div"); row.className = "slot-row" + (s.active ? "" : " disabled");
-      const chk = document.createElement("input"); chk.type = "checkbox"; chk.className = "slot-check"; chk.checked = !!s.active;
-      chk.addEventListener("change", () => { slots[idx].active = chk.checked; renderSlots(); });
-      const f1 = document.createElement("div"); f1.className = "slot-field"; f1.innerHTML = `<label>${d.lblStart}</label>`;
-      const i1 = document.createElement("input"); i1.type = "time"; i1.value = s.start;
-      i1.addEventListener("input", () => { slots[idx].start = i1.value; renderSlots(); }); f1.appendChild(i1);
-      const f2 = document.createElement("div"); f2.className = "slot-field"; f2.innerHTML = `<label>${d.lblEnd}</label>`;
-      const i2 = document.createElement("input"); i2.type = "time"; i2.value = s.end;
-      i2.addEventListener("input", () => { slots[idx].end = i2.value; renderSlots(); }); f2.appendChild(i2);
-      const f3 = document.createElement("div"); f3.className = "slot-field"; f3.innerHTML = `<label>${d.lblDur}</label><div class="out-pill">${fmtHM(mins)}${badge}</div>`;
-      const f4 = document.createElement("div"); f4.className = "slot-field"; f4.innerHTML = `<label>${d.lblDec}</label><div class="out-pill">${(mins / 60).toFixed(2)} h</div>`;
-      const del = document.createElement("button"); del.type = "button"; del.className = "del-btn"; del.textContent = "×"; del.disabled = slots.length <= 1;
-      del.addEventListener("click", () => { if (slots.length > 1) { slots.splice(idx, 1); renderSlots(); } });
-      row.append(chk, f1, f2, f3, f4, del); container.appendChild(row);
-    });
-    document.getElementById("totalHM").textContent = fmtHM(totalMins);
-    document.getElementById("totalDec").textContent = `${(totalMins / 60).toFixed(2)} h`;
-  }
-
-  function calcSub() {
-    const ah = Math.max(0, Math.floor(parseFloat(document.getElementById("subAh").value) || 0));
-    const am = Math.min(59, Math.max(0, Math.floor(parseFloat(document.getElementById("subAm").value) || 0)));
-    const bh = Math.max(0, Math.floor(parseFloat(document.getElementById("subBh").value) || 0));
-    const bm = Math.min(59, Math.max(0, Math.floor(parseFloat(document.getElementById("subBm").value) || 0)));
-    const diff = (ah * 60 + am) - (bh * 60 + bm);
-    const notice = document.getElementById("subNotice"), out = document.getElementById("subOut");
-    if (diff < 0) { notice.textContent = dict[lang].subExceedMsg; notice.style.display = "block"; out.textContent = "00h 00min (0.00 h)"; }
-    else { notice.style.display = "none"; out.textContent = `${fmtHM(diff)} (${(diff / 60).toFixed(2)} h)`; }
-  }
-
-  function calcConv() {
-    const h = Math.max(0, Math.floor(parseFloat(document.getElementById("convH").value) || 0));
-    const m = Math.min(59, Math.max(0, Math.floor(parseFloat(document.getElementById("convM").value) || 0)));
-    document.getElementById("convDecOut").textContent = `${(h + m / 60).toFixed(2)} h`;
-    const decIn = Math.max(0, parseFloat(document.getElementById("convDecIn").value) || 0);
-    document.getElementById("convHmOut").textContent = fmtHM(Math.round(decIn * 60));
-  }
-
-  function applyLang() {
-    document.documentElement.lang = lang; const d = dict[lang];
-    document.getElementById("langBtn").textContent = d.btn;
-    document.querySelectorAll("[data-t]").forEach(el => { const k = el.getAttribute("data-t"); if (d[k]) el.textContent = d[k]; });
-    renderSlots(); calcSub(); calcConv();
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    try { const s = localStorage.getItem(LANG_KEY); if (s === "en" || s === "fr") lang = s; } catch (e) {}
-    const langBtn = document.getElementById("langBtn");
-    if (langBtn) {
-      langBtn.addEventListener("click", function () {
-        lang = lang === "fr" ? "en" : "fr";
-        try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
-        applyLang();
-      });
-    }
-    document.getElementById("addSlotBtn").addEventListener("click", () => { slots.push({ start: "00:00", end: "00:00", active: true }); renderSlots(); });
-    document.getElementById("resetSlotsBtn").addEventListener("click", () => { slots = [{ start: "00:00", end: "00:00", active: true }, { start: "00:00", end: "00:00", active: true }]; renderSlots(); });
-    document.getElementById("copyTotalBtn").addEventListener("click", function () {
-      const btn = this, d = dict[lang], txt = `${document.getElementById("totalHM").textContent} (${document.getElementById("totalDec").textContent})`;
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).catch(() => {});
-      btn.textContent = d.btnCopied; setTimeout(() => { btn.textContent = d.btnCopy; }, 1500);
-    });
-    ["subAh", "subBh"].forEach(id => document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcSub(); }));
-    ["subAm", "subBm"].forEach(id => document.getElementById(id).addEventListener("input", function () { clampMins(this); calcSub(); }));
-    document.getElementById("resetSubBtn").addEventListener("click", () => { ["subAh", "subAm", "subBh
+      secAddDesc: "Enter start and end times to see each slot's
