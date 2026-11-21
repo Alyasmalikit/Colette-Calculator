@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Colette-Calculator | Page 2 — Feuille Hebdo, Salaire &amp; Toiture</title>
-<meta name="description" content="Colette-Calculator Page 2: Calculez votre feuille de temps hebdomadaire, votre salaire horaire brut et la surface de toiture en croupe.">
+<meta name="description" content="Colette-Calculator Page 2: Feuille de temps hebdomadaire sur 7 jours, calculateur d'heures et salaire brut, et calculateur de toiture en croupe.">
 <style>
   :root {
     --bg: #eef2f7;
@@ -394,11 +394,22 @@
     text-align: center;
     white-space: nowrap;
   }
+  .overnight-tag {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: var(--primary);
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-weight: 800;
+    vertical-align: middle;
+  }
 
   /* Tool 04: Weekly Timesheet */
   .day-row {
     display: grid;
-    grid-template-columns: 112px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.85fr) minmax(0, 1fr) minmax(0, 0.85fr);
+    grid-template-columns: 112px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.85fr) minmax(0, 1.15fr) minmax(0, 0.85fr);
     gap: 10px;
     align-items: center;
     padding: 12px 14px;
@@ -491,12 +502,19 @@
   }
 
   /* Tool 05 & Tool 06 Grids */
+  .form-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 14px;
+  }
   .form-grid-3 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
     gap: 16px;
     align-items: end;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .result-grid-3 {
     display: grid;
@@ -521,6 +539,23 @@
     font-size: 1.15rem;
     font-weight: 900;
     color: var(--primary-dark);
+  }
+  .res-box .res-sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 3px;
+    font-weight: 600;
+  }
+  .notice-box {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 9px;
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    color: var(--warn-ink);
+    font-size: 0.86rem;
+    font-weight: 600;
+    display: none;
   }
 
   /* Page Switcher Footer Bar */
@@ -585,7 +620,7 @@
 <section class="page-head">
   <div class="container">
     <h1 data-t="pageTitle">Colette-Calculator — Page 2 : Feuille Hebdo, Salaire &amp; Toiture</h1>
-    <p data-t="pageSub">Deuxième page avec les outils 04 à 06 : feuille de temps hebdomadaire (7 jours), calcul d'heures &amp; salaire brut, et calculateur de toiture en croupe.</p>
+    <p data-t="pageSub">Deuxième page complète avec les outils 04 à 06 : feuille de temps hebdomadaire (Lun–Dim), calculateur d'heures &amp; salaire brut, et calculateur de toiture en croupe.</p>
   </div>
 </section>
 
@@ -607,17 +642,19 @@
         <h2 id="t4Heading"><span class="step-tag">04</span> <span data-t="t4Name">Feuille de Temps Hebdomadaire (Lun–Dim)</span></h2>
         <span class="tool-status" data-t="liveBadge">Outil Actif</span>
       </div>
-      <p class="tool-intro" data-t="secFhDesc">Saisissez l'heure de début, l'heure de fin et la pause (en minutes) pour chaque jour de la semaine afin d'obtenir le total hebdomadaire.</p>
+      <p class="tool-intro" data-t="secFhDesc">Saisissez l'heure de début, l'heure de fin et la pause (en minutes) pour chaque jour de la semaine afin d'obtenir le total net journalier et hebdomadaire.</p>
 
       <div id="weekContainer"></div>
 
+      <div id="weekNotice" class="notice-box" role="status"></div>
+
       <div class="toolbar">
-        <button type="button" class="btn" id="fillStandardWeekBtn" data-t="btnStdWeek">Remplir semaine type (Lun–Ven 08:00–16:30, pause 30m)</button>
+        <button type="button" class="btn" id="fillStandardWeekBtn" data-t="btnStdWeek">Semaine type (Lun–Ven 08:00–16:30, pause 30m)</button>
         <button type="button" class="btn-sec" id="resetWeekBtn" data-t="btnReset">Reset (0)</button>
       </div>
 
       <div class="total-bar">
-        <span class="total-label" data-t="lblWeekTotal">TOTAL HEBDOMADAIRE</span>
+        <span class="total-label" data-t="lblWeekTotal">TOTAL HEBDOMADAIRE NET</span>
         <div class="total-vals">
           <span class="total-badge" id="weekHM">00h 00min</span>
           <span class="total-badge" id="weekDec">0.00 h</span>
@@ -630,13 +667,13 @@
           <h3 data-t="lblFeatures">Fonctionnalités</h3>
           <ul class="meta-list">
             <li data-t="t4F1">7 jours complets (Lundi à Dimanche) avec déduction de pause quotidienne en minutes.</li>
-            <li data-t="t4F2">Total cumulé de la semaine en heures-minutes et en centièmes (1/100e).</li>
-            <li data-t="t4F3">Bouton de remplissage semaine type et réinitialisation rapide.</li>
+            <li data-t="t4F2">Total cumulé de la semaine en heures-minutes et en centièmes d'heure (1/100e).</li>
+            <li data-t="t4F3">Prise en charge des horaires après minuit (+1j), semaine type et copie en un clic.</li>
           </ul>
         </div>
         <div class="meta-box">
           <h3 data-t="lblUse">Utilisation (Use)</h3>
-          <p data-t="t4U1">Idéal pour suivre vos heures hebdomadaires, vérifier vos heures supplémentaires ou préparer une feuille de présence client ou employeur.</p>
+          <p data-t="t4U1">Idéal pour suivre vos heures hebdomadaires, préparer une feuille de présence ou transférer directement vos heures vers le calculateur de salaire (Outil 05).</p>
         </div>
       </div>
     </section>
@@ -646,10 +683,10 @@
       <h3 data-t="c4Title">Suivre une semaine de travail complète sans ressaisie manuelle</h3>
       <p data-t="c4P1">La feuille hebdomadaire calcule automatiquement chaque journée après déduction de la pause, puis additionne l'ensemble de la semaine.</p>
       <ul class="between-list">
-        <li data-t="c4B1">Laissez les jours non travaillés à 00:00 → 00:00 (durée 00h 00min).</li>
-        <li data-t="c4B2">Les horaires passant minuit sont pris en compte automatiquement.</li>
+        <li data-t="c4B1">Laissez les jours non travaillés à 00:00 → 00:00 (durée nette 00h 00min).</li>
+        <li data-t="c4B2">Si la pause dépasse la durée brute d'une journée, la durée nette de ce jour est ramenée à 00h 00min avec un avertissement.</li>
       </ul>
-      <div class="example-strip" data-t="c4Ex">Exemple : 5 jours × 8h 00min net = 40h 00min (40.00 h) sur la semaine.</div>
+      <div class="example-strip" data-t="c4Ex">Exemple : Lun–Ven 08:00 → 16:30 avec 30 min de pause = 8h 00min/jour × 5 jours = 40h 00min (40.00 h).</div>
     </article>
 
     <!-- AD SPACE 1 -->
@@ -664,12 +701,16 @@
         <h2 id="t5Heading"><span class="step-tag">05</span> <span data-t="t5Name">Calculateur d'Heures &amp; Salaire Brut</span></h2>
         <span class="tool-status" data-t="liveBadge">Outil Actif</span>
       </div>
-      <p class="tool-intro" data-t="secPayDesc">Estimez votre rémunération brute à partir du nombre d'heures (décimales ou issues de la feuille hebdo), du taux horaire et d'une majoration éventuelle.</p>
+      <p class="tool-intro" data-t="secPayDesc">Estimez votre rémunération brute à partir du nombre d'heures (décimales ou en heures-minutes), du taux horaire et d'une majoration d'heures supplémentaires.</p>
 
-      <div class="form-grid-3">
+      <div class="form-grid-4">
         <div>
-          <label for="payHours" class="field-lbl" data-t="lblPayHours">Heures travaillées (décimales)</label>
+          <label for="payHours" class="field-lbl" data-t="lblPayHours">Heures travaillées (décimales 1/100e)</label>
           <input type="number" id="payHours" min="0" step="0.01" value="0.00">
+        </div>
+        <div>
+          <label class="field-lbl" data-t="lblPayHmRef">Équivalent heures-minutes</label>
+          <div class="out-pill" id="payHmRef">00h 00min</div>
         </div>
         <div>
           <label for="payRate" class="field-lbl" data-t="lblPayRate">Taux horaire de base (€ / $)</label>
@@ -694,14 +735,17 @@
         <div class="res-box">
           <div class="res-k" data-t="lblBasePay">Salaire de base</div>
           <div class="res-v" id="basePayOut">0.00</div>
+          <div class="res-sub" id="baseHoursSub">0.00 h normales</div>
         </div>
         <div class="res-box">
-          <div class="res-k" data-t="lblOtPay">Majoration heures sup.</div>
+          <div class="res-k" data-t="lblOtPay">Montant heures sup.</div>
           <div class="res-v" id="otPayOut">0.00</div>
+          <div class="res-sub" id="otHoursSub">0.00 h sup.</div>
         </div>
         <div class="res-box">
           <div class="res-k" data-t="lblGrossPay">Total brut estimé</div>
           <div class="res-v" id="grossPayOut">0.00</div>
+          <div class="res-sub" id="totalHoursSub">0.00 h au total</div>
         </div>
       </div>
 
@@ -709,14 +753,14 @@
         <div class="meta-box">
           <h3 data-t="lblFeatures">Fonctionnalités</h3>
           <ul class="meta-list">
-            <li data-t="t5F1">Calcul instantané du salaire de base et des heures supplémentaires.</li>
-            <li data-t="t5F2">Import direct des heures calculées dans la feuille hebdomadaire (Outil 04).</li>
-            <li data-t="t5F3">Seuil d'heures supplémentaires et multiplicateur personnalisables.</li>
+            <li data-t="t5F1">Calcul détaillé : heures normales, heures supplémentaires et total brut.</li>
+            <li data-t="t5F2">Affichage automatique de l'équivalent en heures-minutes et import direct depuis l'Outil 04.</li>
+            <li data-t="t5F3">Seuil d'heures supplémentaires et coefficient multiplicateur modifiables.</li>
           </ul>
         </div>
         <div class="meta-box">
           <h3 data-t="lblUse">Utilisation (Use)</h3>
-          <p data-t="t5U1">Pratique pour estimer un salaire brut, facturer des prestations horaires ou simuler l'impact d'heures supplémentaires.</p>
+          <p data-t="t5U1">Pratique pour estimer un salaire brut, vérifier une facturation horaire ou simuler le coût d'heures supplémentaires.</p>
         </div>
       </div>
     </section>
@@ -724,12 +768,12 @@
     <!-- CONTENT BETWEEN TOOL 05 & TOOL 06 -->
     <article class="between-content">
       <h3 data-t="c5Title">Relier facilement vos heures travaillées au calcul salarial</h3>
-      <p data-t="c5P1">Utilisez les heures décimales (centièmes) pour multiplier directement par votre taux horaire sans conversion manuelle.</p>
+      <p data-t="c5P1">Les heures en centièmes (par exemple 8.50 pour 8h 30min) se multiplient directement par le taux horaire sans conversion manuelle.</p>
       <ul class="between-list">
-        <li data-t="c5B1">Laissez le seuil à 0 si toutes les heures sont payées au taux standard.</li>
-        <li data-t="c5B2">Cliquez sur « Importer heures de l'outil 04 » après avoir rempli votre semaine.</li>
+        <li data-t="c5B1">Si le seuil est à 0, toutes les heures sont comptabilisées au taux de base.</li>
+        <li data-t="c5B2">Si le seuil est à 35 h et le total à 40 h au taux de 15.00 avec multiplicateur 1.25 : 35 × 15.00 = 525.00 + (5 × 15.00 × 1.25 = 93.75) = 618.75.</li>
       </ul>
-      <div class="example-strip" data-t="c5Ex">Exemple : 40.00 h × 15.00 = 600.00 (avec seuil à 35h et ×1.25 : 525.00 + 93.75 = 618.75).</div>
+      <div class="example-strip" data-t="c5Ex">Exemple : 40.00 h × 15.00 (seuil 35 h, ×1.25) → Base 525.00 + Heures sup. 93.75 = Total brut 618.75.</div>
     </article>
 
     <!-- AD SPACE 2 -->
@@ -744,35 +788,44 @@
         <h2 id="t6Heading"><span class="step-tag">06</span> <span data-t="t6Name">Calculateur de Toiture en Croupe</span></h2>
         <span class="tool-status" data-t="liveBadge">Outil Actif</span>
       </div>
-      <p class="tool-intro" data-t="secRoofDesc">Estimez la pente en degrés, la longueur des chevrons / arêtiers et la surface développée d'une toiture en croupe (4 pans).</p>
+      <p class="tool-intro" data-t="secRoofDesc">Calculez la pente en degrés, la longueur des chevrons (rampant), la longueur d'arêtier et la surface développée d'une toiture rectangulaire à 4 pans (croupe).</p>
 
-      <div class="form-grid-3">
+      <div class="form-grid-4">
         <div>
-          <label for="roofLen" class="field-lbl" data-t="lblRoofLen">Longueur base (m)</label>
+          <label for="roofLen" class="field-lbl" data-t="lblRoofLen">Longueur base L (m)</label>
           <input type="number" id="roofLen" min="0" step="0.01" value="0">
         </div>
         <div>
-          <label for="roofWid" class="field-lbl" data-t="lblRoofWid">Largeur base (m)</label>
+          <label for="roofWid" class="field-lbl" data-t="lblRoofWid">Largeur base l (m)</label>
           <input type="number" id="roofWid" min="0" step="0.01" value="0">
         </div>
         <div>
-          <label for="roofRise" class="field-lbl" data-t="lblRoofRise">Hauteur de faîtage (m)</label>
+          <label for="roofRise" class="field-lbl" data-t="lblRoofRise">Hauteur de faîtage H (m)</label>
           <input type="number" id="roofRise" min="0" step="0.01" value="0">
         </div>
+        <div>
+          <label class="field-lbl" data-t="lblHipLen">Longueur arêtier (m)</label>
+          <div class="out-pill" id="roofHipOut">0.00 m</div>
+        </div>
       </div>
+
+      <div id="roofNotice" class="notice-box" role="status"></div>
 
       <div class="result-grid-3">
         <div class="res-box">
           <div class="res-k" data-t="lblRoofSlope">Pente du toit</div>
           <div class="res-v" id="roofSlopeOut">0.0°</div>
+          <div class="res-sub" id="roofPctSub">0.0% de pente</div>
         </div>
         <div class="res-box">
-          <div class="res-k" data-t="lblRafterLen">Rampant / Chevron (m)</div>
+          <div class="res-k" data-t="lblRafterLen">Rampant / Chevron</div>
           <div class="res-v" id="roofRafterOut">0.00 m</div>
+          <div class="res-sub" id="roofRidgeSub">Faîtage : 0.00 m</div>
         </div>
         <div class="res-box">
-          <div class="res-k" data-t="lblRoofArea">Surface toiture 4 pans (m²)</div>
+          <div class="res-k" data-t="lblRoofArea">Surface toiture 4 pans</div>
           <div class="res-v" id="roofAreaOut">0.00 m²</div>
+          <div class="res-sub" id="roofPlanSub">Emprise au sol : 0.00 m²</div>
         </div>
       </div>
 
@@ -784,14 +837,14 @@
         <div class="meta-box">
           <h3 data-t="lblFeatures">Fonctionnalités</h3>
           <ul class="meta-list">
-            <li data-t="t6F1">Calcul de l'angle de pente en degrés et du rampant principal.</li>
-            <li data-t="t6F2">Estimation géométrique de la surface totale d'une croupe à 4 pans.</li>
-            <li data-t="t6F3">Mise à jour instantanée dès la saisie des dimensions.</li>
+            <li data-t="t6F1">Calcul géométrique de la pente (degrés et %), du rampant, de l'arêtier et du faîtage.</li>
+            <li data-t="t6F2">Surface développée des 4 pans (2 trapèzes + 2 triangles pour une croupe rectangulaire L ≥ l).</li>
+            <li data-t="t6F3">Vérification de cohérence si la longueur saisie est inférieure à la largeur.</li>
           </ul>
         </div>
         <div class="meta-box">
           <h3 data-t="lblUse">Utilisation (Use)</h3>
-          <p data-t="t6U1">Utile pour obtenir un premier chiffrage de surface de couverture, de chevrons ou de matériaux pour une toiture en croupe.</p>
+          <p data-t="t6U1">Utile pour obtenir une estimation géométrique de surface de couverture, de longueur de faîtage ou de chevrons avant de prévoir vos marges de pose et recouvrement.</p>
         </div>
       </div>
     </section>
@@ -829,112 +882,3 @@
 
 <script>
   const LANG_KEY = "colette_lang_v1";
-  let lang = "fr";
-
-  const daysFr = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
-  const daysEn = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-  let weekRows = Array.from({ length: 7 }, () => ({
-    start: "00:00",
-    end: "00:00",
-    breakMin: 0
-  }));
-
-  const dict = {
-    fr: {
-      btn: "EN",
-      navP1: "Page 1 (Outils 01–03)",
-      navP2: "Page 2 (Outils 04–06)",
-      goPage1: "← Retour à la Page 1 (Outils 01–03)",
-      p2DoneText: "Page 2 (Outils 04–06)",
-      navAbout: "À propos", navContact: "Contact", navPrivacy: "Confidentialité", navDisclaimer: "Disclaimer",
-      pageTitle: "Colette-Calculator — Page 2 : Feuille Hebdo, Salaire & Toiture",
-      pageSub: "Deuxième page avec les outils 04 à 06 : feuille de temps hebdomadaire (7 jours), calcul d'heures & salaire brut, et calculateur de toiture en croupe.",
-      jumpLabel: "Accès direct :",
-      jump4: "Feuille Hebdo", jump5: "Heures & Salaire", jump6: "Toiture en Croupe",
-      liveBadge: "Outil Actif",
-      t4Name: "Feuille de Temps Hebdomadaire (Lun–Dim)",
-      secFhDesc: "Saisissez l'heure de début, l'heure de fin et la pause (en minutes) pour chaque jour de la semaine afin d'obtenir le total hebdomadaire.",
-      lblStart: "Début", lblEnd: "Fin", lblBreak: "Pause (min)", lblDayNet: "Net jour", lblDayDec: "1/100e",
-      btnStdWeek: "Remplir semaine type (Lun–Ven 08:00–16:30, pause 30m)",
-      btnReset: "Reset (0)", lblWeekTotal: "TOTAL HEBDOMADAIRE",
-      btnCopy: "Copier", btnCopied: "Copié !",
-      lblFeatures: "Fonctionnalités", lblUse: "Utilisation (Use)",
-      t4F1: "7 jours complets (Lundi à Dimanche) avec déduction de pause quotidienne en minutes.",
-      t4F2: "Total cumulé de la semaine en heures-minutes et en centièmes (1/100e).",
-      t4F3: "Bouton de remplissage semaine type et réinitialisation rapide.",
-      t4U1: "Idéal pour suivre vos heures hebdomadaires, vérifier vos heures supplémentaires ou préparer une feuille de présence client ou employeur.",
-      c4Title: "Suivre une semaine de travail complète sans ressaisie manuelle",
-      c4P1: "La feuille hebdomadaire calcule automatiquement chaque journée après déduction de la pause, puis additionne l'ensemble de la semaine.",
-      c4B1: "Laissez les jours non travaillés à 00:00 → 00:00 (durée 00h 00min).",
-      c4B2: "Les horaires passant minuit sont pris en compte automatiquement.",
-      c4Ex: "Exemple : 5 jours × 8h 00min net = 40h 00min (40.00 h) sur la semaine.",
-      adLabel: "Publicité / Ad Space",
-      ad4Text: "Emplacement publicitaire entre l'outil 04 et l'outil 05 (728×90 / Responsive)",
-      ad5Text: "Emplacement publicitaire entre l'outil 05 et l'outil 06 (728×90 / Responsive)",
-      ad6Text: "Emplacement publicitaire après l'outil 06 (728×90 / Responsive)",
-      t5Name: "Calculateur d'Heures & Salaire Brut",
-      secPayDesc: "Estimez votre rémunération brute à partir du nombre d'heures (décimales ou issues de la feuille hebdo), du taux horaire et d'une majoration éventuelle.",
-      lblPayHours: "Heures travaillées (décimales)",
-      lblPayRate: "Taux horaire de base (€ / $)",
-      lblOtThreshold: "Seuil heures sup. (ex. 35 ou 40)",
-      lblOtMult: "Multiplicateur heures sup. (ex. 1.25)",
-      btnImportWeek: "Importer heures de l'outil 04",
-      lblBasePay: "Salaire de base",
-      lblOtPay: "Majoration heures sup.",
-      lblGrossPay: "Total brut estimé",
-      t5F1: "Calcul instantané du salaire de base et des heures supplémentaires.",
-      t5F2: "Import direct des heures calculées dans la feuille hebdomadaire (Outil 04).",
-      t5F3: "Seuil d'heures supplémentaires et multiplicateur personnalisables.",
-      t5U1: "Pratique pour estimer un salaire brut, facturer des prestations horaires ou simuler l'impact d'heures supplémentaires.",
-      c5Title: "Relier facilement vos heures travaillées au calcul salarial",
-      c5P1: "Utilisez les heures décimales (centièmes) pour multiplier directement par votre taux horaire sans conversion manuelle.",
-      c5B1: "Laissez le seuil à 0 si toutes les heures sont payées au taux standard.",
-      c5B2: "Cliquez sur « Importer heures de l'outil 04 » après avoir rempli votre semaine.",
-      c5Ex: "Exemple : 40.00 h × 15.00 = 600.00 (avec seuil à 35h et ×1.25 : 525.00 + 93.75 = 618.75).",
-      t6Name: "Calculateur de Toiture en Croupe",
-      secRoofDesc: "Estimez la pente en degrés, la longueur des chevrons / arêtiers et la surface développée d'une toiture en croupe (4 pans).",
-      lblRoofLen: "Longueur base (m)",
-      lblRoofWid: "Largeur base (m)",
-      lblRoofRise: "Hauteur de faîtage (m)",
-      lblRoofSlope: "Pente du toit",
-      lblRafterLen: "Rampant / Chevron (m)",
-      lblRoofArea: "Surface toiture 4 pans (m²)",
-      t6F1: "Calcul de l'angle de pente en degrés et du rampant principal.",
-      t6F2: "Estimation géométrique de la surface totale d'une croupe à 4 pans.",
-      t6F3: "Mise à jour instantanée dès la saisie des dimensions.",
-      t6U1: "Utile pour obtenir un premier chiffrage de surface de couverture, de chevrons ou de matériaux pour une toiture en croupe."
-    },
-    en: {
-      btn: "FR",
-      navP1: "Page 1 (Tools 01–03)",
-      navP2: "Page 2 (Tools 04–06)",
-      goPage1: "← Back to Page 1 (Tools 01–03)",
-      p2DoneText: "Page 2 (Tools 04–06)",
-      navAbout: "About", navContact: "Contact", navPrivacy: "Privacy Policy", navDisclaimer: "Disclaimer",
-      pageTitle: "Colette-Calculator — Page 2: Weekly Sheet, Pay & Hip Roof",
-      pageSub: "Second page with tools 04 to 06: 7-day weekly timesheet, hours & gross pay calculator, and hip roof calculator.",
-      jumpLabel: "Quick jump:",
-      jump4: "Weekly Sheet", jump5: "Hours & Pay", jump6: "Hip Roof",
-      liveBadge: "Active Tool",
-      t4Name: "Weekly Timesheet (Mon–Sun)",
-      secFhDesc: "Enter start time, end time, and break (in minutes) for each day of the week to get your weekly total.",
-      lblStart: "Start", lblEnd: "End", lblBreak: "Break (min)", lblDayNet: "Day net", lblDayDec: "1/100e",
-      btnStdWeek: "Fill standard week (Mon–Fri 08:00–16:30, 30m break)",
-      btnReset: "Reset (0)", lblWeekTotal: "WEEKLY TOTAL",
-      btnCopy: "Copy", btnCopied: "Copied!",
-      lblFeatures: "Features", lblUse: "Use",
-      t4F1: "Full 7-day grid (Monday to Sunday) with daily break deduction in minutes.",
-      t4F2: "Cumulative weekly total in hours-minutes and hundredths (1/100e).",
-      t4F3: "One-click standard week fill and quick reset.",
-      t4U1: "Great for tracking weekly hours, checking overtime, or preparing a timesheet for clients or payroll.",
-      c4Title: "Track a Full Workweek Without Manual Re-Entry",
-      c4P1: "The weekly timesheet calculates each day's net duration after breaks and sums the full week automatically.",
-      c4B1: "Leave non-working days at 00:00 → 00:00 (00h 00min duration).",
-      c4B2: "Overnight shifts crossing midnight are handled automatically.",
-      c4Ex: "Example: 5 days × 8h 00min net = 40h 00min (40.00 h) for the week.",
-      adLabel: "Advertisement / Ad Space",
-      ad4Text: "Visible ad slot between Tool 04 and Tool 05 (728×90 / Responsive)",
-      ad5Text: "Visible ad slot between Tool 05 and Tool 06 (728×90 / Responsive)",
-      ad6Text: "Visible ad slot below Tool 06 (728×90 / Responsive)",
-      t5Name: "Working Hours & Gross Pay Calculator",
