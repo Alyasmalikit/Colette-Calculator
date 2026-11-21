@@ -6,139 +6,182 @@
 <title>Colette-Calculator | Page 2 — Feuille Hebdo, Salaire &amp; Toiture</title>
 <style>
   :root {
-    --bg: #eef2f7;
+    --bg: #e2e8f0;
     --surface: #ffffff;
     --ink: #0f172a;
-    --muted: #475569;
-    --border: #94a3b8;
+    --muted: #334155;
+    --border: #64748b;
     --border-soft: #cbd5e1;
     --primary: #1a73e8;
     --primary-hover: #1557b0;
-    --primary-dark: #174ea6;
-    --soft: #eff6ff;
-    --warn-bg: #fefce8;
-    --warn-border: #fde047;
-    --warn-ink: #854d0e;
-    --radius: 14px;
-    --shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+    --primary-dark: #103c8c;
+    --soft: #dbeafe;
+    --warn-bg: #fef9c3;
+    --warn-border: #eab308;
+    --warn-ink: #713f12;
+    --radius: 16px;
+    --emboss-card: 0 10px 24px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    --emboss-btn: 0 3px 0 #103c8c, 0 5px 10px rgba(26, 115, 232, 0.25);
+    --emboss-sec: 0 3px 0 #64748b, 0 4px 8px rgba(15, 23, 42, 0.08);
   }
   *, *::before, *::after { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  html, body {
+  body {
     margin: 0;
-    padding: 0;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
+    background: linear-gradient(180deg, #dce5f2 0%, #e8eef6 100%);
     color: var(--ink);
     line-height: 1.6;
   }
-  .container { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 18px; }
+  .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 18px; }
 
-  .site-header { width: 100%; background: var(--surface); border-bottom: 1px solid var(--border-soft); position: sticky; top: 0; z-index: 30; }
+  .site-header {
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    border-bottom: 2px solid #94a3b8;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
   .nav-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 12px 0; }
-  .brand { font-weight: 800; font-size: 1.18rem; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 9px; }
-  .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); display: inline-block; }
+  .brand { font-weight: 900; font-size: 1.24rem; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+  .brand-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 0 3px #bfdbfe; display: inline-block; }
   .nav-right { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-  .nav-menu { display: flex; flex-wrap: wrap; gap: 6px; }
-  .nav-menu a { display: inline-flex; align-items: center; justify-content: center; color: var(--ink); background: #ffffff; border: 1px solid var(--border); border-bottom: 2px solid #64748b; text-decoration: none; font-size: 0.8rem; font-weight: 700; padding: 5px 10px; border-radius: 7px; white-space: nowrap; }
-  .nav-menu a:hover { color: var(--primary); background: var(--soft); border-color: var(--primary); }
-  .nav-menu a.active { color: #ffffff; background: var(--primary); border-color: var(--primary); }
-  .lang-btn { background: var(--ink); color: #fff; border: none; padding: 7px 13px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
+  .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; }
+  .nav-menu a {
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--ink); background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    border: 1.5px solid #64748b; border-bottom: 3px solid #475569;
+    text-decoration: none; font-size: 0.82rem; font-weight: 800; padding: 6px 12px; border-radius: 9px; white-space: nowrap;
+  }
+  .nav-menu a:hover { color: var(--primary-dark); background: #eff6ff; border-color: var(--primary); }
+  .nav-menu a.active {
+    color: #fff; background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+    border-color: #1e40af; border-bottom: 3px solid #172554;
+  }
+  .lang-btn {
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    color: #fff; border: 1px solid #0f172a; border-bottom: 3px solid #000;
+    padding: 6px 13px; border-radius: 9px; font-weight: 800; font-size: 0.82rem; cursor: pointer;
+  }
   .lang-btn:hover { background: var(--primary); }
 
-  .page-head { background: var(--surface); border-bottom: 1px solid var(--border-soft); padding: 24px 0 20px; }
-  .page-head h1 { margin: 0 0 6px; font-size: clamp(1.5rem, 3.2vw, 2.05rem); letter-spacing: -0.02em; }
-  .page-head p { margin: 0; color: var(--muted); font-size: 0.95rem; max-width: 780px; }
+  .page-head { background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border-bottom: 2px solid #cbd5e1; padding: 24px 0 20px; }
+  .page-head h1 { margin: 0 0 6px; font-size: clamp(1.5rem, 3.2vw, 2.1rem); font-weight: 900; letter-spacing: -0.02em; }
+  .page-head p { margin: 0; color: var(--muted); font-size: 0.96rem; font-weight: 500; max-width: 820px; }
 
-  .jump-strip { background: var(--surface); border-bottom: 1px solid var(--border-soft); padding: 10px 0; }
+  .jump-strip { background: #f8fafc; border-bottom: 2px solid #cbd5e1; padding: 11px 0; }
   .jump-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-  .jump-label { font-size: 0.76rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
-  .jump-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--soft); border: 1px solid #93c5fd; color: var(--primary-dark); text-decoration: none; font-size: 0.8rem; font-weight: 800; }
-  .jump-pill:hover { background: var(--primary); color: #ffffff; border-color: var(--primary); }
+  .jump-label { font-size: 0.78rem; font-weight: 900; color: var(--ink); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
+  .jump-pill {
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px; border-radius: 999px;
+    background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1.5px solid #60a5fa; border-bottom: 3px solid #2563eb;
+    color: var(--primary-dark); text-decoration: none; font-size: 0.82rem; font-weight: 800;
+  }
+  .jump-pill:hover { background: var(--primary); color: #fff; }
 
-  .page-flow { display: flex; flex-direction: column; gap: 24px; padding: 24px 0 28px; }
+  .page-flow { display: flex; flex-direction: column; gap: 26px; padding: 26px 0 32px; }
   .tool-card {
-    background: var(--surface);
-    border: 2px solid #60a5fa;
-    border-top: 5px solid var(--primary);
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    border: 2px solid #3b82f6;
+    border-top: 6px solid var(--primary);
+    border-bottom: 4px solid #2563eb;
     border-radius: var(--radius);
     padding: 24px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--emboss-card);
     width: 100%;
-    min-width: 0;
-    scroll-margin-top: 82px;
+    scroll-margin-top: 78px;
   }
-  .card-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--border-soft); }
-  .card-head h2 { margin: 0; font-size: 1.18rem; display: flex; align-items: center; gap: 10px; }
-  .step-tag { background: var(--primary); color: #ffffff; font-size: 0.8rem; font-weight: 800; padding: 3px 10px; border-radius: 7px; }
-  .tool-status { font-size: 0.74rem; font-weight: 800; color: var(--primary-dark); background: var(--soft); border: 1px solid #93c5fd; padding: 3px 10px; border-radius: 999px; }
-  .tool-intro { margin: 0 0 18px; color: var(--muted); font-size: 0.93rem; }
+  .card-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
+  .card-head h2 { margin: 0; font-size: 1.22rem; font-weight: 900; display: flex; align-items: center; gap: 10px; }
+  .step-tag { background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%); color: #fff; font-size: 0.82rem; font-weight: 900; padding: 4px 11px; border-radius: 8px; box-shadow: 0 2px 0 #1e3a8a; }
+  .tool-status { font-size: 0.76rem; font-weight: 900; color: var(--primary-dark); background: #dbeafe; border: 1.5px solid #60a5fa; padding: 4px 11px; border-radius: 999px; }
+  .tool-intro { margin: 0 0 18px; color: var(--muted); font-size: 0.95rem; font-weight: 500; }
 
-  .tool-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 14px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-soft); }
-  .meta-box { background: #f8fafc; border: 1px solid var(--border-soft); border-radius: 12px; padding: 14px 16px; }
-  .meta-box h3 { margin: 0 0 6px; font-size: 0.94rem; }
-  .meta-box p, .meta-list { margin: 0; color: var(--muted); font-size: 0.89rem; }
+  .tool-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 14px; margin-top: 20px; padding-top: 16px; border-top: 2px solid #e2e8f0; }
+  .meta-box { background: #ffffff; border: 1.5px solid #cbd5e1; border-bottom: 3px solid #94a3b8; border-radius: 12px; padding: 14px 16px; }
+  .meta-box h3 { margin: 0 0 6px; font-size: 0.96rem; font-weight: 800; }
+  .meta-box p, .meta-list { margin: 0; color: var(--muted); font-size: 0.9rem; }
   .meta-list { padding-left: 18px; }
   .meta-list li { margin-bottom: 5px; }
 
-  .between-content { background: var(--surface); border: 1px solid var(--border-soft); border-left: 4px solid var(--primary); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
-  .between-content h3 { margin: 0 0 6px; font-size: 1rem; }
-  .between-content p, .between-list { margin: 0 0 8px; color: var(--muted); font-size: 0.9rem; }
+  .between-content { background: #ffffff; border: 1.5px solid #94a3b8; border-left: 6px solid var(--primary); border-bottom: 3px solid #64748b; border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--emboss-card); }
+  .between-content h3 { margin: 0 0 6px; font-size: 1.04rem; font-weight: 800; }
+  .between-content p, .between-list { margin: 0 0 8px; color: var(--muted); font-size: 0.92rem; }
   .between-list { padding-left: 18px; }
   .between-list li { margin-bottom: 4px; }
-  .example-strip { padding: 9px 12px; background: #f8fafc; border: 1px solid var(--border-soft); border-radius: 8px; font-size: 0.86rem; font-weight: 700; }
+  .example-strip { padding: 10px 13px; background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 9px; font-size: 0.88rem; font-weight: 800; color: var(--primary-dark); }
 
-  .ad-box { width: 100%; min-height: 92px; padding: 12px 16px; background: var(--surface); border: 2px dashed var(--border); border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 4px; }
-  .ad-tag { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: #f1f5f9; border: 1px solid var(--border-soft); padding: 2px 8px; border-radius: 999px; }
-  .ad-placeholder-text { font-size: 0.82rem; color: var(--muted); font-weight: 600; }
+  .ad-box {
+    width: 100%; min-height: 96px; padding: 14px 16px;
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    border: 2px dashed #64748b; border-radius: var(--radius);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 5px;
+  }
+  .ad-tag { font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); background: #e2e8f0; border: 1px solid #94a3b8; padding: 2px 9px; border-radius: 999px; }
+  .ad-placeholder-text { font-size: 0.84rem; color: var(--muted); font-weight: 700; }
 
-  .week-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; background: #f8fafc; border: 1px solid var(--border-soft); border-radius: 10px; margin-bottom: 12px; }
+  .week-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 15px; background: #ffffff; border: 1.5px solid #94a3b8; border-bottom: 3px solid #64748b; border-radius: 11px; margin-bottom: 12px; }
   .week-nav { display: flex; flex-wrap: wrap; gap: 6px; }
-  .day-box { display: grid; grid-template-columns: 165px minmax(0, 1fr) 170px; gap: 10px; align-items: start; border: 1px solid var(--border-soft); border-radius: 10px; padding: 9px 12px; margin-bottom: 8px; background: #fafcff; }
-  .day-box.off { opacity: 0.55; background: #f1f5f9; }
+  .day-box { display: grid; grid-template-columns: 165px minmax(0, 1fr) 170px; gap: 10px; align-items: start; border: 1.5px solid #94a3b8; border-bottom: 3px solid #64748b; border-radius: 11px; padding: 10px 12px; margin-bottom: 9px; background: #ffffff; }
+  .day-box.off { opacity: 0.52; background: #f1f5f9; }
   @media (max-width: 820px) { .day-box { grid-template-columns: 1fr; } }
-  .day-title { font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; padding-top: 5px; }
+  .day-title { font-weight: 800; font-size: 0.92rem; display: inline-flex; align-items: center; gap: 8px; padding-top: 5px; }
   .slots-col { display: flex; flex-direction: column; gap: 6px; }
   .slot-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 108px 80px 34px; gap: 6px; align-items: center; }
   @media (max-width: 560px) { .slot-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-  input[type="time"], input[type="number"] { width: 100%; min-width: 0; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.92rem; font-weight: 700; background: #fff; color: var(--ink); }
-  input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.16); }
-  .out-pill { padding: 7px 8px; background: #dbeafe; border: 1.5px solid #60a5fa; border-radius: 8px; font-weight: 900; font-size: 0.82rem; color: var(--primary-dark); text-align: center; white-space: nowrap; }
-  .day-totals { display: flex; justify-content: flex-end; font-size: 0.86rem; font-weight: 800; color: var(--primary-dark); padding-top: 6px; }
+  input[type="time"], input[type="number"] {
+    width: 100%; min-width: 0; padding: 8px 10px;
+    border: 2px solid #64748b; border-radius: 9px;
+    font-size: 0.94rem; font-weight: 800; background: #fff; color: var(--ink);
+    box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.08);
+  }
+  input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.22); }
+  .out-pill {
+    padding: 7px 8px; background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1.5px solid #3b82f6; border-bottom: 2px solid #1d4ed8;
+    border-radius: 8px; font-weight: 900; font-size: 0.84rem; color: var(--primary-dark); text-align: center; white-space: nowrap;
+  }
+  .day-totals { display: flex; justify-content: flex-end; font-size: 0.88rem; font-weight: 900; color: var(--primary-dark); padding-top: 6px; }
 
   .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
-  .btn { background: var(--primary); color: #fff; border: none; padding: 9px 16px; border-radius: 9px; font-weight: 700; font-size: 0.88rem; cursor: pointer; }
+  .btn { background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%); color: #fff; border: 1px solid #1e40af; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 0.9rem; cursor: pointer; box-shadow: var(--emboss-btn); }
   .btn:hover { background: var(--primary-hover); }
-  .btn-sec { background: #f1f5f9; color: var(--ink); border: 1px solid var(--border); padding: 8px 14px; border-radius: 9px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+  .btn-sec { background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%); color: var(--ink); border: 1.5px solid #64748b; padding: 8px 15px; border-radius: 10px; font-weight: 800; font-size: 0.86rem; cursor: pointer; box-shadow: var(--emboss-sec); }
   .btn-sec:hover { background: #e2e8f0; }
-  .btn-mini { background: #ffffff; color: var(--ink); border: 1px solid var(--border); padding: 5px 10px; border-radius: 7px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
+  .btn-mini { background: #fff; color: var(--ink); border: 1.5px solid #64748b; border-bottom: 2px solid #475569; padding: 5px 10px; border-radius: 7px; font-weight: 800; font-size: 0.82rem; cursor: pointer; }
 
-  .total-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; background: var(--soft); border: 1.5px solid #60a5fa; border-radius: 12px; font-weight: 800; }
-  .total-badge { background: #fff; border: 1.5px solid #60a5fa; padding: 5px 12px; border-radius: 8px; font-weight: 900; color: var(--primary-dark); }
+  .total-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 17px; background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%); border: 2px solid #3b82f6; border-bottom: 4px solid #1d4ed8; border-radius: 13px; font-weight: 900; }
+  .total-badge { background: #fff; border: 2px solid #2563eb; border-bottom: 3px solid #1e3a8a; padding: 5px 13px; border-radius: 9px; font-weight: 900; color: var(--primary-dark); }
 
   .split-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: 20px; }
   .field { margin-bottom: 12px; }
-  .field label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--muted); margin-bottom: 5px; }
+  .field label { display: block; font-size: 0.8rem; font-weight: 800; color: var(--muted); margin-bottom: 5px; }
   .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
-  .preset-btn { background: #f8fafc; border: 1px solid var(--border); color: var(--ink); padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; cursor: pointer; }
-  .res-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 9px 12px; border: 1px solid var(--border-soft); border-radius: 9px; background: #fafcff; margin-bottom: 8px; }
-  .res-row.highlight { background: var(--soft); border-color: #60a5fa; font-weight: 800; }
-  .res-label { font-size: 0.86rem; color: var(--muted); }
-  .res-val { font-size: 0.92rem; font-weight: 800; color: var(--primary-dark); }
-  .notice-box { margin-top: 10px; padding: 10px 14px; border-radius: 9px; background: var(--warn-bg); border: 1px solid var(--warn-border); color: var(--warn-ink); font-size: 0.86rem; font-weight: 600; display: none; }
+  .preset-btn { background: #fff; border: 1.5px solid #64748b; border-bottom: 2px solid #475569; color: var(--ink); padding: 4px 11px; border-radius: 999px; font-size: 0.8rem; font-weight: 800; cursor: pointer; }
+  .res-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 9px 12px; border: 1.5px solid #cbd5e1; border-bottom: 2px solid #94a3b8; border-radius: 9px; background: #ffffff; margin-bottom: 8px; }
+  .res-row.highlight { background: #dbeafe; border-color: #3b82f6; border-bottom: 3px solid #1d4ed8; font-weight: 900; }
+  .res-label { font-size: 0.88rem; font-weight: 600; color: var(--muted); }
+  .res-val { font-size: 0.94rem; font-weight: 900; color: var(--primary-dark); }
+  .notice-box { margin-top: 10px; padding: 10px 14px; border-radius: 9px; background: var(--warn-bg); border: 1.5px solid var(--warn-border); color: var(--warn-ink); font-size: 0.88rem; font-weight: 700; display: none; }
 
-  .site-footer { width: 100%; border-top: 1px solid var(--border-soft); background: var(--surface); padding: 24px 0 34px; text-align: center; font-size: 0.86rem; color: var(--muted); margin-top: 28px; }
-  .footer-links { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-  .footer-links a { color: var(--muted); text-decoration: none; font-weight: 600; }
+  .diagram-box {
+    margin-bottom: 16px; padding: 14px; background: #ffffff;
+    border: 2px solid #60a5fa; border-bottom: 4px solid #2563eb;
+    border-radius: 12px; text-align: center;
+  }
+  .diagram-caption { font-size: 0.82rem; font-weight: 800; color: var(--primary-dark); margin-top: 6px; }
+
+  .site-footer { width: 100%; border-top: 2px solid #94a3b8; background: #ffffff; padding: 24px 0 34px; text-align: center; font-size: 0.88rem; color: var(--muted); margin-top: 28px; }
+  .footer-links { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+  .footer-links a { color: var(--ink); text-decoration: none; font-weight: 800; }
   .footer-links a:hover { color: var(--primary); }
 
   @media print {
     .site-header, .jump-strip, .between-content, .ad-box, .site-footer, .toolbar, .week-nav, .btn-mini { display: none !important; }
-    body { background: #ffffff; }
+    body { background: #fff; }
   }
 </style>
 </head>
@@ -151,7 +194,7 @@
       <nav class="nav-menu">
         <a href="index.html" data-t="navP1">Page 1 (Outils 01–03)</a>
         <a href="page2.html" class="active" data-t="navP2">Page 2 (Outils 04–06)</a>
-        <a href="pages.html" data-t="navInfo">Infos &amp; Légal</a>
+        <a href="pages.html" data-t="navInfo">About &amp; Legal</a>
       </nav>
       <button type="button" id="langBtn" class="lang-btn" onclick="toggleLang()">EN</button>
     </div>
@@ -161,13 +204,14 @@
 <section class="page-head">
   <div class="container">
     <h1 data-t="pageTitle">Colette-Calculator — Feuille Hebdo, Salaire &amp; Toiture</h1>
-    <p data-t="pageSub">Page 2 : 3 outils supplémentaires (feuille hebdomadaire, heures &amp; salaire et toiture en croupe) avec guides pratiques et emplacements publicitaires.</p>
+    <p data-t="pageSub">Page 2 : 3 calculateurs haute visibilité (feuille hebdomadaire, heures &amp; salaire et toiture en croupe avec schéma) et espaces publicitaires.</p>
   </div>
 </section>
 
 <div class="jump-strip">
   <div class="container jump-inner">
     <span class="jump-label" data-t="jumpLabel">Accès direct :</span>
+    <a href="index.html" class="jump-pill">← <span data-t="navP1">Page 1 (Outils 01–03)</span></a>
     <a href="#tool-04" class="jump-pill">04 • <span data-t="jump4">Feuille Hebdo</span></a>
     <a href="#tool-05" class="jump-pill">05 • <span data-t="jump5">Heures &amp; Salaire</span></a>
     <a href="#tool-06" class="jump-pill">06 • <span data-t="jump6">Toiture Croupe</span></a>
@@ -177,7 +221,6 @@
 <main class="container">
   <div class="page-flow">
 
-    <!-- TOOL 04 -->
     <section class="tool-card" id="tool-04" aria-labelledby="t4Heading">
       <div class="card-head">
         <h2 id="t4Heading"><span class="step-tag">04</span> <span data-t="t4Name">Feuille de Pointage Hebdomadaire</span></h2>
@@ -188,7 +231,7 @@
       <div class="week-bar">
         <div>
           <strong id="weekLabel">Semaine</strong>
-          <span id="weekDates" style="margin-left:8px;color:var(--muted);font-weight:700;font-size:0.84rem;"></span>
+          <span id="weekDates" style="margin-left:8px;color:var(--muted);font-weight:700;font-size:0.86rem;"></span>
         </div>
         <div class="week-nav">
           <button type="button" class="btn-sec" id="prevWeekBtn" data-t="btnPrevWeek">← Préc.</button>
@@ -207,7 +250,7 @@
       <div class="total-bar">
         <div>
           <strong data-t="lblWeekTotal">TOTAL HEBDOMADAIRE</strong>
-          <span id="activeDaysCount" style="margin-left:8px;font-size:0.84rem;color:var(--muted);"></span>
+          <span id="activeDaysCount" style="margin-left:8px;font-size:0.86rem;color:var(--muted);"></span>
         </div>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
           <span class="total-badge" id="weekTotalHM">00h 00min</span>
@@ -247,7 +290,6 @@
       <span class="ad-placeholder-text" data-t="ad4Text">Emplacement publicitaire entre l'outil 04 et l'outil 05 (728×90 / Responsive)</span>
     </div>
 
-    <!-- TOOL 05 -->
     <section class="tool-card" id="tool-05" aria-labelledby="t5Heading">
       <div class="card-head">
         <h2 id="t5Heading"><span class="step-tag">05</span> <span data-t="t5Name">Calculateur Heures de Travail &amp; Salaire</span></h2>
@@ -311,13 +353,50 @@
       <span class="ad-placeholder-text" data-t="ad5Text">Emplacement publicitaire entre l'outil 05 et l'outil 06 (728×90 / Responsive)</span>
     </div>
 
-    <!-- TOOL 06 -->
     <section class="tool-card" id="tool-06" aria-labelledby="t6Heading">
       <div class="card-head">
         <h2 id="t6Heading"><span class="step-tag">06</span> <span data-t="t6Name">Calculateur Charpente : Toiture en Croupe</span></h2>
         <span class="tool-status" data-t="liveBadge">Outil Actif</span>
       </div>
       <p class="tool-intro" data-t="t6Desc">Calculez le faîtage, les chevrons d'emprunt, l'arêtier, les pentes, les angles de coupe et la surface des 4 versants d'une toiture en croupe.</p>
+
+      <!-- VISUAL ROOF DIAGRAM -->
+      <div class="diagram-box" aria-label="Hip roof geometry diagram">
+        <svg viewBox="0 0 640 230" width="100%" style="max-width:600px;height:auto;display:block;margin:0 auto;">
+          <defs>
+            <linearGradient id="roofGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#dbeafe"/>
+              <stop offset="100%" stop-color="#eff6ff"/>
+            </linearGradient>
+          </defs>
+          <!-- Outer Eave Rectangle (Plan View Left) -->
+          <rect x="40" y="32" width="320" height="150" rx="4" fill="url(#roofGrad)" stroke="#1d4ed8" stroke-width="3"/>
+          <!-- Hip Lines (Arêtiers) -->
+          <line x1="40" y1="32" x2="125" y2="107" stroke="#dc2626" stroke-width="3"/>
+          <line x1="40" y1="182" x2="125" y2="107" stroke="#dc2626" stroke-width="3"/>
+          <line x1="360" y1="32" x2="275" y2="107" stroke="#dc2626" stroke-width="3"/>
+          <line x1="360" y1="182" x2="275" y2="107" stroke="#dc2626" stroke-width="3"/>
+          <!-- Ridge Line (Faîtage) -->
+          <line x1="125" y1="107" x2="275" y2="107" stroke="#0f172a" stroke-width="4"/>
+          <!-- Dashed Runs (Emprunts) -->
+          <line x1="200" y1="107" x2="200" y2="182" stroke="#16a34a" stroke-width="2.5" stroke-dasharray="5,4"/>
+          <line x1="40" y1="107" x2="125" y2="107" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="5,4"/>
+          <!-- Labels Plan View -->
+          <text x="200" y="96" text-anchor="middle" font-size="12" font-weight="800" fill="#0f172a" id="svgFait">Faîtage: 0.00 m</text>
+          <text x="200" y="203" text-anchor="middle" font-size="12" font-weight="800" fill="#1d4ed8" id="svgEgout">Égout: 0.00 m</text>
+          <text x="206" y="148" font-size="11" font-weight="800" fill="#15803d" id="svgPan">Pan: 0.00 m</text>
+          <text x="82" y="101" text-anchor="middle" font-size="11" font-weight="800" fill="#7e22ce" id="svgCroupe">Croupe: 0.00 m</text>
+          <text x="72" y="64" font-size="11" font-weight="800" fill="#b91c1c" transform="rotate(40 72 64)">Arêtier</text>
+
+          <!-- Elevation Triangle (Right) -->
+          <polygon points="430,175 600,175 515,65" fill="url(#roofGrad)" stroke="#1d4ed8" stroke-width="3"/>
+          <line x1="515" y1="65" x2="515" y2="175" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="5,4"/>
+          <text x="522" y="128" font-size="12" font-weight="800" fill="#b91c1c" id="svgH">H: 0.00 m</text>
+          <text x="515" y="196" text-anchor="middle" font-size="11" font-weight="800" fill="#334155">2 × Emprunt</text>
+          <text x="458" y="112" font-size="11" font-weight="800" fill="#1d4ed8" transform="rotate(-52 458 112)">Chevron</text>
+        </svg>
+        <div class="diagram-caption" data-t="diagCap">Schéma dynamique : vue en plan (faîtage, égout, emprunts, arêtiers) &amp; coupe verticale (hauteur H)</div>
+      </div>
 
       <div class="split-grid">
         <div>
@@ -346,7 +425,7 @@
         <div class="meta-box">
           <h3 data-t="lblFeatures">Fonctionnalités</h3>
           <ul class="meta-list">
-            <li data-t="t6F1">Calcul instantané du faîtage, des chevrons et de l'arêtier réel.</li>
+            <li data-t="t6F1">Schéma visuel dynamique + calcul instantané du faîtage, des chevrons et de l'arêtier réel.</li>
             <li data-t="t6F2">Pentes en degrés et pourcentage plus angles d'aplomb et de pied.</li>
             <li data-t="t6F3">Estimation globale de la surface des 4 pans en m².</li>
           </ul>
@@ -368,7 +447,7 @@
 
 <footer class="site-footer">
   <div class="container">
-    <div>Colette-Calculator</div>
+    <div><strong>Colette-Calculator</strong></div>
     <div class="footer-links">
       <a href="index.html" data-t="navP1">Page 1 (Outils 01–03)</a>
       <a href="page2.html" data-t="navP2">Page 2 (Outils 04–06)</a>
@@ -389,10 +468,10 @@
 
   const dict = {
     fr: {
-      btn: "EN", navP1: "Page 1 (Outils 01–03)", navP2: "Page 2 (Outils 04–06)", navInfo: "Infos & Légal",
+      btn: "EN", navP1: "Page 1 (Outils 01–03)", navP2: "Page 2 (Outils 04–06)", navInfo: "About & Legal",
       fAbout: "About", fContact: "Contact", fTerms: "Terms", fDisclaimer: "Disclaimer",
       pageTitle: "Colette-Calculator — Feuille Hebdo, Salaire & Toiture",
-      pageSub: "Page 2 : 3 outils supplémentaires (feuille hebdomadaire, heures & salaire et toiture en croupe) avec guides pratiques et emplacements publicitaires.",
+      pageSub: "Page 2 : 3 calculateurs haute visibilité (feuille hebdomadaire, heures & salaire et toiture en croupe avec schéma) et espaces publicitaires.",
       jumpLabel: "Accès direct :", jump4: "Feuille Hebdo", jump5: "Heures & Salaire", jump6: "Toiture Croupe",
       liveBadge: "Outil Actif", btnReset: "Reset (0)", lblFeatures: "Fonctionnalités", lblUse: "Utilisation (Use)",
       adLabel: "Publicité / Ad Space",
@@ -433,6 +512,7 @@
       c5Ex: "Exemple : 15,00 €/h × 35 h = 525,00 € + 4 h à +25% (18,75 €/h = 75,00 €) = 600,00 €.",
       t6Name: "Calculateur Charpente : Toiture en Croupe",
       t6Desc: "Calculez le faîtage, les chevrons d'emprunt, l'arêtier, les pentes, les angles de coupe et la surface des 4 versants d'une toiture en croupe.",
+      diagCap: "Schéma dynamique : vue en plan (faîtage, égout, emprunts, arêtiers) & coupe verticale (hauteur H)",
       lblEmpPan: "Emprunt du long pan (m)", lblEmpCroupe: "Emprunt de la croupe (m)",
       lblEgout: "Longueur totale de la ligne d'égout (m)", lblHaut: "Hauteur de couronnement H (m)",
       ridgeShortMsg: "La longueur d'égout est inférieure ou égale à 2 × emprunt croupe : le faîtage est ramené à 0.00 m.",
@@ -440,16 +520,16 @@
       rAretierPlan: "Projection horizontale de l'arêtier", rAretierReel: "Longueur réelle de l'arêtier",
       rPentePan: "Pente du long pan (degrés / %)", rPenteCroupe: "Pente de la croupe (degrés / %)",
       rCoupeAplomb: "Angle de coupe d'aplomb (arêtier)", rCoupePied: "Angle de coupe de pied (arêtier)", rSurface: "Surface totale des versants (4 pans)",
-      t6F1: "Calcul instantané du faîtage, des chevrons et de l'arêtier réel.",
+      t6F1: "Schéma visuel dynamique + calcul instantané du faîtage, des chevrons et de l'arêtier réel.",
       t6F2: "Pentes en degrés et pourcentage plus angles d'aplomb et de pied.",
       t6F3: "Estimation globale de la surface des 4 pans en m².",
       t6U1: "Destiné aux charpentiers, artisans et bricoleurs pour préparer un tracé, vérifier des longueurs de pièces ou estimer une surface de couverture."
     },
     en: {
-      btn: "FR", navP1: "Page 1 (Tools 01–03)", navP2: "Page 2 (Tools 04–06)", navInfo: "Info & Legal",
+      btn: "FR", navP1: "Page 1 (Tools 01–03)", navP2: "Page 2 (Tools 04–06)", navInfo: "About & Legal",
       fAbout: "About", fContact: "Contact", fTerms: "Terms", fDisclaimer: "Disclaimer",
       pageTitle: "Colette-Calculator — Weekly, Pay & Hip Roof",
-      pageSub: "Page 2: 3 more tools (weekly timesheet, hours & pay, and hip roof framing) with guides and ad slots.",
+      pageSub: "Page 2: 3 high-visibility calculators (weekly timesheet, hours & pay, and hip roof with live diagram) and ad spaces.",
       jumpLabel: "Quick jump:", jump4: "Weekly Sheet", jump5: "Hours & Pay", jump6: "Hip Roof",
       liveBadge: "Active Tool", btnReset: "Reset (0)", lblFeatures: "Features", lblUse: "Use",
       adLabel: "Advertisement / Ad Space",
@@ -490,6 +570,7 @@
       c5Ex: "Example: €15.00/h × 35 h = €525.00 + 4 h at +25% (€18.75/h = €75.00) = €600.00.",
       t6Name: "Framing Calculator: Hip Roof",
       t6Desc: "Calculate ridge length, common rafters, hip projection and true hip length, pitches, cut angles, and 4-slope surface area.",
+      diagCap: "Live diagram: plan view (ridge, eave, runs, hips) & vertical section (height H)",
       lblEmpPan: "Main slope run / emprunt (m)", lblEmpCroupe: "Hip end run / emprunt (m)",
       lblEgout: "Total eave line length (m)", lblHaut: "Crown height H (m)",
       ridgeShortMsg: "Eave length is less than or equal to 2 × hip run: ridge length is clamped to 0.00 m.",
@@ -497,25 +578,19 @@
       rAretierPlan: "Horizontal hip projection", rAretierReel: "True hip rafter length",
       rPentePan: "Main slope pitch (deg / %)", rPenteCroupe: "Hip end pitch (deg / %)",
       rCoupeAplomb: "Hip plumb cut angle", rCoupePied: "Hip seat / level cut angle", rSurface: "Total roof area (4 slopes)",
-      t6F1: "Instant ridge, common rafter, and true hip rafter calculations.",
+      t6F1: "Live visual diagram + instant ridge, common rafter, and true hip calculations.",
       t6F2: "Pitches in degrees and percent plus plumb and seat cut angles.",
       t6F3: "Total 4-slope roof area in m².",
       t6U1: "Made for framers, builders, and DIYers checking roof geometry, rafter lengths, or covering area."
     }
   };
 
-  function fmtHM(mins) {
-    const abs = Math.abs(Math.round(mins));
-    return `${String(Math.floor(abs / 60)).padStart(2, "0")}h ${String(abs % 60).padStart(2, "0")}min`;
-  }
+  function fmtHM(mins) { const abs = Math.abs(Math.round(mins)); return `${String(Math.floor(abs / 60)).padStart(2, "0")}h ${String(abs % 60).padStart(2, "0")}min`; }
   function calcSlotInfo(s) {
     if (!s.start || !s.end) return { mins: 0 };
-    const [sh, sm] = s.start.split(":").map(Number);
-    const [eh, em] = s.end.split(":").map(Number);
+    const [sh, sm] = s.start.split(":").map(Number), [eh, em] = s.end.split(":").map(Number);
     if ([sh, sm, eh, em].some(Number.isNaN)) return { mins: 0 };
-    const a = sh * 60 + sm;
-    let b = eh * 60 + em;
-    if (b < a) b += 1440;
+    const a = sh * 60 + sm; let b = eh * 60 + em; if (b < a) b += 1440;
     return { mins: Math.max(0, b - a) };
   }
   function getMondayOfWeek(offset) {
@@ -526,35 +601,27 @@
   function getWeekKey(mon) { return `${STORE_PREFIX}${mon.getFullYear()}-${String(mon.getMonth() + 1).padStart(2, "0")}-${String(mon.getDate()).padStart(2, "0")}`; }
   function getISOWeek(date) {
     const tmp = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    const dayNum = tmp.getUTCDay() || 7;
-    tmp.setUTCDate(tmp.getUTCDate() + 4 - dayNum);
+    const dayNum = tmp.getUTCDay() || 7; tmp.setUTCDate(tmp.getUTCDate() + 4 - dayNum);
     const yStart = new Date(Date.UTC(tmp.getUTCFullYear(), 0, 1));
     return Math.ceil((((tmp - yStart) / 86400000) + 1) / 7);
   }
   function fmtShort(d) { return d.toLocaleDateString(lang === "fr" ? "fr-FR" : "en-GB", { day: "2-digit", month: "2-digit" }); }
   function defaultWeek() { return Array.from({ length: 7 }, (_, i) => ({ active: i < 5, slots: [{ start: "00:00", end: "00:00" }] })); }
-  function loadWeek(mon) {
-    try { const raw = localStorage.getItem(getWeekKey(mon)); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length === 7) return p; } } catch (e) {}
-    return defaultWeek();
-  }
+  function loadWeek(mon) { try { const raw = localStorage.getItem(getWeekKey(mon)); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length === 7) return p; } } catch (e) {} return defaultWeek(); }
   function saveWeek(mon, data) { try { localStorage.setItem(getWeekKey(mon), JSON.stringify(data)); } catch (e) {} }
 
   function updateWeekTotals(data) {
-    const d = dict[lang];
-    let wMins = 0, active = 0;
+    const d = dict[lang]; let wMins = 0, active = 0;
     data.forEach((day, di) => {
       if (day.active) active++;
       let dMins = 0;
       day.slots.forEach((sl, si) => {
-        const m = calcSlotInfo(sl).mins;
-        if (day.active) dMins += m;
+        const m = calcSlotInfo(sl).mins; if (day.active) dMins += m;
         const p1 = document.getElementById(`w-dur-${di}-${si}`), p2 = document.getElementById(`w-dec-${di}-${si}`);
-        if (p1) p1.textContent = fmtHM(m);
-        if (p2) p2.textContent = `${(m / 60).toFixed(2)} h`;
+        if (p1) p1.textContent = fmtHM(m); if (p2) p2.textContent = `${(m / 60).toFixed(2)} h`;
       });
       if (day.active) wMins += dMins;
-      const dt = document.getElementById(`w-daytot-${di}`);
-      if (dt) dt.textContent = `${fmtHM(dMins)} · ${(dMins / 60).toFixed(2)} h`;
+      const dt = document.getElementById(`w-daytot-${di}`); if (dt) dt.textContent = `${fmtHM(dMins)} · ${(dMins / 60).toFixed(2)} h`;
     });
     document.getElementById("activeDaysCount").textContent = d.activeDaysFmt(active);
     document.getElementById("weekTotalHM").textContent = fmtHM(wMins);
@@ -565,8 +632,7 @@
     const d = dict[lang], mon = getMondayOfWeek(weekOffset), sun = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + 6);
     document.getElementById("weekLabel").textContent = `${d.weekWord} ${getISOWeek(mon)} (${mon.getFullYear()})`;
     document.getElementById("weekDates").textContent = `${fmtShort(mon)} → ${fmtShort(sun)}`;
-    const data = loadWeek(mon), wrap = document.getElementById("daysContainer");
-    wrap.innerHTML = "";
+    const data = loadWeek(mon), wrap = document.getElementById("daysContainer"); wrap.innerHTML = "";
     data.forEach((day, di) => {
       const dateObj = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + di);
       const box = document.createElement("div"); box.className = "day-box" + (day.active ? "" : " off");
@@ -590,7 +656,6 @@
         else { btn.textContent = "×"; btn.addEventListener("click", () => { const cur = loadWeek(mon); if (cur[di].slots.length > 1) { cur[di].slots.splice(si, 1); saveWeek(mon, cur); buildWeekDOM(); } }); }
         r.append(i1, i2, p1, p2, btn); col.appendChild(r);
       });
-
       const tot = document.createElement("div"); tot.className = "day-totals"; tot.id = `w-daytot-${di}`;
       box.append(title, col, tot); wrap.appendChild(box);
     });
@@ -599,10 +664,8 @@
 
   function calcPay() {
     ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => { const el = document.getElementById(id); if (parseFloat(el.value) < 0) el.value = "0"; });
-    const rate = parseFloat(document.getElementById("inRate").value) || 0;
-    const reg = parseFloat(document.getElementById("inRegHours").value) || 0;
-    const ot = parseFloat(document.getElementById("inOtHours").value) || 0;
-    const pct = parseFloat(document.getElementById("inOtPct").value) || 0;
+    const rate = parseFloat(document.getElementById("inRate").value) || 0, reg = parseFloat(document.getElementById("inRegHours").value) || 0;
+    const ot = parseFloat(document.getElementById("inOtHours").value) || 0, pct = parseFloat(document.getElementById("inOtPct").value) || 0;
     const totH = reg + ot, base = reg * rate, otRate = rate * (1 + pct / 100), otPay = ot * otRate;
     document.getElementById("outTotalHours").textContent = `${totH.toFixed(2)} h (${fmtHM(totH * 60)})`;
     document.getElementById("outBasePay").textContent = `${base.toFixed(2)} €`;
@@ -614,12 +677,9 @@
   function calcRoof() {
     const d = dict[lang];
     ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => { const el = document.getElementById(id); if (parseFloat(el.value) < 0) el.value = "0"; });
-    const pan = parseFloat(document.getElementById("inEmpPan").value) || 0;
-    const cr = parseFloat(document.getElementById("inEmpCroupe").value) || 0;
-    const eg = parseFloat(document.getElementById("inEgout").value) || 0;
-    const h = parseFloat(document.getElementById("inHaut").value) || 0;
-    const rawFait = eg - 2 * cr, fait = Math.max(0, rawFait);
-    const notice = document.getElementById("roofNotice");
+    const pan = parseFloat(document.getElementById("inEmpPan").value) || 0, cr = parseFloat(document.getElementById("inEmpCroupe").value) || 0;
+    const eg = parseFloat(document.getElementById("inEgout").value) || 0, h = parseFloat(document.getElementById("inHaut").value) || 0;
+    const rawFait = eg - 2 * cr, fait = Math.max(0, rawFait), notice = document.getElementById("roofNotice");
     if (eg > 0 && rawFait < 0) { notice.textContent = d.ridgeShortMsg; notice.style.display = "block"; } else { notice.style.display = "none"; }
     const cp = Math.hypot(pan, h), cc = Math.hypot(cr, h), arPlan = Math.hypot(pan, cr), arReel = Math.hypot(arPlan, h);
     const pDeg = pan > 0 ? Math.atan2(h, pan) * 180 / Math.PI : 0, pPct = pan > 0 ? (h / pan) * 100 : 0;
@@ -636,11 +696,17 @@
     document.getElementById("outCoupeAplomb").textContent = `${aplomb.toFixed(2)}°`;
     document.getElementById("outCoupePied").textContent = `${pied.toFixed(2)}°`;
     document.getElementById("outSurface").textContent = `${surf.toFixed(2)} m²`;
+
+    // Update live SVG diagram labels
+    document.getElementById("svgFait").textContent = (lang === "fr" ? "Faîtage: " : "Ridge: ") + fait.toFixed(2) + " m";
+    document.getElementById("svgEgout").textContent = (lang === "fr" ? "Égout: " : "Eave: ") + eg.toFixed(2) + " m";
+    document.getElementById("svgPan").textContent = "Pan: " + pan.toFixed(2) + " m";
+    document.getElementById("svgCroupe").textContent = (lang === "fr" ? "Croupe: " : "Hip: ") + cr.toFixed(2) + " m";
+    document.getElementById("svgH").textContent = "H: " + h.toFixed(2) + " m";
   }
 
   function applyLang() {
-    document.documentElement.lang = lang;
-    const d = dict[lang];
+    document.documentElement.lang = lang; const d = dict[lang];
     document.getElementById("langBtn").textContent = d.btn;
     document.querySelectorAll("[data-t]").forEach(el => { const k = el.getAttribute("data-t"); if (d[k] && typeof d[k] === "string") el.textContent = d[k]; });
     buildWeekDOM(); calcPay(); calcRoof();
