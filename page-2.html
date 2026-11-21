@@ -3,45 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Page 2 — Feuille Hebdo, Salaire, Durées, Convertisseur &amp; Toiture | Colette-Calculator</title>
+<title>Calculette-tools | Page 2 — Outils</title>
 <style>
   :root {
     --bg: #f4f7fb;
     --surface: #ffffff;
     --ink: #0f172a;
     --muted: #475569;
-    --border: #e2e8f0;
+    --border: #cbd5e1;
     --primary: #2563eb;
-    --primary-hover: #1d4ed8;
     --soft: #eff6ff;
     --warn-bg: #fffbeb;
     --warn-border: #fde68a;
     --warn-ink: #92400e;
     --radius: 14px;
-    --shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
   }
   *, *::before, *::after { box-sizing: border-box; }
-  html, body {
+  body {
     margin: 0;
-    padding: 0;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     background: var(--bg);
     color: var(--ink);
-    line-height: 1.55;
+    line-height: 1.5;
   }
-  .container {
-    width: 100%;
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0 16px;
-  }
-  .site-header {
-    width: 100%;
+  .container { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+
+  header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
   .nav-bar {
     display: flex;
@@ -51,51 +43,21 @@
     gap: 10px;
     padding: 12px 0;
   }
-  .brand {
-    font-weight: 800;
-    font-size: 1.15rem;
-    color: var(--ink);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .brand-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--primary);
-    display: inline-block;
-  }
-  .nav-right {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .nav-menu {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
+  .brand { font-weight: 800; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+  .nav-right { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .nav-menu { display: flex; flex-wrap: wrap; gap: 6px; }
   .nav-menu a {
-    color: var(--ink);
-    background: #f8fafc;
-    border: 1px solid #cbd5e1;
     text-decoration: none;
     font-size: 0.8rem;
     font-weight: 700;
-    padding: 5px 9px;
-    border-radius: 8px;
-  }
-  .nav-menu a.active, .nav-menu a:hover {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: #fff;
+    padding: 6px 10px;
+    border-radius: 7px;
+    background: #e2e8f0;
+    color: var(--ink);
   }
   .lang-btn {
     background: var(--primary);
-    color: #fff;
+    color: #ffffff;
     border: none;
     padding: 7px 13px;
     border-radius: 8px;
@@ -103,149 +65,132 @@
     font-size: 0.82rem;
     cursor: pointer;
   }
-  .page-head {
-    padding: 20px 0 10px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .page-head h1 { margin: 0 0 4px; font-size: clamp(1.35rem, 3vw, 1.85rem); }
-  .page-head p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+  h1 { margin: 20px 0 6px; font-size: 1.65rem; }
+  .sub { margin: 0 0 18px; color: var(--muted); }
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 20px;
-    box-shadow: var(--shadow);
     margin-bottom: 18px;
   }
-  .card h2 { margin: 0 0 12px; font-size: 1.08rem; }
-  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
-  .field label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
+  .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .card h2 { margin: 0; font-size: 1.12rem; }
+  .split-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; align-items: end; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+  .hm-pair { display: flex; align-items: center; gap: 6px; }
   input[type="number"], input[type="time"], select {
     width: 100%;
     padding: 8px 10px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #94a3b8;
     border-radius: 8px;
     font-size: 0.92rem;
-    background: #fff;
+    background: #ffffff;
     color: var(--ink);
   }
-  .hm-pair { display: flex; align-items: center; gap: 6px; }
-  .hm-pair span { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
-  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
-  .btn {
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    padding: 9px 14px;
-    border-radius: 9px;
-    font-weight: 600;
-    font-size: 0.88rem;
-    cursor: pointer;
-  }
-  .btn-sec {
-    background: #f1f5f9;
-    color: var(--ink);
-    border: 1px solid #cbd5e1;
-    padding: 9px 14px;
-    border-radius: 9px;
-    font-weight: 600;
-    font-size: 0.88rem;
-    cursor: pointer;
-  }
-  .btn-mini {
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+  .preset-btn {
     background: #f8fafc;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #94a3b8;
+    color: var(--ink);
     padding: 4px 10px;
-    border-radius: 7px;
+    border-radius: 999px;
     font-size: 0.78rem;
     font-weight: 700;
     cursor: pointer;
   }
-  .out-box, .total-bar {
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .btn {
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .btn-sec {
+    background: #e2e8f0;
+    color: var(--ink);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.84rem;
+    cursor: pointer;
+  }
+  .btn-mini {
+    background: #ffffff;
+    color: var(--ink);
+    border: 1px solid #94a3b8;
+    padding: 4px 10px;
+    border-radius: 7px;
+    font-weight: 700;
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+
+  .out-box {
     margin-top: 12px;
-    padding: 12px 15px;
-    border-radius: 10px;
+    padding: 12px 14px;
     background: var(--soft);
     border: 1px solid #93c5fd;
+    border-radius: 10px;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
     font-weight: 800;
   }
-  .out-val { color: var(--primary); font-size: 1rem; }
-  .notice-box {
-    margin-top: 10px;
-    padding: 9px 12px;
-    border-radius: 9px;
-    background: var(--warn-bg);
-    border: 1px solid var(--warn-border);
-    color: var(--warn-ink);
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: none;
-  }
+  .out-val { color: var(--primary); }
+
   .week-bar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    padding: 10px 12px;
+    padding: 8px 12px;
     background: #f8fafc;
     border: 1px solid var(--border);
     border-radius: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
+  .week-nav { display: flex; gap: 6px; flex-wrap: wrap; }
   .day-box {
     display: grid;
-    grid-template-columns: 160px minmax(0, 1fr) 160px;
+    grid-template-columns: 165px minmax(0, 1fr) 170px;
     gap: 8px;
-    align-items: center;
+    align-items: start;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 9px;
     padding: 8px 10px;
-    margin-bottom: 7px;
+    margin-bottom: 6px;
     background: #fafcff;
   }
   .day-box.off { opacity: 0.55; background: #f1f5f9; }
   @media (max-width: 820px) { .day-box { grid-template-columns: 1fr; } }
-  .slot-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 100px 76px 34px;
-    gap: 6px;
-    align-items: center;
-    margin-bottom: 4px;
-  }
+  .day-title { font-weight: 700; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px; padding-top: 4px; }
+  .slots-col { display: flex; flex-direction: column; gap: 5px; }
+  .slot-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 105px 78px 34px; gap: 6px; align-items: center; }
+  @media (max-width: 560px) { .slot-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .out-pill {
     padding: 5px 6px;
     background: var(--soft);
-    border: 1px solid #bfdbfe;
+    border: 1px solid #93c5fd;
     border-radius: 6px;
     font-weight: 700;
     font-size: 0.8rem;
     text-align: center;
+    white-space: nowrap;
   }
-  .overnight-tag {
-    margin-left: 3px;
-    padding: 0 4px;
-    border-radius: 999px;
-    background: #dbeafe;
-    color: #1e40af;
-    font-size: 0.68rem;
-  }
+  .day-totals { font-size: 0.85rem; font-weight: 800; color: var(--primary); padding-top: 5px; }
+
   .res-row {
     display: flex;
     justify-content: space-between;
@@ -258,118 +203,98 @@
     margin-bottom: 8px;
   }
   .res-row.highlight { background: var(--soft); border-color: #93c5fd; font-weight: 800; }
-  .res-val { font-weight: 800; color: var(--primary); }
-  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .preset-btn {
-    background: #f8fafc;
-    border: 1px solid #cbd5e1;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-size: 0.78rem;
+  .res-label { font-size: 0.86rem; color: var(--muted); }
+  .res-val { font-size: 0.92rem; font-weight: 800; color: var(--primary); }
+  .notice {
+    margin-top: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    color: var(--warn-ink);
     font-weight: 700;
-    cursor: pointer;
+    font-size: 0.85rem;
+    display: none;
   }
-  .site-footer {
-    width: 100%;
+  footer {
+    text-align: center;
+    padding: 20px 16px;
+    color: var(--muted);
+    font-size: 0.9rem;
     border-top: 1px solid var(--border);
     background: var(--surface);
-    padding: 20px 0 30px;
-    text-align: center;
-    font-size: 0.86rem;
-    color: var(--muted);
-    margin-top: 22px;
+    margin-top: 24px;
   }
-  .footer-links {
-    margin-top: 8px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 14px;
+  @media print {
+    header, footer, .toolbar, .week-nav, .btn-mini { display: none !important; }
+    body { background: #ffffff; }
   }
-  .footer-links a { color: var(--muted); text-decoration: none; font-weight: 600; }
-  .footer-links a:hover { color: var(--primary); }
 </style>
 </head>
 <body>
-<header class="site-header">
+
+<header>
   <div class="container nav-bar">
-    <a href="index.html" class="brand"><span class="brand-dot"></span>Colette-Calculator</a>
+    <a href="./index.html" class="brand">Calculette-tools</a>
     <div class="nav-right">
       <nav class="nav-menu">
-        <a href="index.html" data-t="navHome">Page 1</a>
-        <a href="page2.html" class="active" data-t="navPage2">Page 2</a>
-        <a href="#sec-hebdo" data-t="navFh">Feuille Hebdo</a>
-        <a href="#sec-salaire" data-t="navWh">Heures &amp; Salaire</a>
-        <a href="#sec-durees" data-t="navTc">Durées</a>
-        <a href="#sec-convertisseur" data-t="navCv">Convertisseur</a>
-        <a href="#sec-toiture" data-t="navTo">Toiture</a>
+        <a href="./index.html" data-t="navHome">← Page 1</a>
+        <a href="#t-week" data-t="navFh">Feuille Hebdo</a>
+        <a href="#t-pay" data-t="navWh">Heures &amp; Salaire</a>
+        <a href="#t-dur" data-t="navTc">Durées</a>
+        <a href="#t-conv" data-t="navCv">Convertisseur</a>
+        <a href="#t-roof" data-t="navTo">Toiture</a>
       </nav>
-      <button type="button" id="langBtn" class="lang-btn">EN</button>
+      <button type="button" class="lang-btn" id="langBtn">EN</button>
     </div>
   </div>
 </header>
 
 <main class="container">
-  <div class="page-head">
-    <div>
-      <h1 data-t="p2Title">Page 2 — Tous les Autres Outils</h1>
-      <p data-t="p2Sub">Feuille hebdomadaire, heures &amp; salaire, calcul de durées, convertisseur 1/100e et toiture en croupe.</p>
-    </div>
-    <a href="index.html" class="btn-sec" style="text-decoration:none;" data-t="btnBackHome">← Retour Page 1</a>
-  </div>
+  <h1 data-t="p2Heading">Page 2 — Tous les Autres Calculateurs</h1>
+  <p class="sub" data-t="p2Sub">Feuille hebdomadaire, heures et salaire, calcul de durées, convertisseur 1/100e et toiture en croupe.</p>
 
-  <!-- 1. Feuille Hebdo -->
-  <section class="card" id="sec-hebdo">
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
-      <h2 style="margin:0;" data-t="t2Title">Feuille Hebdomadaire</h2>
+  <section class="card" id="t-week">
+    <h2 data-t="secWeekTitle">1. Feuille de Pointage Hebdomadaire</h2>
+    <div class="week-bar">
       <div>
+        <strong id="weekLabel">Semaine</strong>
+        <span id="weekDates" style="margin-left:8px;color:var(--muted);font-weight:700;font-size:0.84rem;"></span>
+      </div>
+      <div class="week-nav">
         <button type="button" class="btn-sec" id="prevWeekBtn" data-t="btnPrevWeek">← Préc.</button>
         <button type="button" class="btn-sec" id="currWeekBtn" data-t="btnCurrWeek">Actuelle</button>
         <button type="button" class="btn-sec" id="nextWeekBtn" data-t="btnNextWeek">Suiv. →</button>
       </div>
-    </div>
-    <div class="week-bar">
-      <div>
-        <strong id="weekLabel">Semaine</strong>
-        <span id="weekDates" style="margin-left:8px;color:var(--muted);font-size:0.84rem;"></span>
-      </div>
-      <span id="activeDaysCount" style="font-size:0.82rem;font-weight:700;color:var(--muted);">5 jours actifs</span>
     </div>
     <div id="daysContainer"></div>
     <div class="toolbar">
       <button type="button" class="btn" id="printWeekBtn" data-t="btnPrint">Version imprimable</button>
       <button type="button" class="btn-sec" id="resetWeekBtn" data-t="btnResetWeek">Reset semaine (0)</button>
     </div>
-    <div class="total-bar">
-      <span data-t="lblWeekTotal">TOTAL HEBDOMADAIRE</span>
+    <div class="out-box">
+      <div>
+        <strong data-t="lblWeekTotal">TOTAL HEBDOMADAIRE</strong>
+        <span id="activeDaysCount" style="margin-left:8px;font-size:0.84rem;color:var(--muted);"></span>
+      </div>
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
         <span class="out-val" id="weekTotalHM">00h 00min</span>
         <span class="out-val" id="weekTotalDec">0.00 h</span>
-        <button type="button" class="btn-sec" id="copyWeekBtn" data-t="btnCopy">Copier</button>
+        <button type="button" class="btn-mini" id="copyWeekBtn" data-t="btnCopy">Copier</button>
       </div>
     </div>
   </section>
 
-  <!-- 2. Heures & Salaire -->
-  <section class="card" id="sec-salaire">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-      <h2 style="margin:0;" data-t="t3Title">Heures &amp; Salaire</h2>
+  <section class="card" id="t-pay">
+    <div class="card-head">
+      <h2 data-t="secPayTitle">2. Calculateur d'Heures de Travail &amp; Salaire</h2>
       <button type="button" class="btn-mini" id="copyPayBtn" data-t="btnCopy">Copier</button>
     </div>
-    <div class="grid-2">
+    <div class="split-grid">
       <div>
-        <div class="field">
-          <label for="inRate" data-t="lblRate">Taux horaire (€ / heure)</label>
-          <input type="number" id="inRate" step="0.01" min="0" value="0">
-        </div>
-        <div class="field">
-          <label for="inRegHours" data-t="lblRegHours">Heures normales (en décimal 1/100e)</label>
-          <input type="number" id="inRegHours" step="0.01" min="0" value="0">
-        </div>
-        <div class="field">
-          <label for="inOtHours" data-t="lblOtHours">Heures supplémentaires (en décimal 1/100e)</label>
-          <input type="number" id="inOtHours" step="0.01" min="0" value="0">
-        </div>
+        <div class="field"><label for="inRate" data-t="lblRate">Taux horaire (€ / heure)</label><input type="number" id="inRate" step="0.01" min="0" value="0"></div>
+        <div class="field"><label for="inRegHours" data-t="lblRegHours">Heures normales (en décimal 1/100e)</label><input type="number" id="inRegHours" step="0.01" min="0" value="0"></div>
+        <div class="field"><label for="inOtHours" data-t="lblOtHours">Heures supplémentaires (en décimal 1/100e)</label><input type="number" id="inOtHours" step="0.01" min="0" value="0"></div>
         <div class="field">
           <label for="inOtPct" data-t="lblOtPct">Taux de majoration heures sup (%)</label>
           <input type="number" id="inOtPct" step="1" min="0" value="0">
@@ -382,18 +307,17 @@
         <div class="toolbar"><button type="button" class="btn-sec" id="resetPayBtn" data-t="btnReset">Reset</button></div>
       </div>
       <div>
-        <div class="res-row"><span data-t="rTotalHours">Total heures travaillées</span><span class="res-val" id="outTotalHours">0.00 h (00h 00min)</span></div>
-        <div class="res-row"><span data-t="rBasePay">Montant heures normales</span><span class="res-val" id="outBasePay">0.00 €</span></div>
-        <div class="res-row"><span data-t="rOtRate">Taux horaire majoré</span><span class="res-val" id="outOtRate">0.00 € / h</span></div>
-        <div class="res-row"><span data-t="rOtPay">Montant heures supplémentaires</span><span class="res-val" id="outOtPay">0.00 €</span></div>
-        <div class="res-row highlight"><span data-t="rGrandTotal">TOTAL ESTIMÉ</span><span class="res-val" id="outGrandTotal">0.00 €</span></div>
+        <div class="res-row"><span class="res-label" data-t="rTotalHours">Total heures travaillées</span><span class="res-val" id="outTotalHours">0.00 h (00h 00min)</span></div>
+        <div class="res-row"><span class="res-label" data-t="rBasePay">Montant heures normales</span><span class="res-val" id="outBasePay">0.00 €</span></div>
+        <div class="res-row"><span class="res-label" data-t="rOtRate">Taux horaire majoré</span><span class="res-val" id="outOtRate">0.00 € / h</span></div>
+        <div class="res-row"><span class="res-label" data-t="rOtPay">Montant heures supplémentaires</span><span class="res-val" id="outOtPay">0.00 €</span></div>
+        <div class="res-row highlight"><span class="res-label" data-t="rGrandTotal">TOTAL ESTIMÉ</span><span class="res-val" id="outGrandTotal">0.00 €</span></div>
       </div>
     </div>
   </section>
 
-  <!-- 3. Calculateur de Durées -->
-  <section class="card" id="sec-durees">
-    <h2 data-t="t4Title">Calculateur de Durées</h2>
+  <section class="card" id="t-dur">
+    <h2 data-t="secDurTitle">3. Calculateur de Durées (Heures &amp; Minutes)</h2>
     <div class="grid-3">
       <div class="field">
         <label for="durAh" data-t="lblA">Durée A</label>
@@ -422,23 +346,22 @@
       <button type="button" class="btn-sec" id="resetDurBtn" data-t="btnReset">Reset</button>
     </div>
     <div class="out-box">
-      <span data-t="lblRes">RÉSULTAT</span>
-      <div style="display:flex;align-items:center;gap:12px;">
+      <strong data-t="lblRes">RÉSULTAT</strong>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
         <span class="out-val" id="outDurHM">00h 00min</span>
         <span class="out-val" id="outDurDec">0.00 h</span>
         <button type="button" class="btn-mini" id="copyDurBtn" data-t="btnCopy">Copier</button>
       </div>
     </div>
-    <div id="durNotice" class="notice-box" role="status"></div>
+    <div class="notice" id="durNotice"></div>
   </section>
 
-  <!-- 4. Convertisseur 1/100e -->
-  <section class="card" id="sec-convertisseur">
-    <h2 data-t="t5Title">Convertisseur 1/100e</h2>
-    <div class="grid-2">
+  <section class="card" id="t-conv">
+    <h2 data-t="secConvTitle">4. Convertisseur Heures / Minutes ↔ Centièmes (1/100e)</h2>
+    <div class="split-grid">
       <div>
         <div class="field">
-          <label for="inH" data-t="lblHmInput">Heures &amp; Minutes → Centièmes (1/100e)</label>
+          <label for="inH" data-t="lblHmInput">Saisir heures et minutes</label>
           <div class="hm-pair">
             <input type="number" id="inH" min="0" value="0"><span>h</span>
             <input type="number" id="inM" min="0" max="59" value="0"><span>min</span>
@@ -451,13 +374,17 @@
           </div>
         </div>
         <div class="out-box">
-          <span class="out-val" id="outDec">0.00 h</span>
-          <button type="button" class="btn-mini" id="copyDecBtn" data-t="btnCopy">Copier</button>
+          <span class="res-label" data-t="lblOutDec">Résultat décimal</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="out-val" id="outDec">0.00 h</span>
+            <button type="button" class="btn-mini" id="copyDecBtn" data-t="btnCopy">Copier</button>
+            <button type="button" class="btn-mini" id="resetHmBtn" data-t="btnReset">Reset</button>
+          </div>
         </div>
       </div>
       <div>
         <div class="field">
-          <label for="inDec" data-t="lblDecInput">Centièmes (1/100e) → Heures &amp; Minutes</label>
+          <label for="inDec" data-t="lblDecInput">Saisir heures décimales (ex. 7.50)</label>
           <input type="number" id="inDec" step="0.01" min="0" value="0">
           <div class="presets">
             <button type="button" class="preset-btn" data-dec="0.25">0.25 h</button>
@@ -467,64 +394,49 @@
           </div>
         </div>
         <div class="out-box">
-          <span class="out-val" id="outHm">00h 00min</span>
-          <button type="button" class="btn-mini" id="copyHmBtn" data-t="btnCopy">Copier</button>
+          <span class="res-label" data-t="lblOutHm">Résultat heures-minutes</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="out-val" id="outHm">00h 00min</span>
+            <button type="button" class="btn-mini" id="copyHmBtn" data-t="btnCopy">Copier</button>
+            <button type="button" class="btn-mini" id="resetDecBtn" data-t="btnReset">Reset</button>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 5. Toiture en Croupe -->
-  <section class="card" id="sec-toiture">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-      <h2 style="margin:0;" data-t="t6Title">Toiture en Croupe</h2>
+  <section class="card" id="t-roof">
+    <div class="card-head">
+      <h2 data-t="secRoofTitle">5. Calculateur Charpente : Toiture en Croupe</h2>
       <button type="button" class="btn-mini" id="copyRoofBtn" data-t="btnCopy">Copier</button>
     </div>
-    <div class="grid-2">
+    <div class="split-grid">
       <div>
-        <div class="field">
-          <label for="inEmpPan" data-t="lblEmpPan">Emprunt du long pan (m)</label>
-          <input type="number" id="inEmpPan" step="0.01" min="0" value="0">
-        </div>
-        <div class="field">
-          <label for="inEmpCroupe" data-t="lblEmpCroupe">Emprunt de la croupe (m)</label>
-          <input type="number" id="inEmpCroupe" step="0.01" min="0" value="0">
-        </div>
-        <div class="field">
-          <label for="inEgout" data-t="lblEgout">Longueur totale de la ligne d'égout (m)</label>
-          <input type="number" id="inEgout" step="0.01" min="0" value="0">
-        </div>
-        <div class="field">
-          <label for="inHaut" data-t="lblHaut">Hauteur de couronnement H (m)</label>
-          <input type="number" id="inHaut" step="0.01" min="0" value="0">
-        </div>
+        <div class="field"><label for="inEmpPan" data-t="lblEmpPan">Emprunt du long pan (m)</label><input type="number" id="inEmpPan" step="0.01" min="0" value="0"></div>
+        <div class="field"><label for="inEmpCroupe" data-t="lblEmpCroupe">Emprunt de la croupe (m)</label><input type="number" id="inEmpCroupe" step="0.01" min="0" value="0"></div>
+        <div class="field"><label for="inEgout" data-t="lblEgout">Longueur totale de la ligne d'égout (m)</label><input type="number" id="inEgout" step="0.01" min="0" value="0"></div>
+        <div class="field"><label for="inHaut" data-t="lblHaut">Hauteur de couronnement H (m)</label><input type="number" id="inHaut" step="0.01" min="0" value="0"></div>
         <div class="toolbar"><button type="button" class="btn-sec" id="resetRoofBtn" data-t="btnReset">Reset (0)</button></div>
       </div>
       <div>
-        <div class="res-row"><span data-t="rFaitage">Longueur du faîtage</span><span class="res-val" id="outFaitage">0.00 m</span></div>
-        <div class="res-row"><span data-t="rChevPan">Chevron d'emprunt (long pan)</span><span class="res-val" id="outChevPan">0.00 m</span></div>
-        <div class="res-row"><span data-t="rChevCroupe">Chevron d'emprunt (croupe)</span><span class="res-val" id="outChevCroupe">0.00 m</span></div>
-        <div class="res-row"><span data-t="rAretierPlan">Projection horizontale de l'arêtier</span><span class="res-val" id="outAretierPlan">0.00 m</span></div>
-        <div class="res-row highlight"><span data-t="rAretierReel">Longueur réelle de l'arêtier</span><span class="res-val" id="outAretierReel">0.00 m</span></div>
-        <div class="res-row"><span data-t="rPentePan">Pente du long pan (degrés / %)</span><span class="res-val" id="outPentePan">0.00° (0.0 %)</span></div>
-        <div class="res-row"><span data-t="rPenteCroupe">Pente de la croupe (degrés / %)</span><span class="res-val" id="outPenteCroupe">0.00° (0.0 %)</span></div>
-        <div class="res-row"><span data-t="rCoupeAplomb">Angle de coupe d'aplomb (arêtier)</span><span class="res-val" id="outCoupeAplomb">0.00°</span></div>
-        <div class="res-row"><span data-t="rCoupePied">Angle de coupe de pied (arêtier)</span><span class="res-val" id="outCoupePied">0.00°</span></div>
-        <div class="res-row highlight"><span data-t="rSurface">Surface totale des versants (4 pans)</span><span class="res-val" id="outSurface">0.00 m²</span></div>
-        <div id="roofNotice" class="notice-box" role="status"></div>
+        <div class="res-row"><span class="res-label" data-t="rFaitage">Longueur du faîtage</span><span class="res-val" id="outFaitage">0.00 m</span></div>
+        <div class="res-row"><span class="res-label" data-t="rChevPan">Chevron d'emprunt (long pan)</span><span class="res-val" id="outChevPan">0.00 m</span></div>
+        <div class="res-row"><span class="res-label" data-t="rChevCroupe">Chevron d'emprunt (croupe)</span><span class="res-val" id="outChevCroupe">0.00 m</span></div>
+        <div class="res-row"><span class="res-label" data-t="rAretierPlan">Projection horizontale de l'arêtier</span><span class="res-val" id="outAretierPlan">0.00 m</span></div>
+        <div class="res-row highlight"><span class="res-label" data-t="rAretierReel">Longueur réelle de l'arêtier</span><span class="res-val" id="outAretierReel">0.00 m</span></div>
+        <div class="res-row"><span class="res-label" data-t="rPentePan">Pente du long pan (degrés / %)</span><span class="res-val" id="outPentePan">0.00° (0.0 %)</span></div>
+        <div class="res-row"><span class="res-label" data-t="rPenteCroupe">Pente de la croupe (degrés / %)</span><span class="res-val" id="outPenteCroupe">0.00° (0.0 %)</span></div>
+        <div class="res-row"><span class="res-label" data-t="rCoupeAplomb">Angle de coupe d'aplomb (arêtier)</span><span class="res-val" id="outCoupeAplomb">0.00°</span></div>
+        <div class="res-row"><span class="res-label" data-t="rCoupePied">Angle de coupe de pied (arêtier)</span><span class="res-val" id="outCoupePied">0.00°</span></div>
+        <div class="res-row highlight"><span class="res-label" data-t="rSurface">Surface totale des versants (4 pans)</span><span class="res-val" id="outSurface">0.00 m²</span></div>
+        <div class="notice" id="roofNotice"></div>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="container">
-    <div>Colette-Calculator</div>
-    <div class="footer-links">
-      <a href="index.html" data-t="navHome">Page 1</a>
-      <a href="page2.html" data-t="navPage2">Page 2</a>
-    </div>
-  </div>
+<footer>
+  Calculette-tools · <a href="./index.html" data-t="navHome">← Page 1</a>
 </footer>
 
 <script>
@@ -536,33 +448,34 @@
 
   const dict = {
     fr: {
-      btn: "EN", navHome: "Page 1", navPage2: "Page 2",
-      navWh: "Heures & Salaire", navTc: "Durées", navFh: "Feuille Hebdo",
-      navCv: "Convertisseur", navTo: "Toiture",
-      p2Title: "Page 2 — Tous les Autres Outils",
-      p2Sub: "Feuille hebdomadaire, heures & salaire, calcul de durées, convertisseur 1/100e et toiture en croupe.",
-      btnBackHome: "← Retour Page 1",
-      t2Title: "Feuille Hebdomadaire",
+      btn: "EN", navHome: "← Page 1", navFh: "Feuille Hebdo", navWh: "Heures & Salaire",
+      navTc: "Durées", navCv: "Convertisseur", navTo: "Toiture",
+      p2Heading: "Page 2 — Tous les Autres Calculateurs",
+      p2Sub: "Feuille hebdomadaire, heures et salaire, calcul de durées, convertisseur 1/100e et toiture en croupe.",
+      secWeekTitle: "1. Feuille de Pointage Hebdomadaire",
       btnPrevWeek: "← Préc.", btnCurrWeek: "Actuelle", btnNextWeek: "Suiv. →",
-      btnPrint: "Version imprimable", btnResetWeek: "Reset semaine (0)",
-      lblWeekTotal: "TOTAL HEBDOMADAIRE", btnCopy: "Copier", btnCopied: "Copié !",
-      overnightBadge: "+1j", activeDaysFmt: n => `${n} ${n > 1 ? "jours actifs" : "jour actif"}`,
+      btnPrint: "Version imprimable", btnResetWeek: "Reset semaine (0)", btnReset: "Reset",
+      btnCopy: "Copier", btnCopied: "Copié !",
+      confirmResetMsg: "Réinitialiser toutes les heures saisies pour cette semaine ?",
+      lblWeekTotal: "TOTAL HEBDOMADAIRE", ov: "+1j",
+      activeDaysFmt: n => `${n} ${n > 1 ? "jours actifs" : "jour actif"}`,
       days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
-      weekWord: "Semaine", confirmResetMsg: "Réinitialiser toutes les heures saisies pour cette semaine ?",
-      t3Title: "Heures & Salaire", lblRate: "Taux horaire (€ / heure)",
-      lblRegHours: "Heures normales (en décimal 1/100e)", lblOtHours: "Heures supplémentaires (en décimal 1/100e)",
-      lblOtPct: "Taux de majoration heures sup (%)", btnReset: "Reset",
+      weekWord: "Semaine",
+      secPayTitle: "2. Calculateur d'Heures de Travail & Salaire",
+      lblRate: "Taux horaire (€ / heure)", lblRegHours: "Heures normales (en décimal 1/100e)",
+      lblOtHours: "Heures supplémentaires (en décimal 1/100e)", lblOtPct: "Taux de majoration heures sup (%)",
       rTotalHours: "Total heures travaillées", rBasePay: "Montant heures normales",
       rOtRate: "Taux horaire majoré", rOtPay: "Montant heures supplémentaires", rGrandTotal: "TOTAL ESTIMÉ",
-      t4Title: "Calculateur de Durées", lblA: "Durée A", lblOp: "Opération",
-      opAdd: "Addition (+)", opSub: "Soustraction (−)", lblB: "Durée B",
-      btnSwap: "Inverser A ↔ B", lblRes: "RÉSULTAT",
+      secDurTitle: "3. Calculateur de Durées (Heures & Minutes)",
+      lblA: "Durée A", lblOp: "Opération", opAdd: "Addition (+)", opSub: "Soustraction (−)",
+      lblB: "Durée B", btnSwap: "Inverser A ↔ B", lblRes: "RÉSULTAT",
       subNegMsg: "La durée B est supérieure à la durée A : le résultat est négatif.",
-      t5Title: "Convertisseur 1/100e", lblHmInput: "Heures & Minutes → Centièmes (1/100e)",
-      lblDecInput: "Centièmes (1/100e) → Heures & Minutes",
-      t6Title: "Toiture en Croupe", lblEmpPan: "Emprunt du long pan (m)",
-      lblEmpCroupe: "Emprunt de la croupe (m)", lblEgout: "Longueur totale de la ligne d'égout (m)",
-      lblHaut: "Hauteur de couronnement H (m)",
+      secConvTitle: "4. Convertisseur Heures / Minutes ↔ Centièmes (1/100e)",
+      lblHmInput: "Saisir heures et minutes", lblOutDec: "Résultat décimal",
+      lblDecInput: "Saisir heures décimales (ex. 7.50)", lblOutHm: "Résultat heures-minutes",
+      secRoofTitle: "5. Calculateur Charpente : Toiture en Croupe",
+      lblEmpPan: "Emprunt du long pan (m)", lblEmpCroupe: "Emprunt de la croupe (m)",
+      lblEgout: "Longueur totale de la ligne d'égout (m)", lblHaut: "Hauteur de couronnement H (m)",
       ridgeShortMsg: "La longueur d'égout est inférieure ou égale à 2 × emprunt croupe : le faîtage est ramené à 0.00 m.",
       rFaitage: "Longueur du faîtage", rChevPan: "Chevron d'emprunt (long pan)",
       rChevCroupe: "Chevron d'emprunt (croupe)", rAretierPlan: "Projection horizontale de l'arêtier",
@@ -571,33 +484,34 @@
       rCoupePied: "Angle de coupe de pied (arêtier)", rSurface: "Surface totale des versants (4 pans)"
     },
     en: {
-      btn: "FR", navHome: "Page 1", navPage2: "Page 2",
-      navWh: "Working Hours", navTc: "Time Calculator", navFh: "Weekly Timesheet",
-      navCv: "Decimal Converter", navTo: "Hip Roof",
-      p2Title: "Page 2 — All Other Tools",
-      p2Sub: "Weekly timesheet, hours & pay, duration calculator, 1/100e converter, and hip roof framing.",
-      btnBackHome: "← Back to Page 1",
-      t2Title: "Weekly Timesheet",
+      btn: "FR", navHome: "← Page 1", navFh: "Weekly Timesheet", navWh: "Working Hours",
+      navTc: "Time Calculator", navCv: "Decimal Converter", navTo: "Hip Roof",
+      p2Heading: "Page 2 — All Other Calculators",
+      p2Sub: "Weekly timesheet, working hours & pay, duration math, 1/100e converter, and hip roof framing.",
+      secWeekTitle: "1. Weekly Timesheet",
       btnPrevWeek: "← Prev.", btnCurrWeek: "Current", btnNextWeek: "Next →",
-      btnPrint: "Printable view", btnResetWeek: "Reset week (0)",
-      lblWeekTotal: "WEEKLY TOTAL", btnCopy: "Copy", btnCopied: "Copied!",
-      overnightBadge: "+1d", activeDaysFmt: n => `${n} ${n === 1 ? "active day" : "active days"}`,
+      btnPrint: "Printable view", btnResetWeek: "Reset week (0)", btnReset: "Reset",
+      btnCopy: "Copy", btnCopied: "Copied!",
+      confirmResetMsg: "Reset all entered hours for this week?",
+      lblWeekTotal: "WEEKLY TOTAL", ov: "+1d",
+      activeDaysFmt: n => `${n} ${n === 1 ? "active day" : "active days"}`,
       days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      weekWord: "Week", confirmResetMsg: "Reset all entered hours for this week?",
-      t3Title: "Working Hours & Pay", lblRate: "Hourly rate (€ / hour)",
-      lblRegHours: "Regular hours (decimal 1/100e)", lblOtHours: "Overtime hours (decimal 1/100e)",
-      lblOtPct: "Overtime bonus percentage (%)", btnReset: "Reset",
+      weekWord: "Week",
+      secPayTitle: "2. Working Hours & Pay Calculator",
+      lblRate: "Hourly rate (€ / hour)", lblRegHours: "Regular hours (decimal 1/100e)",
+      lblOtHours: "Overtime hours (decimal 1/100e)", lblOtPct: "Overtime bonus percentage (%)",
       rTotalHours: "Total hours worked", rBasePay: "Regular hours pay",
       rOtRate: "Overtime hourly rate", rOtPay: "Overtime pay", rGrandTotal: "ESTIMATED TOTAL",
-      t4Title: "Time Duration Calculator", lblA: "Duration A", lblOp: "Operation",
-      opAdd: "Addition (+)", opSub: "Subtraction (−)", lblB: "Duration B",
-      btnSwap: "Swap A ↔ B", lblRes: "RESULT",
+      secDurTitle: "3. Time Duration Calculator (Hours & Minutes)",
+      lblA: "Duration A", lblOp: "Operation", opAdd: "Addition (+)", opSub: "Subtraction (−)",
+      lblB: "Duration B", btnSwap: "Swap A ↔ B", lblRes: "RESULT",
       subNegMsg: "Duration B is greater than Duration A: the result is negative.",
-      t5Title: "1/100e Converter", lblHmInput: "Hours & Minutes → Hundredths (1/100e)",
-      lblDecInput: "Hundredths (1/100e) → Hours & Minutes",
-      t6Title: "Hip Roof Framing", lblEmpPan: "Main slope run / emprunt (m)",
-      lblEmpCroupe: "Hip end run / emprunt (m)", lblEgout: "Total eave line length (m)",
-      lblHaut: "Crown height H (m)",
+      secConvTitle: "4. Hours & Minutes ↔ Hundredths (1/100e) Converter",
+      lblHmInput: "Enter hours and minutes", lblOutDec: "Decimal output",
+      lblDecInput: "Enter decimal hours (e.g. 7.50)", lblOutHm: "Hours-minutes output",
+      secRoofTitle: "5. Framing Calculator: Hip Roof",
+      lblEmpPan: "Main slope run / emprunt (m)", lblEmpCroupe: "Hip end run / emprunt (m)",
+      lblEgout: "Total eave line length (m)", lblHaut: "Crown height H (m)",
       ridgeShortMsg: "Eave length is less than or equal to 2 × hip run: ridge length is clamped to 0.00 m.",
       rFaitage: "Ridge length", rChevPan: "Common rafter (main slope)",
       rChevCroupe: "Common rafter (hip end)", rAretierPlan: "Horizontal hip projection",
@@ -608,34 +522,34 @@
   };
 
   function clampNonNeg(el) {
-    const v = parseFloat(el.value);
-    if (!Number.isNaN(v) && v < 0) el.value = "0";
+    if (parseFloat(el.value) < 0) el.value = "0";
   }
+
   function clampMins(el) {
     const v = parseFloat(el.value);
     if (Number.isNaN(v)) return;
     if (v < 0) el.value = "0";
     else if (v > 59) el.value = "59";
   }
+
   function fmtHM(mins) {
     const sign = mins < 0 ? "-" : "";
     const abs = Math.abs(Math.round(mins));
-    const h = String(Math.floor(abs / 60)).padStart(2, "0");
-    const m = String(abs % 60).padStart(2, "0");
-    return `${sign}${h}h ${m}min`;
+    return `${sign}${String(Math.floor(abs / 60)).padStart(2, "0")}h ${String(abs % 60).padStart(2, "0")}min`;
   }
-  function copyText(text, btn) {
-    const d = dict[lang];
-    const done = () => {
-      btn.textContent = d.btnCopied;
-      setTimeout(() => { btn.textContent = d.btnCopy; }, 1600);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done).catch(done);
-    } else {
-      done();
-    }
+
+  function calcSlot(s) {
+    if (!s.start || !s.end) return { mins: 0, ov: false };
+    const [sh, sm] = s.start.split(":").map(Number);
+    const [eh, em] = s.end.split(":").map(Number);
+    if ([sh, sm, eh, em].some(Number.isNaN)) return { mins: 0, ov: false };
+    const a = sh * 60 + sm;
+    let b = eh * 60 + em;
+    const ov = b < a;
+    if (ov) b += 1440;
+    return { mins: Math.max(0, b - a), ov };
   }
+
   function getMondayOfWeek(offset) {
     const now = new Date();
     const day = now.getDay();
@@ -644,9 +558,11 @@
     mon.setHours(0, 0, 0, 0);
     return mon;
   }
+
   function getWeekKey(monDate) {
     return `${STORE_PREFIX}${monDate.getFullYear()}-${String(monDate.getMonth() + 1).padStart(2, "0")}-${String(monDate.getDate()).padStart(2, "0")}`;
   }
+
   function getISOWeekNumber(date) {
     const tmp = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     const dayNum = tmp.getUTCDay() || 7;
@@ -654,15 +570,15 @@
     const yearStart = new Date(Date.UTC(tmp.getUTCFullYear(), 0, 1));
     return Math.ceil((((tmp - yearStart) / 86400000) + 1) / 7);
   }
+
   function fmtShortDate(d) {
     return d.toLocaleDateString(lang === "fr" ? "fr-FR" : "en-GB", { day: "2-digit", month: "2-digit" });
   }
+
   function defaultWeekData() {
-    return Array.from({ length: 7 }, (_, idx) => ({
-      active: idx < 5,
-      slots: [{ start: "00:00", end: "00:00" }]
-    }));
+    return Array.from({ length: 7 }, (_, idx) => ({ active: idx < 5, slots: [{ start: "00:00", end: "00:00" }] }));
   }
+
   function loadWeekData(monDate) {
     try {
       const raw = localStorage.getItem(getWeekKey(monDate));
@@ -673,21 +589,38 @@
     } catch (e) {}
     return defaultWeekData();
   }
+
   function saveWeekData(monDate, data) {
     try { localStorage.setItem(getWeekKey(monDate), JSON.stringify(data)); } catch (e) {}
   }
-  function calcSlotInfo(s) {
-    if (!s.start || !s.end) return { mins: 0, overnight: false };
-    const [sh, sm] = s.start.split(":").map(Number);
-    const [eh, em] = s.end.split(":").map(Number);
-    if ([sh, sm, eh, em].some(Number.isNaN)) return { mins: 0, overnight: false };
-    const startM = sh * 60 + sm;
-    let endM = eh * 60 + em;
-    const overnight = endM < startM;
-    if (overnight) endM += 1440;
-    return { mins: Math.max(0, endM - startM), overnight };
+
+  function updateWeekTotalsOnly(mon, weekData) {
+    const d = dict[lang];
+    let weekMins = 0;
+    let activeDays = 0;
+
+    weekData.forEach((dayObj, dIdx) => {
+      if (dayObj.active) activeDays += 1;
+      let dayMins = 0;
+      dayObj.slots.forEach((sl, sIdx) => {
+        const info = calcSlot(sl);
+        if (dayObj.active) dayMins += info.mins;
+        const p1 = document.getElementById(`w-dur-${dIdx}-${sIdx}`);
+        const p2 = document.getElementById(`w-dec-${dIdx}-${sIdx}`);
+        if (p1) p1.textContent = fmtHM(info.mins) + (info.ov ? ` ${d.ov}` : "");
+        if (p2) p2.textContent = `${(info.mins / 60).toFixed(2)} h`;
+      });
+      if (dayObj.active) weekMins += dayMins;
+      const dTot = document.getElementById(`w-daytot-${dIdx}`);
+      if (dTot) dTot.textContent = `${fmtHM(dayMins)} · ${(dayMins / 60).toFixed(2)} h`;
+    });
+
+    document.getElementById("activeDaysCount").textContent = d.activeDaysFmt(activeDays);
+    document.getElementById("weekTotalHM").textContent = fmtHM(weekMins);
+    document.getElementById("weekTotalDec").textContent = `${(weekMins / 60).toFixed(2)} h`;
   }
-  function renderWeek() {
+
+  function buildWeekDOM() {
     const d = dict[lang];
     const mon = getMondayOfWeek(weekOffset);
     const sun = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + 6);
@@ -697,87 +630,81 @@
     const weekData = loadWeekData(mon);
     const container = document.getElementById("daysContainer");
     container.innerHTML = "";
-    let weekMins = 0;
-    let activeDays = 0;
 
     weekData.forEach((dayObj, dIdx) => {
-      if (dayObj.active) activeDays += 1;
-      let dayMins = 0;
-      dayObj.slots.forEach(sl => {
-        const info = calcSlotInfo(sl);
-        if (dayObj.active) dayMins += info.mins;
-      });
-      weekMins += dayMins;
-
       const dayDate = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + dIdx);
       const dayBox = document.createElement("div");
       dayBox.className = "day-box" + (dayObj.active ? "" : " off");
 
       const titleDiv = document.createElement("div");
+      titleDiv.className = "day-title";
       const chk = document.createElement("input");
       chk.type = "checkbox";
       chk.checked = !!dayObj.active;
-      chk.style.width = "16px";
-      chk.addEventListener("change", () => {
-        weekData[dIdx].active = chk.checked;
-        saveWeekData(mon, weekData);
-        renderWeek();
+      chk.addEventListener("change", function () {
+        const data = loadWeekData(mon);
+        data[dIdx].active = this.checked;
+        saveWeekData(mon, data);
+        dayBox.classList.toggle("off", !this.checked);
+        updateWeekTotalsOnly(mon, data);
       });
-      const lbl = document.createElement("span");
-      lbl.style.marginLeft = "6px";
-      lbl.style.fontWeight = "700";
-      lbl.textContent = `${d.days[dIdx]} (${fmtShortDate(dayDate)})`;
-      titleDiv.append(chk, lbl);
+      const lblSpan = document.createElement("span");
+      lblSpan.innerHTML = `${d.days[dIdx]} <small style="color:var(--muted);font-weight:600;">${fmtShortDate(dayDate)}</small>`;
+      titleDiv.append(chk, lblSpan);
 
       const slotsCol = document.createElement("div");
+      slotsCol.className = "slots-col";
       dayObj.slots.forEach((sl, sIdx) => {
-        const { mins, overnight } = calcSlotInfo(sl);
         const sRow = document.createElement("div");
         sRow.className = "slot-row";
 
         const sInp = document.createElement("input");
         sInp.type = "time";
         sInp.value = sl.start;
-        sInp.addEventListener("input", () => {
-          weekData[dIdx].slots[sIdx].start = sInp.value;
-          saveWeekData(mon, weekData);
-          renderWeek();
+        sInp.addEventListener("input", function () {
+          const data = loadWeekData(mon);
+          data[dIdx].slots[sIdx].start = this.value;
+          saveWeekData(mon, data);
+          updateWeekTotalsOnly(mon, data);
         });
 
         const eInp = document.createElement("input");
         eInp.type = "time";
         eInp.value = sl.end;
-        eInp.addEventListener("input", () => {
-          weekData[dIdx].slots[sIdx].end = eInp.value;
-          saveWeekData(mon, weekData);
-          renderWeek();
+        eInp.addEventListener("input", function () {
+          const data = loadWeekData(mon);
+          data[dIdx].slots[sIdx].end = this.value;
+          saveWeekData(mon, data);
+          updateWeekTotalsOnly(mon, data);
         });
 
         const p1 = document.createElement("div");
         p1.className = "out-pill";
-        p1.innerHTML = `${fmtHM(mins)}${overnight ? `<span class="overnight-tag">${d.overnightBadge}</span>` : ""}`;
+        p1.id = `w-dur-${dIdx}-${sIdx}`;
 
         const p2 = document.createElement("div");
         p2.className = "out-pill";
-        p2.textContent = `${(mins / 60).toFixed(2)} h`;
+        p2.id = `w-dec-${dIdx}-${sIdx}`;
 
         const actBtn = document.createElement("button");
         actBtn.type = "button";
         actBtn.className = "btn-mini";
         if (sIdx === 0) {
           actBtn.textContent = "+";
-          actBtn.addEventListener("click", () => {
-            weekData[dIdx].slots.push({ start: "00:00", end: "00:00" });
-            saveWeekData(mon, weekData);
-            renderWeek();
+          actBtn.addEventListener("click", function () {
+            const data = loadWeekData(mon);
+            data[dIdx].slots.push({ start: "00:00", end: "00:00" });
+            saveWeekData(mon, data);
+            buildWeekDOM();
           });
         } else {
           actBtn.textContent = "×";
-          actBtn.addEventListener("click", () => {
-            if (weekData[dIdx].slots.length > 1) {
-              weekData[dIdx].slots.splice(sIdx, 1);
-              saveWeekData(mon, weekData);
-              renderWeek();
+          actBtn.addEventListener("click", function () {
+            const data = loadWeekData(mon);
+            if (data[dIdx].slots.length > 1) {
+              data[dIdx].slots.splice(sIdx, 1);
+              saveWeekData(mon, data);
+              buildWeekDOM();
             }
           });
         }
@@ -787,19 +714,16 @@
       });
 
       const totDiv = document.createElement("div");
-      totDiv.style.fontWeight = "800";
-      totDiv.style.color = "var(--primary)";
-      totDiv.style.textAlign = "right";
-      totDiv.textContent = `${fmtHM(dayMins)} · ${(dayMins / 60).toFixed(2)} h`;
+      totDiv.className = "day-totals";
+      totDiv.id = `w-daytot-${dIdx}`;
 
       dayBox.append(titleDiv, slotsCol, totDiv);
       container.appendChild(dayBox);
     });
 
-    document.getElementById("activeDaysCount").textContent = d.activeDaysFmt(activeDays);
-    document.getElementById("weekTotalHM").textContent = fmtHM(weekMins);
-    document.getElementById("weekTotalDec").textContent = `${(weekMins / 60).toFixed(2)} h`;
+    updateWeekTotalsOnly(mon, weekData);
   }
+
   function calcPay() {
     const rate = Math.max(0, parseFloat(document.getElementById("inRate").value) || 0);
     const regH = Math.max(0, parseFloat(document.getElementById("inRegHours").value) || 0);
@@ -809,14 +733,13 @@
     const basePay = regH * rate;
     const otRate = rate * (1 + otPct / 100);
     const otPay = otH * otRate;
-    const grandTotal = basePay + otPay;
-    const hm = `${String(Math.floor(Math.round(totalH * 60) / 60)).padStart(2, "0")}h ${String(Math.round(totalH * 60) % 60).padStart(2, "0")}min`;
-    document.getElementById("outTotalHours").textContent = `${totalH.toFixed(2)} h (${hm})`;
+    document.getElementById("outTotalHours").textContent = `${totalH.toFixed(2)} h (${fmtHM(Math.round(totalH * 60))})`;
     document.getElementById("outBasePay").textContent = `${basePay.toFixed(2)} €`;
     document.getElementById("outOtRate").textContent = `${otRate.toFixed(2)} € / h`;
     document.getElementById("outOtPay").textContent = `${otPay.toFixed(2)} €`;
-    document.getElementById("outGrandTotal").textContent = `${grandTotal.toFixed(2)} €`;
+    document.getElementById("outGrandTotal").textContent = `${(basePay + otPay).toFixed(2)} €`;
   }
+
   function calcDur() {
     const d = dict[lang];
     const ah = Math.max(0, Math.floor(parseFloat(document.getElementById("durAh").value) || 0));
@@ -835,31 +758,35 @@
       notice.style.display = "none";
     }
   }
+
   function convHmToDec() {
     const h = Math.max(0, Math.floor(parseFloat(document.getElementById("inH").value) || 0));
     const m = Math.min(59, Math.max(0, parseFloat(document.getElementById("inM").value) || 0));
     document.getElementById("outDec").textContent = `${(h + m / 60).toFixed(2)} h`;
   }
+
   function convDecToHm() {
     const dec = Math.max(0, parseFloat(document.getElementById("inDec").value) || 0);
-    const totalMins = Math.round(dec * 60);
-    document.getElementById("outHm").textContent = `${String(Math.floor(totalMins / 60)).padStart(2, "0")}h ${String(totalMins % 60).padStart(2, "0")}min`;
+    document.getElementById("outHm").textContent = fmtHM(Math.round(dec * 60));
   }
+
   function calcRoof() {
     const d = dict[lang];
     const empPan = Math.max(0, parseFloat(document.getElementById("inEmpPan").value) || 0);
     const empCroupe = Math.max(0, parseFloat(document.getElementById("inEmpCroupe").value) || 0);
     const egout = Math.max(0, parseFloat(document.getElementById("inEgout").value) || 0);
     const h = Math.max(0, parseFloat(document.getElementById("inHaut").value) || 0);
-    const notice = document.getElementById("roofNotice");
+
     const rawFaitage = egout - 2 * empCroupe;
     const faitage = Math.max(0, rawFaitage);
+    const notice = document.getElementById("roofNotice");
     if (egout > 0 && rawFaitage < 0) {
       notice.textContent = d.ridgeShortMsg;
       notice.style.display = "block";
     } else {
       notice.style.display = "none";
     }
+
     const chevPan = Math.hypot(empPan, h);
     const chevCroupe = Math.hypot(empCroupe, h);
     const aretierPlan = Math.hypot(empPan, empCroupe);
@@ -871,6 +798,7 @@
     const coupeAplomb = aretierReel > 0 ? (Math.atan2(aretierPlan, h) * 180) / Math.PI : 0;
     const coupePied = aretierPlan > 0 ? (Math.atan2(h, aretierPlan) * 180) / Math.PI : 0;
     const totalArea = 2 * (((faitage + egout) / 2) * chevPan) + 2 * (0.5 * empPan * chevCroupe);
+
     document.getElementById("outFaitage").textContent = `${faitage.toFixed(2)} m`;
     document.getElementById("outChevPan").textContent = `${chevPan.toFixed(2)} m`;
     document.getElementById("outChevCroupe").textContent = `${chevCroupe.toFixed(2)} m`;
@@ -882,77 +810,154 @@
     document.getElementById("outCoupePied").textContent = `${coupePied.toFixed(2)}°`;
     document.getElementById("outSurface").textContent = `${totalArea.toFixed(2)} m²`;
   }
+
+  function copyStr(text, btn) {
+    const d = dict[lang];
+    const done = () => {
+      btn.textContent = d.btnCopied;
+      setTimeout(() => { btn.textContent = d.btnCopy; }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(done);
+    } else {
+      done();
+    }
+  }
+
   function applyLang() {
     document.documentElement.lang = lang;
     const d = dict[lang];
     document.getElementById("langBtn").textContent = d.btn;
     document.querySelectorAll("[data-t]").forEach(el => {
       const k = el.getAttribute("data-t");
-      if (d[k]) el.textContent = d[k];
+      if (d[k] && typeof d[k] === "string") el.textContent = d[k];
     });
-    renderWeek();
+    buildWeekDOM();
     calcPay();
     calcDur();
     convHmToDec();
     convDecToHm();
     calcRoof();
   }
-  document.addEventListener("DOMContentLoaded", () => {
-    try {
-      const saved = localStorage.getItem(LANG_KEY);
-      if (saved === "en" || saved === "fr") lang = saved;
-    } catch (e) {}
-    document.getElementById("langBtn").addEventListener("click", () => {
-      lang = lang === "fr" ? "en" : "fr";
-      try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
-      applyLang();
-    });
-    document.getElementById("prevWeekBtn").addEventListener("click", () => { weekOffset -= 1; renderWeek(); });
-    document.getElementById("currWeekBtn").addEventListener("click", () => { weekOffset = 0; renderWeek(); });
-    document.getElementById("nextWeekBtn").addEventListener("click", () => { weekOffset += 1; renderWeek(); });
-    document.getElementById("printWeekBtn").addEventListener("click", () => window.print());
-    document.getElementById("resetWeekBtn").addEventListener("click", () => {
-      if (!window.confirm(dict[lang].confirmResetMsg)) return;
-      saveWeekData(getMondayOfWeek(weekOffset), defaultWeekData());
-      renderWeek();
-    });
-    document.getElementById("copyWeekBtn").addEventListener("click", function () {
-      const mon = getMondayOfWeek(weekOffset);
-      copyText(`${dict[lang].weekWord} ${getISOWeekNumber(mon)} (${mon.getFullYear()}) — ${document.getElementById("weekTotalHM").textContent} (${document.getElementById("weekTotalDec").textContent})`, this);
-    });
-    ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcPay(); }));
-    document.querySelectorAll("[data-ot]").forEach(btn => btn.addEventListener("click", () => { document.getElementById("inOtPct").value = btn.getAttribute("data-ot"); calcPay(); }));
-    document.getElementById("resetPayBtn").addEventListener("click", () => { ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => { document.getElementById(id).value = "0"; }); calcPay(); });
-    document.getElementById("copyPayBtn").addEventListener("click", function () {
-      const d = dict[lang];
-      copyText([`${d.rTotalHours}: ${document.getElementById("outTotalHours").textContent}`, `${d.rBasePay}: ${document.getElementById("outBasePay").textContent}`, `${d.rOtRate}: ${document.getElementById("outOtRate").textContent}`, `${d.rOtPay}: ${document.getElementById("outOtPay").textContent}`, `${d.rGrandTotal}: ${document.getElementById("outGrandTotal").textContent}`].join("\n"), this);
-    });
-    ["durAh", "durBh"].forEach(id => document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcDur(); }));
-    ["durAm", "durBm"].forEach(id => document.getElementById(id).addEventListener("input", function () { clampMins(this); calcDur(); }));
-    document.getElementById("opSel").addEventListener("change", calcDur);
-    document.getElementById("swapDurBtn").addEventListener("click", () => {
-      const ah = document.getElementById("durAh"), am = document.getElementById("durAm"), bh = document.getElementById("durBh"), bm = document.getElementById("durBm");
-      [ah.value, bh.value] = [bh.value, ah.value];
-      [am.value, bm.value] = [bm.value, am.value];
-      calcDur();
-    });
-    document.getElementById("resetDurBtn").addEventListener("click", () => { ["durAh", "durAm", "durBh", "durBm"].forEach(id => { document.getElementById(id).value = "0"; }); document.getElementById("opSel").value = "add"; calcDur(); });
-    document.getElementById("copyDurBtn").addEventListener("click", function () { copyText(`${document.getElementById("outDurHM").textContent} (${document.getElementById("outDurDec").textContent})`, this); });
-    document.getElementById("inH").addEventListener("input", function () { clampNonNeg(this); convHmToDec(); });
-    document.getElementById("inM").addEventListener("input", function () { clampMins(this); convHmToDec(); });
-    document.getElementById("inDec").addEventListener("input", function () { clampNonNeg(this); convDecToHm(); });
-    document.querySelectorAll("[data-m]").forEach(btn => btn.addEventListener("click", () => { document.getElementById("inM").value = btn.getAttribute("data-m"); convHmToDec(); }));
-    document.querySelectorAll("[data-dec]").forEach(btn => btn.addEventListener("click", () => { document.getElementById("inDec").value = parseFloat(btn.getAttribute("data-dec")).toFixed(2); convDecToHm(); }));
-    document.getElementById("copyDecBtn").addEventListener("click", function () { copyText(document.getElementById("outDec").textContent, this); });
-    document.getElementById("copyHmBtn").addEventListener("click", function () { copyText(document.getElementById("outHm").textContent, this); });
-    ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcRoof(); }));
-    document.getElementById("resetRoofBtn").addEventListener("click", () => { ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => { document.getElementById(id).value = "0"; }); calcRoof(); });
-    document.getElementById("copyRoofBtn").addEventListener("click", function () {
-      const d = dict[lang];
-      copyText([`${d.rFaitage}: ${document.getElementById("outFaitage").textContent}`, `${d.rChevPan}: ${document.getElementById("outChevPan").textContent}`, `${d.rChevCroupe}: ${document.getElementById("outChevCroupe").textContent}`, `${d.rAretierPlan}: ${document.getElementById("outAretierPlan").textContent}`, `${d.rAretierReel}: ${document.getElementById("outAretierReel").textContent}`, `${d.rPentePan}: ${document.getElementById("outPentePan").textContent}`, `${d.rPenteCroupe}: ${document.getElementById("outPenteCroupe").textContent}`, `${d.rCoupeAplomb}: ${document.getElementById("outCoupeAplomb").textContent}`, `${d.rCoupePied}: ${document.getElementById("outCoupePied").textContent}`, `${d.rSurface}: ${document.getElementById("outSurface").textContent}`].join("\n"), this);
-    });
+
+  try {
+    const saved = localStorage.getItem(LANG_KEY);
+    if (saved === "en" || saved === "fr") lang = saved;
+  } catch (e) {}
+
+  document.getElementById("langBtn").addEventListener("click", function () {
+    lang = lang === "fr" ? "en" : "fr";
+    try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
     applyLang();
   });
+
+  document.getElementById("prevWeekBtn").addEventListener("click", () => { weekOffset -= 1; buildWeekDOM(); });
+  document.getElementById("currWeekBtn").addEventListener("click", () => { weekOffset = 0; buildWeekDOM(); });
+  document.getElementById("nextWeekBtn").addEventListener("click", () => { weekOffset += 1; buildWeekDOM(); });
+  document.getElementById("printWeekBtn").addEventListener("click", () => window.print());
+  document.getElementById("resetWeekBtn").addEventListener("click", function () {
+    if (!window.confirm(dict[lang].confirmResetMsg)) return;
+    const mon = getMondayOfWeek(weekOffset);
+    saveWeekData(mon, defaultWeekData());
+    buildWeekDOM();
+  });
+  document.getElementById("copyWeekBtn").addEventListener("click", function () {
+    const d = dict[lang];
+    const mon = getMondayOfWeek(weekOffset);
+    copyStr(`${d.weekWord} ${getISOWeekNumber(mon)} (${mon.getFullYear()}) — ${d.lblWeekTotal}: ${document.getElementById("weekTotalHM").textContent} (${document.getElementById("weekTotalDec").textContent})`, this);
+  });
+
+  ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => {
+    document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcPay(); });
+  });
+  document.querySelectorAll("[data-ot]").forEach(b => {
+    b.addEventListener("click", () => { document.getElementById("inOtPct").value = b.getAttribute("data-ot"); calcPay(); });
+  });
+  document.getElementById("resetPayBtn").addEventListener("click", () => {
+    ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => { document.getElementById(id).value = "0"; });
+    calcPay();
+  });
+  document.getElementById("copyPayBtn").addEventListener("click", function () {
+    const d = dict[lang];
+    copyStr([
+      `${d.rTotalHours}: ${document.getElementById("outTotalHours").textContent}`,
+      `${d.rBasePay}: ${document.getElementById("outBasePay").textContent}`,
+      `${d.rOtRate}: ${document.getElementById("outOtRate").textContent}`,
+      `${d.rOtPay}: ${document.getElementById("outOtPay").textContent}`,
+      `${d.rGrandTotal}: ${document.getElementById("outGrandTotal").textContent}`
+    ].join("\n"), this);
+  });
+
+  ["durAh", "durBh"].forEach(id => {
+    document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcDur(); });
+  });
+  ["durAm", "durBm"].forEach(id => {
+    document.getElementById(id).addEventListener("input", function () { clampMins(this); calcDur(); });
+  });
+  document.getElementById("opSel").addEventListener("change", calcDur);
+  document.getElementById("swapDurBtn").addEventListener("click", () => {
+    const ah = document.getElementById("durAh"), am = document.getElementById("durAm");
+    const bh = document.getElementById("durBh"), bm = document.getElementById("durBm");
+    [ah.value, bh.value] = [bh.value, ah.value];
+    [am.value, bm.value] = [bm.value, am.value];
+    calcDur();
+  });
+  document.getElementById("resetDurBtn").addEventListener("click", () => {
+    ["durAh", "durAm", "durBh", "durBm"].forEach(id => { document.getElementById(id).value = "0"; });
+    document.getElementById("opSel").value = "add";
+    calcDur();
+  });
+  document.getElementById("copyDurBtn").addEventListener("click", function () {
+    copyStr(`${document.getElementById("outDurHM").textContent} (${document.getElementById("outDurDec").textContent})`, this);
+  });
+
+  document.getElementById("inH").addEventListener("input", function () { clampNonNeg(this); convHmToDec(); });
+  document.getElementById("inM").addEventListener("input", function () { clampMins(this); convHmToDec(); });
+  document.querySelectorAll("[data-m]").forEach(b => {
+    b.addEventListener("click", () => { document.getElementById("inM").value = b.getAttribute("data-m"); convHmToDec(); });
+  });
+  document.getElementById("resetHmBtn").addEventListener("click", () => {
+    document.getElementById("inH").value = "0"; document.getElementById("inM").value = "0"; convHmToDec();
+  });
+  document.getElementById("copyDecBtn").addEventListener("click", function () {
+    copyStr(document.getElementById("outDec").textContent, this);
+  });
+
+  document.getElementById("inDec").addEventListener("input", function () { clampNonNeg(this); convDecToHm(); });
+  document.querySelectorAll("[data-dec]").forEach(b => {
+    b.addEventListener("click", () => { document.getElementById("inDec").value = Number(b.getAttribute("data-dec")).toFixed(2); convDecToHm(); });
+  });
+  document.getElementById("resetDecBtn").addEventListener("click", () => {
+    document.getElementById("inDec").value = "0"; convDecToHm();
+  });
+  document.getElementById("copyHmBtn").addEventListener("click", function () {
+    copyStr(document.getElementById("outHm").textContent, this);
+  });
+
+  ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => {
+    document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcRoof(); });
+  });
+  document.getElementById("resetRoofBtn").addEventListener("click", () => {
+    ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => { document.getElementById(id).value = "0"; });
+    calcRoof();
+  });
+  document.getElementById("copyRoofBtn").addEventListener("click", function () {
+    const d = dict[lang];
+    copyStr([
+      `${d.rFaitage}: ${document.getElementById("outFaitage").textContent}`,
+      `${d.rChevPan}: ${document.getElementById("outChevPan").textContent}`,
+      `${d.rChevCroupe}: ${document.getElementById("outChevCroupe").textContent}`,
+      `${d.rAretierPlan}: ${document.getElementById("outAretierPlan").textContent}`,
+      `${d.rAretierReel}: ${document.getElementById("outAretierReel").textContent}`,
+      `${d.rPentePan}: ${document.getElementById("outPentePan").textContent}`,
+      `${d.rPenteCroupe}: ${document.getElementById("outPenteCroupe").textContent}`,
+      `${d.rCoupeAplomb}: ${document.getElementById("outCoupeAplomb").textContent}`,
+      `${d.rCoupePied}: ${document.getElementById("outCoupePied").textContent}`,
+      `${d.rSurface}: ${document.getElementById("outSurface").textContent}`
+    ].join("\n"), this);
+  });
+
+  applyLang();
 })();
 </script>
 </body>
