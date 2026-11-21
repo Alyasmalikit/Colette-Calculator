@@ -3,607 +3,874 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colette-Calculator | Temps, Pauses, Centièmes (1/100e), Paie &amp; Toiture</title>
+<title>Calculette-tools | Calculateur de Temps de Travail, Feuille Hebdo &amp; Charpente</title>
+<meta name="description" content="Calculez votre temps de travail en heures-minutes et centièmes (1/100e), tenez votre feuille hebdomadaire et accédez à nos calculateurs gratuits.">
+<link rel="canonical" href="https://calculette-tools.github.io/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Calculette-tools",
+  "url": "https://calculette-tools.github.io/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any",
+  "inLanguage": ["fr", "en"],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  }
+}
+</script>
 <style>
   :root {
-    --bg: #e8eef5;
+    --bg: #f1f5f9;
     --surface: #ffffff;
-    --surface-soft: #f8fafc;
     --ink: #0f172a;
     --muted: #475569;
-    --border: #94a3b8;
-    --border-light: #cbd5e1;
-    --primary: #1565c0;
-    --primary-dark: #0d47a1;
-    --soft-blue: #eff6ff;
-    --warn-bg: #fefce8;
-    --warn-border: #eab308;
-    --warn-ink: #854d0e;
+    --border: #e2e8f0;
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --primary-hover: #1d4ed8;
+    --soft: #eff6ff;
+    --warn-bg: #fffbeb;
+    --warn-border: #fde68a;
+    --warn-ink: #92400e;
     --radius: 16px;
-    --shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+    --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
   }
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
+  html, body {
     margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     background: var(--bg);
     color: var(--ink);
-    line-height: 1.65;
-    overflow-x: hidden;
+    line-height: 1.55;
   }
-  .container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 22px; }
-  header.site-header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border-light);
+  .container {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* Header */
+  .site-header {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
-    z-index: 40;
+    z-index: 20;
   }
-  .header-inner {
+  .nav-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 14px;
-    padding: 14px 0;
+    gap: 10px;
+    padding: 12px 0;
   }
   .brand {
-    font-size: 1.15rem;
-    font-weight: 900;
+    font-weight: 800;
+    font-size: 1.18rem;
     color: var(--ink);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
+    margin-left: 20px;
+    flex-shrink: 0;
   }
-  .brand-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--primary); display: inline-block; }
-  .js-badge {
-    font-size: 0.74rem;
-    font-weight: 800;
-    padding: 3px 9px;
-    border-radius: 999px;
-    background: #fef3c7;
-    color: #92400e;
-    border: 1px solid #f59e0b;
-  }
-  .js-badge.ok {
-    background: #dcfce7;
-    color: #166534;
-    border-color: #86efac;
-  }
-  .nav-group { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
-  .nav-links { display: flex; flex-wrap: wrap; gap: 8px; }
-  .nav-links a {
-    text-decoration: none;
-    color: var(--ink);
-    background: var(--surface-soft);
-    border: 1px solid var(--border-light);
-    padding: 6px 12px;
+  .brand-badge {
+    width: 28px;
+    height: 28px;
     border-radius: 8px;
-    font-size: 0.82rem;
-    font-weight: 700;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 900;
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
   }
-  .nav-links a:hover { background: var(--soft-blue); border-color: var(--primary); color: var(--primary-dark); }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .site-header .nav-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-width: 0;
+  }
+  .site-header .nav-menu a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #0f172a;
+    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+    border: 1px solid #94a3b8;
+    border-bottom: 2px solid #64748b;
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 7px;
+    white-space: nowrap;
+    box-shadow: inset 0 1px 0 #ffffff, 0 1px 2px rgba(15, 23, 42, 0.12);
+    transition: transform 0.1s ease, box-shadow 0.12s ease, background 0.12s ease;
+  }
+  .site-header .nav-menu a:hover {
+    color: #1d4ed8;
+    background: linear-gradient(180deg, #ffffff 0%, #dbeafe 100%);
+    border-color: #3b82f6;
+    border-bottom-color: #1d4ed8;
+    transform: translateY(-1px);
+  }
+  .site-header .nav-menu a.active {
+    color: #ffffff;
+    background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+    border-color: #1d4ed8;
+    border-bottom-color: #1e3a8a;
+    text-shadow: 0 -1px 0 rgba(15, 23, 42, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 3px rgba(29, 78, 216, 0.3);
+  }
   .lang-btn {
     background: var(--ink);
-    color: #ffffff;
+    color: #fff;
     border: none;
-    padding: 7px 14px;
+    padding: 7px 13px;
     border-radius: 8px;
-    font-size: 0.82rem;
-    font-weight: 800;
+    font-weight: 700;
+    font-size: 0.8rem;
     cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
   }
   .lang-btn:hover { background: var(--primary); }
-  section.hero { background: var(--surface); border-bottom: 1px solid var(--border-light); padding: 26px 0 22px; }
-  section.hero h1 { margin: 0 0 8px; font-size: clamp(1.45rem, 3vw, 2rem); line-height: 1.25; }
-  section.hero p { margin: 0; color: var(--muted); max-width: 860px; }
-  main.page-main { padding: 28px 0 40px; }
-  .section-heading {
-    margin: 0 0 16px;
-    font-size: 1.25rem;
-    font-weight: 900;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+
+  /* Hero Banner */
+  .hero-banner {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 65%, #2563eb 100%);
+    color: #fff;
+    padding: 28px 0 34px;
+    margin-bottom: -18px;
   }
-  .section-heading::after { content: ""; flex: 1; height: 1px; background: var(--border-light); }
-  .tools-first-group, .secondary-group { display: flex; flex-direction: column; gap: 26px; }
-  .secondary-group { margin-top: 34px; }
-  section.tool-card {
-    background: var(--surface);
-    border: 1.5px solid #93c5fd;
-    border-top: 5px solid var(--primary);
-    border-radius: var(--radius);
-    padding: 26px;
-    box-shadow: var(--shadow);
-    scroll-margin-top: 84px;
-  }
-  .tool-top {
+  .hero-inner {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding-bottom: 14px;
-    margin-bottom: 16px;
-    border-bottom: 1px solid var(--border-light);
+    gap: 16px;
   }
-  .tool-top h3 { margin: 0; font-size: 1.16rem; display: flex; align-items: center; gap: 10px; }
-  .tool-num { background: var(--primary); color: #ffffff; font-size: 0.82rem; font-weight: 900; padding: 4px 10px; border-radius: 8px; }
-  .tool-pill { background: var(--soft-blue); color: var(--primary-dark); border: 1px solid #93c5fd; font-size: 0.76rem; font-weight: 800; padding: 4px 12px; border-radius: 999px; }
-  .tool-intro { margin: 0 0 20px; color: var(--muted); font-size: 0.95rem; }
-  .cell-label { display: block; font-size: 0.78rem; font-weight: 800; color: var(--muted); margin-bottom: 8px; }
-  input[type="time"], input[type="number"], input[type="text"], input[type="email"], textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-size: 0.95rem;
+  .hero-text { max-width: 680px; }
+  .hero-pill {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #dbeafe;
+    font-size: 0.76rem;
     font-weight: 700;
-    font-family: inherit;
-    color: var(--ink);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .hero-banner h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.45rem, 3.2vw, 2.05rem);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .hero-banner p {
+    margin: 0;
+    color: #cbd5e1;
+    font-size: 0.94rem;
+  }
+  .hero-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #ffffff;
+    color: var(--primary-dark);
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.9rem;
+    padding: 10px 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+    transition: transform 0.12s ease, background 0.12s ease;
+  }
+  .hero-link-btn:hover {
+    background: var(--soft);
+    transform: translateY(-1px);
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+    margin-bottom: 18px;
+    width: 100%;
+    min-width: 0;
+  }
+  .card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-head h2 {
+    margin: 0;
+    font-size: 1.08rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .step-tag {
+    background: var(--soft);
+    color: var(--primary);
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 6px;
+  }
+
+  /* Time Slot Row */
+  .slot-row {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 1.15fr) minmax(0, 0.9fr) 36px;
+    gap: 10px;
+    align-items: center;
+    padding: 11px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    background: #f8fafc;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .slot-row:hover {
+    border-color: #cbd5e1;
     background: #ffffff;
   }
-  input:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.15); }
-  .result-cell {
-    padding: 10px 14px;
-    background: #dbeafe;
-    border: 1.5px solid #60a5fa;
-    border-radius: 10px;
-    font-weight: 900;
+  .slot-row.disabled { opacity: 0.5; }
+  .slot-check {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    justify-self: center;
+    margin-top: 16px;
+  }
+  @media (max-width: 760px) {
+    .slot-row {
+      grid-template-columns: 32px repeat(2, minmax(0, 1fr)) 36px;
+      gap: 8px;
+    }
+    .slot-check { margin-top: 0; }
+    .del-btn { margin-top: 0; }
+  }
+  .slot-field label {
+    display: block;
+    font-size: 0.73rem;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  input[type="time"], input[type="number"] {
+    width: 100%;
+    min-width: 0;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
     font-size: 0.94rem;
+    font-weight: 600;
+    background: #fff;
+    color: var(--ink);
+  }
+  input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+  }
+  .out-pill {
+    padding: 8px 10px;
+    background: var(--soft);
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.88rem;
     color: var(--primary-dark);
     text-align: center;
     white-space: nowrap;
   }
-  .badge-overnight {
+  .overnight-tag {
     display: inline-block;
-    margin-left: 6px;
-    padding: 2px 7px;
+    margin-left: 5px;
+    padding: 1px 6px;
     border-radius: 999px;
-    background: var(--primary);
-    color: #ffffff;
+    background: #dbeafe;
+    color: #1e40af;
     font-size: 0.7rem;
     font-weight: 800;
+    vertical-align: middle;
   }
-  .slot-row {
-    display: grid;
-    grid-template-columns: 36px minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 1fr) 42px;
-    gap: 16px;
-    align-items: center;
-    padding: 16px 18px;
-    margin-bottom: 14px;
-    background: var(--surface-soft);
-    border: 1px solid var(--border-light);
-    border-radius: 12px;
-  }
-  .slot-row.off { opacity: 0.5; }
-  .slot-chk { width: 18px; height: 18px; cursor: pointer; justify-self: center; margin-top: 20px; }
-  .btn-remove {
+  .del-btn {
     background: #fee2e2;
     color: #b91c1c;
     border: none;
-    width: 36px;
-    height: 36px;
-    border-radius: 9px;
-    font-size: 1.05rem;
-    font-weight: 900;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    font-weight: 700;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 16px;
+    transition: background 0.15s ease;
   }
-  .btn-remove:disabled { opacity: 0.35; cursor: not-allowed; }
-  @media (max-width: 800px) {
-    .slot-row { grid-template-columns: 36px repeat(2, minmax(0, 1fr)) 40px; gap: 14px; }
-    .slot-chk, .btn-remove { margin-top: 0; }
+  .del-btn:hover:not(:disabled) { background: #fecaca; }
+  .del-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
   }
-  .action-row { display: flex; flex-wrap: wrap; gap: 14px; margin: 18px 0; }
-  .btn-main { background: var(--primary); color: #ffffff; border: none; padding: 10px 18px; border-radius: 10px; font-size: 0.9rem; font-weight: 800; cursor: pointer; }
-  .btn-main:hover { background: var(--primary-dark); }
-  .btn-alt { background: #f1f5f9; color: var(--ink); border: 1px solid var(--border); padding: 10px 16px; border-radius: 10px; font-size: 0.9rem; font-weight: 700; cursor: pointer; }
-  .btn-alt:hover { background: #e2e8f0; }
-  .summary-box {
+
+  /* Buttons & Total Bar */
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0 16px;
+  }
+  .btn {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.22);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(37, 99, 235, 0.3);
+  }
+  .btn-sec {
+    background: #f1f5f9;
+    color: var(--ink);
+    border: 1px solid #cbd5e1;
+    padding: 9px 15px;
+    border-radius: 9px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+  .btn-sec:hover { background: #e2e8f0; }
+
+  .total-bar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    padding: 18px 20px;
-    background: var(--soft-blue);
-    border: 1.5px solid #60a5fa;
+    gap: 12px;
+    padding: 15px 18px;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1px solid #93c5fd;
     border-radius: 12px;
   }
-  .summary-title { font-weight: 900; font-size: 0.98rem; }
-  .summary-pills { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-  .summary-chip { background: #ffffff; border: 1.5px solid #60a5fa; padding: 7px 14px; border-radius: 9px; font-weight: 900; color: var(--primary-dark); }
-  .grid-3-spaced { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 20px; align-items: end; }
-  .grid-2-spaced { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 22px; }
-  .grid-4-spaced { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 18px; align-items: end; }
-  .hm-row { display: flex; align-items: center; gap: 10px; }
-  .hm-row span { font-size: 0.85rem; font-weight: 700; color: var(--muted); }
-  .sub-panel { background: var(--surface-soft); border: 1px solid var(--border-light); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-  .sub-panel h4 { margin: 0; font-size: 1rem; }
-  .week-day-row {
-    display: grid;
-    grid-template-columns: 116px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1.2fr) minmax(0, 0.9fr);
-    gap: 14px;
+  .total-label {
+    font-size: 0.96rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+  .total-vals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
     align-items: center;
-    padding: 14px 16px;
-    margin-bottom: 12px;
-    background: var(--surface-soft);
-    border: 1px solid var(--border-light);
-    border-radius: 12px;
   }
-  .week-day-title { font-weight: 900; font-size: 0.92rem; }
-  @media (max-width: 860px) {
-    .week-day-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-    .week-day-title { grid-column: 1 / -1; padding-bottom: 6px; border-bottom: 1px dashed var(--border-light); }
+  .total-badge {
+    background: #fff;
+    border: 1px solid #bfdbfe;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--primary-dark);
   }
-  .out-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 18px; margin-top: 18px; }
-  .out-card { background: var(--soft-blue); border: 1.5px solid #93c5fd; border-radius: 12px; padding: 16px 18px; }
-  .out-card-label { font-size: 0.76rem; font-weight: 800; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .out-card-val { font-size: 1.2rem; font-weight: 900; color: var(--primary-dark); }
-  .out-card-note { font-size: 0.82rem; color: var(--muted); margin-top: 4px; font-weight: 600; }
-  .warn-banner {
-    margin-top: 14px;
-    padding: 12px 16px;
-    border-radius: 10px;
+  .notice-box {
+    margin-top: 10px;
+    padding: 9px 12px;
+    border-radius: 9px;
     background: var(--warn-bg);
     border: 1px solid var(--warn-border);
     color: var(--warn-ink);
-    font-size: 0.88rem;
-    font-weight: 700;
+    font-size: 0.85rem;
+    font-weight: 600;
     display: none;
   }
-  article.guide-box {
-    background: var(--surface);
-    border: 1.5px solid var(--border-light);
-    border-left: 5px solid #0f766e;
-    border-radius: var(--radius);
-    padding: 24px 26px;
-    box-shadow: var(--shadow);
+
+  /* Subtract Grid */
+  .sub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 14px;
+    align-items: end;
   }
-  article.guide-box h3 { margin: 0 0 10px; font-size: 1.12rem; }
-  article.guide-box p { margin: 0 0 12px; color: var(--muted); }
-  article.guide-box ul { margin: 0 0 14px; padding-left: 22px; }
-  article.guide-box li { margin-bottom: 6px; }
-  .formula-note { background: var(--soft-blue); border: 1px solid #93c5fd; border-radius: 10px; padding: 12px 16px; font-size: 0.9rem; font-weight: 700; color: var(--primary-dark); }
-  .diagram-box { background: var(--surface); border: 1.5px solid var(--border-light); border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow); }
-  .diagram-box h3 { margin: 0 0 12px; font-size: 1.05rem; }
-  .diagram-box svg { width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; background: var(--surface-soft); border: 1px solid var(--border-light); border-radius: 10px; }
-  .ad-space {
-    background: var(--surface);
-    border: 2px dashed var(--border);
-    border-radius: var(--radius);
-    padding: 18px 22px;
-    min-height: 100px;
+  .hm-pair {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    text-align: center;
     gap: 6px;
   }
-  .ad-badge { font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: #f1f5f9; border: 1px solid var(--border-light); padding: 3px 10px; border-radius: 999px; }
-  .ad-desc { font-size: 0.86rem; font-weight: 600; color: var(--muted); }
-  section.pages-hub { background: var(--surface); border: 1.5px solid var(--border-light); border-radius: var(--radius); padding: 26px; box-shadow: var(--shadow); scroll-margin-top: 84px; }
-  .subpage-tabs { display: flex; flex-wrap: wrap; gap: 10px; padding-bottom: 14px; margin-bottom: 18px; border-bottom: 1px solid var(--border-light); }
-  .subpage-tab { background: #f1f5f9; color: var(--ink); border: 1px solid var(--border); padding: 8px 15px; border-radius: 9px; font-size: 0.86rem; font-weight: 800; cursor: pointer; }
-  .subpage-tab.active { background: var(--primary); color: #ffffff; border-color: var(--primary); }
-  .subpage-panel { display: none; }
-  .subpage-panel.active { display: block; }
-  .subpage-panel h3 { margin: 0 0 10px; font-size: 1.15rem; }
-  .subpage-panel p { margin: 0 0 12px; color: var(--muted); }
-  footer.site-footer { background: var(--surface); border-top: 1px solid var(--border-light); padding: 26px 0 36px; text-align: center; font-size: 0.88rem; color: var(--muted); }
-  .footer-nav { margin-top: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
-  .footer-nav a { color: var(--muted); text-decoration: none; font-weight: 700; }
-  .footer-nav a:hover { color: var(--primary); }
+  .hm-pair span {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  /* Page 2 Banner / Links */
+  .sec-header {
+    margin: 26px 0 14px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sec-header h2 {
+    margin: 0;
+    font-size: 1.18rem;
+  }
+  .sec-header span {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 295px), 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+    min-width: 0;
+  }
+  .tool-card:hover {
+    transform: translateY(-3px);
+    border-color: #60a5fa;
+    box-shadow: 0 14px 28px -8px rgba(37, 99, 235, 0.15);
+  }
+  .tool-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .tool-ico {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: 800;
+  }
+  .ico-blue { background: #dbeafe; color: #1d4ed8; }
+  .ico-green { background: #dcfce7; color: #15803d; }
+  .ico-amber { background: #fef3c7; color: #b45309; }
+  .ico-purple { background: #f3e8ff; color: #7e22ce; }
+  .ico-rose { background: #ffe4e6; color: #be123c; }
+  .tool-card h3 {
+    margin: 0 0 4px;
+    font-size: 1.02rem;
+    color: var(--ink);
+  }
+  .tool-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+  .tool-cta {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .tool-card:hover .tool-cta { text-decoration: underline; }
+
+  /* Footer */
+  .site-footer {
+    width: 100%;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 22px 0 32px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 24px;
+  }
+  .footer-brand {
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .footer-links {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px 14px;
+  }
+  .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 2px 4px;
+    border-radius: 6px;
+  }
+  .footer-links a:hover,
+  .footer-links a.active {
+    color: var(--primary);
+    background: var(--soft);
+  }
 </style>
 </head>
 <body>
 
 <header class="site-header">
-  <div class="container header-inner">
-    <a href="#top" class="brand">
-      <span class="brand-dot"></span>Colette-Calculator
-      <span id="jsFlag" class="js-badge">JS Pending</span>
-    </a>
-    <div class="nav-group">
-      <nav class="nav-links" aria-label="Navigation">
-        <a href="#tool-01" data-t="nav01">01 Plages</a>
-        <a href="#tool-02" data-t="nav02">02 Pauses</a>
-        <a href="#tool-03" data-t="nav03">03 1/100e</a>
-        <a href="#tool-04" data-t="nav04">04 Hebdo</a>
-        <a href="#tool-05" data-t="nav05">05 Salaire</a>
-        <a href="#tool-06" data-t="nav06">06 Toiture</a>
-        <a href="#pages-hub" data-page-link="about" data-t="navAbout">À propos</a>
+  <div class="container nav-bar">
+    <a href="index.html" class="brand"><span class="brand-badge">C</span>Calculette-tools</a>
+    <div class="nav-right">
+      <nav class="nav-menu">
+        <a href="index.html" class="active" data-t="navHome">Accueil (Page 1)</a>
+        <a href="page2.html" data-t="navPage2">Autres Outils (Page 2)</a>
+        <a href="page2.html#sec-hebdo" data-t="navFh">Feuille Hebdo</a>
+        <a href="page2.html#sec-salaire" data-t="navWh">Heures &amp; Salaire</a>
+        <a href="page2.html#sec-durees" data-t="navTc">Durées</a>
+        <a href="page2.html#sec-convertisseur" data-t="navCv">Convertisseur</a>
+        <a href="page2.html#sec-toiture" data-t="navTo">Toiture</a>
       </nav>
-      <button type="button" id="langToggle" class="lang-btn">EN</button>
+      <button type="button" id="langBtn" class="lang-btn">EN</button>
     </div>
   </div>
 </header>
 
-<section class="hero" id="top">
-  <div class="container">
-    <h1 data-t="heroTitle">Colette-Calculator — Temps, Pauses, Centièmes (1/100e), Paie &amp; Toiture</h1>
-    <p data-t="heroSub">Les 6 calculateurs principaux sont en haut de page, suivis des guides, schémas, emplacements publicitaires et rubriques À propos, Contact, Confidentialité et Disclaimer.</p>
+<section class="hero-banner">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <span class="hero-pill" data-t="heroPill">100% Gratuit • Sans Inscription</span>
+      <h1 data-t="pageTitle">Calculateur de Temps de Travail &amp; Outils</h1>
+      <p data-t="pageSub">Additionnez vos plages horaires ou soustrayez vos pauses en heures-minutes et en centièmes d'heure (1/100e), directement ci-dessous.</p>
+    </div>
+    <a href="page2.html" class="hero-link-btn" data-t="btnPage2Hero">Voir tous les autres outils (Page 2) →</a>
   </div>
 </section>
 
-<main class="page-main">
-  <div class="container">
-
-    <h2 class="section-heading" data-t="secTools">Calculateurs Principaux (01 à 06)</h2>
-    <div class="tools-first-group">
-
-      <section class="tool-card" id="tool-01">
-        <div class="tool-top">
-          <h3><span class="tool-num">01</span> <span data-t="t1Title">Additionneur de Plages Horaires</span></h3>
-          <span class="tool-pill" data-t="activeBadge">Actif</span>
-        </div>
-        <p class="tool-intro" data-t="t1Desc">Ajoutez vos créneaux horaires pour calculer la durée de chaque ligne et le total journalier en heures-minutes et en centièmes (1/100e).</p>
-        <div id="slotsList"></div>
-        <div class="action-row">
-          <button type="button" id="addSlotBtn" class="btn-main" data-t="btnAddSlot">+ Ajouter une plage</button>
-          <button type="button" id="resetSlotsBtn" class="btn-alt" data-t="btnReset">Reset (0)</button>
-        </div>
-        <div class="summary-box">
-          <span class="summary-title" data-t="lblDailyTotal">TOTAL JOURNALIER</span>
-          <div class="summary-pills">
-            <span class="summary-chip" id="dailyHM">00h 00min</span>
-            <span class="summary-chip" id="dailyDec">0.00 h</span>
-            <button type="button" id="copyDailyBtn" class="btn-alt" data-t="btnCopy">Copier</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="tool-card" id="tool-02">
-        <div class="tool-top">
-          <h3><span class="tool-num">02</span> <span data-t="t2Title">Soustracteur de Durées &amp; Pauses</span></h3>
-          <span class="tool-pill" data-t="activeBadge">Actif</span>
-        </div>
-        <p class="tool-intro" data-t="t2Desc">Déduisez une pause ou un temps d'arrêt (B) d'une durée totale (A) pour connaître le temps net effectif.</p>
-        <div class="grid-3-spaced">
-          <div>
-            <label for="subAh" class="cell-label" data-t="lblDurA">Durée totale (A)</label>
-            <div class="hm-row">
-              <input type="number" id="subAh" min="0" step="1" value="0">
-              <span>h</span>
-              <input type="number" id="subAm" min="0" max="59" step="1" value="0">
-              <span>min</span>
-            </div>
-          </div>
-          <div>
-            <label for="subBh" class="cell-label" data-t="lblDurB">Pause à déduire (B)</label>
-            <div class="hm-row">
-              <input type="number" id="subBh" min="0" step="1" value="0">
-              <span>h</span>
-              <input type="number" id="subBm" min="0" max="59" step="1" value="0">
-              <span>min</span>
-            </div>
-          </div>
-          <div>
-            <span class="cell-label" data-t="lblNetOut">Temps net (A − B)</span>
-            <div class="result-cell" id="subResult">00h 00min (0.00 h)</div>
-          </div>
-        </div>
-        <div id="subWarn" class="warn-banner" role="status"></div>
-        <div class="action-row">
-          <button type="button" id="resetSubBtn" class="btn-alt" data-t="btnReset">Reset (0)</button>
-        </div>
-      </section>
-
-      <section class="tool-card" id="tool-03">
-        <div class="tool-top">
-          <h3><span class="tool-num">03</span> <span data-t="t3Title">Convertisseur Heures-Minutes ↔ Centièmes (1/100e)</span></h3>
-          <span class="tool-pill" data-t="activeBadge">Actif</span>
-        </div>
-        <p class="tool-intro" data-t="t3Desc">Convertissez des heures et minutes en centièmes d'heure (1/100e) ou des heures décimales en heures et minutes.</p>
-        <div class="grid-2-spaced">
-          <div class="sub-panel">
-            <h4 data-t="convLeftTitle">Heures &amp; Minutes → Centièmes (1/100e)</h4>
-            <div class="hm-row">
-              <input type="number" id="convH" min="0" step="1" value="0" aria-label="Heures">
-              <span>h</span>
-              <input type="number" id="convM" min="0" max="59" step="1" value="0" aria-label="Minutes">
-              <span>min</span>
-            </div>
-            <div>
-              <span class="cell-label" data-t="lblDecResult">Résultat décimal</span>
-              <div class="result-cell" id="convDecResult">0.00 h</div>
-            </div>
-          </div>
-          <div class="sub-panel">
-            <h4 data-t="convRightTitle">Centièmes (1/100e) → Heures &amp; Minutes</h4>
-            <div>
-              <label for="convDecInput" class="cell-label" data-t="lblDecInput">Heures décimales (ex. 7.50)</label>
-              <input type="number" id="convDecInput" min="0" step="0.01" value="0.00">
-            </div>
-            <div>
-              <span class="cell-label" data-t="lblHmResult">Résultat heures-minutes</span>
-              <div class="result-cell" id="convHmResult">00h 00min</div>
-            </div>
-          </div>
-        </div>
-        <div class="action-row">
-          <button type="button" id="resetConvBtn" class="btn-alt" data-t="btnReset">Reset (0)</button>
-        </div>
-      </section>
-
-      <section class="tool-card" id="tool-04">
-        <div class="tool-top">
-          <h3><span class="tool-num">04</span> <span data-t="t4Title">Feuille de Temps Hebdomadaire (Lun–Dim)</span></h3>
-          <span class="tool-pill" data-t="activeBadge">Actif</span>
-        </div>
-        <p class="tool-intro" data-t="t4Desc">Saisissez début, fin et pause (en minutes) sur 7 jours pour obtenir le total net hebdomadaire.</p>
-        <div id="weekList"></div>
-        <div id="weekWarn" class="warn-banner" role="status"></div>
-        <div class="action-row">
-          <button type="button" id="stdWeekBtn" class="btn-main" data-t="btnStdWeek">Semaine type (Lun–Ven 08:00–16:30, pause 30m)</button>
-          <button type="button" id="resetWeekBtn" class="btn-alt" data-t="btnReset">Reset (0)</button>
-        </div>
-        <div class="summary-box">
-          <span class="summary-title" data-t="lblWeekTotal">TOTAL HEBDOMADAIRE NET</span>
-          <div class="summary-pills">
-            <span class="summary-chip" id="weekHM">00h 00min</span>
-            <span class="summary-chip" id="weekDec">0.00 h</span>
-            <button type="button" id="copyWeekBtn" class="btn-alt" data-t="btnCopy">Copier</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="tool-card" id="tool-05">
-        <div class="tool-top">
-          <h3><span class="tool-num">05</span> <span data-t="t5Title">Calculateur d'Heures &amp; Salaire Brut</span></h3>
-          <span class="tool-pill" data-t="activeBadge">Actif</span>
-        </div>
-        <p class="tool-intro" data-t="t5Desc">Estimez le salaire brut à partir des heures travaillées, du taux horaire et d'une majoration d'heures supplémentaires.</p>
-        <div class="grid-4-spaced">
-          <div>
-            <label for="payHours" class="cell-label" data-t="lblPayHours">Heures travaillées (1/100e)</label>
-            <input type="number" id="payHours" min="0" step="0.01" value="0.00">
-          </div>
-          <div>
-            <span class="cell-label" data-t="lblPayHm">Équivalent heures-minutes</span>
-            <div class="result-cell" id="payHmOut">00h 00min</div>
-          </div>
-          <div>
-            <label for="payRate" class="cell-label" data-t="lblPayRate">Taux horaire (€ / $)</label>
-            <input type="number" id="payRate" min="0" step="0.01" value="0.00">
-          </div>
-          <div>
-            <label for="payThresh" class="cell-label" data-t="lblPayThresh">Seuil heures sup. (ex. 35 / 40)</label>
-            <input type="number" id="payThresh" min="0" step="0.5" value="0">
-          </div>
-          <div>
-            <label for="payMult" class="cell-label" data-t="lblPayMult">Multiplicateur (ex. 1.25)</label>
-            <input type="number" id="payMult" min="1" step="0.05" value="1.25">
-          </div>
-        </div>
-        <div class="action-row">
-          <button type="button" id="importWeekBtn" class="btn-main" data-t="btnImportWeek">Importer heures de l'outil 04</button>
-          <button type="button" id="resetPayBtn" class="btn-alt" data-t="btnReset">Reset (0)</button>
-        </div>
-        <div class="out-cards">
-          <div class="out-card">
-            <div class="out-card-label" data-t="lblBasePay">Salaire de base</div>
-            <div class="out-card-val" id="basePayVal">0.00</div>
-            <div class="out-card-note" id="basePaySub">0.00 h au taux de base</div>
-          </div>
-          <div class="out-card">
-            <div class="out-card-label" data-t="lblOtPay">Heures supplémentaires</div>
-            <div class="out-card-val" id="otPayVal">0.00</div>
-            <div class="out-card-note" id="otPaySub">0.00 h à ×1.25</div>
-          </div>
-          <div class="out-card">
-            <div class="out-card-label" data-t="lblGrossPay">Total brut estimé</div>
-            <div class="out-card-val" id="grossPayVal">0.00</div>
-            <div class="out-card-note" id="grossPaySub">0.00 h au total</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="tool-card" id="tool-06">
-        <div class="tool-top">
-          <h3><span class="tool-num">06</span> <span data-t="t6Title">Calculateur de Toiture en Croupe</span></h3>
-          <span class="tool-pill" data-t="activeBadge">Actif</span>
-        </div>
-        <p class="tool-intro" data-t="t6Desc">Calculez la pente en degrés, la longueur des chevrons (rampant), l'arêtier et la surface des 4 pans.</p>
-        <div class="grid-4-spaced">
-          <div>
-            <label for="roofL" class="cell-label" data-t="lblRoofL">Longueur base L (m)</label>
-            <input type="number" id="roofL" min="0" step="0.01" value="0">
-          </div>
-          <div>
-            <label for="roofW" class="cell-label" data-t="lblRoofW">Largeur base l (m)</label>
-            <input type="number" id="roofW" min="0" step="0.01" value="0">
-          </div>
-          <div>
-            <label for="roofH" class="cell-label" data-t="lblRoofH">Hauteur faîtage H (m)</label>
-            <input type="number" id="roofH" min="0" step="0.01" value="0">
-          </div>
-          <div>
-            <span class="cell-label" data-t="lblHip">Arêtier (m)</span>
-            <div class="result-cell" id="roofHipVal">0.00 m</div>
-          </div>
-        </div>
-        <div id="roofWarn" class="warn-banner" role="status"></div>
-        <div class="out-cards">
-          <div class="out-card">
-            <div class="out-card-label" data-t="lblRoofSlope">Pente du toit</div>
-            <div class="out-card-val" id="roofSlopeVal">0.0°</div>
-            <div class="out-card-note" id="roofPctNote">0.0% de pente</div>
-          </div>
-          <div class="out-card">
-            <div class="out-card-label" data-t="lblRafter">Rampant / Chevron</div>
-            <div class="out-card-val" id="roofRafterVal">0.00 m</div>
-            <div class="out-card-note" id="roofRidgeNote">Faîtage : 0.00 m</div>
-          </div>
-          <div class="out-card">
-            <div class="out-card-label" data-t="lblRoofArea">Surface 4 pans</div>
-            <div class="out-card-val" id="roofAreaVal">0.00 m²</div>
-            <div class="out-card-note" id="roofFootprintNote">Emprise : 0.00 m²</div>
-          </div>
-        </div>
-        <div class="action-row">
-          <button type="button" id="resetRoofBtn" class="btn-alt" data-t="btnReset">Reset (0)</button>
-        </div>
-      </section>
-
+<main class="container">
+  <!-- 01: Time Slots -->
+  <div class="card">
+    <div class="card-head">
+      <h2><span class="step-tag">01</span> <span data-t="secAddTitle">Additionner des plages horaires</span></h2>
     </div>
 
-    <div class="secondary-group">
-      <h2 class="section-heading" data-t="secGuides">Guides, Schémas &amp; Emplacements Publicitaires</h2>
+    <div id="slotsContainer"></div>
 
-      <div class="ad-space">
-        <span class="ad-badge" data-t="adBadge">Publicité / Ad Space</span>
-        <span class="ad-desc" data-t="ad1Text">Emplacement publicitaire dédié (728×90 / Responsive) — Temps &amp; Centièmes</span>
+    <div class="toolbar">
+      <button type="button" class="btn" id="addSlotBtn" data-t="btnAddSlot">+ Ajouter une plage</button>
+      <button type="button" class="btn-sec" id="resetSlotsBtn" data-t="btnReset">Reset (0)</button>
+    </div>
+
+    <div class="total-bar">
+      <span class="total-label" data-t="lblTotal">TOTAL JOURNALIER</span>
+      <div class="total-vals">
+        <span class="total-badge" id="totalHM">00h 00min</span>
+        <span class="total-badge" id="totalDec">0.00 h</span>
+        <button type="button" class="btn-sec" id="copyTotalBtn" data-t="btnCopy">Copier</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02: Subtract Durations -->
+  <div class="card">
+    <div class="card-head">
+      <h2><span class="step-tag">02</span> <span data-t="secSubTitle">Soustraire deux durées (ex. déduire une pause)</span></h2>
+    </div>
+
+    <div class="sub-grid">
+      <div>
+        <label for="subAh" data-t="lblDurA" style="display:block;font-size:0.78rem;font-weight:700;color:var(--muted);margin-bottom:5px;">Durée totale (A)</label>
+        <div class="hm-pair">
+          <input type="number" id="subAh" min="0" value="0">
+          <span>h</span>
+          <input type="number" id="subAm" min="0" max="59" value="0">
+          <span>min</span>
+        </div>
       </div>
 
-      <article class="guide-box">
-        <h3 data-t="art1Title">Guide — Additionner des créneaux horaires et convertir en centièmes (1/100e)</h3>
-        <p data-t="art1P1">Additionnez d'abord les durées en heures et minutes, puis divisez les minutes par 60 pour obtenir les centièmes.</p>
-        <ul>
-          <li data-t="art1L1">0h 15min = 0.25 h • 0h 30min = 0.50 h • 0h 45min = 0.75 h.</li>
-          <li data-t="art1L2">Si l'heure de fin est inférieure à l'heure de début, le passage au lendemain (+1j / +1d) est pris en compte.</li>
-        </ul>
-        <div class="formula-note" data-t="art1F">Exemple : 08:00 → 12:00 (4h 00min) + 13:30 → 17:00 (3h 30min) = 07h 30min (7.50 h).</div>
-      </article>
-
-      <div class="diagram-box">
-        <h3 data-t="diag1Title">Schéma — Amplitude horaire, pause déduite et centièmes (1/100e)</h3>
-        <svg viewBox="0 0 760 165" role="img" aria-label="Schéma amplitude pause centièmes">
-          <rect x="25" y="22" width="320" height="44" rx="8" fill="#dbeafe" stroke="#1565c0" stroke-width="2"/>
-          <text x="185" y="49" text-anchor="middle" font-size="13" font-weight="800" fill="#0d47a1" data-t="svg1A">Total A : 08:00 → 16:30 (8h 30min)</text>
-          <rect x="360" y="22" width="120" height="44" rx="8" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
-          <text x="420" y="49" text-anchor="middle" font-size="13" font-weight="800" fill="#854d0e" data-t="svg1B">Pause B : 30m</text>
-          <rect x="495" y="22" width="240" height="44" rx="8" fill="#dcfce7" stroke="#15803d" stroke-width="2"/>
-          <text x="615" y="49" text-anchor="middle" font-size="13" font-weight="800" fill="#166534" data-t="svg1C">Net : 8h 00min = 8.00 h</text>
-          <rect x="25" y="86" width="710" height="52" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
-          <text x="380" y="116" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0f172a" data-t="svg1D">15 min = 0.25 h • 30 min = 0.50 h • 45 min = 0.75 h • 60 min = 1.00 h</text>
-        </svg>
+      <div>
+        <label for="subBh" data-t="lblDurB" style="display:block;font-size:0.78rem;font-weight:700;color:var(--muted);margin-bottom:5px;">Pause / Temps à déduire (B)</label>
+        <div class="hm-pair">
+          <input type="number" id="subBh" min="0" value="0">
+          <span>h</span>
+          <input type="number" id="subBm" min="0" max="59" value="0">
+          <span>min</span>
+        </div>
       </div>
 
-      <article class="guide-box">
-        <h3 data-t="art2Title">Guide — Suivre sa semaine et estimer un salaire brut avec heures sup.</h3>
-        <p data-t="art2P1">Cumulez vos heures nettes sur 7 jours puis importez le total en centièmes dans le calculateur de salaire brut.</p>
-        <ul>
-          <li data-t="art2L1">Les heures jusqu'au seuil sont calculées au taux de base.</li>
-          <li data-t="art2L2">Les heures au-delà du seuil appliquent le multiplicateur choisi (ex. ×1.25).</li>
-        </ul>
-        <div class="formula-note" data-t="art2F">Exemple : 40.00 h × 15.00 (seuil 35 h, ×1.25) → Base 525.00 + Heures sup. 93.75 = Brut 618.75.</div>
-      </article>
-
-      <div class="ad-space">
-        <span class="ad-badge" data-t="adBadge">Publicité / Ad Space</span>
-        <span class="ad-desc" data-t="ad2Text">Emplacement publicitaire dédié (728×90 / Responsive) — Paie &amp; Semaine</span>
+      <div>
+        <span data-t="lblNetResult" style="display:block;font-size:0.78rem;font-weight:700;color:var(--muted);margin-bottom:5px;">Temps net (A − B)</span>
+        <div class="out-pill" id="subOut">00h 00min (0.00 h)</div>
       </div>
+    </div>
 
-      <div class="diagram-box">
-        <h3 data-t="diag2Title">Schéma — Géométrie d'une toiture en croupe (4 pans)</h3>
-        <svg viewBox="0 0 760 185" role="img" aria-label="Schéma toiture en croupe">
-          <polygon points="40,42 330,42 330,150 40,150" fill="#eff6ff" stroke="#1565c0" stroke-width="2"/>
-          <line x1="100" y1="96" x2="270" y2="96" stroke="#0f766e" stroke-width="3"/>
-          <line x1="40" y1="42" x2="100" y2="96" stroke="#1565c0" stroke-width="1.8" stroke-dasharray="5,4"/>
-          <line x1="40" y1="150" x2="100" y2="96" stroke="#15
+    <div id="subNotice" class="notice-box" role="status"></div>
+
+    <div class="toolbar" style="margin-bottom:0;">
+      <button type="button" class="btn-sec" id="resetSubBtn" data-t="btnReset">Reset (0)</button>
+    </div>
+  </div>
+
+  <!-- Links to Page 2 -->
+  <div class="sec-header">
+    <h2 data-t="otherToolsTitle">Suite complète d'outils (Page 2)</h2>
+    <span data-t="otherToolsSub">Cliquez sur un outil pour l'ouvrir sur la Page 2</span>
+  </div>
+
+  <section class="tools-grid">
+    <a href="page2.html#sec-hebdo" class="tool-card">
+      <div class="tool-top">
+        <div class="tool-ico ico-blue">W</div>
+        <div>
+          <h3 data-t="t2Title">Feuille Hebdomadaire</h3>
+          <p data-t="t2Desc">Pointage du lundi au dimanche avec sauvegarde locale, navigation par semaine et impression.</p>
+        </div>
+      </div>
+      <span class="tool-cta" data-t="openTool">Ouvrir sur Page 2 →</span>
+    </a>
+
+    <a href="page2.html#sec-salaire" class="tool-card">
+      <div class="tool-top">
+        <div class="tool-ico ico-green">€</div>
+        <div>
+          <h3 data-t="t3Title">Heures &amp; Salaire</h3>
+          <p data-t="t3Desc">Estimez votre rémunération à partir de vos heures normales, heures sup et taux horaire.</p>
+        </div>
+      </div>
+      <span class="tool-cta" data-t="openTool">Ouvrir sur Page 2 →</span>
+    </a>
+
+    <a href="page2.html#sec-durees" class="tool-card">
+      <div class="tool-top">
+        <div class="tool-ico ico-purple">±</div>
+        <div>
+          <h3 data-t="t4Title">Calculateur de Durées</h3>
+          <p data-t="t4Desc">Additionnez ou soustrayez des durées en heures et minutes avec résultat en centièmes.</p>
+        </div>
+      </div>
+      <span class="tool-cta" data-t="openTool">Ouvrir sur Page 2 →</span>
+    </a>
+
+    <a href="page2.html#sec-convertisseur" class="tool-card">
+      <div class="tool-top">
+        <div class="tool-ico ico-amber">100</div>
+        <div>
+          <h3 data-t="t5Title">Convertisseur 1/100e</h3>
+          <p data-t="t5Desc">Convertissez vos heures et minutes en centièmes d'heure décimaux et inversement.</p>
+        </div>
+      </div>
+      <span class="tool-cta" data-t="openTool">Ouvrir sur Page 2 →</span>
+    </a>
+
+    <a href="page2.html#sec-toiture" class="tool-card">
+      <div class="tool-top">
+        <div class="tool-ico ico-rose"> roof </div>
+        <div>
+          <h3 data-t="t6Title">Toiture en Croupe</h3>
+          <p data-t="t6Desc">Calculez les longueurs de chevrons et d'arêtiers, les angles de coupe et la surface des pans.</p>
+        </div>
+      </div>
+      <span class="tool-cta" data-t="openTool">Ouvrir sur Page 2 →</span>
+    </a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-brand">Calculette-tools</div>
+    <nav class="footer-links" aria-label="Navigation pied de page">
+      <a href="index.html" class="active" data-t="navHome">Accueil (Page 1)</a>
+      <a href="page2.html" data-t="navPage2">Autres Outils (Page 2)</a>
+      <a href="page2.html#sec-hebdo" data-t="navFh">Feuille Hebdo</a>
+      <a href="page2.html#sec-salaire" data-t="navWh">Heures &amp; Salaire</a>
+      <a href="page2.html#sec-durees" data-t="navTc">Durées</a>
+      <a href="page2.html#sec-convertisseur" data-t="navCv">Convertisseur</a>
+      <a href="page2.html#sec-toiture" data-t="navTo">Toiture</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const LANG_KEY = "calculette_lang_v1";
+  let lang = "fr";
+
+  let slots = [
+    { start: "00:00", end: "00:00", active: true },
+    { start: "00:00", end: "00:00", active: true }
+  ];
+
+  const dict = {
+    fr: {
+      btn: "EN",
+      navHome: "Accueil (Page 1)", navPage2: "Autres Outils (Page 2)",
+      navWh: "Heures & Salaire", navTc: "Durées", navFh: "Feuille Hebdo",
+      navCv: "Convertisseur", navTo: "Toiture",
+      heroPill: "100% Gratuit • Sans Inscription",
+      pageTitle: "Calculateur de Temps de Travail & Outils",
+      pageSub: "Additionnez vos plages horaires ou soustrayez vos pauses en heures-minutes et en centièmes d'heure (1/100e), directement ci-dessous.",
+      btnPage2Hero: "Voir tous les autres outils (Page 2) →",
+      secAddTitle: "Additionner des plages horaires",
+      lblStart: "Heure début", lblEnd: "Heure fin", lblDur: "Durée", lblDec: "1/100e",
+      overnightBadge: "+1j",
+      btnAddSlot: "+ Ajouter une plage", btnReset: "Reset (0)", lblTotal: "TOTAL JOURNALIER",
+      btnCopy: "Copier", btnCopied: "Copié !",
+      subExceedMsg: "La pause (B) dépasse la durée totale (A) : le temps net est ramené à 00h 00min.",
+      secSubTitle: "Soustraire deux durées (ex. déduire une pause)",
+      lblDurA: "Durée totale (A)", lblDurB: "Pause / Temps à déduire (B)", lblNetResult: "Temps net (A − B)",
+      otherToolsTitle: "Suite complète d'outils (Page 2)",
+      otherToolsSub: "Cliquez sur un outil pour l'ouvrir sur la Page 2",
+      t2Title: "Feuille Hebdomadaire",
+      t2Desc: "Pointage du lundi au dimanche avec sauvegarde locale, navigation par semaine et impression.",
+      t3Title: "Heures & Salaire",
+      t3Desc: "Estimez votre rémunération à partir de vos heures normales, heures sup et taux horaire.",
+      t4Title: "Calculateur de Durées",
+      t4Desc: "Additionnez ou soustrayez des durées en heures et minutes avec résultat en centièmes.",
+      t5Title: "Convertisseur 1/100e",
+      t5Desc: "Convertissez vos heures et minutes en centièmes d'heure décimaux et inversement.",
+      t6Title: "Toiture en Croupe",
+      t6Desc: "Calculez les longueurs de chevrons et d'arêtiers, les angles de coupe et la surface des pans.",
+      openTool: "Ouvrir sur Page 2 →"
+    },
+    en: {
+      btn: "FR",
+      navHome: "Home (Page 1)", navPage2: "More Tools (Page 2)",
+      navWh: "Working Hours", navTc: "Time Calculator", navFh: "Weekly Timesheet",
+      navCv: "Decimal Converter", navTo: "Hip Roof",
+      heroPill: "100% Free • No Sign-Up",
+      pageTitle: "Working Time Calculator & Tools",
+      pageSub: "Add daily time slots or subtract breaks in hours-minutes and hundredths of an hour (1/100e) right below.",
+      btnPage2Hero: "Open all other tools (Page 2) →",
+      secAddTitle: "Add Time Slots",
+      lblStart: "Start time", lblEnd: "End time", lblDur: "Duration", lblDec: "1/100e",
+      overnightBadge: "+1d",
+      btnAddSlot: "+ Add time slot", btnReset: "Reset (0)", lblTotal: "DAILY TOTAL",
+      btnCopy: "Copy", btnCopied: "Copied!",
+      subExceedMsg: "Break (B) exceeds total duration (A): net time is clamped to 00h 00min.",
+      secSubTitle: "Subtract Two Durations (e.g. deduct a break)",
+      lblDurA: "Total duration (A)", lblDurB: "Break / Time to deduct (B)", lblNetResult: "Net time (A − B)",
+      otherToolsTitle: "Complete Tool Suite (Page 2)",
+      otherToolsSub: "Select a tool to open it on Page 2",
+      t2Title: "Weekly Timesheet",
+      t2Desc: "Monday-to-Sunday timesheet with local save, week switching, and printable view.",
+      t3Title: "Working Hours & Pay",
+      t3Desc: "Estimate earnings from regular hours, overtime bonus percentage, and hourly pay rate.",
+      t4Title: "Time Duration Calculator",
+      t4Desc: "Add or subtract hours and minutes with simultaneous decimal hundredths output.",
+      t5Title: "1/100e Converter",
+      t5Desc: "Convert hours and minutes into decimal hundredths of an hour and back.",
+      t6Title: "Hip Roof Framing",
+      t6Desc: "Calculate common and hip rafter lengths, cut angles, roof pitch, and slope surface area.",
+      openTool: "Open on Page 2 →"
+    }
+  };
+
+  function clampNonNeg(el) {
+    const val = parseFloat(el.value);
+    if (!Number.isNaN(val) && val < 0) el.value = "0";
+  }
+
+  function clampMins(el) {
+    const val = parseFloat(el.value);
+    if (Number.isNaN(val)) return;
+    if (val < 0) el.value = "0";
+    else if (val > 59) el.value = "59";
+  }
+
+  function calcSlotInfo(s) {
+    if (!s.start || !s.end) return { mins: 0, overnight: false };
+    const [sh, sm] = s.start.split(":").map(Number);
+    const [eh, em] = s.end.split(":").map(Number);
+    if ([sh, sm, eh, em].some(Number.isNaN)) return { mins: 0, overnight: false };
+    const startM = sh * 60 + sm;
+    let endM = eh * 60 + em;
+    const overnight = endM < startM;
+    if (overnight) endM += 1440;
+    return { mins: Math.max(0, endM - startM), overnight };
+  }
+
+  function fmtHM(mins) {
+    const sign = mins < 0 ? "-" : "";
+    const abs = Math.abs(Math.round(mins));
+    const h = String(Math.floor(abs / 60)).padStart(2, "0");
+    const m = String(abs % 60).padStart(2, "0");
+    return `${sign}${h}h${m}min`;
+  }
+
+  function renderSlots() {
+    const d = dict[lang];
+    const container = document.getElementById("slotsContainer");
+    if (!container) return;
+    container.innerHTML = "";
+    let totalMins = 0;
+
+    slots.forEach((s, idx) => {
+      const { mins, overnight } = calcSlotInfo(s);
+      if (s.active) totalMins += mins;
+
+      const badge = overnight ? `<span class="overnight-tag">${d.overnightBadge}</span>` : ""; const row = document.createElement("div"); row.className = "slot-row" + (s.active ? "" : " disabled");  const chk = document.createElement("input"); chk.type = "checkbox"; chk.className = "slot-check"; chk.checked = !!s.active; chk.setAttribute("aria-label", "Activer"); chk.addEventListener("change", function () { slots[idx].active = this.checked; renderSlots(); });  const f1 = document.createElement("div"); f1.className = "slot-field"; f1.innerHTML = `<label>${d.lblStart}</label>`;
+      const inpStart = document.createElement("input");
+      inpStart.type = "time";
+      inpStart.value = s.start;
+      inpStart.addEventListener("input", function () {
+        slots[idx].start = this.value;
+        renderSlots();
+      });
+      f1.appendChild(inpStart);
+
+      const f2 = document.createElement("div");
+      f2.className = "slot-field";
+      f2.innerHTML = `<label>${d.lblEnd}</label>`; const inpEnd = document.createElement("input"); inpEnd.type = "time"; inpEnd.value = s.end; inpEnd.addEventListener("input", function () { slots[idx].end = this.value; renderSlots(); }); f2.appendChild(inpEnd);  const f3 = document.createElement("div"); f3.className = "slot-field"; f3.innerHTML = `<label>${d.lblDur}</label><div class="out-pill">${fmtHM(mins)}${badge}</div>`;  const f4 = document.createElement("div"); f4.className = "slot-field"; f4.innerHTML = `<label>${d.lblDec}</label><div class="out-pill
