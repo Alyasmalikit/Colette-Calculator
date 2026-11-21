@@ -17,7 +17,6 @@
     --primary: #1565c0;
     --primary-dark: #0d47a1;
     --soft-blue: #eff6ff;
-    --soft-green: #f0fdf4;
     --warn-bg: #fefce8;
     --warn-border: #eab308;
     --warn-ink: #854d0e;
@@ -50,7 +49,6 @@
     padding: 0 22px;
   }
 
-  /* Header */
   header.site-header {
     background: var(--surface);
     border-bottom: 1px solid var(--border-light);
@@ -131,7 +129,6 @@
     background: var(--primary);
   }
 
-  /* Hero */
   section.hero {
     background: var(--surface);
     border-bottom: 1px solid var(--border-light);
@@ -150,7 +147,6 @@
     max-width: 840px;
   }
 
-  /* Main Vertical Flow with generous spacing */
   main.page-main {
     padding: 28px 0 40px;
   }
@@ -161,7 +157,6 @@
     gap: 28px;
   }
 
-  /* Tool Card */
   section.tool-card {
     background: var(--surface);
     border: 1.5px solid #93c5fd;
@@ -216,7 +211,6 @@
     font-size: 0.95rem;
   }
 
-  /* Spaced Cells & Rows */
   .cell-label {
     display: block;
     font-size: 0.78rem;
@@ -271,7 +265,6 @@
     font-weight: 800;
   }
 
-  /* Tool 01 Slot Row */
   .slot-row {
     display: grid;
     grid-template-columns: 36px minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 1fr) 42px;
@@ -326,7 +319,6 @@
     }
   }
 
-  /* Action Bar */
   .action-row {
     display: flex;
     flex-wrap: wrap;
@@ -364,7 +356,6 @@
     background: #e2e8f0;
   }
 
-  /* Summary Bar */
   .summary-box {
     display: flex;
     flex-wrap: wrap;
@@ -398,7 +389,6 @@
     color: var(--primary-dark);
   }
 
-  /* Grids with clear cell spacing */
   .grid-3-spaced {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
@@ -446,7 +436,6 @@
     font-size: 1rem;
   }
 
-  /* Tool 04 Weekly Grid */
   .week-day-row {
     display: grid;
     grid-template-columns: 116px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1.2fr) minmax(0, 0.9fr);
@@ -477,7 +466,6 @@
     }
   }
 
-  /* Result Cards */
   .out-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
@@ -525,7 +513,6 @@
     display: none;
   }
 
-  /* Article Blocks */
   article.guide-box {
     background: var(--surface);
     border: 1.5px solid var(--border-light);
@@ -564,7 +551,6 @@
     color: var(--primary-dark);
   }
 
-  /* Diagram Block */
   .diagram-box {
     background: var(--surface);
     border: 1.5px solid var(--border-light);
@@ -589,7 +575,6 @@
     border-radius: 10px;
   }
 
-  /* Ad Slot */
   .ad-space {
     background: var(--surface);
     border: 2px dashed var(--border);
@@ -622,7 +607,6 @@
     color: var(--muted);
   }
 
-  /* About / Contact / Privacy / Disclaimer Section */
   section.pages-hub {
     background: var(--surface);
     border: 1.5px solid var(--border-light);
@@ -676,7 +660,6 @@
     color: var(--muted);
   }
 
-  /* Footer */
   footer.site-footer {
     background: var(--surface);
     border-top: 1px solid var(--border-light);
@@ -720,7 +703,7 @@
         <a href="#tool-06" data-t="nav06">06 Toiture</a>
         <a href="#pages-hub" onclick="showPagePanel('about')" data-t="navAbout">À propos</a>
       </nav>
-      <button type="button" id="langToggle" class="lang-btn">EN</button>
+      <button type="button" id="langToggle" class="lang-btn" onclick="togglePageLang()">EN</button>
     </div>
   </div>
 </header>
@@ -1090,16 +1073,16 @@
           <div class="grid-2-spaced">
             <div>
               <label for="userName" class="cell-label" data-t="lblName">Nom</label>
-              <input type="text" id="userName" required>
+              <input type="text" id="userName">
             </div>
             <div>
               <label for="userEmail" class="cell-label" data-t="lblEmail">Email</label>
-              <input type="email" id="userEmail" required>
+              <input type="email" id="userEmail">
             </div>
           </div>
           <div style="margin-top:14px;">
             <label for="userMsg" class="cell-label" data-t="lblMessage">Message</label>
-            <textarea id="userMsg" rows="3" required></textarea>
+            <textarea id="userMsg" rows="3"></textarea>
           </div>
           <div class="action-row">
             <button type="submit" class="btn-main" data-t="btnSend">Envoyer</button>
@@ -1135,11 +1118,62 @@
 </footer>
 
 <script>
-  (function () {
-    const LANG_KEY = "colette_lang_pref";
-    let lang = "fr";
+  const LANG_KEY = "colette_lang_pref";
+  let currentLang = "fr";
 
-    const daysFr = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
-    const daysEn = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const daysFr = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+  const daysEn = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-    let
+  let slots = [
+    { start: "00:00", end: "00:00", active: true },
+    { start: "00:00", end: "00:00", active: true }
+  ];
+
+  let weekData = Array.from({ length: 7 }, () => ({
+    start: "00:00",
+    end: "00:00",
+    brk: 0
+  }));
+
+  const i18n = {
+    fr: {
+      langBtn: "EN",
+      nav01: "01 Plages", nav02: "02 Pauses", nav03: "03 1/100e",
+      nav04: "04 Hebdo", nav05: "05 Salaire", nav06: "06 Toiture", navAbout: "À propos",
+      heroTitle: "Colette-Calculator — Temps, Pauses, Centièmes (1/100e), Paie & Toiture",
+      heroSub: "Tous les outils (01 à 06), articles explicatifs, schémas, emplacements publicitaires et rubriques À propos, Contact, Confidentialité et Disclaimer réunis dans une page structurée et aérée.",
+      activeBadge: "Actif",
+      t1Title: "Additionneur de Plages Horaires",
+      t1Desc: "Ajoutez vos créneaux horaires pour calculer la durée de chaque ligne et le total journalier en heures-minutes et en centièmes (1/100e).",
+      lblStart: "Heure début", lblEnd: "Heure fin", lblDur: "Durée", lblDec: "1/100e",
+      overnightTag: "+1j",
+      btnAddSlot: "+ Ajouter une plage", btnReset: "Reset (0)", lblDailyTotal: "TOTAL JOURNALIER",
+      btnCopy: "Copier", btnCopied: "Copié !",
+      art1Title: "Guide — Additionner des créneaux horaires et convertir en centièmes (1/100e)",
+      art1P1: "Pour éviter les erreurs de retenue entre 60 minutes et 100 centièmes, additionnez d'abord les durées en heures et minutes, puis divisez les minutes restantes par 60.",
+      art1L1: "0h 15min = 0.25 h • 0h 30min = 0.50 h • 0h 45min = 0.75 h.",
+      art1L2: "Si l'heure de fin est inférieure à l'heure de début, le passage sur le lendemain (+1j / +1d) est pris en compte.",
+      art1F: "Exemple : 08:00 → 12:00 (4h 00min) + 13:30 → 17:00 (3h 30min) = 07h 30min (7.50 h).",
+      adBadge: "Publicité / Ad Space",
+      ad1Text: "Emplacement publicitaire dédié (728×90 / Responsive) — Bloc Temps",
+      ad2Text: "Emplacement publicitaire dédié (728×90 / Responsive) — Entre Convertisseur et Feuille Hebdo",
+      ad3Text: "Emplacement publicitaire dédié (728×90 / Responsive) — Entre Salaire et Toiture",
+      t2Title: "Soustracteur de Durées & Pauses",
+      t2Desc: "Déduisez une pause ou un temps d'arrêt (B) d'une durée totale (A) pour connaître le temps net effectif.",
+      lblDurA: "Durée totale (A)", lblDurB: "Pause à déduire (B)", lblNetOut: "Temps net (A − B)",
+      subExceed: "La pause (B) dépasse la durée totale (A) : le résultat net est ramené à 00h 00min.",
+      diag1Title: "Diagramme démonstratif — Temps brut, pause déduite et centièmes (1/100e)",
+      svg1A: "Total A : 08:00 → 16:30 (8h 30min)",
+      svg1B: "Pause B : 30m",
+      svg1C: "Net : 8h 00min = 8.00 h",
+      svg1D: "Repères 1/100e : 15 min = 0.25 h • 30 min = 0.50 h • 45 min = 0.75 h • 60 min = 1.00 h",
+      svg1E: "Pour passer des minutes aux centièmes : diviser les minutes par 60.",
+      t3Title: "Convertisseur Heures-Minutes ↔ Centièmes (1/100e)",
+      t3Desc: "Convertissez des heures et minutes en centièmes d'heure (1/100e) ou des heures décimales en heures et minutes.",
+      convLeftTitle: "Heures & Minutes → Centièmes (1/100e)",
+      lblDecResult: "Résultat décimal",
+      convRightTitle: "Centièmes (1/100e) → Heures & Minutes",
+      lblDecInput: "Heures décimales (ex. 7.50)",
+      lblHmResult: "Résultat heures-minutes",
+      t4Title: "Feuille de Temps Hebdomadaire (Lun–Dim)",
+      t4Desc: "Saisissez début,
