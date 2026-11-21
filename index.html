@@ -20,6 +20,8 @@
     --warn-bg: #fefce8;
     --warn-border: #eab308;
     --warn-ink: #854d0e;
+    --ok-bg: #dcfce7;
+    --ok-ink: #166534;
     --radius: 16px;
     --shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
   }
@@ -82,6 +84,22 @@
     border-radius: 50%;
     background: var(--primary);
     display: inline-block;
+  }
+
+  .status-pill {
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #f59e0b;
+  }
+
+  .status-pill.ready {
+    background: var(--ok-bg);
+    color: var(--ok-ink);
+    border-color: #86efac;
   }
 
   .nav-group {
@@ -714,7 +732,10 @@
 
 <header class="site-header">
   <div class="container header-inner">
-    <a href="#top" class="brand"><span class="brand-dot"></span>Colette-Calculator</a>
+    <a href="#top" class="brand">
+      <span class="brand-dot"></span>Colette-Calculator
+      <span id="jsStatus" class="status-pill">JS Loading</span>
+    </a>
     <div class="nav-group">
       <nav class="nav-links" aria-label="Navigation">
         <a href="#tool-01" data-t="nav01">01 Plages</a>
@@ -1081,3 +1102,167 @@
         <div class="subpage-tabs" role="tablist">
           <button type="button" class="subpage-tab active" data-panel="about" data-t="tabAbout">À propos</button>
           <button type="button" class="subpage-tab" data-panel="contact" data-t="tabContact">Contact</button>
+          <button type="button" class="subpage-tab" data-panel="privacy" data-t="tabPrivacy">Confidentialité</button>
+          <button type="button" class="subpage-tab" data-panel="disclaimer" data-t="tabDisclaimer">Disclaimer</button>
+        </div>
+
+        <div id="panel-about" class="subpage-panel active">
+          <h3 data-t="aboutHeading">À propos de Colette-Calculator</h3>
+          <p data-t="aboutBody">Colette-Calculator propose six calculateurs pratiques dédiés au temps de travail, aux pauses, aux centièmes d'heure (1/100e), au suivi hebdomadaire, à l'estimation de salaire brut et à la géométrie de toiture en croupe, disponibles en français et en anglais.</p>
+        </div>
+
+        <div id="panel-contact" class="subpage-panel">
+          <h3 data-t="contactHeading">Contact</h3>
+          <p data-t="contactBody">Une remarque ou une question ? Utilisez le formulaire ci-dessous.</p>
+          <form id="contactForm">
+            <div class="grid-2-spaced">
+              <div>
+                <label for="userName" class="cell-label" data-t="lblName">Nom</label>
+                <input type="text" id="userName">
+              </div>
+              <div>
+                <label for="userEmail" class="cell-label" data-t="lblEmail">Email</label>
+                <input type="email" id="userEmail">
+              </div>
+            </div>
+            <div style="margin-top:14px;">
+              <label for="userMsg" class="cell-label" data-t="lblMessage">Message</label>
+              <textarea id="userMsg" rows="3"></textarea>
+            </div>
+            <div class="action-row">
+              <button type="submit" class="btn-main" data-t="btnSend">Envoyer</button>
+            </div>
+            <div id="contactBanner" class="warn-banner" role="status"></div>
+          </form>
+        </div>
+
+        <div id="panel-privacy" class="subpage-panel">
+          <h3 data-t="privacyHeading">Politique de Confidentialité</h3>
+          <p data-t="privacyBody">Les données saisies dans les calculateurs sont traitées localement dans votre navigateur. Seule votre préférence de langue (FR / EN) peut être enregistrée localement.</p>
+        </div>
+
+        <div id="panel-disclaimer" class="subpage-panel">
+          <h3 data-t="disclaimerHeading">Disclaimer</h3>
+          <p data-t="disclaimerBody">Les résultats affichés par Colette-Calculator sont fournis à titre indicatif. Vérifiez toujours les règles légales ou contractuelles applicables à la paie ou à la facturation ainsi que les contraintes techniques et marges de pose réelles de toiture.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>Colette-Calculator</div>
+    <div class="footer-nav">
+      <a href="#pages-hub" data-page-link="about" data-t="tabAbout">À propos</a>
+      <a href="#pages-hub" data-page-link="contact" data-t="tabContact">Contact</a>
+      <a href="#pages-hub" data-page-link="privacy" data-t="tabPrivacy">Confidentialité</a>
+      <a href="#pages-hub" data-page-link="disclaimer" data-t="tabDisclaimer">Disclaimer</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var LANG_KEY = "colette_lang_v3";
+  var currentLang = "fr";
+
+  var daysFr = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+  var daysEn = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+  var slots = [
+    { start: "00:00", end: "00:00", active: true },
+    { start: "00:00", end: "00:00", active: true }
+  ];
+
+  var weekData = [];
+  for (var w = 0; w < 7; w++) {
+    weekData.push({ start: "00:00", end: "00:00", brk: 0 });
+  }
+
+  var i18n = {
+    fr: {
+      langBtn: "EN",
+      nav01: "01 Plages", nav02: "02 Pauses", nav03: "03 1/100e",
+      nav04: "04 Hebdo", nav05: "05 Salaire", nav06: "06 Toiture", navAbout: "À propos",
+      heroTitle: "Colette-Calculator — Temps, Pauses, Centièmes (1/100e), Paie & Toiture",
+      heroSub: "Les 6 calculateurs principaux sont placés en tête de page pour un accès immédiat, suivis des guides, schémas, emplacements publicitaires et rubriques À propos, Contact, Confidentialité et Disclaimer.",
+      secTools: "Calculateurs Principaux (01 à 06)",
+      secGuides: "Guides, Schémas & Emplacements Publicitaires",
+      activeBadge: "Actif",
+      t1Title: "Additionneur de Plages Horaires",
+      t1Desc: "Ajoutez vos créneaux horaires pour calculer la durée de chaque ligne et le total journalier en heures-minutes et en centièmes (1/100e).",
+      lblStart: "Heure début", lblEnd: "Heure fin", lblDur: "Durée", lblDec: "1/100e",
+      overnightTag: "+1j",
+      btnAddSlot: "+ Ajouter une plage", btnReset: "Reset (0)", lblDailyTotal: "TOTAL JOURNALIER",
+      btnCopy: "Copier", btnCopied: "Copié !",
+      art1Title: "Guide — Additionner des créneaux horaires et convertir en centièmes (1/100e)",
+      art1P1: "Pour éviter les erreurs de retenue entre 60 minutes et 100 centièmes, additionnez d'abord les durées en heures et minutes, puis divisez les minutes restantes par 60.",
+      art1L1: "0h 15min = 0.25 h • 0h 30min = 0.50 h • 0h 45min = 0.75 h.",
+      art1L2: "Si l'heure de fin est inférieure à l'heure de début, le passage sur le lendemain (+1j / +1d) est pris en compte.",
+      art1F: "Exemple : 08:00 → 12:00 (4h 00min) + 13:30 → 17:00 (3h 30min) = 07h 30min (7.50 h).",
+      adBadge: "Publicité / Ad Space",
+      ad1Text: "Emplacement publicitaire dédié (728×90 / Responsive) — Bloc Temps & Centièmes",
+      ad2Text: "Emplacement publicitaire dédié (728×90 / Responsive) — Bloc Paie & Semaine",
+      ad3Text: "Emplacement publicitaire dédié (728×90 / Responsive) — Bloc Toiture & Pages",
+      t2Title: "Soustracteur de Durées & Pauses",
+      t2Desc: "Déduisez une pause ou un temps d'arrêt (B) d'une durée totale (A) pour connaître le temps net effectif.",
+      lblDurA: "Durée totale (A)", lblDurB: "Pause à déduire (B)", lblNetOut: "Temps net (A − B)",
+      subExceed: "La pause (B) dépasse la durée totale (A) : le résultat net est ramené à 00h 00min.",
+      diag1Title: "Diagramme démonstratif — Temps brut, pause déduite et centièmes (1/100e)",
+      svg1A: "Total A : 08:00 → 16:30 (8h 30min)",
+      svg1B: "Pause B : 30m",
+      svg1C: "Net : 8h 00min = 8.00 h",
+      svg1D: "Repères 1/100e : 15 min = 0.25 h • 30 min = 0.50 h • 45 min = 0.75 h • 60 min = 1.00 h",
+      svg1E: "Pour passer des minutes aux centièmes : diviser les minutes par 60.",
+      t3Title: "Convertisseur Heures-Minutes ↔ Centièmes (1/100e)",
+      t3Desc: "Convertissez des heures et minutes en centièmes d'heure (1/100e) ou des heures décimales en heures et minutes.",
+      convLeftTitle: "Heures & Minutes → Centièmes (1/100e)",
+      lblDecResult: "Résultat décimal",
+      convRightTitle: "Centièmes (1/100e) → Heures & Minutes",
+      lblDecInput: "Heures décimales (ex. 7.50)",
+      lblHmResult: "Résultat heures-minutes",
+      t4Title: "Feuille de Temps Hebdomadaire (Lun–Dim)",
+      t4Desc: "Saisissez début, fin et pause (en minutes) sur 7 jours pour obtenir le total net hebdomadaire.",
+      lblDayStart: "Début", lblDayEnd: "Fin", lblBreak: "Pause (min)", lblDayNet: "Net jour", lblDayDec: "1/100e",
+      btnStdWeek: "Semaine type (Lun–Ven 08:00–16:30, pause 30m)",
+      lblWeekTotal: "TOTAL HEBDOMADAIRE NET",
+      weekExceed: "Au moins un jour a une pause supérieure à la durée brute : le net de ce jour est ramené à 00h 00min.",
+      art2Title: "Guide — Suivre sa semaine et estimer un salaire brut avec heures sup.",
+      art2P1: "Utilisez la feuille hebdomadaire pour cumuler vos heures nettes, puis importez le total en centièmes dans le calculateur de salaire brut.",
+      art2L1: "Les heures jusqu'au seuil sont payées au taux horaire de base.",
+      art2L2: "Les heures au-delà du seuil sont majorées par le multiplicateur choisi (ex. ×1.25).",
+      art2F: "Exemple : 40.00 h × 15.00 (seuil 35 h, ×1.25) → Base 525.00 + Heures sup. 93.75 = Brut 618.75.",
+      t5Title: "Calculateur d'Heures & Salaire Brut",
+      t5Desc: "Estimez le salaire brut à partir des heures travaillées, du taux horaire et d'une majoration d'heures supplémentaires.",
+      lblPayHours: "Heures travaillées (1/100e)", lblPayHm: "Équivalent heures-minutes",
+      lblPayRate: "Taux horaire (€ / $)", lblPayThresh: "Seuil heures sup. (ex. 35 / 40)",
+      lblPayMult: "Multiplicateur (ex. 1.25)", btnImportWeek: "Importer heures de l'outil 04",
+      lblBasePay: "Salaire de base", lblOtPay: "Heures supplémentaires", lblGrossPay: "Total brut estimé",
+      diag2Title: "Diagramme démonstratif — Dimensions d'une toiture en croupe (4 pans)",
+      svg2Len: "Longueur L", svg2Ridge: "Faîtage (L − l)", svg2Plan: "Plan 4 pans : 2 trapèzes + 2 triangles",
+      svg2H: "Hauteur H", svg2Rafter: "Rampant", svg2Slope: "Demi-largeur (l/2) & Hauteur H → Rampant",
+      art3Title: "Guide — Calculer pente, rampants et surface d'une toiture en croupe",
+      art3P1: "Pour une base rectangulaire de longueur L, largeur l (avec L ≥ l) et hauteur de faîtage H, la demi-largeur vaut l ÷ 2.",
+      art3L1: "Rampant (chevron) = √((l ÷ 2)² + H²).",
+      art3L2: "Surface 4 pans = ((L + Faîtage) + l) × Rampant.",
+      art3F: "Astuce chantier : ajoutez toujours une marge de coupe et de recouvrement adaptée au matériau de couverture.",
+      t6Title: "Calculateur de Toiture en Croupe",
+      t6Desc: "Calculez la pente en degrés, la longueur des chevrons (rampant), l'arêtier et la surface des 4 pans.",
+      lblRoofL: "Longueur base L (m)", lblRoofW: "Largeur base l (m)", lblRoofH: "Hauteur faîtage H (m)",
+      lblHip: "Arêtier (m)",
+      roofLenWarn: "Note : pour une croupe rectangulaire standard, L doit être supérieur ou égal à l (L ≥ l).",
+      lblRoofSlope: "Pente du toit", lblRafter: "Rampant / Chevron", lblRoofArea: "Surface 4 pans",
+      tabAbout: "À propos", tabContact: "Contact", tabPrivacy: "Confidentialité", tabDisclaimer: "Disclaimer",
+      aboutHeading: "À propos de Colette-Calculator",
+      aboutBody: "Colette-Calculator propose six calculateurs pratiques dédiés au temps de travail, aux pauses, aux centièmes d'heure (1/100e), au suivi hebdomadaire, à l'estimation de salaire brut et à la géométrie de toiture en croupe, disponibles en français et en anglais.",
+      contactHeading: "Contact",
+      contactBody: "Une remarque ou une question ? Utilisez le formulaire ci-dessous.",
+      lblName: "Nom", lblEmail: "Email", lblMessage: "Message", btnSend: "Envoyer",
+      contactSaved: "Message enregistré localement pour cette session.",
+      privacyHeading: "Politique de Confidentialité",
+      privacyBody: "Les données saisies dans les calculateurs sont traitées localement dans votre navigateur. Seule votre préférence de langue (FR / EN) peut être enregistrée localement.",
+      disclaimerHeading: "Disclaimer",
+      disclaimerBody: "Les résultats affichés par Colette-Calculator sont fournis à titre
