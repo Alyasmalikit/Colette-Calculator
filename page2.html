@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colette-Calculator | Home</title>
+<title>Colette-Calculator | Page 2</title>
 <style>
   :root {
-    --bg: #e2e8f0;
+    --bg: #eef2f7;
     --surface: #ffffff;
     --ink: #0f172a;
     --muted: #334155;
@@ -19,12 +19,11 @@
   body {
     margin: 0;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: #eef2f7;
+    background: var(--bg);
     color: var(--ink);
     line-height: 1.6;
   }
   .container { width: 100%; max-width: 1060px; margin: 0 auto; padding: 0 18px; }
-
   .site-header {
     background: #ffffff;
     border-bottom: 2px solid #cbd5e1;
@@ -68,11 +67,9 @@
     cursor: pointer;
   }
   .lang-btn:hover { background: var(--primary); }
-
   .page-head { padding: 24px 0 16px; }
   .page-head h1 { margin: 0 0 6px; font-size: 1.8rem; font-weight: 900; }
   .page-head p { margin: 0; color: var(--muted); }
-
   .page-flow { display: flex; flex-direction: column; gap: 22px; padding: 12px 0 36px; }
   .tool-card {
     background: var(--surface);
@@ -83,23 +80,14 @@
   }
   .tool-card h2 { margin: 0 0 8px; font-size: 1.2rem; font-weight: 900; }
   .tool-intro { margin: 0 0 16px; color: var(--muted); font-size: 0.94rem; }
-
-  .slot-row {
+  .split-grid {
     display: grid;
-    grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.9fr) 36px;
-    gap: 10px;
-    align-items: center;
-    padding: 10px 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    background: #f8fafc;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 18px;
   }
-  @media (max-width: 760px) {
-    .slot-row { grid-template-columns: 28px repeat(2, minmax(0, 1fr)) 36px; }
-  }
-  .slot-field label { display: block; font-size: 0.76rem; font-weight: 800; color: var(--muted); margin-bottom: 4px; }
-  input[type="time"], input[type="number"] {
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 0.8rem; font-weight: 800; color: var(--muted); margin-bottom: 5px; }
+  input[type="number"] {
     width: 100%;
     padding: 8px 10px;
     border: 1.5px solid #94a3b8;
@@ -109,37 +97,22 @@
     background: #ffffff;
     color: var(--ink);
   }
-  .out-pill {
-    padding: 8px 10px;
-    background: #eff6ff;
-    border: 1.5px solid #93c5fd;
+  .res-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 12px;
+    border: 1px solid #cbd5e1;
     border-radius: 8px;
+    background: #f8fafc;
+    margin-bottom: 8px;
+  }
+  .res-row.highlight {
+    background: #eff6ff;
+    border-color: #60a5fa;
     font-weight: 900;
-    font-size: 0.9rem;
-    color: var(--primary-dark);
-    text-align: center;
   }
-  .del-btn {
-    background: #fee2e2;
-    color: #991b1b;
-    border: 1px solid #f87171;
-    width: 32px;
-    height: 32px;
-    border-radius: 7px;
-    font-weight: 900;
-    cursor: pointer;
-  }
-  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
-  .btn {
-    background: var(--primary);
-    color: #ffffff;
-    border: none;
-    padding: 9px 16px;
-    border-radius: 9px;
-    font-weight: 800;
-    cursor: pointer;
-  }
-  .btn:hover { background: var(--primary-hover); }
+  .res-val { font-weight: 900; color: var(--primary-dark); }
   .btn-sec {
     background: #e2e8f0;
     color: var(--ink);
@@ -149,35 +122,6 @@
     font-weight: 800;
     cursor: pointer;
   }
-  .total-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 14px 16px;
-    background: #eff6ff;
-    border: 1.5px solid #60a5fa;
-    border-radius: 11px;
-    font-weight: 900;
-  }
-  .sub-grid, .conv-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-    gap: 16px;
-    align-items: end;
-  }
-  .hm-pair { display: flex; align-items: center; gap: 8px; }
-  .conv-box {
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    padding: 14px;
-    background: #f8fafc;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .conv-box h3 { margin: 0; font-size: 1rem; font-weight: 800; }
   .site-footer {
     border-top: 2px solid #cbd5e1;
     background: #ffffff;
@@ -196,8 +140,8 @@
   <div class="container nav-bar">
     <a href="index.html" class="brand">Colette-Calculator</a>
     <nav class="nav-menu">
-      <a href="index.html" class="active" data-t="navHome">Home</a>
-      <a href="page2.html" data-t="navP2">Page 2</a>
+      <a href="index.html" data-t="navHome">Home</a>
+      <a href="page2.html" class="active" data-t="navP2">Page 2</a>
       <a href="pages.html" data-t="navInfo">About &amp; Legal</a>
       <button type="button" id="langBtn" class="lang-btn">EN</button>
     </nav>
@@ -206,8 +150,8 @@
 
 <section class="page-head">
   <div class="container">
-    <h1 data-t="pageTitle">Colette-Calculator — Temps, Pauses &amp; Centièmes (1/100e)</h1>
-    <p data-t="pageSub">3 outils essentiels pour vos horaires, pauses et conversions en centièmes.</p>
+    <h1 data-t="pageTitle">Colette-Calculator — Page 2</h1>
+    <p data-t="pageSub">Outils complémentaires : heures &amp; salaire et charpente toiture en croupe.</p>
   </div>
 </section>
 
@@ -215,70 +159,43 @@
   <div class="page-flow">
 
     <section class="tool-card">
-      <h2 data-t="t1Name">01 • Additionneur de Plages Horaires</h2>
-      <p class="tool-intro" data-t="t1Desc">Ajoutez vos plages horaires pour obtenir la durée et le total en heures-minutes et en centièmes.</p>
-      <div id="slotsContainer"></div>
-      <div class="toolbar">
-        <button type="button" class="btn" id="addSlotBtn" data-t="btnAdd">+ Ajouter une plage</button>
-        <button type="button" class="btn-sec" id="resetSlotsBtn" data-t="btnReset">Reset (0)</button>
-      </div>
-      <div class="total-bar">
-        <span data-t="lblTotal">TOTAL JOURNALIER</span>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <span class="out-pill" id="totalHM">00h 00min</span>
-          <span class="out-pill" id="totalDec">0.00 h</span>
+      <h2 data-t="t5Name">05 • Calculateur Heures de Travail &amp; Salaire</h2>
+      <p class="tool-intro" data-t="t5Desc">Calculez les heures normales et supplémentaires majorées.</p>
+      <div class="split-grid">
+        <div>
+          <div class="field"><label for="inRate" data-t="lblRate">Taux horaire (€ / h)</label><input type="number" id="inRate" step="0.01" min="0" value="0"></div>
+          <div class="field"><label for="inReg" data-t="lblReg">Heures normales</label><input type="number" id="inReg" step="0.01" min="0" value="0"></div>
+          <div class="field"><label for="inOt" data-t="lblOt">Heures supplémentaires</label><input type="number" id="inOt" step="0.01" min="0" value="0"></div>
+          <div class="field"><label for="inPct" data-t="lblPct">Majoration (%)</label><input type="number" id="inPct" step="1" min="0" value="0"></div>
+          <button type="button" class="btn-sec" id="resetPayBtn" data-t="btnReset">Reset (0)</button>
+        </div>
+        <div>
+          <div class="res-row"><span data-t="rTotH">Total heures</span><span class="res-val" id="outTotH">0.00 h</span></div>
+          <div class="res-row"><span data-t="rBase">Montant normal</span><span class="res-val" id="outBase">0.00 €</span></div>
+          <div class="res-row"><span data-t="rOt">Montant heures sup</span><span class="res-val" id="outOt">0.00 €</span></div>
+          <div class="res-row highlight"><span data-t="rTotal">TOTAL ESTIMÉ</span><span class="res-val" id="outTotal">0.00 €</span></div>
         </div>
       </div>
     </section>
 
     <section class="tool-card">
-      <h2 data-t="t2Name">02 • Soustracteur de Durées &amp; Pauses</h2>
-      <p class="tool-intro" data-t="t2Desc">Déduisez une pause (B) d'une durée globale (A).</p>
-      <div class="sub-grid">
+      <h2 data-t="t6Name">06 • Calculateur Charpente : Toiture en Croupe</h2>
+      <p class="tool-intro" data-t="t6Desc">Calculez le faîtage, les chevrons, l'arêtier et la surface des 4 pans.</p>
+      <div class="split-grid">
         <div>
-          <label style="display:block;font-size:0.8rem;font-weight:800;margin-bottom:4px;" data-t="lblA">Durée totale (A)</label>
-          <div class="hm-pair">
-            <input type="number" id="subAh" min="0" value="0"><span>h</span>
-            <input type="number" id="subAm" min="0" max="59" value="0"><span>min</span>
-          </div>
-        </div>
-        <div>
-          <label style="display:block;font-size:0.8rem;font-weight:800;margin-bottom:4px;" data-t="lblB">Pause à déduire (B)</label>
-          <div class="hm-pair">
-            <input type="number" id="subBh" min="0" value="0"><span>h</span>
-            <input type="number" id="subBm" min="0" max="59" value="0"><span>min</span>
-          </div>
+          <div class="field"><label for="inPan" data-t="lblPan">Emprunt long pan (m)</label><input type="number" id="inPan" step="0.01" min="0" value="0"></div>
+          <div class="field"><label for="inCr" data-t="lblCr">Emprunt croupe (m)</label><input type="number" id="inCr" step="0.01" min="0" value="0"></div>
+          <div class="field"><label for="inEg" data-t="lblEg">Longueur égout (m)</label><input type="number" id="inEg" step="0.01" min="0" value="0"></div>
+          <div class="field"><label for="inH" data-t="lblH">Hauteur H (m)</label><input type="number" id="inH" step="0.01" min="0" value="0"></div>
+          <button type="button" class="btn-sec" id="resetRoofBtn" data-t="btnReset">Reset (0)</button>
         </div>
         <div>
-          <label style="display:block;font-size:0.8rem;font-weight:800;margin-bottom:4px;" data-t="lblNet">Temps net (A − B)</label>
-          <div class="out-pill" id="subOut">00h 00min (0.00 h)</div>
+          <div class="res-row"><span data-t="rFait">Faîtage</span><span class="res-val" id="outFait">0.00 m</span></div>
+          <div class="res-row"><span data-t="rChevPan">Chevron long pan</span><span class="res-val" id="outChevPan">0.00 m</span></div>
+          <div class="res-row"><span data-t="rChevCr">Chevron croupe</span><span class="res-val" id="outChevCr">0.00 m</span></div>
+          <div class="res-row highlight"><span data-t="rArReel">Arêtier réel</span><span class="res-val" id="outArReel">0.00 m</span></div>
+          <div class="res-row highlight"><span data-t="rSurf">Surface 4 pans</span><span class="res-val" id="outSurf">0.00 m²</span></div>
         </div>
-      </div>
-      <div class="toolbar">
-        <button type="button" class="btn-sec" id="resetSubBtn" data-t="btnReset">Reset (0)</button>
-      </div>
-    </section>
-
-    <section class="tool-card">
-      <h2 data-t="t3Name">03 • Convertisseur Heures-Minutes ↔ Centièmes (1/100e)</h2>
-      <p class="tool-intro" data-t="t3Desc">Convertissez entre heures-minutes et heures décimales.</p>
-      <div class="conv-grid">
-        <div class="conv-box">
-          <h3 data-t="cHmDec">Heures &amp; Minutes → Centièmes</h3>
-          <div class="hm-pair">
-            <input type="number" id="convH" min="0" value="0"><span>h</span>
-            <input type="number" id="convM" min="0" max="59" value="0"><span>min</span>
-          </div>
-          <div class="out-pill" id="convDecOut">0.00 h</div>
-        </div>
-        <div class="conv-box">
-          <h3 data-t="cDecHm">Centièmes → Heures &amp; Minutes</h3>
-          <input type="number" id="convDecIn" min="0" step="0.01" value="0.00">
-          <div class="out-pill" id="convHmOut">00h 00min</div>
-        </div>
-      </div>
-      <div class="toolbar">
-        <button type="button" class="btn-sec" id="resetConvBtn" data-t="btnReset">Reset (0)</button>
       </div>
     </section>
 
@@ -299,132 +216,66 @@
 <script>
 (function () {
   let lang = "fr";
-  let slots = [
-    { start: "00:00", end: "00:00", active: true },
-    { start: "00:00", end: "00:00", active: true }
-  ];
-
   const dict = {
     fr: {
       btn: "EN", navHome: "Home", navP2: "Page 2", navInfo: "About & Legal",
-      pageTitle: "Colette-Calculator — Temps, Pauses & Centièmes (1/100e)",
-      pageSub: "3 outils essentiels pour vos horaires, pauses et conversions en centièmes.",
-      t1Name: "01 • Additionneur de Plages Horaires",
-      t1Desc: "Ajoutez vos plages horaires pour obtenir la durée et le total en heures-minutes et en centièmes.",
-      t2Name: "02 • Soustracteur de Durées & Pauses",
-      t2Desc: "Déduisez une pause (B) d'une durée globale (A).",
-      t3Name: "03 • Convertisseur Heures-Minutes ↔ Centièmes (1/100e)",
-      t3Desc: "Convertissez entre heures-minutes et heures décimales.",
-      lblStart: "Début", lblEnd: "Fin", lblDur: "Durée", lblDec: "1/100e",
-      btnAdd: "+ Ajouter une plage", btnReset: "Reset (0)", lblTotal: "TOTAL JOURNALIER",
-      lblA: "Durée totale (A)", lblB: "Pause à déduire (B)", lblNet: "Temps net (A − B)",
-      cHmDec: "Heures & Minutes → Centièmes", cDecHm: "Centièmes → Heures & Minutes"
+      pageTitle: "Colette-Calculator — Page 2",
+      pageSub: "Outils complémentaires : heures & salaire et charpente toiture en croupe.",
+      t5Name: "05 • Calculateur Heures de Travail & Salaire",
+      t5Desc: "Calculez les heures normales et supplémentaires majorées.",
+      lblRate: "Taux horaire (€ / h)", lblReg: "Heures normales", lblOt: "Heures supplémentaires", lblPct: "Majoration (%)",
+      rTotH: "Total heures", rBase: "Montant normal", rOt: "Montant heures sup", rTotal: "TOTAL ESTIMÉ",
+      t6Name: "06 • Calculateur Charpente : Toiture en Croupe",
+      t6Desc: "Calculez le faîtage, les chevrons, l'arêtier et la surface des 4 pans.",
+      lblPan: "Emprunt long pan (m)", lblCr: "Emprunt croupe (m)", lblEg: "Longueur égout (m)", lblH: "Hauteur H (m)",
+      rFait: "Faîtage", rChevPan: "Chevron long pan", rChevCr: "Chevron croupe", rArReel: "Arêtier réel", rSurf: "Surface 4 pans",
+      btnReset: "Reset (0)"
     },
     en: {
       btn: "FR", navHome: "Home", navP2: "Page 2", navInfo: "About & Legal",
-      pageTitle: "Colette-Calculator — Time, Breaks & 1/100e",
-      pageSub: "3 essential tools for time slots, breaks, and hundredth conversions.",
-      t1Name: "01 • Time Slot Adder",
-      t1Desc: "Add time slots to get duration and totals in hours-minutes and hundredths.",
-      t2Name: "02 • Duration & Break Subtractor",
-      t2Desc: "Deduct a break (B) from a total duration (A).",
-      t3Name: "03 • Hours-Minutes ↔ Hundredths (1/100e) Converter",
-      t3Desc: "Convert between hours-minutes and decimal hours.",
-      lblStart: "Start", lblEnd: "End", lblDur: "Duration", lblDec: "1/100e",
-      btnAdd: "+ Add slot", btnReset: "Reset (0)", lblTotal: "DAILY TOTAL",
-      lblA: "Total duration (A)", lblB: "Break to deduct (B)", lblNet: "Net time (A − B)",
-      cHmDec: "Hours & Minutes → Hundredths", cDecHm: "Hundredths → Hours & Minutes"
+      pageTitle: "Colette-Calculator — Page 2",
+      pageSub: "Additional tools: hours & pay and hip roof framing.",
+      t5Name: "05 • Working Hours & Pay Calculator",
+      t5Desc: "Calculate regular hours and overtime pay with bonus.",
+      lblRate: "Hourly rate (€ / h)", lblReg: "Regular hours", lblOt: "Overtime hours", lblPct: "Overtime bonus (%)",
+      rTotH: "Total hours", rBase: "Regular pay", rOt: "Overtime pay", rTotal: "ESTIMATED TOTAL",
+      t6Name: "06 • Framing Calculator: Hip Roof",
+      t6Desc: "Calculate ridge, rafters, true hip, and 4-slope area.",
+      lblPan: "Main slope run (m)", lblCr: "Hip end run (m)", lblEg: "Eave length (m)", lblH: "Height H (m)",
+      rFait: "Ridge", rChevPan: "Common rafter (pan)", rChevCr: "Common rafter (hip)", rArReel: "True hip", rSurf: "4-slope area",
+      btnReset: "Reset (0)"
     }
   };
 
-  function fmtHM(mins) {
-    const abs = Math.abs(Math.round(mins));
-    return `${String(Math.floor(abs / 60)).padStart(2, "0")}h ${String(abs % 60).padStart(2, "0")}min`;
+  function calcPay() {
+    const rate = Math.max(0, parseFloat(document.getElementById("inRate").value) || 0);
+    const reg = Math.max(0, parseFloat(document.getElementById("inReg").value) || 0);
+    const ot = Math.max(0, parseFloat(document.getElementById("inOt").value) || 0);
+    const pct = Math.max(0, parseFloat(document.getElementById("inPct").value) || 0);
+    const base = reg * rate;
+    const otPay = ot * rate * (1 + pct / 100);
+    document.getElementById("outTotH").textContent = `${(reg + ot).toFixed(2)} h`;
+    document.getElementById("outBase").textContent = `${base.toFixed(2)} €`;
+    document.getElementById("outOt").textContent = `${otPay.toFixed(2)} €`;
+    document.getElementById("outTotal").textContent = `${(base + otPay).toFixed(2)} €`;
   }
 
-  function slotMins(s) {
-    if (!s.start || !s.end) return 0;
-    const [sh, sm] = s.start.split(":").map(Number);
-    const [eh, em] = s.end.split(":").map(Number);
-    if ([sh, sm, eh, em].some(Number.isNaN)) return 0;
-    const a = sh * 60 + sm;
-    let b = eh * 60 + em;
-    if (b < a) b += 1440;
-    return Math.max(0, b - a);
-  }
-
-  function renderSlots() {
-    const d = dict[lang];
-    const box = document.getElementById("slotsContainer");
-    box.innerHTML = "";
-    let total = 0;
-
-    slots.forEach((s, idx) => {
-      const m = slotMins(s);
-      if (s.active) total += m;
-      const row = document.createElement("div");
-      row.className = "slot-row";
-
-      const chk = document.createElement("input");
-      chk.type = "checkbox";
-      chk.checked = !!s.active;
-      chk.onchange = () => { slots[idx].active = chk.checked; renderSlots(); };
-
-      const f1 = document.createElement("div");
-      f1.className = "slot-field";
-      f1.innerHTML = `<label>${d.lblStart}</label>`;
-      const i1 = document.createElement("input");
-      i1.type = "time";
-      i1.value = s.start;
-      i1.oninput = () => { slots[idx].start = i1.value; renderSlots(); };
-      f1.appendChild(i1);
-
-      const f2 = document.createElement("div");
-      f2.className = "slot-field";
-      f2.innerHTML = `<label>${d.lblEnd}</label>`;
-      const i2 = document.createElement("input");
-      i2.type = "time";
-      i2.value = s.end;
-      i2.oninput = () => { slots[idx].end = i2.value; renderSlots(); };
-      f2.appendChild(i2);
-
-      const f3 = document.createElement("div");
-      f3.className = "slot-field";
-      f3.innerHTML = `<label>${d.lblDur}</label><div class="out-pill">${fmtHM(m)}</div>`;
-
-      const f4 = document.createElement("div");
-      f4.className = "slot-field";
-      f4.innerHTML = `<label>${d.lblDec}</label><div class="out-pill">${(m / 60).toFixed(2)} h</div>`;
-
-      const del = document.createElement("button");
-      del.type = "button";
-      del.className = "del-btn";
-      del.textContent = "×";
-      del.onclick = () => { if (slots.length > 1) { slots.splice(idx, 1); renderSlots(); } };
-
-      row.append(chk, f1, f2, f3, f4, del);
-      box.appendChild(row);
-    });
-
-    document.getElementById("totalHM").textContent = fmtHM(total);
-    document.getElementById("totalDec").textContent = `${(total / 60).toFixed(2)} h`;
-  }
-
-  function calcSub() {
-    const ah = Math.max(0, parseInt(document.getElementById("subAh").value, 10) || 0);
-    const am = Math.min(59, Math.max(0, parseInt(document.getElementById("subAm").value, 10) || 0));
-    const bh = Math.max(0, parseInt(document.getElementById("subBh").value, 10) || 0);
-    const bm = Math.min(59, Math.max(0, parseInt(document.getElementById("subBm").value, 10) || 0));
-    const diff = Math.max(0, (ah * 60 + am) - (bh * 60 + bm));
-    document.getElementById("subOut").textContent = `${fmtHM(diff)} (${(diff / 60).toFixed(2)} h)`;
-  }
-
-  function calcConv() {
-    const h = Math.max(0, parseInt(document.getElementById("convH").value, 10) || 0);
-    const m = Math.min(59, Math.max(0, parseInt(document.getElementById("convM").value, 10) || 0));
-    document.getElementById("convDecOut").textContent = `${(h + m / 60).toFixed(2)} h`;
-    const dec = Math.max(0, parseFloat(document.getElementById("convDecIn").value) || 0);
-    document.getElementById("convHmOut").textContent = fmtHM(Math.round(dec * 60));
+  function calcRoof() {
+    const pan = Math.max(0, parseFloat(document.getElementById("inPan").value) || 0);
+    const cr = Math.max(0, parseFloat(document.getElementById("inCr").value) || 0);
+    const eg = Math.max(0, parseFloat(document.getElementById("inEg").value) || 0);
+    const h = Math.max(0, parseFloat(document.getElementById("inH").value) || 0);
+    const fait = Math.max(0, eg - 2 * cr);
+    const cp = Math.hypot(pan, h);
+    const cc = Math.hypot(cr, h);
+    const arPlan = Math.hypot(pan, cr);
+    const arReel = Math.hypot(arPlan, h);
+    const surf = 2 * (((fait + eg) / 2) * cp) + 2 * (0.5 * pan * cc);
+    document.getElementById("outFait").textContent = `${fait.toFixed(2)} m`;
+    document.getElementById("outChevPan").textContent = `${cp.toFixed(2)} m`;
+    document.getElementById("outChevCr").textContent = `${cc.toFixed(2)} m`;
+    document.getElementById("outArReel").textContent = `${arReel.toFixed(2)} m`;
+    document.getElementById("outSurf").textContent = `${surf.toFixed(2)} m²`;
   }
 
   function applyLang() {
@@ -435,38 +286,23 @@
       const k = el.getAttribute("data-t");
       if (d[k]) el.textContent = d[k];
     });
-    renderSlots();
-    calcSub();
-    calcConv();
+    calcPay();
+    calcRoof();
   }
 
   document.getElementById("langBtn").onclick = function () {
     lang = lang === "fr" ? "en" : "fr";
     applyLang();
   };
-  document.getElementById("addSlotBtn").onclick = function () {
-    slots.push({ start: "00:00", end: "00:00", active: true });
-    renderSlots();
+  ["inRate", "inReg", "inOt", "inPct"].forEach(id => { document.getElementById(id).oninput = calcPay; });
+  document.getElementById("resetPayBtn").onclick = function () {
+    ["inRate", "inReg", "inOt", "inPct"].forEach(id => { document.getElementById(id).value = "0"; });
+    calcPay();
   };
-  document.getElementById("resetSlotsBtn").onclick = function () {
-    slots = [{ start: "00:00", end: "00:00", active: true }, { start: "00:00", end: "00:00", active: true }];
-    renderSlots();
-  };
-  ["subAh", "subAm", "subBh", "subBm"].forEach(id => {
-    document.getElementById(id).oninput = calcSub;
-  });
-  document.getElementById("resetSubBtn").onclick = function () {
-    ["subAh", "subAm", "subBh", "subBm"].forEach(id => { document.getElementById(id).value = "0"; });
-    calcSub();
-  };
-  ["convH", "convM", "convDecIn"].forEach(id => {
-    document.getElementById(id).oninput = calcConv;
-  });
-  document.getElementById("resetConvBtn").onclick = function () {
-    document.getElementById("convH").value = "0";
-    document.getElementById("convM").value = "0";
-    document.getElementById("convDecIn").value = "0.00";
-    calcConv();
+  ["inPan", "inCr", "inEg", "inH"].forEach(id => { document.getElementById(id).oninput = calcRoof; });
+  document.getElementById("resetRoofBtn").onclick = function () {
+    ["inPan", "inCr", "inEg", "inH"].forEach(id => { document.getElementById(id).value = "0"; });
+    calcRoof();
   };
 
   applyLang();
