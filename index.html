@@ -723,9 +723,9 @@
         <a href="#tool-04" data-t="nav04">04 Hebdo</a>
         <a href="#tool-05" data-t="nav05">05 Salaire</a>
         <a href="#tool-06" data-t="nav06">06 Toiture</a>
-        <a href="#pages-hub" onclick="showPagePanel('about')" data-t="navAbout">À propos</a>
+        <a href="#pages-hub" data-page-link="about" data-t="navAbout">À propos</a>
       </nav>
-      <button type="button" id="langToggle" class="lang-btn" onclick="togglePageLang()">EN</button>
+      <button type="button" id="langToggle" class="lang-btn">EN</button>
     </div>
   </div>
 </header>
@@ -781,9 +781,9 @@
           <div>
             <label for="subAh" class="cell-label" data-t="lblDurA">Durée totale (A)</label>
             <div class="hm-row">
-              <input type="number" id="subAh" min="0" value="0">
+              <input type="number" id="subAh" min="0" step="1" value="0">
               <span>h</span>
-              <input type="number" id="subAm" min="0" max="59" value="0">
+              <input type="number" id="subAm" min="0" max="59" step="1" value="0">
               <span>min</span>
             </div>
           </div>
@@ -791,9 +791,9 @@
           <div>
             <label for="subBh" class="cell-label" data-t="lblDurB">Pause à déduire (B)</label>
             <div class="hm-row">
-              <input type="number" id="subBh" min="0" value="0">
+              <input type="number" id="subBh" min="0" step="1" value="0">
               <span>h</span>
-              <input type="number" id="subBm" min="0" max="59" value="0">
+              <input type="number" id="subBm" min="0" max="59" step="1" value="0">
               <span>min</span>
             </div>
           </div>
@@ -823,9 +823,9 @@
           <div class="sub-panel">
             <h4 data-t="convLeftTitle">Heures &amp; Minutes → Centièmes (1/100e)</h4>
             <div class="hm-row">
-              <input type="number" id="convH" min="0" value="0" aria-label="Heures">
+              <input type="number" id="convH" min="0" step="1" value="0" aria-label="Heures">
               <span>h</span>
-              <input type="number" id="convM" min="0" max="59" value="0" aria-label="Minutes">
+              <input type="number" id="convM" min="0" max="59" step="1" value="0" aria-label="Minutes">
               <span>min</span>
             </div>
             <div>
@@ -1002,4 +1002,270 @@
         <h3 data-t="art1Title">Guide — Additionner des créneaux horaires et convertir en centièmes (1/100e)</h3>
         <p data-t="art1P1">Pour éviter les erreurs de retenue entre 60 minutes et 100 centièmes, additionnez d'abord les durées en heures et minutes, puis divisez les minutes restantes par 60.</p>
         <ul>
-          <li data-t="art1L1">0h 15min = 0
+          <li data-t="art1L1">0h 15min = 0.25 h • 0h 30min = 0.50 h • 0h 45min = 0.75 h.</li>
+          <li data-t="art1L2">Si l'heure de fin est inférieure à l'heure de début, le passage sur le lendemain (+1j / +1d) est pris en compte.</li>
+        </ul>
+        <div class="formula-note" data-t="art1F">Exemple : 08:00 → 12:00 (4h 00min) + 13:30 → 17:00 (3h 30min) = 07h 30min (7.50 h).</div>
+      </article>
+
+      <div class="diagram-box">
+        <h3 data-t="diag1Title">Diagramme démonstratif — Temps brut, pause déduite et centièmes (1/100e)</h3>
+        <svg viewBox="0 0 760 175" role="img" aria-label="Diagramme amplitude pause et centièmes">
+          <rect x="25" y="24" width="320" height="44" rx="8" fill="#dbeafe" stroke="#1565c0" stroke-width="2"/>
+          <text x="185" y="51" text-anchor="middle" font-size="13.5" font-weight="800" fill="#0d47a1" data-t="svg1A">Total A : 08:00 → 16:30 (8h 30min)</text>
+
+          <rect x="360" y="24" width="120" height="44" rx="8" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+          <text x="420" y="51" text-anchor="middle" font-size="13" font-weight="800" fill="#854d0e" data-t="svg1B">Pause B : 30m</text>
+
+          <rect x="495" y="24" width="240" height="44" rx="8" fill="#dcfce7" stroke="#15803d" stroke-width="2"/>
+          <text x="615" y="51" text-anchor="middle" font-size="13.5" font-weight="800" fill="#166534" data-t="svg1C">Net : 8h 00min = 8.00 h</text>
+
+          <rect x="25" y="92" width="710" height="54" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+          <text x="380" y="115" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a" data-t="svg1D">Repères 1/100e : 15 min = 0.25 h • 30 min = 0.50 h • 45 min = 0.75 h • 60 min = 1.00 h</text>
+          <text x="380" y="136" text-anchor="middle" font-size="12" font-weight="600" fill="#475569" data-t="svg1E">Pour passer des minutes aux centièmes : diviser les minutes par 60.</text>
+        </svg>
+      </div>
+
+      <article class="guide-box">
+        <h3 data-t="art2Title">Guide — Suivre sa semaine et estimer un salaire brut avec heures sup.</h3>
+        <p data-t="art2P1">Utilisez la feuille hebdomadaire pour cumuler vos heures nettes, puis importez le total en centièmes dans le calculateur de salaire brut.</p>
+        <ul>
+          <li data-t="art2L1">Les heures jusqu'au seuil sont payées au taux horaire de base.</li>
+          <li data-t="art2L2">Les heures au-delà du seuil sont majorées par le multiplicateur choisi (ex. ×1.25).</li>
+        </ul>
+        <div class="formula-note" data-t="art2F">Exemple : 40.00 h × 15.00 (seuil 35 h, ×1.25) → Base 525.00 + Heures sup. 93.75 = Brut 618.75.</div>
+      </article>
+
+      <div class="ad-space">
+        <span class="ad-badge" data-t="adBadge">Publicité / Ad Space</span>
+        <span class="ad-desc" data-t="ad2Text">Emplacement publicitaire dédié (728×90 / Responsive) — Bloc Paie &amp; Semaine</span>
+      </div>
+
+      <div class="diagram-box">
+        <h3 data-t="diag2Title">Diagramme démonstratif — Dimensions d'une toiture en croupe (4 pans)</h3>
+        <svg viewBox="0 0 760 190" role="img" aria-label="Diagramme toiture en croupe longueur largeur hauteur">
+          <polygon points="40,45 330,45 330,155 40,155" fill="#eff6ff" stroke="#1565c0" stroke-width="2"/>
+          <line x1="100" y1="100" x2="270" y2="100" stroke="#0f766e" stroke-width="3"/>
+          <line x1="40" y1="45" x2="100" y2="100" stroke="#1565c0" stroke-width="1.8" stroke-dasharray="5,4"/>
+          <line x1="40" y1="155" x2="100" y2="100" stroke="#1565c0" stroke-width="1.8" stroke-dasharray="5,4"/>
+          <line x1="330" y1="45" x2="270" y2="100" stroke="#1565c0" stroke-width="1.8" stroke-dasharray="5,4"/>
+          <line x1="330" y1="155" x2="270" y2="100" stroke="#1565c0" stroke-width="1.8" stroke-dasharray="5,4"/>
+          <text x="185" y="28" text-anchor="middle" font-size="13" font-weight="800" fill="#0f172a" data-t="svg2Len">Longueur L</text>
+          <text x="185" y="90" text-anchor="middle" font-size="12" font-weight="800" fill="#0f766e" data-t="svg2Ridge">Faîtage (L − l)</text>
+          <text x="185" y="176" text-anchor="middle" font-size="12" font-weight="700" fill="#475569" data-t="svg2Plan">Plan 4 pans : 2 trapèzes + 2 triangles</text>
+
+          <polygon points="425,155 715,155 570,45" fill="#f0fdf4" stroke="#15803d" stroke-width="2"/>
+          <line x1="570" y1="45" x2="570" y2="155" stroke="#1565c0" stroke-width="2" stroke-dasharray="4,3"/>
+          <text x="584" y="106" font-size="12.5" font-weight="800" fill="#1565c0" data-t="svg2H">Hauteur H</text>
+          <text x="480" y="96" font-size="12" font-weight="800" fill="#15803d" data-t="svg2Rafter">Rampant</text>
+          <text x="570" y="176" text-anchor="middle" font-size="12" font-weight="700" fill="#475569" data-t="svg2Slope">Demi-largeur (l/2) &amp; Hauteur H → Rampant</text>
+        </svg>
+      </div>
+
+      <article class="guide-box">
+        <h3 data-t="art3Title">Guide — Calculer pente, rampants et surface d'une toiture en croupe</h3>
+        <p data-t="art3P1">Pour une base rectangulaire de longueur L, largeur l (avec L ≥ l) et hauteur de faîtage H, la demi-largeur vaut l ÷ 2.</p>
+        <ul>
+          <li data-t="art3L1">Rampant (chevron) = √((l ÷ 2)² + H²).</li>
+          <li data-t="art3L2">Surface 4 pans = ((L + Faîtage) + l) × Rampant.</li>
+        </ul>
+        <div class="formula-note" data-t="art3F">Astuce chantier : ajoutez toujours une marge de coupe et de recouvrement adaptée au matériau de couverture.</div>
+      </article>
+
+      <div class="ad-space">
+        <span class="ad-badge" data-t="adBadge">Publicité / Ad Space</span>
+        <span class="ad-desc" data-t="ad3Text">Emplacement publicitaire dédié (728×90 / Responsive) — Bloc Toiture &amp; Pages</span>
+      </div>
+
+      <!-- ABOUT / CONTACT / PRIVACY / DISCLAIMER -->
+      <section class="pages-hub" id="pages-hub">
+        <div class="subpage-tabs" role="tablist">
+          <button type="button" class="subpage-tab active" data-panel="about" data-t="tabAbout">À propos</button>
+          <button type="button" class="subpage-tab" data-panel="contact" data-t="tabContact">Contact</button>
+          <button type="button" class="subpage-tab" data-panel="privacy" data-t="tabPrivacy">Confidentialité</button>
+          <button type="button" class="subpage-tab" data-panel="disclaimer" data-t="tabDisclaimer">Disclaimer</button>
+        </div>
+
+        <div id="panel-about" class="subpage-panel active">
+          <h3 data-t="aboutHeading">À propos de Colette-Calculator</h3>
+          <p data-t="aboutBody">Colette-Calculator propose six calculateurs pratiques dédiés au temps de travail, aux pauses, aux centièmes d'heure (1/100e), au suivi hebdomadaire, à l'estimation de salaire brut et à la géométrie de toiture en croupe, disponibles en français et en anglais.</p>
+        </div>
+
+        <div id="panel-contact" class="subpage-panel">
+          <h3 data-t="contactHeading">Contact</h3>
+          <p data-t="contactBody">Une remarque ou une question ? Utilisez le formulaire ci-dessous.</p>
+          <form id="contactForm">
+            <div class="grid-2-spaced">
+              <div>
+                <label for="userName" class="cell-label" data-t="lblName">Nom</label>
+                <input type="text" id="userName">
+              </div>
+              <div>
+                <label for="userEmail" class="cell-label" data-t="lblEmail">Email</label>
+                <input type="email" id="userEmail">
+              </div>
+            </div>
+            <div style="margin-top:14px;">
+              <label for="userMsg" class="cell-label" data-t="lblMessage">Message</label>
+              <textarea id="userMsg" rows="3"></textarea>
+            </div>
+            <div class="action-row">
+              <button type="submit" class="btn-main" data-t="btnSend">Envoyer</button>
+            </div>
+            <div id="contactBanner" class="warn-banner" role="status"></div>
+          </form>
+        </div>
+
+        <div id="panel-privacy" class="subpage-panel">
+          <h3 data-t="privacyHeading">Politique de Confidentialité</h3>
+          <p data-t="privacyBody">Les données saisies dans les calculateurs sont traitées localement dans votre navigateur. Seule votre préférence de langue (FR / EN) peut être enregistrée localement.</p>
+        </div>
+
+        <div id="panel-disclaimer" class="subpage-panel">
+          <h3 data-t="disclaimerHeading">Disclaimer</h3>
+          <p data-t="disclaimerBody">Les résultats affichés par Colette-Calculator sont fournis à titre indicatif. Vérifiez toujours les règles légales ou contractuelles applicables à la paie ou à la facturation ainsi que les contraintes techniques et marges de pose réelles de toiture.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>Colette-Calculator</div>
+    <div class="footer-nav">
+      <a href="#pages-hub" data-page-link="about" data-t="tabAbout">À propos</a>
+      <a href="#pages-hub" data-page-link="contact" data-t="tabContact">Contact</a>
+      <a href="#pages-hub" data-page-link="privacy" data-t="tabPrivacy">Confidentialité</a>
+      <a href="#pages-hub" data-page-link="disclaimer" data-t="tabDisclaimer">Disclaimer</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var LANG_KEY = "colette_lang_pref";
+  var currentLang = "fr";
+
+  var daysFr = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+  var daysEn = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+  var slots = [
+    { start: "08:00", end: "12:00", active: true },
+    { start: "13:30", end: "17:00", active: true }
+  ];
+
+  var weekData = [
+    { start: "08:00", end: "16:30", brk: 30 },
+    { start: "08:00", end: "16:30", brk: 30 },
+    { start: "08:00", end: "16:30", brk: 30 },
+    { start: "08:00", end: "16:30", brk: 30 },
+    { start: "08:00", end: "16:30", brk: 30 },
+    { start: "00:00", end: "00:00", brk: 0 },
+    { start: "00:00", end: "00:00", brk: 0 }
+  ];
+
+  var i18n = {
+    fr: {
+      langBtn: "EN",
+      nav01: "01 Plages", nav02: "02 Pauses", nav03: "03 1/100e",
+      nav04: "04 Hebdo", nav05: "05 Salaire", nav06: "06 Toiture", navAbout: "À propos",
+      heroTitle: "Colette-Calculator — Temps, Pauses, Centièmes (1/100e), Paie & Toiture",
+      heroSub: "Les 6 calculateurs principaux sont placés en tête de page pour un accès immédiat, suivis des guides, schémas, emplacements publicitaires et rubriques À propos, Contact, Confidentialité et Disclaimer.",
+      secTools: "Calculateurs Principaux (01 à 06)",
+      secGuides: "Guides, Schémas & Emplacements Publicitaires",
+      activeBadge: "Actif",
+      t1Title: "Additionneur de Plages Horaires",
+      t1Desc: "Ajoutez vos créneaux horaires pour calculer la durée de chaque ligne et le total journalier en heures-minutes et en centièmes (1/100e).",
+      lblStart: "Heure début", lblEnd: "Heure fin", lblDur: "Durée", lblDec: "1/100e",
+      overnightTag: "+1j",
+      btnAddSlot: "+ Ajouter une plage", btnReset: "Reset (0)", lblDailyTotal: "TOTAL JOURNALIER",
+      btnCopy: "Copier", btnCopied: "Copié !",
+      art1Title: "Guide — Additionner des créneaux horaires et convertir en centièmes (1/100e)",
+      art1P1: "Pour éviter les erreurs de retenue entre 60 minutes et 100 centièmes, additionnez d'abord les durées en heures et minutes, puis divisez les minutes restantes par 60.",
+      art1L1: "0h 15min = 0.25 h • 0h 30min = 0.50 h • 0h 45min = 0.75 h.",
+      art1L2: "Si l'heure de fin est inférieure à l'heure de début, le passage sur le lendemain (+1j / +1d) est pris en compte.",
+      art1F: "Exemple : 08:00 → 12:00 (4h 00min) + 13:30 → 17:00 (3h 30min) = 07h 30min (7.50 h).",
+      adBadge: "Publicité / Ad Space",
+      ad1Text: "Emplacement publicitaire dédié (728×90 / Responsive) — Bloc Temps & Centièmes",
+      ad2Text: "Emplacement publicitaire dédié (728×90 / Responsive) — Bloc Paie & Semaine",
+      ad3Text: "Emplacement publicitaire dédié (728×90 / Responsive) — Bloc Toiture & Pages",
+      t2Title: "Soustracteur de Durées & Pauses",
+      t2Desc: "Déduisez une pause ou un temps d'arrêt (B) d'une durée totale (A) pour connaître le temps net effectif.",
+      lblDurA: "Durée totale (A)", lblDurB: "Pause à déduire (B)", lblNetOut: "Temps net (A − B)",
+      subExceed: "La pause (B) dépasse la durée totale (A) : le résultat net est ramené à 00h 00min.",
+      diag1Title: "Diagramme démonstratif — Temps brut, pause déduite et centièmes (1/100e)",
+      svg1A: "Total A : 08:00 → 16:30 (8h 30min)",
+      svg1B: "Pause B : 30m",
+      svg1C: "Net : 8h 00min = 8.00 h",
+      svg1D: "Repères 1/100e : 15 min = 0.25 h • 30 min = 0.50 h • 45 min = 0.75 h • 60 min = 1.00 h",
+      svg1E: "Pour passer des minutes aux centièmes : diviser les minutes par 60.",
+      t3Title: "Convertisseur Heures-Minutes ↔ Centièmes (1/100e)",
+      t3Desc: "Convertissez des heures et minutes en centièmes d'heure (1/100e) ou des heures décimales en heures et minutes.",
+      convLeftTitle: "Heures & Minutes → Centièmes (1/100e)",
+      lblDecResult: "Résultat décimal",
+      convRightTitle: "Centièmes (1/100e) → Heures & Minutes",
+      lblDecInput: "Heures décimales (ex. 7.50)",
+      lblHmResult: "Résultat heures-minutes",
+      t4Title: "Feuille de Temps Hebdomadaire (Lun–Dim)",
+      t4Desc: "Saisissez début, fin et pause (en minutes) sur 7 jours pour obtenir le total net hebdomadaire.",
+      lblDayStart: "Début", lblDayEnd: "Fin", lblBreak: "Pause (min)", lblDayNet: "Net jour", lblDayDec: "1/100e",
+      btnStdWeek: "Semaine type (Lun–Ven 08:00–16:30, pause 30m)",
+      lblWeekTotal: "TOTAL HEBDOMADAIRE NET",
+      weekExceed: "Au moins un jour a une pause supérieure à la durée brute : le net de ce jour est ramené à 00h 00min.",
+      art2Title: "Guide — Suivre sa semaine et estimer un salaire brut avec heures sup.",
+      art2P1: "Utilisez la feuille hebdomadaire pour cumuler vos heures nettes, puis importez le total en centièmes dans le calculateur de salaire brut.",
+      art2L1: "Les heures jusqu'au seuil sont payées au taux horaire de base.",
+      art2L2: "Les heures au-delà du seuil sont majorées par le multiplicateur choisi (ex. ×1.25).",
+      art2F: "Exemple : 40.00 h × 15.00 (seuil 35 h, ×1.25) → Base 525.00 + Heures sup. 93.75 = Brut 618.75.",
+      t5Title: "Calculateur d'Heures & Salaire Brut",
+      t5Desc: "Estimez le salaire brut à partir des heures travaillées, du taux horaire et d'une majoration d'heures supplémentaires.",
+      lblPayHours: "Heures travaillées (1/100e)", lblPayHm: "Équivalent heures-minutes",
+      lblPayRate: "Taux horaire (€ / $)", lblPayThresh: "Seuil heures sup. (ex. 35 / 40)",
+      lblPayMult: "Multiplicateur (ex. 1.25)", btnImportWeek: "Importer heures de l'outil 04",
+      lblBasePay: "Salaire de base", lblOtPay: "Heures supplémentaires", lblGrossPay: "Total brut estimé",
+      diag2Title: "Diagramme démonstratif — Dimensions d'une toiture en croupe (4 pans)",
+      svg2Len: "Longueur L", svg2Ridge: "Faîtage (L − l)", svg2Plan: "Plan 4 pans : 2 trapèzes + 2 triangles",
+      svg2H: "Hauteur H", svg2Rafter: "Rampant", svg2Slope: "Demi-largeur (l/2) & Hauteur H → Rampant",
+      art3Title: "Guide — Calculer pente, rampants et surface d'une toiture en croupe",
+      art3P1: "Pour une base rectangulaire de longueur L, largeur l (avec L ≥ l) et hauteur de faîtage H, la demi-largeur vaut l ÷ 2.",
+      art3L1: "Rampant (chevron) = √((l ÷ 2)² + H²).",
+      art3L2: "Surface 4 pans = ((L + Faîtage) + l) × Rampant.",
+      art3F: "Astuce chantier : ajoutez toujours une marge de coupe et de recouvrement adaptée au matériau de couverture.",
+      t6Title: "Calculateur de Toiture en Croupe",
+      t6Desc: "Calculez la pente en degrés, la longueur des chevrons (rampant), l'arêtier et la surface des 4 pans.",
+      lblRoofL: "Longueur base L (m)", lblRoofW: "Largeur base l (m)", lblRoofH: "Hauteur faîtage H (m)",
+      lblHip: "Arêtier (m)",
+      roofLenWarn: "Note : pour une croupe rectangulaire standard, L doit être supérieur ou égal à l (L ≥ l).",
+      lblRoofSlope: "Pente du toit", lblRafter: "Rampant / Chevron", lblRoofArea: "Surface 4 pans",
+      tabAbout: "À propos", tabContact: "Contact", tabPrivacy: "Confidentialité", tabDisclaimer: "Disclaimer",
+      aboutHeading: "À propos de Colette-Calculator",
+      aboutBody: "Colette-Calculator propose six calculateurs pratiques dédiés au temps de travail, aux pauses, aux centièmes d'heure (1/100e), au suivi hebdomadaire, à l'estimation de salaire brut et à la géométrie de toiture en croupe, disponibles en français et en anglais.",
+      contactHeading: "Contact",
+      contactBody: "Une remarque ou une question ? Utilisez le formulaire ci-dessous.",
+      lblName: "Nom", lblEmail: "Email", lblMessage: "Message", btnSend: "Envoyer",
+      contactSaved: "Message enregistré localement pour cette session.",
+      privacyHeading: "Politique de Confidentialité",
+      privacyBody: "Les données saisies dans les calculateurs sont traitées localement dans votre navigateur. Seule votre préférence de langue (FR / EN) peut être enregistrée localement.",
+      disclaimerHeading: "Disclaimer",
+      disclaimerBody: "Les résultats affichés par Colette-Calculator sont fournis à titre indicatif. Vérifiez toujours les règles légales ou contractuelles applicables à la paie ou à la facturation ainsi que les contraintes techniques et marges de pose réelles de toiture."
+    },
+    en: {
+      langBtn: "FR",
+      nav01: "01 Slots", nav02: "02 Breaks", nav03: "03 1/100e",
+      nav04: "04 Weekly", nav05: "05 Pay", nav06: "06 Roof", navAbout: "About",
+      heroTitle: "Colette-Calculator — Time, Breaks, Hundredths (1/100e), Pay & Hip Roof",
+      heroSub: "All 6 main calculators are placed at the top for immediate use, followed by guides, diagrams, ad spaces, and About, Contact, Privacy Policy, and Disclaimer sections.",
+      secTools: "Main Calculators (01 to 06)",
+      secGuides: "Guides, Diagrams & Ad Spaces",
+      activeBadge: "Active",
+      t1Title: "Time Slot Adder",
+      t1Desc: "Add time slots to get each row's duration and your daily total in hours-minutes and hundredths (1/100e).",
+      lblStart: "Start time", lblEnd: "End time", lblDur: "Duration", lblDec: "1/100e",
+      overnightTag: "+1d",
+      btnAddSlot: "+ Add time slot", btnReset: "Reset (0)", lblDailyTotal: "DAILY TOTAL",
+      btnCopy: "Copy", btnCopied: "Copied!",
+      art1Title: "Guide — Adding Time Slots and Converting to Hundredths (1/100e)",
+      art1P1: "To avoid 60-minute vs. 100-hundredths mix-ups, sum durations in hours and minutes first, then divide
