@@ -192,7 +192,7 @@
     <a href="index.html" class="brand"><span class="brand-dot"></span>Colette-Calculator</a>
     <div class="nav-right">
       <nav class="nav-menu">
-        <a href="index.html" data-t="navP1">Page 1 (Outils 01–03)</a>
+        <a href="index.html" data-t="navHome">Home (Outils 01–03)</a>
         <a href="page2.html" class="active" data-t="navP2">Page 2 (Outils 04–06)</a>
         <a href="pages.html" data-t="navInfo">About &amp; Legal</a>
       </nav>
@@ -211,7 +211,7 @@
 <div class="jump-strip">
   <div class="container jump-inner">
     <span class="jump-label" data-t="jumpLabel">Accès direct :</span>
-    <a href="index.html" class="jump-pill">← <span data-t="navP1">Page 1 (Outils 01–03)</span></a>
+    <a href="index.html" class="jump-pill">← <span data-t="navHome">Home (Outils 01–03)</span></a>
     <a href="#tool-04" class="jump-pill">04 • <span data-t="jump4">Feuille Hebdo</span></a>
     <a href="#tool-05" class="jump-pill">05 • <span data-t="jump5">Heures &amp; Salaire</span></a>
     <a href="#tool-06" class="jump-pill">06 • <span data-t="jump6">Toiture Croupe</span></a>
@@ -360,7 +360,6 @@
       </div>
       <p class="tool-intro" data-t="t6Desc">Calculez le faîtage, les chevrons d'emprunt, l'arêtier, les pentes, les angles de coupe et la surface des 4 versants d'une toiture en croupe.</p>
 
-      <!-- VISUAL ROOF DIAGRAM -->
       <div class="diagram-box" aria-label="Hip roof geometry diagram">
         <svg viewBox="0 0 640 230" width="100%" style="max-width:600px;height:auto;display:block;margin:0 auto;">
           <defs>
@@ -369,26 +368,20 @@
               <stop offset="100%" stop-color="#eff6ff"/>
             </linearGradient>
           </defs>
-          <!-- Outer Eave Rectangle (Plan View Left) -->
           <rect x="40" y="32" width="320" height="150" rx="4" fill="url(#roofGrad)" stroke="#1d4ed8" stroke-width="3"/>
-          <!-- Hip Lines (Arêtiers) -->
           <line x1="40" y1="32" x2="125" y2="107" stroke="#dc2626" stroke-width="3"/>
           <line x1="40" y1="182" x2="125" y2="107" stroke="#dc2626" stroke-width="3"/>
           <line x1="360" y1="32" x2="275" y2="107" stroke="#dc2626" stroke-width="3"/>
           <line x1="360" y1="182" x2="275" y2="107" stroke="#dc2626" stroke-width="3"/>
-          <!-- Ridge Line (Faîtage) -->
           <line x1="125" y1="107" x2="275" y2="107" stroke="#0f172a" stroke-width="4"/>
-          <!-- Dashed Runs (Emprunts) -->
           <line x1="200" y1="107" x2="200" y2="182" stroke="#16a34a" stroke-width="2.5" stroke-dasharray="5,4"/>
           <line x1="40" y1="107" x2="125" y2="107" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="5,4"/>
-          <!-- Labels Plan View -->
           <text x="200" y="96" text-anchor="middle" font-size="12" font-weight="800" fill="#0f172a" id="svgFait">Faîtage: 0.00 m</text>
           <text x="200" y="203" text-anchor="middle" font-size="12" font-weight="800" fill="#1d4ed8" id="svgEgout">Égout: 0.00 m</text>
           <text x="206" y="148" font-size="11" font-weight="800" fill="#15803d" id="svgPan">Pan: 0.00 m</text>
           <text x="82" y="101" text-anchor="middle" font-size="11" font-weight="800" fill="#7e22ce" id="svgCroupe">Croupe: 0.00 m</text>
           <text x="72" y="64" font-size="11" font-weight="800" fill="#b91c1c" transform="rotate(40 72 64)">Arêtier</text>
 
-          <!-- Elevation Triangle (Right) -->
           <polygon points="430,175 600,175 515,65" fill="url(#roofGrad)" stroke="#1d4ed8" stroke-width="3"/>
           <line x1="515" y1="65" x2="515" y2="175" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="5,4"/>
           <text x="522" y="128" font-size="12" font-weight="800" fill="#b91c1c" id="svgH">H: 0.00 m</text>
@@ -449,7 +442,7 @@
   <div class="container">
     <div><strong>Colette-Calculator</strong></div>
     <div class="footer-links">
-      <a href="index.html" data-t="navP1">Page 1 (Outils 01–03)</a>
+      <a href="index.html" data-t="navHome">Home (Outils 01–03)</a>
       <a href="page2.html" data-t="navP2">Page 2 (Outils 04–06)</a>
       <a href="pages.html#about" data-t="fAbout">About</a>
       <a href="pages.html#contact" data-t="fContact">Contact</a>
@@ -468,7 +461,7 @@
 
   const dict = {
     fr: {
-      btn: "EN", navP1: "Page 1 (Outils 01–03)", navP2: "Page 2 (Outils 04–06)", navInfo: "About & Legal",
+      btn: "EN", navHome: "Home (Outils 01–03)", navP2: "Page 2 (Outils 04–06)", navInfo: "About & Legal",
       fAbout: "About", fContact: "Contact", fTerms: "Terms", fDisclaimer: "Disclaimer",
       pageTitle: "Colette-Calculator — Feuille Hebdo, Salaire & Toiture",
       pageSub: "Page 2 : 3 calculateurs haute visibilité (feuille hebdomadaire, heures & salaire et toiture en croupe avec schéma) et espaces publicitaires.",
@@ -526,7 +519,7 @@
       t6U1: "Destiné aux charpentiers, artisans et bricoleurs pour préparer un tracé, vérifier des longueurs de pièces ou estimer une surface de couverture."
     },
     en: {
-      btn: "FR", navP1: "Page 1 (Tools 01–03)", navP2: "Page 2 (Tools 04–06)", navInfo: "About & Legal",
+      btn: "FR", navHome: "Home (Tools 01–03)", navP2: "Page 2 (Tools 04–06)", navInfo: "About & Legal",
       fAbout: "About", fContact: "Contact", fTerms: "Terms", fDisclaimer: "Disclaimer",
       pageTitle: "Colette-Calculator — Weekly, Pay & Hip Roof",
       pageSub: "Page 2: 3 high-visibility calculators (weekly timesheet, hours & pay, and hip roof with live diagram) and ad spaces.",
@@ -572,169 +565,4 @@
       t6Desc: "Calculate ridge length, common rafters, hip projection and true hip length, pitches, cut angles, and 4-slope surface area.",
       diagCap: "Live diagram: plan view (ridge, eave, runs, hips) & vertical section (height H)",
       lblEmpPan: "Main slope run / emprunt (m)", lblEmpCroupe: "Hip end run / emprunt (m)",
-      lblEgout: "Total eave line length (m)", lblHaut: "Crown height H (m)",
-      ridgeShortMsg: "Eave length is less than or equal to 2 × hip run: ridge length is clamped to 0.00 m.",
-      rFaitage: "Ridge length", rChevPan: "Common rafter (main slope)", rChevCroupe: "Common rafter (hip end)",
-      rAretierPlan: "Horizontal hip projection", rAretierReel: "True hip rafter length",
-      rPentePan: "Main slope pitch (deg / %)", rPenteCroupe: "Hip end pitch (deg / %)",
-      rCoupeAplomb: "Hip plumb cut angle", rCoupePied: "Hip seat / level cut angle", rSurface: "Total roof area (4 slopes)",
-      t6F1: "Live visual diagram + instant ridge, common rafter, and true hip calculations.",
-      t6F2: "Pitches in degrees and percent plus plumb and seat cut angles.",
-      t6F3: "Total 4-slope roof area in m².",
-      t6U1: "Made for framers, builders, and DIYers checking roof geometry, rafter lengths, or covering area."
-    }
-  };
-
-  function fmtHM(mins) { const abs = Math.abs(Math.round(mins)); return `${String(Math.floor(abs / 60)).padStart(2, "0")}h ${String(abs % 60).padStart(2, "0")}min`; }
-  function calcSlotInfo(s) {
-    if (!s.start || !s.end) return { mins: 0 };
-    const [sh, sm] = s.start.split(":").map(Number), [eh, em] = s.end.split(":").map(Number);
-    if ([sh, sm, eh, em].some(Number.isNaN)) return { mins: 0 };
-    const a = sh * 60 + sm; let b = eh * 60 + em; if (b < a) b += 1440;
-    return { mins: Math.max(0, b - a) };
-  }
-  function getMondayOfWeek(offset) {
-    const now = new Date(), day = now.getDay(), diff = day === 0 ? -6 : 1 - day;
-    const mon = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diff + offset * 7);
-    mon.setHours(0, 0, 0, 0); return mon;
-  }
-  function getWeekKey(mon) { return `${STORE_PREFIX}${mon.getFullYear()}-${String(mon.getMonth() + 1).padStart(2, "0")}-${String(mon.getDate()).padStart(2, "0")}`; }
-  function getISOWeek(date) {
-    const tmp = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    const dayNum = tmp.getUTCDay() || 7; tmp.setUTCDate(tmp.getUTCDate() + 4 - dayNum);
-    const yStart = new Date(Date.UTC(tmp.getUTCFullYear(), 0, 1));
-    return Math.ceil((((tmp - yStart) / 86400000) + 1) / 7);
-  }
-  function fmtShort(d) { return d.toLocaleDateString(lang === "fr" ? "fr-FR" : "en-GB", { day: "2-digit", month: "2-digit" }); }
-  function defaultWeek() { return Array.from({ length: 7 }, (_, i) => ({ active: i < 5, slots: [{ start: "00:00", end: "00:00" }] })); }
-  function loadWeek(mon) { try { const raw = localStorage.getItem(getWeekKey(mon)); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length === 7) return p; } } catch (e) {} return defaultWeek(); }
-  function saveWeek(mon, data) { try { localStorage.setItem(getWeekKey(mon), JSON.stringify(data)); } catch (e) {} }
-
-  function updateWeekTotals(data) {
-    const d = dict[lang]; let wMins = 0, active = 0;
-    data.forEach((day, di) => {
-      if (day.active) active++;
-      let dMins = 0;
-      day.slots.forEach((sl, si) => {
-        const m = calcSlotInfo(sl).mins; if (day.active) dMins += m;
-        const p1 = document.getElementById(`w-dur-${di}-${si}`), p2 = document.getElementById(`w-dec-${di}-${si}`);
-        if (p1) p1.textContent = fmtHM(m); if (p2) p2.textContent = `${(m / 60).toFixed(2)} h`;
-      });
-      if (day.active) wMins += dMins;
-      const dt = document.getElementById(`w-daytot-${di}`); if (dt) dt.textContent = `${fmtHM(dMins)} · ${(dMins / 60).toFixed(2)} h`;
-    });
-    document.getElementById("activeDaysCount").textContent = d.activeDaysFmt(active);
-    document.getElementById("weekTotalHM").textContent = fmtHM(wMins);
-    document.getElementById("weekTotalDec").textContent = `${(wMins / 60).toFixed(2)} h`;
-  }
-
-  function buildWeekDOM() {
-    const d = dict[lang], mon = getMondayOfWeek(weekOffset), sun = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + 6);
-    document.getElementById("weekLabel").textContent = `${d.weekWord} ${getISOWeek(mon)} (${mon.getFullYear()})`;
-    document.getElementById("weekDates").textContent = `${fmtShort(mon)} → ${fmtShort(sun)}`;
-    const data = loadWeek(mon), wrap = document.getElementById("daysContainer"); wrap.innerHTML = "";
-    data.forEach((day, di) => {
-      const dateObj = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + di);
-      const box = document.createElement("div"); box.className = "day-box" + (day.active ? "" : " off");
-      const title = document.createElement("div"); title.className = "day-title";
-      const chk = document.createElement("input"); chk.type = "checkbox"; chk.checked = !!day.active;
-      chk.addEventListener("change", () => { const cur = loadWeek(mon); cur[di].active = chk.checked; saveWeek(mon, cur); box.classList.toggle("off", !chk.checked); updateWeekTotals(cur); });
-      const sp = document.createElement("span"); sp.innerHTML = `${d.days[di]} <small style="color:var(--muted);font-weight:600;">${fmtShort(dateObj)}</small>`;
-      title.append(chk, sp);
-
-      const col = document.createElement("div"); col.className = "slots-col";
-      day.slots.forEach((sl, si) => {
-        const r = document.createElement("div"); r.className = "slot-row";
-        const i1 = document.createElement("input"); i1.type = "time"; i1.value = sl.start;
-        i1.addEventListener("input", () => { const cur = loadWeek(mon); cur[di].slots[si].start = i1.value; saveWeek(mon, cur); updateWeekTotals(cur); });
-        const i2 = document.createElement("input"); i2.type = "time"; i2.value = sl.end;
-        i2.addEventListener("input", () => { const cur = loadWeek(mon); cur[di].slots[si].end = i2.value; saveWeek(mon, cur); updateWeekTotals(cur); });
-        const p1 = document.createElement("div"); p1.className = "out-pill"; p1.id = `w-dur-${di}-${si}`;
-        const p2 = document.createElement("div"); p2.className = "out-pill"; p2.id = `w-dec-${di}-${si}`;
-        const btn = document.createElement("button"); btn.type = "button"; btn.className = "btn-mini";
-        if (si === 0) { btn.textContent = "+"; btn.addEventListener("click", () => { const cur = loadWeek(mon); cur[di].slots.push({ start: "00:00", end: "00:00" }); saveWeek(mon, cur); buildWeekDOM(); }); }
-        else { btn.textContent = "×"; btn.addEventListener("click", () => { const cur = loadWeek(mon); if (cur[di].slots.length > 1) { cur[di].slots.splice(si, 1); saveWeek(mon, cur); buildWeekDOM(); } }); }
-        r.append(i1, i2, p1, p2, btn); col.appendChild(r);
-      });
-      const tot = document.createElement("div"); tot.className = "day-totals"; tot.id = `w-daytot-${di}`;
-      box.append(title, col, tot); wrap.appendChild(box);
-    });
-    updateWeekTotals(data);
-  }
-
-  function calcPay() {
-    ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => { const el = document.getElementById(id); if (parseFloat(el.value) < 0) el.value = "0"; });
-    const rate = parseFloat(document.getElementById("inRate").value) || 0, reg = parseFloat(document.getElementById("inRegHours").value) || 0;
-    const ot = parseFloat(document.getElementById("inOtHours").value) || 0, pct = parseFloat(document.getElementById("inOtPct").value) || 0;
-    const totH = reg + ot, base = reg * rate, otRate = rate * (1 + pct / 100), otPay = ot * otRate;
-    document.getElementById("outTotalHours").textContent = `${totH.toFixed(2)} h (${fmtHM(totH * 60)})`;
-    document.getElementById("outBasePay").textContent = `${base.toFixed(2)} €`;
-    document.getElementById("outOtRate").textContent = `${otRate.toFixed(2)} € / h`;
-    document.getElementById("outOtPay").textContent = `${otPay.toFixed(2)} €`;
-    document.getElementById("outGrandTotal").textContent = `${(base + otPay).toFixed(2)} €`;
-  }
-
-  function calcRoof() {
-    const d = dict[lang];
-    ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => { const el = document.getElementById(id); if (parseFloat(el.value) < 0) el.value = "0"; });
-    const pan = parseFloat(document.getElementById("inEmpPan").value) || 0, cr = parseFloat(document.getElementById("inEmpCroupe").value) || 0;
-    const eg = parseFloat(document.getElementById("inEgout").value) || 0, h = parseFloat(document.getElementById("inHaut").value) || 0;
-    const rawFait = eg - 2 * cr, fait = Math.max(0, rawFait), notice = document.getElementById("roofNotice");
-    if (eg > 0 && rawFait < 0) { notice.textContent = d.ridgeShortMsg; notice.style.display = "block"; } else { notice.style.display = "none"; }
-    const cp = Math.hypot(pan, h), cc = Math.hypot(cr, h), arPlan = Math.hypot(pan, cr), arReel = Math.hypot(arPlan, h);
-    const pDeg = pan > 0 ? Math.atan2(h, pan) * 180 / Math.PI : 0, pPct = pan > 0 ? (h / pan) * 100 : 0;
-    const cDeg = cr > 0 ? Math.atan2(h, cr) * 180 / Math.PI : 0, cPct = cr > 0 ? (h / cr) * 100 : 0;
-    const aplomb = arReel > 0 ? Math.atan2(arPlan, h) * 180 / Math.PI : 0, pied = arPlan > 0 ? Math.atan2(h, arPlan) * 180 / Math.PI : 0;
-    const surf = 2 * (((fait + eg) / 2) * cp) + 2 * (0.5 * pan * cc);
-    document.getElementById("outFaitage").textContent = `${fait.toFixed(2)} m`;
-    document.getElementById("outChevPan").textContent = `${cp.toFixed(2)} m`;
-    document.getElementById("outChevCroupe").textContent = `${cc.toFixed(2)} m`;
-    document.getElementById("outAretierPlan").textContent = `${arPlan.toFixed(2)} m`;
-    document.getElementById("outAretierReel").textContent = `${arReel.toFixed(2)} m`;
-    document.getElementById("outPentePan").textContent = `${pDeg.toFixed(2)}° (${pPct.toFixed(1)} %)`;
-    document.getElementById("outPenteCroupe").textContent = `${cDeg.toFixed(2)}° (${cPct.toFixed(1)} %)`;
-    document.getElementById("outCoupeAplomb").textContent = `${aplomb.toFixed(2)}°`;
-    document.getElementById("outCoupePied").textContent = `${pied.toFixed(2)}°`;
-    document.getElementById("outSurface").textContent = `${surf.toFixed(2)} m²`;
-
-    // Update live SVG diagram labels
-    document.getElementById("svgFait").textContent = (lang === "fr" ? "Faîtage: " : "Ridge: ") + fait.toFixed(2) + " m";
-    document.getElementById("svgEgout").textContent = (lang === "fr" ? "Égout: " : "Eave: ") + eg.toFixed(2) + " m";
-    document.getElementById("svgPan").textContent = "Pan: " + pan.toFixed(2) + " m";
-    document.getElementById("svgCroupe").textContent = (lang === "fr" ? "Croupe: " : "Hip: ") + cr.toFixed(2) + " m";
-    document.getElementById("svgH").textContent = "H: " + h.toFixed(2) + " m";
-  }
-
-  function applyLang() {
-    document.documentElement.lang = lang; const d = dict[lang];
-    document.getElementById("langBtn").textContent = d.btn;
-    document.querySelectorAll("[data-t]").forEach(el => { const k = el.getAttribute("data-t"); if (d[k] && typeof d[k] === "string") el.textContent = d[k]; });
-    buildWeekDOM(); calcPay(); calcRoof();
-  }
-
-  window.toggleLang = function () { lang = lang === "fr" ? "en" : "fr"; try { localStorage.setItem(LANG_KEY, lang); } catch (e) {} applyLang(); };
-
-  document.addEventListener("DOMContentLoaded", function () {
-    try { const s = localStorage.getItem(LANG_KEY); if (s === "en" || s === "fr") lang = s; } catch (e) {}
-    document.getElementById("prevWeekBtn").addEventListener("click", () => { weekOffset--; buildWeekDOM(); });
-    document.getElementById("currWeekBtn").addEventListener("click", () => { weekOffset = 0; buildWeekDOM(); });
-    document.getElementById("nextWeekBtn").addEventListener("click", () => { weekOffset++; buildWeekDOM(); });
-    document.getElementById("printWeekBtn").addEventListener("click", () => window.print());
-    document.getElementById("resetWeekBtn").addEventListener("click", () => { if (!window.confirm(dict[lang].confirmResetMsg)) return; const m = getMondayOfWeek(weekOffset); saveWeek(m, defaultWeek()); buildWeekDOM(); });
-    document.getElementById("copyWeekBtn").addEventListener("click", function () {
-      const btn = this, d = dict[lang], m = getMondayOfWeek(weekOffset);
-      const txt = `${d.weekWord} ${getISOWeek(m)} (${m.getFullYear()}) — ${document.getElementById("weekTotalHM").textContent} (${document.getElementById("weekTotalDec").textContent})`;
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).catch(() => {});
-      btn.textContent = d.btnCopied; setTimeout(() => { btn.textContent = d.btnCopy; }, 1500);
-    });
-    ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => document.getElementById(id).addEventListener("input", calcPay));
-    document.querySelectorAll("[data-ot]").forEach(b => b.addEventListener("click", () => { document.getElementById("inOtPct").value = b.getAttribute("data-ot"); calcPay(); }));
-    document.getElementById("resetPayBtn").addEventListener("click", () => { ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => { document.getElementById(id).value = "0"; }); calcPay(); });
-    ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => document.getElementById(id).addEventListener("input", calcRoof));
-    document.getElementById("resetRoofBtn").addEventListener("click", () => { ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => { document.getElementById(id).value = "0"; }); calcRoof(); });
-    applyLang();
-  });
-})();
-</script>
-</body>
-</html>
+      lblEgout:
