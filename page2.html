@@ -3,432 +3,170 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colette-Calculator | Page 2</title>
+<title>Page 2</title>
 <style>
-  :root {
-    --bg: #dce5f2;
-    --surface: #ffffff;
-    --ink: #0f172a;
-    --muted: #334155;
-    --primary: #1a73e8;
-    --primary-dark: #103c8c;
-    --soft: #dbeafe;
-    --radius: 16px;
-    --emboss-card:
-      0 10px 24px rgba(15, 23, 42, 0.12),
-      0 2px 5px rgba(15, 23, 42, 0.08),
-      inset 0 2px 0 rgba(255, 255, 255, 0.96),
-      inset 0 -2px 0 rgba(203, 213, 225, 0.65);
-    --emboss-panel:
-      0 4px 10px rgba(15, 23, 42, 0.07),
-      inset 0 1px 0 rgba(255, 255, 255, 0.95);
-    --emboss-input:
-      inset 0 2px 5px rgba(15, 23, 42, 0.12),
-      0 1px 0 rgba(255, 255, 255, 0.9);
-    --emboss-btn:
-      0 4px 0 #103c8c,
-      0 6px 12px rgba(26, 115, 232, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.45);
-    --emboss-sec:
-      0 3px 0 #475569,
-      0 4px 8px rgba(15, 23, 42, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  }
-  *, *::before, *::after { box-sizing: border-box; }
+  * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(180deg, #d7e2f0 0%, #e7eef7 55%, #dce5f2 100%);
-    color: var(--ink);
-    line-height: 1.6;
+    background: #dce5f2;
+    font-family: system-ui, sans-serif;
+    color: #0f172a;
   }
-  .container { width: 100%; max-width: 1060px; margin: 0 auto; padding: 0 18px; }
-
-  .site-header {
-    background: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
-    border-bottom: 2px solid #94a3b8;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1), inset 0 1px 0 #ffffff;
-    position: sticky;
-    top: 0;
-    z-index: 20;
-  }
-  .nav-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 12px 0;
-  }
-  .brand { font-weight: 900; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
-  .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .nav-menu a {
-    text-decoration: none;
-    color: var(--ink);
-    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
-    border: 1.5px solid #64748b;
-    border-bottom: 3px solid #475569;
-    font-size: 0.85rem;
-    font-weight: 800;
-    padding: 6px 12px;
-    border-radius: 9px;
-    box-shadow: 0 2px 5px rgba(15, 23, 42, 0.08), inset 0 1px 0 #ffffff;
-  }
-  .nav-menu a.active {
-    background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
-    color: #ffffff;
-    border-color: #1e40af;
-    border-bottom: 3px solid #172554;
-  }
-  .lang-btn {
-    background: linear-gradient(180deg, #334155 0%, #0f172a 100%);
-    color: #ffffff;
-    border: 1px solid #0f172a;
-    border-bottom: 3px solid #000000;
-    padding: 7px 14px;
-    border-radius: 9px;
-    font-weight: 800;
-    font-size: 0.85rem;
-    cursor: pointer;
-  }
-
-  .page-head {
+  .wrap { max-width: 960px; margin: 16px auto; padding: 0 12px; display: flex; flex-direction: column; gap: 16px; }
+  .box {
     background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-    border-bottom: 2px solid #cbd5e1;
-    padding: 22px 0 18px;
-  }
-  .page-head h1 { margin: 0 0 6px; font-size: 1.8rem; font-weight: 900; }
-  .page-head p { margin: 0; color: var(--muted); }
-
-  .page-flow { display: flex; flex-direction: column; gap: 24px; padding: 22px 0 36px; }
-  .tool-card {
-    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-    border: 2px solid #60a5fa;
-    border-top: 6px solid var(--primary);
-    border-bottom: 4px solid #2563eb;
-    border-radius: var(--radius);
-    padding: 22px;
-    box-shadow: var(--emboss-card);
-  }
-  .tool-card h2 { margin: 0 0 8px; font-size: 1.22rem; font-weight: 900; }
-  .tool-intro { margin: 0 0 16px; color: var(--muted); font-size: 0.94rem; }
-
-  .split-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr));
-    gap: 18px;
-    align-items: start;
-  }
-  .panel {
-    background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
-    border: 1.5px solid #94a3b8;
-    border-bottom: 3px solid #64748b;
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: var(--emboss-panel);
-  }
-  .field { margin-bottom: 12px; }
-  .field:last-child { margin-bottom: 0; }
-  .field label { display: block; font-size: 0.8rem; font-weight: 800; color: var(--muted); margin-bottom: 5px; }
-  input[type="number"] {
-    width: 100%;
-    padding: 9px 11px;
     border: 2px solid #64748b;
-    border-radius: 9px;
-    font-size: 0.95rem;
-    font-weight: 800;
-    background: #ffffff;
-    color: var(--ink);
-    box-shadow: var(--emboss-input);
+    border-top: 5px solid #1a73e8;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 8px 20px rgba(15,23,42,0.12), inset 0 2px 0 #ffffff;
   }
-  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .preset-btn {
-    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 680px) { .grid { grid-template-columns: 1fr; } }
+  .cell-col {
+    background: #eef2f7;
+    border: 1.5px solid #94a3b8;
+    border-radius: 10px;
+    box-shadow: inset 0 1px 0 #ffffff, 0 3px 8px rgba(15,23,42,0.06);
+    overflow: hidden;
+  }
+  input, button {
+    font: inherit;
+    border-radius: 0;
+    border: 0;
+  }
+  input {
+    display: block;
+    width: 100%;
+    padding: 0;
+    background: #ffffff;
+    border-bottom: 1px solid #cbd5e1;
+    box-shadow: inset 0 2px 4px rgba(15,23,42,0.12);
+    font-weight: 700;
+  }
+  .out {
+    display: block;
+    padding: 0;
+    background: #ffffff;
+    border-bottom: 1px solid #cbd5e1;
+    font-weight: 800;
+    color: #103c8c;
+  }
+  .btn {
+    padding: 4px 10px;
+    margin: 6px 4px 0 0;
+    border-radius: 7px;
+    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
     border: 1.5px solid #64748b;
     border-bottom: 3px solid #475569;
-    color: var(--ink);
-    padding: 4px 11px;
-    border-radius: 999px;
-    font-size: 0.8rem;
     font-weight: 800;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(15,23,42,0.12), inset 0 1px 0 #ffffff;
   }
-  .res-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 12px;
-    border: 1.5px solid #cbd5e1;
-    border-bottom: 3px solid #94a3b8;
-    border-radius: 9px;
-    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-    margin-bottom: 8px;
-  }
-  .res-row.highlight {
-    background: linear-gradient(180deg, #eff6ff 0%, #bfdbfe 100%);
-    border-color: #3b82f6;
-    border-bottom: 3px solid #1d4ed8;
-    font-weight: 900;
-  }
-  .res-val { font-weight: 900; color: var(--primary-dark); }
-  .toolbar { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
-  .btn {
-    background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
-    color: #ffffff;
-    border: 1px solid #1e40af;
-    padding: 9px 16px;
-    border-radius: 9px;
+  .btn:active { transform: translateY(1px); }
+  .top-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .top-bar a {
+    text-decoration: none;
+    color: #0f172a;
     font-weight: 800;
-    cursor: pointer;
-    box-shadow: var(--emboss-btn);
-  }
-  .btn-sec {
+    padding: 5px 10px;
+    border-radius: 8px;
     background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
-    color: var(--ink);
     border: 1.5px solid #64748b;
-    padding: 8px 15px;
-    border-radius: 9px;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: var(--emboss-sec);
+    border-bottom: 3px solid #475569;
   }
-  .diagram-box {
-    margin-bottom: 16px;
-    padding: 14px;
-    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-    border: 2px solid #60a5fa;
-    border-bottom: 4px solid #2563eb;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: var(--emboss-panel);
-  }
-  .site-footer {
-    border-top: 2px solid #94a3b8;
-    background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
-    padding: 20px 0 30px;
-    text-align: center;
-    font-size: 0.88rem;
-    color: var(--muted);
-  }
-  .footer-links { margin-top: 8px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
-  .footer-links a { color: var(--ink); text-decoration: none; font-weight: 800; }
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container nav-bar">
-    <a href="index.html" class="brand">Colette-Calculator</a>
-    <nav class="nav-menu">
-      <a href="index.html" data-t="navHome">Home</a>
-      <a href="page2.html" class="active" data-t="navP2">Page 2</a>
-      <a href="pages.html" data-t="navInfo">About &amp; Legal</a>
-      <button type="button" id="langBtn" class="lang-btn">EN</button>
-    </nav>
+<div class="wrap">
+  <div class="top-bar">
+    <a href="index.html">index.html</a>
+    <a href="page2.html">page2.html</a>
+    <button type="button" class="btn" id="langBtn">EN</button>
   </div>
-</header>
 
-<section class="page-head">
-  <div class="container">
-    <h1 data-t="pageTitle">Colette-Calculator — Page 2</h1>
-    <p data-t="pageSub">2 outils en relief (UI/UX embossé) : heures &amp; salaire et charpente toiture en croupe.</p>
-  </div>
-</section>
-
-<main class="container">
-  <div class="page-flow">
-
-    <section class="tool-card">
-      <h2 data-t="t1Name">01 • Calculateur Heures de Travail &amp; Salaire</h2>
-      <p class="tool-intro" data-t="t1Desc">Calculez les heures normales et supplémentaires majorées.</p>
-      <div class="split-grid">
-        <div class="panel">
-          <div class="field"><label for="inRate" data-t="lblRate">Taux horaire (€ / h)</label><input type="number" id="inRate" step="0.01" min="0" value="16.50"></div>
-          <div class="field"><label for="inReg" data-t="lblReg">Heures normales</label><input type="number" id="inReg" step="0.01" min="0" value="35.00"></div>
-          <div class="field"><label for="inOt" data-t="lblOt">Heures supplémentaires</label><input type="number" id="inOt" step="0.01" min="0" value="4.50"></div>
-          <div class="field">
-            <label for="inPct" data-t="lblPct">Majoration (%)</label>
-            <input type="number" id="inPct" step="1" min="0" value="25">
-            <div class="presets">
-              <button type="button" class="preset-btn" data-ot="10">+10%</button>
-              <button type="button" class="preset-btn" data-ot="25">+25%</button>
-              <button type="button" class="preset-btn" data-ot="50">+50%</button>
-            </div>
-          </div>
-          <div class="toolbar">
-            <button type="button" class="btn-sec" id="resetPayBtn" data-t="btnReset">Reset (0)</button>
-            <button type="button" class="btn" id="copyPayBtn" data-t="btnCopy">Copier le total</button>
-          </div>
-        </div>
-        <div class="panel">
-          <div class="res-row"><span data-t="rTotH">Total heures</span><span class="res-val" id="outTotH">39.50 h</span></div>
-          <div class="res-row"><span data-t="rBase">Montant normal</span><span class="res-val" id="outBase">577.50 €</span></div>
-          <div class="res-row"><span data-t="rOt">Montant heures sup</span><span class="res-val" id="outOt">92.81 €</span></div>
-          <div class="res-row highlight"><span data-t="rTotal">TOTAL ESTIMÉ</span><span class="res-val" id="outTotal">670.31 €</span></div>
-        </div>
+  <!-- TOOL 1 -->
+  <div class="box">
+    <div class="grid">
+      <div class="cell-col">
+        <input type="number" id="rate" step="0.01" value="16.50">
+        <input type="number" id="reg" step="0.01" value="35">
+        <input type="number" id="ot" step="0.01" value="4.5">
+        <input type="number" id="pct" step="1" value="25">
+        <button type="button" class="btn" data-ot="10">+10%</button>
+        <button type="button" class="btn" data-ot="25">+25%</button>
+        <button type="button" class="btn" data-ot="50">+50%</button>
+        <button type="button" class="btn" id="rst1">0</button>
       </div>
-    </section>
-
-    <section class="tool-card">
-      <h2 data-t="t2Name">02 • Calculateur Charpente : Toiture en Croupe</h2>
-      <p class="tool-intro" data-t="t2Desc">Calculez le faîtage, les chevrons, l'arêtier réel, les pentes et la surface des 4 pans.</p>
-      <div class="diagram-box">
-        <svg viewBox="0 0 640 215" width="100%" style="max-width:580px;height:auto;display:block;margin:0 auto;">
-          <rect x="38" y="28" width="322" height="142" rx="5" fill="#eff6ff" stroke="#1d4ed8" stroke-width="3"/>
-          <line x1="38" y1="28" x2="124" y2="99" stroke="#dc2626" stroke-width="3"/>
-          <line x1="38" y1="170" x2="124" y2="99" stroke="#dc2626" stroke-width="3"/>
-          <line x1="360" y1="28" x2="274" y2="99" stroke="#dc2626" stroke-width="3"/>
-          <line x1="360" y1="170" x2="274" y2="99" stroke="#dc2626" stroke-width="3"/>
-          <line x1="124" y1="99" x2="274" y2="99" stroke="#0f172a" stroke-width="4"/>
-          <text x="199" y="88" text-anchor="middle" font-size="12" font-weight="800" fill="#0f172a" id="svgFait">Faîtage: 5.00 m</text>
-          <text x="199" y="190" text-anchor="middle" font-size="12" font-weight="800" fill="#1d4ed8" id="svgEgout">Égout: 11.40 m</text>
-          <polygon points="430,165 602,165 516,58" fill="#dbeafe" stroke="#1d4ed8" stroke-width="3"/>
-          <line x1="516" y1="58" x2="516" y2="165" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="5,4"/>
-          <text x="523" y="120" font-size="12" font-weight="800" fill="#b91c1c" id="svgH">H: 2.80 m</text>
-        </svg>
+      <div class="cell-col">
+        <span class="out" id="oTotH"></span>
+        <span class="out" id="oBase"></span>
+        <span class="out" id="oOt"></span>
+        <span class="out" id="oTotal"></span>
       </div>
-      <div class="split-grid">
-        <div class="panel">
-          <div class="field"><label for="inPan" data-t="lblPan">Emprunt long pan (m)</label><input type="number" id="inPan" step="0.01" min="0" value="4.20"></div>
-          <div class="field"><label for="inCr" data-t="lblCr">Emprunt croupe (m)</label><input type="number" id="inCr" step="0.01" min="0" value="3.20"></div>
-          <div class="field"><label for="inEg" data-t="lblEg">Longueur égout (m)</label><input type="number" id="inEg" step="0.01" min="0" value="11.40"></div>
-          <div class="field"><label for="inH" data-t="lblH">Hauteur H (m)</label><input type="number" id="inH" step="0.01" min="0" value="2.80"></div>
-          <div class="toolbar"><button type="button" class="btn-sec" id="resetRoofBtn" data-t="btnReset">Reset (0)</button></div>
-        </div>
-        <div class="panel">
-          <div class="res-row"><span data-t="rFait">Faîtage</span><span class="res-val" id="outFait">5.00 m</span></div>
-          <div class="res-row"><span data-t="rChevPan">Chevron long pan</span><span class="res-val" id="outChevPan">5.05 m</span></div>
-          <div class="res-row"><span data-t="rChevCr">Chevron croupe</span><span class="res-val" id="outChevCr">4.25 m</span></div>
-          <div class="res-row highlight"><span data-t="rArReel">Arêtier réel</span><span class="res-val" id="outArReel">5.98 m</span></div>
-          <div class="res-row"><span data-t="rPente">Pente long pan</span><span class="res-val" id="outPente">33.69° (66.7 %)</span></div>
-          <div class="res-row highlight"><span data-t="rSurf">Surface 4 pans</span><span class="res-val" id="outSurf">105.05 m²</span></div>
-        </div>
-      </div>
-    </section>
-
-  </div>
-</main>
-
-<footer class="site-footer">
-  <div class="container">
-    <div><strong>Colette-Calculator</strong></div>
-    <div class="footer-links">
-      <a href="index.html" data-t="navHome">Home</a>
-      <a href="page2.html" data-t="navP2">Page 2</a>
-      <a href="pages.html" data-t="navInfo">About &amp; Legal</a>
     </div>
   </div>
-</footer>
+
+  <!-- TOOL 2 -->
+  <div class="box">
+    <div class="grid">
+      <div class="cell-col">
+        <input type="number" id="pan" step="0.01" value="4.2">
+        <input type="number" id="cr" step="0.01" value="3.2">
+        <input type="number" id="eg" step="0.01" value="11.4">
+        <input type="number" id="h" step="0.01" value="2.8">
+        <button type="button" class="btn" id="rst2">0</button>
+      </div>
+      <div class="cell-col">
+        <span class="out" id="oFait"></span>
+        <span class="out" id="oCp"></span>
+        <span class="out" id="oCc"></span>
+        <span class="out" id="oAr"></span>
+        <span class="out" id="oSurf"></span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 (function () {
   let lang = "fr";
-  const dict = {
-    fr: {
-      btn: "EN", navHome: "Home", navP2: "Page 2", navInfo: "About & Legal",
-      pageTitle: "Colette-Calculator — Page 2",
-      pageSub: "2 outils en relief (UI/UX embossé) : heures & salaire et charpente toiture en croupe.",
-      t1Name: "01 • Calculateur Heures de Travail & Salaire",
-      t1Desc: "Calculez les heures normales et supplémentaires majorées.",
-      lblRate: "Taux horaire (€ / h)", lblReg: "Heures normales", lblOt: "Heures supplémentaires", lblPct: "Majoration (%)",
-      rTotH: "Total heures", rBase: "Montant normal", rOt: "Montant heures sup", rTotal: "TOTAL ESTIMÉ",
-      t2Name: "02 • Calculateur Charpente : Toiture en Croupe",
-      t2Desc: "Calculez le faîtage, les chevrons, l'arêtier réel, les pentes et la surface des 4 pans.",
-      lblPan: "Emprunt long pan (m)", lblCr: "Emprunt croupe (m)", lblEg: "Longueur égout (m)", lblH: "Hauteur H (m)",
-      rFait: "Faîtage", rChevPan: "Chevron long pan", rChevCr: "Chevron croupe", rArReel: "Arêtier réel", rPente: "Pente long pan", rSurf: "Surface 4 pans",
-      btnReset: "Reset (0)", btnCopy: "Copier le total", btnCopied: "Copié !"
-    },
-    en: {
-      btn: "FR", navHome: "Home", navP2: "Page 2", navInfo: "About & Legal",
-      pageTitle: "Colette-Calculator — Page 2",
-      pageSub: "2 embossed UI/UX tools: working hours & pay and hip roof framing.",
-      t1Name: "01 • Working Hours & Pay Calculator",
-      t1Desc: "Calculate regular hours and overtime pay with bonus.",
-      lblRate: "Hourly rate (€ / h)", lblReg: "Regular hours", lblOt: "Overtime hours", lblPct: "Overtime bonus (%)",
-      rTotH: "Total hours", rBase: "Regular pay", rOt: "Overtime pay", rTotal: "ESTIMATED TOTAL",
-      t2Name: "02 • Framing Calculator: Hip Roof",
-      t2Desc: "Calculate ridge, rafters, true hip, pitch, and 4-slope area.",
-      lblPan: "Main slope run (m)", lblCr: "Hip end run (m)", lblEg: "Eave length (m)", lblH: "Height H (m)",
-      rFait: "Ridge", rChevPan: "Common rafter (pan)", rChevCr: "Common rafter (hip)", rArReel: "True hip", rPente: "Main slope pitch", rSurf: "4-slope area",
-      btnReset: "Reset (0)", btnCopy: "Copy total", btnCopied: "Copied!"
-    }
-  };
-
-  function calcPay() {
-    const rate = Math.max(0, parseFloat(document.getElementById("inRate").value) || 0);
-    const reg = Math.max(0, parseFloat(document.getElementById("inReg").value) || 0);
-    const ot = Math.max(0, parseFloat(document.getElementById("inOt").value) || 0);
-    const pct = Math.max(0, parseFloat(document.getElementById("inPct").value) || 0);
-    const base = reg * rate;
-    const otPay = ot * rate * (1 + pct / 100);
-    document.getElementById("outTotH").textContent = `${(reg + ot).toFixed(2)} h`;
-    document.getElementById("outBase").textContent = `${base.toFixed(2)} €`;
-    document.getElementById("outOt").textContent = `${otPay.toFixed(2)} €`;
-    document.getElementById("outTotal").textContent = `${(base + otPay).toFixed(2)} €`;
+  function c1() {
+    const r = Math.max(0, parseFloat(rate.value) || 0);
+    const g = Math.max(0, parseFloat(reg.value) || 0);
+    const o = Math.max(0, parseFloat(ot.value) || 0);
+    const p = Math.max(0, parseFloat(pct.value) || 0);
+    const b = g * r;
+    const op = o * r * (1 + p / 100);
+    oTotH.textContent = (g + o).toFixed(2);
+    oBase.textContent = b.toFixed(2);
+    oOt.textContent = op.toFixed(2);
+    oTotal.textContent = (b + op).toFixed(2);
   }
-
-  function calcRoof() {
-    const pan = Math.max(0, parseFloat(document.getElementById("inPan").value) || 0);
-    const cr = Math.max(0, parseFloat(document.getElementById("inCr").value) || 0);
-    const eg = Math.max(0, parseFloat(document.getElementById("inEg").value) || 0);
-    const h = Math.max(0, parseFloat(document.getElementById("inH").value) || 0);
-    const fait = Math.max(0, eg - 2 * cr);
-    const cp = Math.hypot(pan, h);
-    const cc = Math.hypot(cr, h);
-    const arPlan = Math.hypot(pan, cr);
-    const arReel = Math.hypot(arPlan, h);
-    const deg = pan > 0 ? (Math.atan2(h, pan) * 180) / Math.PI : 0;
-    const pct = pan > 0 ? (h / pan) * 100 : 0;
-    const surf = 2 * (((fait + eg) / 2) * cp) + 2 * (0.5 * pan * cc);
-
-    document.getElementById("outFait").textContent = `${fait.toFixed(2)} m`;
-    document.getElementById("outChevPan").textContent = `${cp.toFixed(2)} m`;
-    document.getElementById("outChevCr").textContent = `${cc.toFixed(2)} m`;
-    document.getElementById("outArReel").textContent = `${arReel.toFixed(2)} m`;
-    document.getElementById("outPente").textContent = `${deg.toFixed(2)}° (${pct.toFixed(1)} %)`;
-    document.getElementById("outSurf").textContent = `${surf.toFixed(2)} m²`;
-
-    document.getElementById("svgFait").textContent = (lang === "fr" ? "Faîtage: " : "Ridge: ") + fait.toFixed(2) + " m";
-    document.getElementById("svgEgout").textContent = (lang === "fr" ? "Égout: " : "Eave: ") + eg.toFixed(2) + " m";
-    document.getElementById("svgH").textContent = "H: " + h.toFixed(2) + " m";
+  function c2() {
+    const a = Math.max(0, parseFloat(pan.value) || 0);
+    const c = Math.max(0, parseFloat(cr.value) || 0);
+    const e = Math.max(0, parseFloat(eg.value) || 0);
+    const x = Math.max(0, parseFloat(h.value) || 0);
+    const f = Math.max(0, e - 2 * c);
+    const cp = Math.hypot(a, x);
+    const cc = Math.hypot(c, x);
+    const ar = Math.hypot(Math.hypot(a, c), x);
+    const s = 2 * (((f + e) / 2) * cp) + 2 * (0.5 * a * cc);
+    oFait.textContent = f.toFixed(2);
+    oCp.textContent = cp.toFixed(2);
+    oCc.textContent = cc.toFixed(2);
+    oAr.textContent = ar.toFixed(2);
+    oSurf.textContent = s.toFixed(2);
   }
-
-  function applyLang() {
-    document.documentElement.lang = lang;
-    const d = dict[lang];
-    document.getElementById("langBtn").textContent = d.btn;
-    document.querySelectorAll("[data-t]").forEach(el => {
-      const k = el.getAttribute("data-t");
-      if (d[k]) el.textContent = d[k];
-    });
-    calcPay();
-    calcRoof();
-  }
-
-  document.getElementById("langBtn").onclick = function () { lang = lang === "fr" ? "en" : "fr"; applyLang(); };
-  ["inRate", "inReg", "inOt", "inPct"].forEach(id => { document.getElementById(id).oninput = calcPay; });
-  document.querySelectorAll("[data-ot]").forEach(b => {
-    b.onclick = function () { document.getElementById("inPct").value = this.getAttribute("data-ot"); calcPay(); };
-  });
-  document.getElementById("resetPayBtn").onclick = function () {
-    ["inRate", "inReg", "inOt", "inPct"].forEach(id => { document.getElementById(id).value = "0"; });
-    calcPay();
-  };
-  document.getElementById("copyPayBtn").onclick = function () {
-    const btn = this;
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(document.getElementById("outTotal").textContent).catch(() => {});
-    }
-    btn.textContent = dict[lang].btnCopied;
-    setTimeout(() => { btn.textContent = dict[lang].btnCopy; }, 1400);
-  };
-  ["inPan", "inCr", "inEg", "inH"].forEach(id => { document.getElementById(id).oninput = calcRoof; });
-  document.getElementById("resetRoofBtn").onclick = function () {
-    ["inPan", "inCr", "inEg", "inH"].forEach(id => { document.getElementById(id).value = "0"; });
-    calcRoof();
-  };
-
-  applyLang();
+  langBtn.onclick = function () { lang = lang === "fr" ? "en" : "fr"; langBtn.textContent = lang === "fr" ? "EN" : "FR"; };
+  [rate, reg, ot, pct].forEach(el => el.oninput = c1);
+  document.querySelectorAll("[data-ot]").forEach(b => b.onclick = () => { pct.value = b.dataset.ot; c1(); });
+  rst1.onclick = () => { [rate, reg, ot, pct].forEach(el => el.value = "0"); c1(); };
+  [pan, cr, eg, h].forEach(el => el.oninput = c2);
+  rst2.onclick = () => { [pan, cr, eg, h].forEach(el => el.value = "0"); c2(); };
+  c1(); c2();
 })();
 </script>
 </body>
