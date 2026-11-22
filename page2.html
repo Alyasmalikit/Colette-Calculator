@@ -3,135 +3,289 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Page 2</title>
+<title>Colette-Calculator — Page 2</title>
 <style>
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background: #dce5f2;
-    font-family: system-ui, sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(180deg, #dce5f2 0%, #eaf0f8 100%);
     color: #0f172a;
+    line-height: 1.5;
   }
-  .wrap { max-width: 960px; margin: 16px auto; padding: 0 12px; display: flex; flex-direction: column; gap: 16px; }
-  .box {
-    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-    border: 2px solid #64748b;
-    border-top: 5px solid #1a73e8;
-    border-radius: 14px;
-    padding: 12px;
-    box-shadow: 0 8px 20px rgba(15,23,42,0.12), inset 0 2px 0 #ffffff;
+  .wrap {
+    max-width: 980px;
+    margin: 20px auto;
+    padding: 0 16px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 680px) { .grid { grid-template-columns: 1fr; } }
-  .cell-col {
-    background: #eef2f7;
+
+  /* Embossed Top Nav */
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    background: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
     border: 1.5px solid #94a3b8;
-    border-radius: 10px;
-    box-shadow: inset 0 1px 0 #ffffff, 0 3px 8px rgba(15,23,42,0.06);
-    overflow: hidden;
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08), inset 0 2px 0 #ffffff;
   }
-  input, button {
-    font: inherit;
-    border-radius: 0;
-    border: 0;
-  }
-  input {
-    display: block;
-    width: 100%;
-    padding: 0;
-    background: #ffffff;
-    border-bottom: 1px solid #cbd5e1;
-    box-shadow: inset 0 2px 4px rgba(15,23,42,0.12);
-    font-weight: 700;
-  }
-  .out {
-    display: block;
-    padding: 0;
-    background: #ffffff;
-    border-bottom: 1px solid #cbd5e1;
-    font-weight: 800;
-    color: #103c8c;
-  }
-  .btn {
-    padding: 4px 10px;
-    margin: 6px 4px 0 0;
-    border-radius: 7px;
-    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
-    border: 1.5px solid #64748b;
-    border-bottom: 3px solid #475569;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(15,23,42,0.12), inset 0 1px 0 #ffffff;
-  }
-  .btn:active { transform: translateY(1px); }
-  .top-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-  .top-bar a {
+  .nav a {
     text-decoration: none;
     color: #0f172a;
     font-weight: 800;
-    padding: 5px 10px;
-    border-radius: 8px;
+    font-size: 0.9rem;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+    border: 1.5px solid #64748b;
+    border-bottom: 3px solid #475569;
+    box-shadow: 0 2px 5px rgba(15, 23, 42, 0.08), inset 0 1px 0 #ffffff;
+  }
+  .nav a.active {
+    color: #ffffff;
+    background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+    border-color: #1e40af;
+    border-bottom: 3px solid #172554;
+  }
+  .lang-btn {
+    margin-left: auto;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(180deg, #334155 0%, #0f172a 100%);
+    border: 1px solid #0f172a;
+    border-bottom: 3px solid #000000;
+    box-shadow: 0 3px 6px rgba(15, 23, 42, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+
+  /* Embossed Tool Card */
+  .card {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    border: 2px solid #60a5fa;
+    border-top: 6px solid #1a73e8;
+    border-bottom: 4px solid #2563eb;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow:
+      0 12px 26px rgba(15, 23, 42, 0.12),
+      0 3px 6px rgba(15, 23, 42, 0.08),
+      inset 0 2px 0 rgba(255, 255, 255, 0.96),
+      inset 0 -2px 0 rgba(203, 213, 225, 0.65);
+  }
+  .card-title {
+    margin: 0 0 16px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #0f172a;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 18px;
+    align-items: start;
+  }
+  .box {
+    background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+    border: 1.5px solid #94a3b8;
+    border-bottom: 3px solid #64748b;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06), inset 0 1px 0 #ffffff;
+  }
+
+  .field { margin-bottom: 12px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #334155;
+    margin-bottom: 5px;
+  }
+  input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #64748b;
+    border-radius: 9px;
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: #0f172a;
+    background: #ffffff;
+    box-shadow: inset 0 2px 5px rgba(15, 23, 42, 0.12), 0 1px 0 #ffffff;
+  }
+  input[type="number"]:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: inset 0 2px 5px rgba(15, 23, 42, 0.12), 0 0 0 3px rgba(26, 115, 232, 0.2);
+  }
+
+  .row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .btn {
+    padding: 8px 14px;
+    border-radius: 9px;
+    font-weight: 800;
+    font-size: 0.86rem;
+    cursor: pointer;
+    color: #0f172a;
     background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
     border: 1.5px solid #64748b;
     border-bottom: 3px solid #475569;
+    box-shadow: 0 3px 6px rgba(15, 23, 42, 0.1), inset 0 1px 0 #ffffff;
   }
+  .btn:hover {
+    background: linear-gradient(180deg, #eff6ff 0%, #bfdbfe 100%);
+    border-color: #1d4ed8;
+    color: #103c8c;
+  }
+  .btn:active { transform: translateY(1px); }
+
+  .out-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    border: 1.5px solid #cbd5e1;
+    border-bottom: 3px solid #94a3b8;
+    box-shadow: 0 2px 5px rgba(15, 23, 42, 0.05), inset 0 1px 0 #ffffff;
+  }
+  .out-item:last-child { margin-bottom: 0; }
+  .out-item.total {
+    background: linear-gradient(180deg, #eff6ff 0%, #bfdbfe 100%);
+    border-color: #3b82f6;
+    border-bottom: 3px solid #1d4ed8;
+  }
+  .out-lbl { font-size: 0.88rem; font-weight: 700; color: #334155; }
+  .out-val { font-size: 1rem; font-weight: 900; color: #103c8c; }
 </style>
 </head>
 <body>
 
 <div class="wrap">
-  <div class="top-bar">
-    <a href="index.html">index.html</a>
-    <a href="page2.html">page2.html</a>
-    <button type="button" class="btn" id="langBtn">EN</button>
+  <div class="nav">
+    <a href="index.html" data-t="home">Home</a>
+    <a href="page2.html" class="active" data-t="p2">Page 2</a>
+    <button type="button" class="lang-btn" id="langBtn">EN</button>
   </div>
 
   <!-- TOOL 1 -->
-  <div class="box">
+  <section class="card">
+    <h2 class="card-title" data-t="t1">01 • Heures &amp; Salaire</h2>
     <div class="grid">
-      <div class="cell-col">
-        <input type="number" id="rate" step="0.01" value="16.50">
-        <input type="number" id="reg" step="0.01" value="35">
-        <input type="number" id="ot" step="0.01" value="4.5">
-        <input type="number" id="pct" step="1" value="25">
-        <button type="button" class="btn" data-ot="10">+10%</button>
-        <button type="button" class="btn" data-ot="25">+25%</button>
-        <button type="button" class="btn" data-ot="50">+50%</button>
-        <button type="button" class="btn" id="rst1">0</button>
+      <div class="box">
+        <div class="field">
+          <label for="rate" data-t="lRate">Taux horaire (€/h)</label>
+          <input type="number" id="rate" step="0.01" min="0" value="16.50">
+        </div>
+        <div class="field">
+          <label for="reg" data-t="lReg">Heures normales</label>
+          <input type="number" id="reg" step="0.01" min="0" value="35">
+        </div>
+        <div class="field">
+          <label for="ot" data-t="lOt">Heures sup</label>
+          <input type="number" id="ot" step="0.01" min="0" value="4.5">
+        </div>
+        <div class="field">
+          <label for="pct" data-t="lPct">Majoration (%)</label>
+          <input type="number" id="pct" step="1" min="0" value="25">
+        </div>
+        <div class="row-actions">
+          <button type="button" class="btn" data-ot="10">+10%</button>
+          <button type="button" class="btn" data-ot="25">+25%</button>
+          <button type="button" class="btn" data-ot="50">+50%</button>
+          <button type="button" class="btn" id="rst1">Reset (0)</button>
+        </div>
       </div>
-      <div class="cell-col">
-        <span class="out" id="oTotH"></span>
-        <span class="out" id="oBase"></span>
-        <span class="out" id="oOt"></span>
-        <span class="out" id="oTotal"></span>
+
+      <div class="box">
+        <div class="out-item"><span class="out-lbl" data-t="oTotH">Total heures</span><span class="out-val" id="oTotH">0.00 h</span></div>
+        <div class="out-item"><span class="out-lbl" data-t="oBase">Montant normal</span><span class="out-val" id="oBase">0.00 €</span></div>
+        <div class="out-item"><span class="out-lbl" data-t="oOt">Montant heures sup</span><span class="out-val" id="oOt">0.00 €</span></div>
+        <div class="out-item total"><span class="out-lbl" data-t="oTotal">Total</span><span class="out-val" id="oTotal">0.00 €</span></div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- TOOL 2 -->
-  <div class="box">
+  <section class="card">
+    <h2 class="card-title" data-t="t2">02 • Toiture en Croupe</h2>
     <div class="grid">
-      <div class="cell-col">
-        <input type="number" id="pan" step="0.01" value="4.2">
-        <input type="number" id="cr" step="0.01" value="3.2">
-        <input type="number" id="eg" step="0.01" value="11.4">
-        <input type="number" id="h" step="0.01" value="2.8">
-        <button type="button" class="btn" id="rst2">0</button>
+      <div class="box">
+        <div class="field">
+          <label for="pan" data-t="lPan">Emprunt long pan (m)</label>
+          <input type="number" id="pan" step="0.01" min="0" value="4.2">
+        </div>
+        <div class="field">
+          <label for="cr" data-t="lCr">Emprunt croupe (m)</label>
+          <input type="number" id="cr" step="0.01" min="0" value="3.2">
+        </div>
+        <div class="field">
+          <label for="eg" data-t="lEg">Égout (m)</label>
+          <input type="number" id="eg" step="0.01" min="0" value="11.4">
+        </div>
+        <div class="field">
+          <label for="h" data-t="lH">Hauteur H (m)</label>
+          <input type="number" id="h" step="0.01" min="0" value="2.8">
+        </div>
+        <div class="row-actions">
+          <button type="button" class="btn" id="rst2">Reset (0)</button>
+        </div>
       </div>
-      <div class="cell-col">
-        <span class="out" id="oFait"></span>
-        <span class="out" id="oCp"></span>
-        <span class="out" id="oCc"></span>
-        <span class="out" id="oAr"></span>
-        <span class="out" id="oSurf"></span>
+
+      <div class="box">
+        <div class="out-item"><span class="out-lbl" data-t="oFait">Faîtage</span><span class="out-val" id="oFait">0.00 m</span></div>
+        <div class="out-item"><span class="out-lbl" data-t="oCp">Chevron long pan</span><span class="out-val" id="oCp">0.00 m</span></div>
+        <div class="out-item"><span class="out-lbl" data-t="oCc">Chevron croupe</span><span class="out-val" id="oCc">0.00 m</span></div>
+        <div class="out-item"><span class="out-lbl" data-t="oAr">Arêtier réel</span><span class="out-val" id="oAr">0.00 m</span></div>
+        <div class="out-item total"><span class="out-lbl" data-t="oSurf">Surface 4 pans</span><span class="out-val" id="oSurf">0.00 m²</span></div>
       </div>
     </div>
-  </div>
+  </section>
 </div>
 
 <script>
 (function () {
   let lang = "fr";
+  const dict = {
+    fr: {
+      home: "Home", p2: "Page 2",
+      t1: "01 • Heures & Salaire",
+      lRate: "Taux horaire (€/h)", lReg: "Heures normales", lOt: "Heures sup", lPct: "Majoration (%)",
+      oTotH: "Total heures", oBase: "Montant normal", oOt: "Montant heures sup", oTotal: "Total",
+      t2: "02 • Toiture en Croupe",
+      lPan: "Emprunt long pan (m)", lCr: "Emprunt croupe (m)", lEg: "Égout (m)", lH: "Hauteur H (m)",
+      oFait: "Faîtage", oCp: "Chevron long pan", oCc: "Chevron croupe", oAr: "Arêtier réel", oSurf: "Surface 4 pans"
+    },
+    en: {
+      home: "Home", p2: "Page 2",
+      t1: "01 • Hours & Pay",
+      lRate: "Hourly rate (€/h)", lReg: "Regular hours", lOt: "Overtime hours", lPct: "Markup (%)",
+      oTotH: "Total hours", oBase: "Regular pay", oOt: "Overtime pay", oTotal: "Total",
+      t2: "02 • Hip Roof",
+      lPan: "Main slope run (m)", lCr: "Hip run (m)", lEg: "Eave (m)", lH: "Height H (m)",
+      oFait: "Ridge", oCp: "Main rafter", oCc: "Hip rafter", oAr: "True hip", oSurf: "4-slope area"
+    }
+  };
+
   function c1() {
     const r = Math.max(0, parseFloat(rate.value) || 0);
     const g = Math.max(0, parseFloat(reg.value) || 0);
@@ -139,11 +293,12 @@
     const p = Math.max(0, parseFloat(pct.value) || 0);
     const b = g * r;
     const op = o * r * (1 + p / 100);
-    oTotH.textContent = (g + o).toFixed(2);
-    oBase.textContent = b.toFixed(2);
-    oOt.textContent = op.toFixed(2);
-    oTotal.textContent = (b + op).toFixed(2);
+    oTotH.textContent = (g + o).toFixed(2) + " h";
+    oBase.textContent = b.toFixed(2) + " €";
+    oOt.textContent = op.toFixed(2) + " €";
+    oTotal.textContent = (b + op).toFixed(2) + " €";
   }
+
   function c2() {
     const a = Math.max(0, parseFloat(pan.value) || 0);
     const c = Math.max(0, parseFloat(cr.value) || 0);
@@ -154,19 +309,33 @@
     const cc = Math.hypot(c, x);
     const ar = Math.hypot(Math.hypot(a, c), x);
     const s = 2 * (((f + e) / 2) * cp) + 2 * (0.5 * a * cc);
-    oFait.textContent = f.toFixed(2);
-    oCp.textContent = cp.toFixed(2);
-    oCc.textContent = cc.toFixed(2);
-    oAr.textContent = ar.toFixed(2);
-    oSurf.textContent = s.toFixed(2);
+    oFait.textContent = f.toFixed(2) + " m";
+    oCp.textContent = cp.toFixed(2) + " m";
+    oCc.textContent = cc.toFixed(2) + " m";
+    oAr.textContent = ar.toFixed(2) + " m";
+    oSurf.textContent = s.toFixed(2) + " m²";
   }
-  langBtn.onclick = function () { lang = lang === "fr" ? "en" : "fr"; langBtn.textContent = lang === "fr" ? "EN" : "FR"; };
+
+  function applyLang() {
+    document.documentElement.lang = lang;
+    langBtn.textContent = lang === "fr" ? "EN" : "FR";
+    const d = dict[lang];
+    document.querySelectorAll("[data-t]").forEach(el => {
+      const k = el.getAttribute("data-t");
+      if (d[k]) el.textContent = d[k];
+    });
+  }
+
+  langBtn.onclick = function () { lang = lang === "fr" ? "en" : "fr"; applyLang(); };
   [rate, reg, ot, pct].forEach(el => el.oninput = c1);
   document.querySelectorAll("[data-ot]").forEach(b => b.onclick = () => { pct.value = b.dataset.ot; c1(); });
   rst1.onclick = () => { [rate, reg, ot, pct].forEach(el => el.value = "0"); c1(); };
   [pan, cr, eg, h].forEach(el => el.oninput = c2);
   rst2.onclick = () => { [pan, cr, eg, h].forEach(el => el.value = "0"); c2(); };
-  c1(); c2();
+
+  applyLang();
+  c1();
+  c2();
 })();
 </script>
 </body>
