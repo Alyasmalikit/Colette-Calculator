@@ -1,351 +1,1830 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colette-Calculator | Page 2 — Salaire, Toiture &amp; Taux (Outils 04–06)</title>
-<style>
-  :root {
-    --bg: #e2e8f0;
-    --surface: #ffffff;
-    --ink: #0f172a;
-    --muted: #334155;
-    --border: #64748b;
-    --border-soft: #cbd5e1;
-    --primary: #1a73e8;
-    --primary-hover: #1557b0;
-    --primary-dark: #103c8c;
-    --soft: #dbeafe;
-    --warn-bg: #fef9c3;
-    --warn-border: #eab308;
-    --warn-ink: #713f12;
-    --radius: 16px;
-    --emboss-card: 0 10px 24px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-    --emboss-btn: 0 3px 0 #103c8c, 0 5px 10px rgba(26, 115, 232, 0.25);
-    --emboss-sec: 0 3px 0 #64748b, 0 4px 8px rgba(15, 23, 42, 0.08);
-  }
-  *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(180deg, #dce5f2 0%, #e8eef6 100%);
-    color: var(--ink);
-    line-height: 1.6;
-  }
-  .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 18px; }
+import os
+import zipfile
 
-  .site-header {
-    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-    border-bottom: 2px solid #94a3b8;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-    position: sticky;
-    top: 0;
-    z-index: 30;
-  }
-  .nav-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 12px 0; }
-  .brand {
-    font-weight: 900; font-size: 1.24rem; color: var(--ink); text-decoration: none;
-    display: inline-flex; align-items: center; gap: 10px; letter-spacing: -0.02em;
-  }
-  .brand-dot {
-    width: 12px; height: 12px; border-radius: 50%; background: var(--primary);
-    box-shadow: 0 0 0 3px #bfdbfe; display: inline-block;
-  }
-  .nav-right { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-  .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; }
-  .nav-menu a {
-    display: inline-flex; align-items: center; justify-content: center;
-    color: var(--ink); background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-    border: 1.5px solid #64748b; border-bottom: 3px solid #475569;
-    text-decoration: none; font-size: 0.82rem; font-weight: 800; padding: 6px 12px; border-radius: 9px; white-space: nowrap;
-  }
-  .nav-menu a:hover { color: var(--primary-dark); background: #eff6ff; border-color: var(--primary); }
-  .nav-menu a.active {
-    color: #fff; background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-    border-color: #1e40af; border-bottom: 3px solid #172554;
-  }
-  .lang-btn {
-    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-    color: #fff; border: 1px solid #0f172a; border-bottom: 3px solid #000;
-    padding: 6px 13px; border-radius: 9px; font-weight: 800; font-size: 0.82rem; cursor: pointer;
-  }
-  .lang-btn:hover { background: var(--primary); border-color: var(--primary-dark); }
+FILES = {
+    "calculette-tools/calculette-tools.php": r"""<?php
+/**
+ * Plugin Name:       Calculette Pro Tools
+ * Plugin URI:        https://example.com/calculette-tools
+ * Description:       Modern, accurate, local-first calculators for Daily Working Hours, Weekly Timesheets, Time Conversions, and Hip Roof Construction.
+ * Version:           1.0.0
+ * Author:            Calculette Engineering
+ * Text Domain:       calculette-tools
+ * Domain Path:       /languages
+ * Requires at least: 6.0
+ * Requires PHP:      7.4
+ */
 
-  .page-head {
-    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-    border-bottom: 2px solid #cbd5e1;
-    padding: 24px 0 20px;
-  }
-  .page-head h1 { margin: 0 0 6px; font-size: clamp(1.5rem, 3.2vw, 2.1rem); font-weight: 900; letter-spacing: -0.02em; }
-  .page-head p { margin: 0; color: var(--muted); font-size: 0.96rem; font-weight: 500; max-width: 820px; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-  .jump-strip { background: #f8fafc; border-bottom: 2px solid #cbd5e1; padding: 11px 0; }
-  .jump-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-  .jump-label { font-size: 0.78rem; font-weight: 900; color: var(--ink); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
-  .jump-pill {
-    display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px; border-radius: 999px;
-    background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
-    border: 1.5px solid #60a5fa; border-bottom: 3px solid #2563eb;
-    color: var(--primary-dark); text-decoration: none; font-size: 0.82rem; font-weight: 800;
-  }
-  .jump-pill:hover { background: var(--primary); color: #fff; border-color: var(--primary-dark); }
+define( 'CALCULETTE_VERSION', '1.0.0' );
+define( 'CALCULETTE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'CALCULETTE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-  .page-flow { display: flex; flex-direction: column; gap: 26px; padding: 26px 0 32px; }
-  .tool-card {
-    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-    border: 2px solid #3b82f6;
-    border-top: 6px solid var(--primary);
-    border-bottom: 4px solid #2563eb;
-    border-radius: var(--radius);
-    padding: 24px;
-    box-shadow: var(--emboss-card);
-    width: 100%;
-    scroll-margin-top: 78px;
-  }
-  .card-head {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-    gap: 10px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0;
-  }
-  .card-head h2 { margin: 0; font-size: 1.22rem; font-weight: 900; display: flex; align-items: center; gap: 10px; }
-  .step-tag {
-    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-    color: #fff; font-size: 0.82rem; font-weight: 900; padding: 4px 11px; border-radius: 8px;
-    box-shadow: 0 2px 0 #1e3a8a;
-  }
-  .tool-status {
-    font-size: 0.76rem; font-weight: 900; color: var(--primary-dark);
-    background: #dbeafe; border: 1.5px solid #60a5fa; padding: 4px 11px; border-radius: 999px;
-  }
-  .tool-intro { margin: 0 0 18px; color: var(--muted); font-size: 0.95rem; font-weight: 500; }
+require_once CALCULETTE_PLUGIN_DIR . 'includes/class-security.php';
+require_once CALCULETTE_PLUGIN_DIR . 'includes/class-settings.php';
+require_once CALCULETTE_PLUGIN_DIR . 'includes/class-shortcodes.php';
+require_once CALCULETTE_PLUGIN_DIR . 'includes/class-seo.php';
+require_once CALCULETTE_PLUGIN_DIR . 'includes/class-plugin.php';
 
-  .split-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
-    gap: 18px; align-items: start;
-  }
-  .panel {
-    background: #ffffff; border: 1.5px solid #94a3b8; border-bottom: 3px solid #64748b;
-    border-radius: 12px; padding: 16px;
-  }
-  .field { margin-bottom: 12px; }
-  .field:last-child { margin-bottom: 0; }
-  .field label { display: block; font-size: 0.8rem; font-weight: 800; color: var(--muted); margin-bottom: 5px; }
-  input[type="number"], input[type="text"], input[type="email"], textarea {
-    width: 100%; min-width: 0; padding: 9px 11px;
-    border: 2px solid #64748b; border-radius: 9px;
-    font-family: inherit; font-size: 0.96rem; font-weight: 700;
-    background: #ffffff; color: var(--ink);
-    box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.08);
-  }
-  textarea { min-height: 92px; resize: vertical; font-weight: 600; }
-  input:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.22); }
+function calculette_tools_init() {
+	$plugin = new Calculette_Plugin();
+	$plugin->run();
+}
+add_action( 'plugins_loaded', 'calculette_tools_init' );
+""",
 
-  .presets { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
-  .preset-btn {
-    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
-    border: 1.5px solid #64748b; border-bottom: 3px solid #475569;
-    color: var(--ink); padding: 4px 11px; border-radius: 999px;
-    font-size: 0.8rem; font-weight: 800; cursor: pointer;
-  }
-  .preset-btn:hover { background: #eff6ff; border-color: var(--primary); color: var(--primary-dark); }
+    "calculette-tools/readme.txt": r"""=== Calculette Pro Tools ===
+Contributors: calculetteengineering
+Tags: calculator, timesheet, working hours, time converter, hip roof, carpentry
+Requires at least: 6.0
+Tested up to: 6.7
+Stable tag: 1.0.0
+Requires PHP: 7.4
+License: GPLv2 or later
 
-  .res-row {
-    display: flex; justify-content: space-between; align-items: center; gap: 10px;
-    padding: 10px 12px; border: 1.5px solid #cbd5e1; border-bottom: 3px solid #94a3b8;
-    border-radius: 9px; background: #f8fafc; margin-bottom: 8px;
-  }
-  .res-row:last-of-type { margin-bottom: 0; }
-  .res-row.highlight {
-    background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
-    border-color: #3b82f6; border-bottom: 3px solid #1d4ed8; font-weight: 900;
-  }
-  .res-label { font-size: 0.88rem; color: var(--muted); font-weight: 700; }
-  .res-val { font-size: 0.96rem; font-weight: 900; color: var(--primary-dark); text-align: right; }
+Complete local-first calculation suite for Daily Working Hours, ISO-8601 Weekly Timesheets, Time Conversions, and Hip Roof Carpentry Geometry.
 
-  .diagram-box {
-    margin-bottom: 18px; padding: 14px;
-    background: #ffffff; border: 1.5px solid #94a3b8; border-bottom: 3px solid #64748b;
-    border-radius: 12px; text-align: center;
-  }
-  .diagram-caption { font-size: 0.82rem; font-weight: 800; color: var(--primary-dark); margin-top: 6px; }
+== Description ==
+1. Daily Working Hours Calculator ([daily_hours_calculator])
+2. Advanced 7-Day Weekly Timesheet ([weekly_timesheet]) with localStorage persistence, French semicolon CSV export, and A4 portrait Print/PDF layout.
+3. Time Conversion Tools ([time_converter], [decimal_hours_converter], [minutes_to_hours], [hours_to_minutes], [time_addition], [time_subtraction]) + 00-59 minute conversion table.
+4. Hip Roof Construction Calculator ([hip_roof_calculator]) for regular and skewed hip roofs, rafters, purlins, bevels, and true roof plane surfaces.
 
-  .toolbar { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0 0; }
-  .btn {
-    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-    color: #fff; border: 1px solid #1e40af; padding: 10px 18px; border-radius: 10px;
-    font-weight: 800; font-size: 0.9rem; cursor: pointer; box-shadow: var(--emboss-btn);
-  }
-  .btn:hover { background: var(--primary-hover); }
-  .btn:active { transform: translateY(2px); }
-  .btn-sec {
-    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
-    color: var(--ink); border: 1.5px solid #64748b; padding: 9px 16px; border-radius: 10px;
-    font-weight: 800; font-size: 0.88rem; cursor: pointer; box-shadow: var(--emboss-sec);
-  }
-  .btn-sec:hover { background: #e2e8f0; }
-  .btn-sec:active { transform: translateY(2px); }
+== Installation ==
+1. Upload calculette-tools.zip via Plugins > Add New > Upload Plugin in WordPress.
+2. Activate the plugin.
+3. Configure defaults under Settings > Calculette Tools.
+""",
 
-  .notice-box { margin-top: 12px; padding: 10px 14px; border-radius: 9px; background: var(--warn-bg); border: 1.5px solid var(--warn-border); color: var(--warn-ink); font-size: 0.88rem; font-weight: 700; display: none; }
+    "calculette-tools/includes/class-security.php": r"""<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-  .tool-meta-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-    gap: 14px; margin-top: 20px; padding-top: 16px; border-top: 2px solid #e2e8f0;
-  }
-  .meta-box {
-    background: #ffffff; border: 1.5px solid #cbd5e1; border-bottom: 3px solid #94a3b8;
-    border-radius: 12px; padding: 14px 16px;
-  }
-  .meta-box h3 { margin: 0 0 6px; font-size: 0.96rem; font-weight: 800; color: var(--ink); }
-  .meta-box p, .meta-list { margin: 0; color: var(--muted); font-size: 0.9rem; }
-  .meta-list { padding-left: 18px; }
-  .meta-list li { margin-bottom: 5px; }
+class Calculette_Security {
+	public static function verify_admin_request( $nonce_action, $nonce_field = '_wpnonce' ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'Unauthorized access.', 'calculette-tools' ), 403 );
+		}
+		if ( ! isset( $_POST[ $nonce_field ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ $nonce_field ] ) ), $nonce_action ) ) {
+			wp_die( esc_html__( 'Security verification failed.', 'calculette-tools' ), 403 );
+		}
+		return true;
+	}
 
-  .between-content {
-    background: #ffffff; border: 1.5px solid #94a3b8; border-left: 6px solid var(--primary);
-    border-bottom: 3px solid #64748b; border-radius: var(--radius); padding: 18px 20px;
-    box-shadow: var(--emboss-card);
-  }
-  .between-content h3 { margin: 0 0 6px; font-size: 1.04rem; font-weight: 800; }
-  .between-content p, .between-list { margin: 0 0 8px; color: var(--muted); font-size: 0.92rem; }
-  .between-list { padding-left: 18px; }
-  .between-list li { margin-bottom: 4px; }
-  .example-strip {
-    padding: 10px 13px; background: #eff6ff; border: 1.5px solid #93c5fd;
-    border-radius: 9px; font-size: 0.88rem; font-weight: 800; color: var(--primary-dark);
-  }
+	public static function sanitize_hex( $color, $default = '#0F172A' ) {
+		$sanitized = sanitize_hex_color( $color );
+		return $sanitized ? $sanitized : $default;
+	}
+}
+""",
 
-  .ad-box {
-    width: 100%; min-height: 96px; padding: 14px 16px;
-    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-    border: 2px dashed #64748b; border-radius: var(--radius);
-    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 5px;
-  }
-  .ad-tag { font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); background: #e2e8f0; border: 1px solid #94a3b8; padding: 2px 9px; border-radius: 999px; }
-  .ad-placeholder-text { font-size: 0.84rem; color: var(--muted); font-weight: 700; }
+    "calculette-tools/includes/class-settings.php": r"""<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-  .contact-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-    gap: 18px; align-items: start;
-  }
-  .info-note {
-    background: #f8fafc; border: 1.5px solid #cbd5e1; border-bottom: 3px solid #94a3b8;
-    border-radius: 12px; padding: 16px; color: var(--muted); font-size: 0.92rem;
-  }
-  .info-note h3 { margin: 0 0 8px; font-size: 1rem; font-weight: 800; color: var(--ink); }
+class Calculette_Settings {
 
-  .site-footer {
-    width: 100%; border-top: 2px solid #94a3b8; background: #ffffff;
-    padding: 24px 0 34px; text-align: center; font-size: 0.88rem; color: var(--muted); margin-top: 28px;
-  }
-  .footer-links { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
-  .footer-links a { color: var(--ink); text-decoration: none; font-weight: 800; }
-  .footer-links a:hover { color: var(--primary); }
-</style>
-</head>
-<body>
+	private $option_name = 'calculette_tools_options';
 
-<header class="site-header">
-  <div class="container nav-bar">
-    <a href="index.html" class="brand"><span class="brand-dot"></span>Colette-Calculator</a>
-    <div class="nav-right">
-      <nav class="nav-menu">
-        <a href="index.html" data-t="navHome">Home (Outils 01–03)</a>
-        <a href="page2.html" class="active" data-t="navP2">Page 2 (Outils 04–06)</a>
-        <a href="#contact-section" data-t="navContact">Contact</a>
-      </nav>
-      <button type="button" id="langBtn" class="lang-btn" onclick="toggleLang()">EN</button>
-    </div>
-  </div>
-</header>
+	public function init() {
+		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+		add_action( 'admin_init', array( $this, 'register_settings' ) );
+	}
 
-<section class="page-head">
-  <div class="container">
-    <h1 data-t="pageTitle">Colette-Calculator — Page 2 : Salaire, Toiture &amp; Taux</h1>
-    <p data-t="pageSub">Page 2 : 3 nouveaux calculateurs (heures &amp; salaire, charpente toiture en croupe et taux journalier/horaire) avec guides, publicités et contact.</p>
-  </div>
-</section>
+	public function get_defaults() {
+		return array(
+			'default_language'   => 'fr',
+			'time_format'        => '24h',
+			'week_start_day'     => 'monday',
+			'primary_navy'       => '#0F172A',
+			'soft_blue_panel'    => '#F0F7FF',
+			'action_green'       => '#16A34A',
+			'enable_daily'       => 1,
+			'enable_weekly'      => 1,
+			'enable_converter'   => 1,
+			'enable_roof'        => 1,
+			'print_company_name' => '',
+			'legal_disclaimer'   => 'Calculations are provided for informational purposes. Verify official payroll and structural engineering requirements.',
+		);
+	}
 
-<div class="jump-strip">
-  <div class="container jump-inner">
-    <span class="jump-label" data-t="jumpLabel">Accès direct :</span>
-    <a href="index.html" class="jump-pill">← <span data-t="jumpHome">Home (01–03)</span></a>
-    <a href="#tool-04" class="jump-pill">04 • <span data-t="jump4">Heures &amp; Salaire</span></a>
-    <a href="#tool-05" class="jump-pill">05 • <span data-t="jump5">Toiture en Croupe</span></a>
-    <a href="#tool-06" class="jump-pill">06 • <span data-t="jump6">Taux &amp; Forfait</span></a>
-    <a href="#contact-section" class="jump-pill"><span data-t="navContact">Contact</span></a>
-  </div>
-</div>
+	public function get_options() {
+		$saved = get_option( $this->option_name, array() );
+		return wp_parse_args( $saved, $this->get_defaults() );
+	}
 
-<main class="container">
-  <div class="page-flow">
+	public function add_admin_menu() {
+		add_options_page(
+			__( 'Calculette Pro Settings', 'calculette-tools' ),
+			__( 'Calculette Tools', 'calculette-tools' ),
+			'manage_options',
+			'calculette-tools-settings',
+			array( $this, 'render_settings_page' )
+		);
+	}
 
-    <!-- TOOL 04 -->
-    <section class="tool-card" id="tool-04" aria-labelledby="t4Heading">
-      <div class="card-head">
-        <h2 id="t4Heading"><span class="step-tag">04</span> <span data-t="t4Name">Calculateur Heures de Travail &amp; Salaire</span></h2>
-        <span class="tool-status" data-t="liveBadge">Outil Actif</span>
-      </div>
-      <p class="tool-intro" data-t="secPayDesc">Calculez le montant brut estimé à partir du taux horaire, des heures normales et des heures supplémentaires majorées.</p>
+	public function register_settings() {
+		register_setting(
+			'calculette_settings_group',
+			$this->option_name,
+			array(
+				'sanitize_callback' => array( $this, 'sanitize_options' ),
+			)
+		);
+	}
 
-      <div class="split-grid">
-        <div class="panel">
-          <div class="field">
-            <label for="inRate" data-t="lblRate">Taux horaire (€ / h)</label>
-            <input type="number" id="inRate" step="0.01" min="0" value="0">
-          </div>
-          <div class="field">
-            <label for="inReg" data-t="lblReg">Heures normales (décimal 1/100e)</label>
-            <input type="number" id="inReg" step="0.01" min="0" value="0">
-          </div>
-          <div class="field">
-            <label for="inOt" data-t="lblOt">Heures supplémentaires (décimal 1/100e)</label>
-            <input type="number" id="inOt" step="0.01" min="0" value="0">
-          </div>
-          <div class="field">
-            <label for="inPct" data-t="lblPct">Majoration heures sup (%)</label>
-            <input type="number" id="inPct" step="1" min="0" value="0">
-            <div class="presets">
-              <button type="button" class="preset-btn" data-ot="10">+10%</button>
-              <button type="button" class="preset-btn" data-ot="25">+25%</button>
-              <button type="button" class="preset-btn" data-ot="50">+50%</button>
-            </div>
-          </div>
-          <div class="toolbar">
-            <button type="button" class="btn-sec" id="resetPayBtn" data-t="btnReset">Reset (0)</button>
-            <button type="button" class="btn" id="copyPayBtn" data-t="btnCopy">Copier</button>
-          </div>
-        </div>
+	public function sanitize_options( $input ) {
+		$defaults = $this->get_defaults();
+		$clean    = array();
 
-        <div class="panel">
-          <div class="res-row"><span class="res-label" data-t="rTotH">Total heures</span><span class="res-val" id="outTotH">0.00 h</span></div>
-          <div class="res-row"><span class="res-label" data-t="rBase">Montant normal</span><span class="res-val" id="outBase">0.00 €</span></div>
-          <div class="res-row"><span class="res-label" data-t="rOtRate">Taux majoré</span><span class="res-val" id="outOtRate">0.00 € / h</span></div>
-          <div class="res-row"><span class="res-label" data-t="rOt">Montant heures sup</span><span class="res-val" id="outOt">0.00 €</span></div>
-          <div class="res-row highlight"><span class="res-label" data-t="rTotal">TOTAL ESTIMÉ</span><span class="res-val" id="outTotal">0.00 €</span></div>
-        </div>
-      </div>
+		$clean['default_language']   = in_array( $input['default_language'] ?? 'fr', array( 'fr', 'en' ), true ) ? $input['default_language'] : 'fr';
+		$clean['time_format']        = in_array( $input['time_format'] ?? '24h', array( '24h', 'decimal' ), true ) ? $input['time_format'] : '24h';
+		$clean['week_start_day']     = 'monday';
+		$clean['primary_navy']       = Calculette_Security::sanitize_hex( $input['primary_navy'] ?? '', $defaults['primary_navy'] );
+		$clean['soft_blue_panel']    = Calculette_Security::sanitize_hex( $input['soft_blue_panel'] ?? '', $defaults['soft_blue_panel'] );
+		$clean['action_green']       = Calculette_Security::sanitize_hex( $input['action_green'] ?? '', $defaults['action_green'] );
+		$clean['enable_daily']       = ! empty( $input['enable_daily'] ) ? 1 : 0;
+		$clean['enable_weekly']      = ! empty( $input['enable_weekly'] ) ? 1 : 0;
+		$clean['enable_converter']   = ! empty( $input['enable_converter'] ) ? 1 : 0;
+		$clean['enable_roof']        = ! empty( $input['enable_roof'] ) ? 1 : 0;
+		$clean['print_company_name'] = sanitize_text_field( $input['print_company_name'] ?? '' );
+		$clean['legal_disclaimer']   = sanitize_textarea_field( $input['legal_disclaimer'] ?? '' );
 
-      <div class="tool-meta-grid">
-        <div class="meta-box">
-          <h3 data-t="lblFeatures">Fonctionnalités</h3>
-          <ul class="meta-list">
-            <li data-t="t4F1">Calcul instantané des heures normales et supplémentaires majorées.</li>
-            <li data-t="t4F2">Boutons rapides +10%, +25%, +50% et saisie libre du pourcentage.</li>
-            <li data-t="t4F3">Affichage du taux majoré, du total d'heures et copie en un clic.</li>
-          </ul>
-        </div>
-        <div class="meta-box">
-          <h3 data-t="lblUse">Utilisation (Use)</h3>
-          <p data-t="t4U1">Permet d'estimer rapidement une rémunération, vérifier des heures majorées ou chiffrer du temps de travail.</p>
-        </div>
-      </div>
-    </section>
+		return $clean;
+	}
 
-    <article class="between-content">
-      <h3 data-t="c1Title">Comment calculer des heures supplémentaires majorées ?</h3>
-      <p data-t="c1P1">Entrez d'abord le taux horaire et les heures en centièmes (par exemple 35.00 h normales et 4.50 h supplémentaires), puis choisissez le pourcentage de majoration.</p>
-      <ul class="between-list">
-        <li data-t="c1B1">Le taux majoré est égal au taux horaire multiplié par (1 + % / 100).</li>
-        <li data-t="c1B2">Cliquez sur Reset (0) pour remettre tous les champs à zéro.</li>
-      </ul>
-      <div class="example-strip" data-t="c1Ex">Exemple : 15,00 €/h × 35,00 h (525,00 €) + 4,00 h à +25% (18,75 €/h =
+	public function render_settings_page() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		$options = $this->get_options();
+		?>
+		<div class="wrap">
+			<h1><?php echo esc_html__( 'Calculette Pro Tools — Configuration', 'calculette-tools' ); ?></h1>
+			<form method="post" action="options.php">
+				<?php settings_fields( 'calculette_settings_group' ); ?>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Default Interface Language', 'calculette-tools' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $this->option_name ); ?>[default_language]">
+								<option value="fr" <?php selected( $options['default_language'], 'fr' ); ?>>Français (FR)</option>
+								<option value="en" <?php selected( $options['default_language'], 'en' ); ?>>English (EN)</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Enabled Modules', 'calculette-tools' ); ?></th>
+						<td>
+							<label><input type="checkbox" name="<?php echo esc_attr( $this->option_name ); ?>[enable_daily]" value="1" <?php checked( 1, $options['enable_daily'] ); ?>> Daily Working Hours Calculator</label><br>
+							<label><input type="checkbox" name="<?php echo esc_attr( $this->option_name ); ?>[enable_weekly]" value="1" <?php checked( 1, $options['enable_weekly'] ); ?>> Weekly Timesheet Calculator</label><br>
+							<label><input type="checkbox" name="<?php echo esc_attr( $this->option_name ); ?>[enable_converter]" value="1" <?php checked( 1, $options['enable_converter'] ); ?>> Time Conversion Tools</label><br>
+							<label><input type="checkbox" name="<?php echo esc_attr( $this->option_name ); ?>[enable_roof]" value="1" <?php checked( 1, $options['enable_roof'] ); ?>> Hip Roof Construction Calculator</label>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Theme Palette', 'calculette-tools' ); ?></th>
+						<td>
+							<label>Navy Text: <input type="color" name="<?php echo esc_attr( $this->option_name ); ?>[primary_navy]" value="<?php echo esc_attr( $options['primary_navy'] ); ?>"></label>
+							<label style="margin-left:15px;">Panel Tint: <input type="color" name="<?php echo esc_attr( $this->option_name ); ?>[soft_blue_panel]" value="<?php echo esc_attr( $options['soft_blue_panel'] ); ?>"></label>
+							<label style="margin-left:15px;">Action Green: <input type="color" name="<?php echo esc_attr( $this->option_name ); ?>[action_green]" value="<?php echo esc_attr( $options['action_green'] ); ?>"></label>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Print Header Title', 'calculette-tools' ); ?></th>
+						<td>
+							<input type="text" class="regular-text" name="<?php echo esc_attr( $this->option_name ); ?>[print_company_name]" value="<?php echo esc_attr( $options['print_company_name'] ); ?>" placeholder="Optional default header name">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Legal Disclaimer', 'calculette-tools' ); ?></th>
+						<td>
+							<textarea class="large-text" rows="3" name="<?php echo esc_attr( $this->option_name ); ?>[legal_disclaimer]"><?php echo esc_textarea( $options['legal_disclaimer'] ); ?></textarea>
+						</td>
+					</tr>
+				</table>
+				<?php submit_button(); ?>
+			</form>
+			<hr>
+			<h2><?php esc_html_e( 'Available Shortcodes', 'calculette-tools' ); ?></h2>
+			<ul>
+				<li><code>[calculette_homepage]</code></li>
+				<li><code>[daily_hours_calculator]</code></li>
+				<li><code>[weekly_timesheet]</code></li>
+				<li><code>[time_converter]</code></li>
+				<li><code>[time_addition]</code> / <code>[time_subtraction]</code> / <code>[decimal_hours_converter]</code> / <code>[minutes_to_hours]</code> / <code>[hours_to_minutes]</code></li>
+				<li><code>[hip_roof_calculator]</code></li>
+				<li><code>[calculette_breadcrumbs]</code></li>
+			</ul>
+		</div>
+		<?php
+	}
+}
+""",
+
+    "calculette-tools/includes/class-plugin.php": r"""<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+class Calculette_Plugin {
+
+	private $settings;
+	private $shortcodes;
+	private $seo;
+
+	public function __construct() {
+		$this->settings   = new Calculette_Settings();
+		$this->shortcodes = new Calculette_Shortcodes( $this->settings );
+		$this->seo        = new Calculette_SEO();
+	}
+
+	public function run() {
+		$this->settings->init();
+		$this->shortcodes->init();
+		$this->seo->init();
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
+	}
+
+	public function register_assets() {
+		wp_register_style(
+			'calculette-core-css',
+			CALCULETTE_PLUGIN_URL . 'assets/css/calculette-core.css',
+			array(),
+			CALCULETTE_VERSION
+		);
+
+		wp_register_script(
+			'calculette-engine-js',
+			CALCULETTE_PLUGIN_URL . 'assets/js/calculette-engine.js',
+			array(),
+			CALCULETTE_VERSION,
+			true
+		);
+
+		wp_register_style(
+			'calculette-daily-css',
+			CALCULETTE_PLUGIN_URL . 'calculators/daily-hours/daily-hours.css',
+			array( 'calculette-core-css' ),
+			CALCULETTE_VERSION
+		);
+		wp_register_script(
+			'calculette-daily-js',
+			CALCULETTE_PLUGIN_URL . 'calculators/daily-hours/daily-hours.js',
+			array( 'calculette-engine-js' ),
+			CALCULETTE_VERSION,
+			true
+		);
+
+		wp_register_style(
+			'calculette-weekly-css',
+			CALCULETTE_PLUGIN_URL . 'calculators/weekly-timesheet/weekly-timesheet.css',
+			array( 'calculette-core-css' ),
+			CALCULETTE_VERSION
+		);
+		wp_register_script(
+			'calculette-weekly-js',
+			CALCULETTE_PLUGIN_URL . 'calculators/weekly-timesheet/weekly-timesheet.js',
+			array( 'calculette-engine-js' ),
+			CALCULETTE_VERSION,
+			true
+		);
+
+		wp_register_style(
+			'calculette-converter-css',
+			CALCULETTE_PLUGIN_URL . 'calculators/time-converter/time-converter.css',
+			array( 'calculette-core-css' ),
+			CALCULETTE_VERSION
+		);
+		wp_register_script(
+			'calculette-converter-js',
+			CALCULETTE_PLUGIN_URL . 'calculators/time-converter/time-converter.js',
+			array( 'calculette-engine-js' ),
+			CALCULETTE_VERSION,
+			true
+		);
+
+		wp_register_style(
+			'calculette-roof-css',
+			CALCULETTE_PLUGIN_URL . 'calculators/hip-roof/hip-roof.css',
+			array( 'calculette-core-css' ),
+			CALCULETTE_VERSION
+		);
+		wp_register_script(
+			'calculette-roof-js',
+			CALCULETTE_PLUGIN_URL . 'calculators/hip-roof/hip-roof.js',
+			array( 'calculette-engine-js' ),
+			CALCULETTE_VERSION,
+			true
+		);
+
+		$options = $this->settings->get_options();
+		wp_localize_script(
+			'calculette-engine-js',
+			'CalculetteConfig',
+			array(
+				'lang'        => $options['default_language'],
+				'companyName' => $options['print_company_name'],
+				'disclaimer'  => $options['legal_disclaimer'],
+				'siteName'    => get_bloginfo( 'name' ),
+			)
+		);
+
+		$custom_css = sprintf(
+			':root { --calc-navy: %s; --calc-panel-blue: %s; --calc-green: %s; }',
+			esc_attr( $options['primary_navy'] ),
+			esc_attr( $options['soft_blue_panel'] ),
+			esc_attr( $options['action_green'] )
+		);
+		wp_add_inline_style( 'calculette-core-css', $custom_css );
+	}
+}
+""",
+
+    "calculette-tools/includes/class-shortcodes.php": r"""<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+require_once CALCULETTE_PLUGIN_DIR . 'calculators/daily-hours/daily-hours.php';
+require_once CALCULETTE_PLUGIN_DIR . 'calculators/weekly-timesheet/weekly-timesheet.php';
+require_once CALCULETTE_PLUGIN_DIR . 'calculators/time-converter/time-converter.php';
+require_once CALCULETTE_PLUGIN_DIR . 'calculators/hip-roof/hip-roof.php';
+
+class Calculette_Shortcodes {
+
+	private $settings;
+
+	public function __construct( Calculette_Settings $settings ) {
+		$this->settings = $settings;
+	}
+
+	public function init() {
+		add_shortcode( 'calculette_homepage', array( $this, 'render_homepage' ) );
+		add_shortcode( 'daily_hours_calculator', array( $this, 'render_daily_hours' ) );
+		add_shortcode( 'weekly_timesheet', array( $this, 'render_weekly_timesheet' ) );
+		add_shortcode( 'time_converter', array( $this, 'render_time_converter' ) );
+		add_shortcode( 'time_addition', array( $this, 'render_time_addition' ) );
+		add_shortcode( 'time_subtraction', array( $this, 'render_time_subtraction' ) );
+		add_shortcode( 'decimal_hours_converter', array( $this, 'render_decimal_converter' ) );
+		add_shortcode( 'minutes_to_hours', array( $this, 'render_minutes_to_hours' ) );
+		add_shortcode( 'hours_to_minutes', array( $this, 'render_hours_to_minutes' ) );
+		add_shortcode( 'hip_roof_calculator', array( $this, 'render_hip_roof' ) );
+	}
+
+	public function render_homepage() {
+		wp_enqueue_style( 'calculette-core-css' );
+		wp_enqueue_script( 'calculette-engine-js' );
+		ob_start();
+		?>
+		<div class="calc-app-wrapper">
+			<header class="calc-site-header">
+				<div class="calc-brand">
+					<span class="calc-logo-mark" aria-hidden="true">⏱</span>
+					<span class="calc-brand-name">ChronoCharpente Pro</span>
+				</div>
+				<nav class="calc-nav" aria-label="Main Navigation">
+					<a href="#hero">Accueil</a>
+					<a href="/calculateur-heures-journalier/">Heures Journalières</a>
+					<a href="/feuille-heures-hebdomadaire/">Feuille Hebdo</a>
+					<a href="/convertisseur-heures-decimales/">Convertisseurs</a>
+					<a href="/calculateur-toiture-croupe/">Toiture Croupe</a>
+					<a href="#guides">Guides & FAQ</a>
+				</nav>
+			</header>
+
+			<section id="hero" class="calc-hero">
+				<h1>Calculate Your Working Hours Online</h1>
+				<p>Calculez instantanément vos heures de travail, pauses, shifts de nuit, feuilles de temps hebdomadaires et géométries de charpente à croupe. 100 % gratuit, sans inscription, sauvegarde locale sécurisée.</p>
+				<div class="calc-hero-actions">
+					<a href="/calculateur-heures-journalier/" class="calc-btn calc-btn-primary">Calculateur Journalier</a>
+					<a href="/feuille-heures-hebdomadaire/" class="calc-btn calc-btn-secondary">Feuille d'Heures Hebdomadaire</a>
+				</div>
+			</section>
+
+			<section class="calc-grid-section" aria-label="Outils de calcul">
+				<div class="calc-cards-grid">
+					<article class="calc-card">
+						<h3>Calculateur d'Heures Journalières</h3>
+						<p>Intervalles multiples, pauses, travail de nuit (22h–06h) et totaux automatiques en HH:MM et décimal.</p>
+						<a href="/calculateur-heures-journalier/" class="calc-card-link">Ouvrir l'outil →</a>
+					</article>
+					<article class="calc-card">
+						<h3>Feuille d'Heures Hebdomadaire</h3>
+						<p>Planning complet du lundi au dimanche (norme ISO-8601), sauvegarde automatique locale, export CSV, PDF et impression A4.</p>
+						<a href="/feuille-heures-hebdomadaire/" class="calc-card-link">Ouvrir la feuille →</a>
+					</article>
+					<article class="calc-card">
+						<h3>Addition & Soustraction d'Heures</h3>
+						<p>Cumulez ou soustrayez des durées dépassant 24 heures (ex: 88h15 − 60h55 = 27h20) sans erreur de retenue.</p>
+						<a href="/addition-heures-minutes/" class="calc-card-link">Calculer →</a>
+					</article>
+					<article class="calc-card">
+						<h3>Convertisseur Heures Décimales & Minutes</h3>
+						<p>Convertissez HH:MM en centièmes d'heure pour la paie et la facturation, avec tableau de référence 00–59 min.</p>
+						<a href="/convertisseur-heures-decimales/" class="calc-card-link">Convertir →</a>
+					</article>
+					<article class="calc-card">
+						<h3>Calculateur de Toiture à Croupe</h3>
+						<p>Calculs géométriques de charpente : arêtiers, chevrons, empannons, pannes, angles de coupe et surfaces de versants.</p>
+						<a href="/calculateur-toiture-croupe/" class="calc-card-link">Calculer la charpente →</a>
+					</article>
+				</div>
+			</section>
+
+			<section class="calc-steps-section">
+				<h2>Comment ça marche ?</h2>
+				<div class="calc-steps-grid">
+					<div class="calc-step"><strong>1. Saisissez vos horaires</strong><span>Entrez vos heures de début et de fin au format 24h avec navigation clavier automatique.</span></div>
+					<div class="calc-step"><strong>2. Ajoutez vos intervalles</strong><span>Ajoutez autant de plages horaires ou de pauses que nécessaire et cochez/décochez à volonté.</span></div>
+					<div class="calc-step"><strong>3. Calcul instantané</strong><span>Le moteur en minutes entières garantit une précision absolue sans erreur d'arrondi.</span></div>
+					<div class="calc-step"><strong>4. Imprimez ou exportez</strong><span>Générez un rapport A4 propre, un PDF ou un fichier CSV compatible Excel.</span></div>
+				</div>
+			</section>
+
+			<section id="guides" class="calc-faq-section">
+				<h2>Questions Fréquentes & Guides</h2>
+				<details class="calc-faq-item" open>
+					<summary>Comment convertir des heures et minutes en heures décimales ?</summary>
+					<p>Divisez les minutes par 60 et ajoutez le résultat aux heures entières. Par exemple, 7h45 équivaut à 7 + (45 ÷ 60) = 7,75 heures décimales.</p>
+				</details>
+				<details class="calc-faq-item">
+					<summary>Mes données de feuille d'heures sont-elles envoyées sur un serveur ?</summary>
+					<p>Non. Toutes vos saisies sont enregistrées exclusivement dans le stockage local (localStorage) de votre navigateur.</p>
+				</details>
+			</section>
+
+			<footer class="calc-site-footer">
+				<nav aria-label="Pied de page">
+					<a href="/a-propos/">À propos</a>
+					<a href="/contact/">Contact</a>
+					<a href="/politique-confidentialite/">Politique de confidentialité</a>
+					<a href="/politique-cookies/">Cookies</a>
+					<a href="/mentions-legales/">Mentions légales</a>
+					<a href="/conditions-utilisation/">Conditions d'utilisation</a>
+				</nav>
+			</footer>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
+	public function render_daily_hours() { return Calculette_Daily_Hours_Module::render(); }
+	public function render_weekly_timesheet() { return Calculette_Weekly_Timesheet_Module::render(); }
+	public function render_time_converter() { return Calculette_Time_Converter_Module::render( 'all' ); }
+	public function render_time_addition() { return Calculette_Time_Converter_Module::render( 'addition' ); }
+	public function render_time_subtraction() { return Calculette_Time_Converter_Module::render( 'subtraction' ); }
+	public function render_decimal_converter() { return Calculette_Time_Converter_Module::render( 'decimal' ); }
+	public function render_minutes_to_hours() { return Calculette_Time_Converter_Module::render( 'min2hr' ); }
+	public function render_hours_to_minutes() { return Calculette_Time_Converter_Module::render( 'hr2min' ); }
+	public function render_hip_roof() { return Calculette_Hip_Roof_Module::render(); }
+}
+""",
+
+    "calculette-tools/includes/class-seo.php": r"""<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+class Calculette_SEO {
+
+	private $shortcodes = array(
+		'calculette_homepage',
+		'daily_hours_calculator',
+		'weekly_timesheet',
+		'time_converter',
+		'time_addition',
+		'time_subtraction',
+		'decimal_hours_converter',
+		'minutes_to_hours',
+		'hours_to_minutes',
+		'hip_roof_calculator',
+	);
+
+	public function init() {
+		add_action( 'wp_head', array( $this, 'output_schema_json_ld' ), 20 );
+		add_shortcode( 'calculette_breadcrumbs', array( $this, 'render_breadcrumbs' ) );
+	}
+
+	private function page_has_calculator() {
+		global $post;
+		if ( ! is_singular() || ! $post instanceof WP_Post ) {
+			return false;
+		}
+		foreach ( $this->shortcodes as $tag ) {
+			if ( has_shortcode( $post->post_content, $tag ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function output_schema_json_ld() {
+		if ( ! $this->page_has_calculator() ) {
+			return;
+		}
+
+		global $post;
+		$title       = get_the_title( $post );
+		$url         = get_permalink( $post );
+		$description = has_excerpt( $post ) ? get_the_excerpt( $post ) : wp_trim_words( wp_strip_all_tags( $post->post_content ), 28 );
+
+		$app_schema = array(
+			'@context'            => 'https://schema.org',
+			'@type'               => 'WebApplication',
+			'name'                => $title,
+			'url'                 => $url,
+			'description'         => $description,
+			'applicationCategory' => 'BusinessApplication',
+			'operatingSystem'     => 'All',
+			'inLanguage'          => 'fr-FR',
+			'offers'              => array(
+				'@type'         => 'Offer',
+				'price'         => '0',
+				'priceCurrency' => 'EUR',
+			),
+		);
+
+		$breadcrumb_schema = array(
+			'@context'        => 'https://schema.org',
+			'@type'           => 'BreadcrumbList',
+			'itemListElement' => array(
+				array(
+					'@type'    => 'ListItem',
+					'position' => 1,
+					'name'     => 'Accueil',
+					'item'     => home_url( '/' ),
+				),
+				array(
+					'@type'    => 'ListItem',
+					'position' => 2,
+					'name'     => $title,
+					'item'     => $url,
+				),
+			),
+		);
+
+		echo "\n<script type=\"application/ld+json\">" . wp_json_encode( $app_schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "</script>\n";
+		echo "<script type=\"application/ld+json\">" . wp_json_encode( $breadcrumb_schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "</script>\n";
+	}
+
+	public function render_breadcrumbs() {
+		if ( ! is_singular() ) {
+			return '';
+		}
+		global $post;
+		ob_start();
+		?>
+		<nav class="calc-breadcrumbs no-print" aria-label="Fil d'Ariane" style="font-size:0.88rem; margin-bottom:1rem; color:#475569;">
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Accueil</a>
+			<span aria-hidden="true"> › </span>
+			<span aria-current="page"><strong><?php echo esc_html( get_the_title( $post ) ); ?></strong></span>
+		</nav>
+		<?php
+		return ob_get_clean();
+	}
+}
+""",
+
+    "calculette-tools/assets/css/calculette-core.css": r""":root {
+	--calc-bg: #FFFFFF;
+	--calc-navy: #0F172A;
+	--calc-navy-muted: #475569;
+	--calc-panel-blue: #F0F7FF;
+	--calc-panel-grey: #F8FAFC;
+	--calc-border: #CBD5E1;
+	--calc-green: #16A34A;
+	--calc-green-hover: #15803D;
+	--calc-blue-accent: #2563EB;
+	--calc-danger: #DC2626;
+	--calc-radius: 10px;
+	--calc-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+.calc-app-wrapper, .calc-module-container { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; color: var(--calc-navy); background: var(--calc-bg); max-width: 1180px; margin: 0 auto; padding: 1.5rem 1rem; line-height: 1.55; box-sizing: border-box; }
+.calc-app-wrapper *, .calc-module-container * { box-sizing: border-box; }
+.calc-site-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--calc-border); margin-bottom: 2rem; }
+.calc-brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.25rem; color: var(--calc-navy); }
+.calc-nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+.calc-nav a { color: var(--calc-navy); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+.calc-nav a:hover, .calc-nav a:focus-visible { color: var(--calc-blue-accent); text-decoration: underline; }
+.calc-hero { background: var(--calc-panel-blue); border: 1px solid var(--calc-border); border-radius: var(--calc-radius); padding: 2.5rem 2rem; text-align: center; margin-bottom: 2.5rem; }
+.calc-hero h1 { margin: 0 0 0.75rem; font-size: clamp(1.75rem, 3vw, 2.5rem); color: var(--calc-navy); }
+.calc-hero p { max-width: 720px; margin: 0 auto 1.5rem; color: var(--calc-navy-muted); font-size: 1.05rem; }
+.calc-hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+.calc-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.65rem 1.25rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border: 1px solid transparent; text-decoration: none; transition: background-color 0.15s ease, border-color 0.15s ease; min-height: 42px; }
+.calc-btn:focus-visible, .calc-input:focus-visible { outline: 3px solid rgba(37, 99, 235, 0.4); outline-offset: 2px; }
+.calc-btn-primary { background-color: var(--calc-green); color: #FFFFFF; }
+.calc-btn-primary:hover { background-color: var(--calc-green-hover); color: #FFFFFF; }
+.calc-btn-secondary { background-color: #FFFFFF; color: var(--calc-navy); border-color: var(--calc-border); }
+.calc-btn-secondary:hover { background-color: var(--calc-panel-grey); }
+.calc-btn-danger { background-color: #FEF2F2; color: var(--calc-danger); border-color: #FECACA; }
+.calc-btn-danger:hover { background-color: #FEE2E2; }
+.calc-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
+.calc-card { background: #FFFFFF; border: 1px solid var(--calc-border); border-radius: var(--calc-radius); padding: 1.5rem; box-shadow: var(--calc-shadow); display: flex; flex-direction: column; justify-content: space-between; }
+.calc-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
+.calc-card-link { margin-top: 1rem; font-weight: 600; color: var(--calc-blue-accent); text-decoration: none; }
+.calc-steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
+.calc-step { background: var(--calc-panel-grey); border: 1px solid var(--calc-border); border-radius: var(--calc-radius); padding: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; }
+.calc-panel { background: var(--calc-panel-grey); border: 1px solid var(--calc-border); border-radius: var(--calc-radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+.calc-summary-box { background: var(--calc-panel-blue); border: 1px solid #BFDBFE; border-radius: var(--calc-radius); padding: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+.calc-stat-label { font-size: 0.85rem; color: var(--calc-navy-muted); display: block; }
+.calc-stat-value { font-size: 1.5rem; font-weight: 700; color: var(--calc-navy); }
+.calc-table-scroll { width: 100%; overflow-x: auto; }
+.calc-table { width: 100%; border-collapse: collapse; background: #FFFFFF; }
+.calc-table th, .calc-table td { border: 1px solid var(--calc-border); padding: 0.6rem 0.75rem; text-align: left; }
+.calc-table th { background: var(--calc-panel-blue); font-weight: 600; }
+.calc-row-excluded { opacity: 0.55; background-color: #F1F5F9; }
+.calc-input { padding: 0.45rem 0.6rem; border: 1px solid var(--calc-border); border-radius: 6px; font-size: 1rem; color: var(--calc-navy); background: #FFFFFF; }
+.calc-input-time-part { width: 3.1rem; text-align: center; font-variant-numeric: tabular-nums; }
+.calc-error-banner { background: #FEF2F2; border: 1px solid #FCA5A5; color: #991B1B; padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; font-weight: 500; }
+.calc-faq-item { border: 1px solid var(--calc-border); border-radius: 8px; padding: 0.9rem 1.1rem; margin-bottom: 0.75rem; }
+.calc-faq-item summary { font-weight: 600; cursor: pointer; }
+.calc-site-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--calc-border); }
+.calc-site-footer nav { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+@media print { .no-print, .calc-site-header, .calc-site-footer { display: none !important; } body { background: #FFFFFF !important; } }
+""",
+
+    "calculette-tools/assets/js/calculette-engine.js": r"""(function (window) {
+	'use strict';
+	const CalculetteEngine = {
+		parseClockTime(hourStr, minStr) {
+			const hRaw = String(hourStr ?? '').trim();
+			const mRaw = String(minStr ?? '').trim();
+			if (hRaw === '' && mRaw === '') return { valid: true, minutes: null, empty: true, error: null };
+			const h = hRaw === '' ? 0 : Number(hRaw);
+			const m = mRaw === '' ? 0 : Number(mRaw);
+			if (!Number.isInteger(h) || h < 0 || h > 23) return { valid: false, minutes: null, empty: false, error: 'Heure invalide (00–23).' };
+			if (!Number.isInteger(m) || m < 0 || m > 59) return { valid: false, minutes: null, empty: false, error: 'Minutes invalides (00–59).' };
+			return { valid: true, minutes: h * 60 + m, empty: false, error: null };
+		},
+		parseDuration(hourStr, minStr) {
+			const hRaw = String(hourStr ?? '').trim();
+			const mRaw = String(minStr ?? '').trim();
+			if (hRaw === '' && mRaw === '') return { valid: true, minutes: 0, empty: true, error: null };
+			const h = hRaw === '' ? 0 : Number(hRaw);
+			const m = mRaw === '' ? 0 : Number(mRaw);
+			if (!Number.isInteger(h) || h < 0) return { valid: false, minutes: 0, empty: false, error: 'Les heures doivent être un entier positif.' };
+			if (!Number.isInteger(m) || m < 0 || m > 59) return { valid: false, minutes: 0, empty: false, error: 'Les minutes doivent être comprises entre 00 et 59.' };
+			return { valid: true, minutes: h * 60 + m, empty: false, error: null };
+		},
+		calculateInterval(startObj, endObj, breakMinutes = 0, options = {}) {
+			const { nextDay = false, autoOvernight = true } = options;
+			if (startObj.empty && endObj.empty) return { valid: true, empty: true, grossMinutes: 0, netMinutes: 0, error: null };
+			if (!startObj.valid) return { valid: false, empty: false, grossMinutes: 0, netMinutes: 0, error: startObj.error };
+			if (!endObj.valid) return { valid: false, empty: false, grossMinutes: 0, netMinutes: 0, error: endObj.error };
+			if (startObj.empty || endObj.empty) return { valid: false, empty: false, grossMinutes: 0, netMinutes: 0, error: 'Heure de début et de fin requises.' };
+			let startMin = startObj.minutes;
+			let endMin = endObj.minutes;
+			if (nextDay) { endMin += 1440; }
+			else if (endMin < startMin) {
+				if (autoOvernight) { endMin += 1440; }
+				else { return { valid: false, empty: false, grossMinutes: 0, netMinutes: 0, error: "L'heure de fin est antérieure à l'heure de début (activez le mode nuit)." }; }
+			}
+			const grossMinutes = endMin - startMin;
+			if (breakMinutes < 0 || !Number.isInteger(breakMinutes)) return { valid: false, empty: false, grossMinutes: 0, netMinutes: 0, error: 'Pause invalide.' };
+			if (breakMinutes > grossMinutes) return { valid: false, empty: false, grossMinutes, netMinutes: 0, error: 'La pause dépasse la durée travaillée.' };
+			return { valid: true, empty: false, grossMinutes, netMinutes: grossMinutes - breakMinutes, error: null };
+		},
+		addDurations(minutesList) { return minutesList.reduce((acc, val) => acc + (Number.isInteger(val) ? val : 0), 0); },
+		subtractDurations(minutesA, minutesB) { return minutesA - minutesB; },
+		calculateDailyTotal(intervals) {
+			let gross = 0, breaks = 0, net = 0;
+			for (const item of intervals) {
+				if (item.included !== false && item.valid && !item.empty) {
+					gross += item.grossMinutes || 0;
+					breaks += item.breakMinutes || 0;
+					net += item.netMinutes || 0;
+				}
+			}
+			return { grossMinutes: gross, breakMinutes: breaks, netMinutes: net };
+		},
+		calculateWeeklyTotal(daysArray) {
+			let gross = 0, breaks = 0, net = 0;
+			for (const day of daysArray) {
+				if (day.visible !== false) {
+					const d = this.calculateDailyTotal(day.intervals || []);
+					gross += d.grossMinutes;
+					breaks += d.breakMinutes;
+					net += d.netMinutes;
+				}
+			}
+			return { grossMinutes: gross, breakMinutes: breaks, netMinutes: net };
+		},
+		convertToDecimal(totalMinutes, decimals = 2) {
+			const sign = totalMinutes < 0 ? '-' : '';
+			return sign + (Math.abs(totalMinutes) / 60).toFixed(decimals);
+		},
+		convertToHHMM(totalMinutes, separator = ':') {
+			const sign = totalMinutes < 0 ? '-' : '';
+			const abs = Math.abs(Math.round(totalMinutes));
+			return `${sign}${String(Math.floor(abs / 60)).padStart(2, '0')}${separator}${String(abs % 60).padStart(2, '0')}`;
+		},
+		convertToMinutes(hours, minutes = 0) { return Math.round(Number(hours) * 60 + Number(minutes)); },
+		getISOWeekData(referenceDate = new Date()) {
+			const d = new Date(Date.UTC(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate()));
+			const dayNum = d.getUTCDay() || 7;
+			d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+			const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+			const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+			const isoYear = d.getUTCFullYear();
+			const monday = new Date(Date.UTC(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate()));
+			const refDay = monday.getUTCDay() || 7;
+			monday.setUTCDate(monday.getUTCDate() - (refDay - 1));
+			const dates = [];
+			for (let i = 0; i < 7; i++) {
+				const cur = new Date(monday);
+				cur.setUTCDate(monday.getUTCDate() + i);
+				dates.push(cur);
+			}
+			return { year: isoYear, week: weekNo, key: `${isoYear}-W${String(weekNo).padStart(2, '0')}`, dates };
+		},
+		bindAutoTabInputs(container) {
+			container.addEventListener('input', function (e) {
+				const target = e.target;
+				if (!target.classList.contains('calc-auto-tab')) return;
+				const maxLen = target.dataset.maxLen ? Number(target.dataset.maxLen) : 2;
+				target.value = target.value.replace(/[^0-9]/g, '').slice(0, maxLen);
+				if (target.value.length >= maxLen && target.dataset.nextFocus) {
+					const row = target.closest('[data-row]');
+					const next = row ? row.querySelector(`[data-field="${target.dataset.nextFocus}"]`) : null;
+					if (next) { next.focus(); next.select(); }
+				}
+			});
+		}
+	};
+	window.CalculetteEngine = CalculetteEngine;
+})(window);
+""",
+
+    "calculette-tools/calculators/daily-hours/daily-hours.php": r"""<?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+class Calculette_Daily_Hours_Module {
+	public static function render() {
+		wp_enqueue_style( 'calculette-core-css' );
+		wp_enqueue_style( 'calculette-daily-css' );
+		wp_enqueue_script( 'calculette-engine-js' );
+		wp_enqueue_script( 'calculette-daily-js' );
+		ob_start();
+		?>
+		<section class="calc-module-container calc-daily-wrapper" aria-labelledby="daily-calc-title">
+			<header class="calc-module-header">
+				<h1 id="daily-calc-title">Calculateur d'Heures Journalières</h1>
+				<p>Calculez vos heures travaillées sur une journée avec intervalles multiples, pauses, travail de nuit et conversion décimale instantanée.</p>
+			</header>
+			<div class="calc-mode-tabs" role="tablist" aria-label="Mode de calcul">
+				<button type="button" role="tab" aria-selected="true" class="calc-tab-btn is-active" data-daily-tab="clock">Mode Horaires (Début / Fin)</button>
+				<button type="button" role="tab" aria-selected="false" class="calc-tab-btn" data-daily-tab="duration">Mode Avancé (Addition &amp; Soustraction)</button>
+			</div>
+			<div id="daily-error-box" class="calc-error-banner" role="alert" hidden></div>
+			<div id="daily-panel-clock" class="calc-panel" role="tabpanel">
+				<div class="calc-toolbar">
+					<label class="calc-checkbox-label">
+						<input type="checkbox" id="daily-auto-overnight" checked>
+						<span>Détection automatique du travail de nuit (ex: 22:00 → 06:00 = 8h)</span>
+					</label>
+					<div class="calc-toolbar-actions">
+						<button type="button" id="daily-add-row" class="calc-btn calc-btn-primary">+ Ajouter un intervalle</button>
+						<button type="button" id="daily-reset-clock" class="calc-btn calc-btn-secondary">Réinitialiser</button>
+					</div>
+				</div>
+				<div class="calc-table-scroll">
+					<table class="calc-table calc-daily-table" aria-label="Intervalles horaires">
+						<thead>
+							<tr>
+								<th scope="col" class="col-check">Inclure</th><th scope="col">#</th><th scope="col">Début (HH:MM)</th><th scope="col">Fin (HH:MM)</th><th scope="col">Pause (HH:MM)</th><th scope="col">J+1</th><th scope="col">Durée Nette</th><th scope="col">Décimal</th><th scope="col" class="col-action">Action</th>
+							</tr>
+						</thead>
+						<tbody id="daily-intervals-body"></tbody>
+					</table>
+				</div>
+				<div class="calc-summary-box" aria-live="polite" style="margin-top: 1.5rem;">
+					<div><span class="calc-stat-label">Durée Brute</span><span class="calc-stat-value" id="daily-total-gross">00:00</span></div>
+					<div><span class="calc-stat-label">Total Pauses</span><span class="calc-stat-value" id="daily-total-breaks">00:00</span></div>
+					<div><span class="calc-stat-label">Temps de Travail Net</span><span class="calc-stat-value" id="daily-total-net" style="color: var(--calc-green);">00:00</span></div>
+					<div><span class="calc-stat-label">Heures Décimales</span><span class="calc-stat-value" id="daily-total-decimal">0.00</span></div>
+					<div><span class="calc-stat-label">Total Minutes</span><span class="calc-stat-value" id="daily-total-minutes">0 min</span></div>
+				</div>
+			</div>
+			<div id="daily-panel-duration" class="calc-panel" role="tabpanel" hidden>
+				<div class="calc-advanced-grid">
+					<div class="calc-sub-card">
+						<h2>Addition d'Heures et Minutes</h2>
+						<p class="calc-muted">Cumulez des durées sans limite de 24 heures (ex: 05:30 + 04:45 + 03:15 = 13:30).</p>
+						<div id="daily-add-list" class="calc-duration-list"></div>
+						<div style="margin-top: 0.75rem; display:flex; gap:0.5rem;">
+							<button type="button" id="daily-add-dur-row" class="calc-btn calc-btn-primary">+ Ajouter une durée</button>
+							<button type="button" id="daily-reset-dur" class="calc-btn calc-btn-secondary">Effacer</button>
+						</div>
+						<div class="calc-summary-box" style="margin-top: 1rem;" aria-live="polite">
+							<div><span class="calc-stat-label">Somme (HH:MM)</span><span class="calc-stat-value" id="dur-sum-hhmm">00:00</span></div>
+							<div><span class="calc-stat-label">Somme Décimale</span><span class="calc-stat-value" id="dur-sum-dec">0.00</span></div>
+							<div><span class="calc-stat-label">Total Minutes</span><span class="calc-stat-value" id="dur-sum-min">0</span></div>
+						</div>
+					</div>
+					<div class="calc-sub-card">
+						<h2>Soustraction d'Heures (A − B)</h2>
+						<p class="calc-muted">Calculez l'écart entre deux volumes d'heures (ex: 88h15 − 60h55 = 27h20).</p>
+						<div class="calc-sub-row" data-row>
+							<label><strong>Temps A :</strong></label>
+							<input type="text" inputmode="numeric" class="calc-input calc-input-dur-h" id="sub-a-h" placeholder="88" aria-label="Heures A"> h
+							<input type="text" inputmode="numeric" class="calc-input calc-input-time-part" id="sub-a-m" placeholder="15" maxlength="2" aria-label="Minutes A"> min
+						</div>
+						<div class="calc-sub-row" data-row style="margin-top: 0.75rem;">
+							<label><strong>Temps B :</strong></label>
+							<input type="text" inputmode="numeric" class="calc-input calc-input-dur-h" id="sub-b-h" placeholder="60" aria-label="Heures B"> h
+							<input type="text" inputmode="numeric" class="calc-input calc-input-time-part" id="sub-b-m" placeholder="55" maxlength="2" aria-label="Minutes B"> min
+						</div>
+						<div class="calc-summary-box" style="margin-top: 1rem;" aria-live="polite">
+							<div><span class="calc-stat-label">Résultat (A − B)</span><span class="calc-stat-value" id="sub-res-hhmm">00:00</span></div>
+							<div><span class="calc-stat-label">Décimal</span><span class="calc-stat-value" id="sub-res-dec">0.00</span></div>
+							<div><span class="calc-stat-label">Minutes</span><span class="calc-stat-value" id="sub-res-min">0</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<?php
+		return ob_get_clean();
+	}
+}
+""",
+
+    "calculette-tools/calculators/daily-hours/daily-hours.css": r""".calc-module-header { margin-bottom: 1.5rem; }
+.calc-module-header h1 { margin: 0 0 0.4rem; font-size: 1.85rem; }
+.calc-module-header p { margin: 0; color: var(--calc-navy-muted); }
+.calc-mode-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.calc-tab-btn { padding: 0.65rem 1.25rem; border: 1px solid var(--calc-border); background: #FFFFFF; color: var(--calc-navy); border-radius: 8px; font-weight: 600; cursor: pointer; }
+.calc-tab-btn.is-active { background: var(--calc-navy); color: #FFFFFF; border-color: var(--calc-navy); }
+.calc-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.calc-toolbar-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.calc-checkbox-label { display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 500; }
+.calc-time-group { display: inline-flex; align-items: center; gap: 0.25rem; white-space: nowrap; }
+.calc-daily-table td, .calc-daily-table th { vertical-align: middle; }
+.col-check, .col-action { text-align: center; width: 72px; }
+.calc-row-duration { font-weight: 700; font-variant-numeric: tabular-nums; }
+.calc-row-decimal { color: var(--calc-navy-muted); font-variant-numeric: tabular-nums; }
+.calc-row-error-text { display: block; color: var(--calc-danger); font-size: 0.8rem; margin-top: 0.2rem; }
+.calc-advanced-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+.calc-sub-card { background: #FFFFFF; border: 1px solid var(--calc-border); border-radius: var(--calc-radius); padding: 1.25rem; }
+.calc-sub-card h2 { margin-top: 0; font-size: 1.25rem; }
+.calc-muted { color: var(--calc-navy-muted); font-size: 0.9rem; }
+.calc-duration-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.calc-dur-item, .calc-sub-row { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; }
+.calc-input-dur-h { width: 4.2rem; text-align: center; font-variant-numeric: tabular-nums; }
+""",
+
+    "calculette-tools/calculators/daily-hours/daily-hours.js": r"""(function (window, document) {
+	'use strict';
+	document.addEventListener('DOMContentLoaded', function () {
+		const mount = document.querySelector('.calc-daily-wrapper');
+		if (!mount || !window.CalculetteEngine) return;
+		const Engine = window.CalculetteEngine;
+		Engine.bindAutoTabInputs(mount);
+
+		let intervals = [
+			{ id: 1, included: true, sh: '', sm: '', eh: '', em: '', bh: '', bm: '', nextDay: false },
+			{ id: 2, included: true, sh: '', sm: '', eh: '', em: '', bh: '', bm: '', nextDay: false }
+		];
+		let nextId = 3;
+		let durations = [
+			{ id: 1, included: true, h: '', m: '' },
+			{ id: 2, included: true, h: '', m: '' },
+			{ id: 3, included: true, h: '', m: '' }
+		];
+		let nextDurId = 4;
+
+		const tbody = document.getElementById('daily-intervals-body');
+		const autoOvernightEl = document.getElementById('daily-auto-overnight');
+		const errorBox = document.getElementById('daily-error-box');
+
+		mount.querySelectorAll('[data-daily-tab]').forEach((btn) => {
+			btn.addEventListener('click', () => {
+				const target = btn.dataset.dailyTab;
+				mount.querySelectorAll('[data-daily-tab]').forEach((b) => {
+					const active = b === btn;
+					b.classList.toggle('is-active', active);
+					b.setAttribute('aria-selected', active ? 'true' : 'false');
+				});
+				document.getElementById('daily-panel-clock').hidden = target !== 'clock';
+				document.getElementById('daily-panel-duration').hidden = target !== 'duration';
+			});
+		});
+
+		function renderClockRows() {
+			tbody.innerHTML = '';
+			intervals.forEach((row, idx) => {
+				const tr = document.createElement('tr');
+				tr.dataset.row = row.id;
+				if (!row.included) tr.classList.add('calc-row-excluded');
+				tr.innerHTML = `
+					<td class="col-check"><input type="checkbox" data-action="toggle" aria-label="Inclure intervalle ${idx + 1}" ${row.included ? 'checked' : ''}></td>
+					<td><strong>${idx + 1}</strong></td>
+					<td><div class="calc-time-group"><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="sh" data-next-focus="sm" value="${row.sh}" placeholder="08"><span>:</span><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="sm" data-next-focus="eh" value="${row.sm}" placeholder="00"></div></td>
+					<td><div class="calc-time-group"><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="eh" data-next-focus="em" value="${row.eh}" placeholder="12"><span>:</span><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="em" data-next-focus="bh" value="${row.em}" placeholder="00"></div></td>
+					<td><div class="calc-time-group"><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="bh" data-next-focus="bm" value="${row.bh}" placeholder="00"><span>:</span><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="bm" value="${row.bm}" placeholder="00"></div></td>
+					<td class="col-check"><input type="checkbox" data-action="nextday" title="Fin le lendemain" ${row.nextDay ? 'checked' : ''}></td>
+					<td><span class="calc-row-duration" data-out="dur">00:00</span><span class="calc-row-error-text" data-out="err"></span></td>
+					<td><span class="calc-row-decimal" data-out="dec">0.00</span></td>
+					<td class="col-action"><button type="button" class="calc-btn calc-btn-danger" data-action="delete" ${intervals.length === 1 ? 'disabled' : ''}>✕</button></td>
+				`;
+				tbody.appendChild(tr);
+			});
+			recalculateClock();
+		}
+
+		function recalculateClock() {
+			const autoOvernight = autoOvernightEl.checked;
+			const computed = [];
+			let globalError = '';
+			intervals.forEach((row) => {
+				const tr = tbody.querySelector(`tr[data-row="${row.id}"]`);
+				if (!tr) return;
+				const durEl = tr.querySelector('[data-out="dur"]');
+				const decEl = tr.querySelector('[data-out="dec"]');
+				const errEl = tr.querySelector('[data-out="err"]');
+				const startObj = Engine.parseClockTime(row.sh, row.sm);
+				const endObj = Engine.parseClockTime(row.eh, row.em);
+				const breakObj = Engine.parseDuration(row.bh, row.bm);
+				if (!breakObj.valid) { durEl.textContent = '--:--'; decEl.textContent = '--'; errEl.textContent = breakObj.error; globalError = breakObj.error; return; }
+				const res = Engine.calculateInterval(startObj, endObj, breakObj.minutes, { nextDay: row.nextDay, autoOvernight });
+				if (!res.valid) { durEl.textContent = '--:--'; decEl.textContent = '--'; errEl.textContent = res.error; if (row.included) globalError = res.error; }
+				else {
+					errEl.textContent = '';
+					durEl.textContent = Engine.convertToHHMM(res.netMinutes);
+					decEl.textContent = Engine.convertToDecimal(res.netMinutes);
+					computed.push({ included: row.included, valid: true, empty: res.empty, grossMinutes: res.grossMinutes, breakMinutes: res.empty ? 0 : breakObj.minutes, netMinutes: res.netMinutes });
+				}
+			});
+			errorBox.textContent = globalError;
+			errorBox.hidden = !globalError;
+			const totals = Engine.calculateDailyTotal(computed);
+			document.getElementById('daily-total-gross').textContent = Engine.convertToHHMM(totals.grossMinutes);
+			document.getElementById('daily-total-breaks').textContent = Engine.convertToHHMM(totals.breakMinutes);
+			document.getElementById('daily-total-net').textContent = Engine.convertToHHMM(totals.netMinutes);
+			document.getElementById('daily-total-decimal').textContent = Engine.convertToDecimal(totals.netMinutes);
+			document.getElementById('daily-total-minutes').textContent = `${totals.netMinutes} min`;
+		}
+
+		tbody.addEventListener('input', (e) => {
+			const tr = e.target.closest('tr[data-row]');
+			if (!tr) return;
+			const row = intervals.find((r) => r.id === Number(tr.dataset.row));
+			if (row && e.target.dataset.field) { row[e.target.dataset.field] = e.target.value; recalculateClock(); }
+		});
+		tbody.addEventListener('change', (e) => {
+			const tr = e.target.closest('tr[data-row]');
+			if (!tr) return;
+			const row = intervals.find((r) => r.id === Number(tr.dataset.row));
+			if (!row) return;
+			if (e.target.dataset.action === 'toggle') { row.included = e.target.checked; tr.classList.toggle('calc-row-excluded', !row.included); recalculateClock(); }
+			else if (e.target.dataset.action === 'nextday') { row.nextDay = e.target.checked; recalculateClock(); }
+		});
+		tbody.addEventListener('click', (e) => {
+			const btn = e.target.closest('[data-action="delete"]');
+			if (!btn || intervals.length <= 1) return;
+			intervals = intervals.filter((r) => r.id !== Number(btn.closest('tr[data-row]').dataset.row));
+			renderClockRows();
+		});
+		autoOvernightEl.addEventListener('change', recalculateClock);
+		document.getElementById('daily-add-row').addEventListener('click', () => { intervals.push({ id: nextId++, included: true, sh: '', sm: '', eh: '', em: '', bh: '', bm: '', nextDay: false }); renderClockRows(); });
+		document.getElementById('daily-reset-clock').addEventListener('click', () => {
+			if (!window.confirm('Réinitialiser tous les intervalles de la journée ?')) return;
+			intervals = [{ id: 1, included: true, sh: '', sm: '', eh: '', em: '', bh: '', bm: '', nextDay: false }, { id: 2, included: true, sh: '', sm: '', eh: '', em: '', bh: '', bm: '', nextDay: false }];
+			nextId = 3;
+			renderClockRows();
+		});
+
+		const addListEl = document.getElementById('daily-add-list');
+		function renderDurationRows() {
+			addListEl.innerHTML = '';
+			durations.forEach((d, idx) => {
+				const div = document.createElement('div');
+				div.className = 'calc-dur-item' + (d.included ? '' : ' calc-row-excluded');
+				div.dataset.durId = d.id;
+				div.innerHTML = `<input type="checkbox" data-dur-action="toggle" ${d.included ? 'checked' : ''}><input type="text" inputmode="numeric" class="calc-input calc-input-dur-h" data-dur-field="h" value="${d.h}" placeholder="05"><span>h</span><input type="text" inputmode="numeric" class="calc-input calc-input-time-part" data-dur-field="m" maxlength="2" value="${d.m}" placeholder="30"><span>min</span><button type="button" class="calc-btn calc-btn-danger" data-dur-action="delete" ${durations.length === 1 ? 'disabled' : ''}>✕</button>`;
+				addListEl.appendChild(div);
+			});
+			recalculateDurationAddition();
+		}
+		function recalculateDurationAddition() {
+			const validMinutes = [];
+			for (const d of durations) { if (d.included) { const p = Engine.parseDuration(d.h, d.m); if (p.valid) validMinutes.push(p.minutes); } }
+			const sum = Engine.addDurations(validMinutes);
+			document.getElementById('dur-sum-hhmm').textContent = Engine.convertToHHMM(sum);
+			document.getElementById('dur-sum-dec').textContent = Engine.convertToDecimal(sum);
+			document.getElementById('dur-sum-min').textContent = `${sum} min`;
+		}
+		addListEl.addEventListener('input', (e) => {
+			const rowEl = e.target.closest('[data-dur-id]');
+			if (!rowEl) return;
+			const item = durations.find((d) => d.id === Number(rowEl.dataset.durId));
+			if (!item) return;
+			e.target.value = e.target.value.replace(/[^0-9]/g, '');
+			if (e.target.dataset.durField === 'm') e.target.value = e.target.value.slice(0, 2);
+			item[e.target.dataset.durField] = e.target.value;
+			recalculateDurationAddition();
+		});
+		addListEl.addEventListener('change', (e) => {
+			if (e.target.dataset.durAction === 'toggle') {
+				const rowEl = e.target.closest('[data-dur-id]');
+				const item = durations.find((d) => d.id === Number(rowEl.dataset.durId));
+				if (item) { item.included = e.target.checked; rowEl.classList.toggle('calc-row-excluded', !item.included); recalculateDurationAddition(); }
+			}
+		});
+		addListEl.addEventListener('click', (e) => {
+			const btn = e.target.closest('[data-dur-action="delete"]');
+			if (!btn || durations.length <= 1) return;
+			durations = durations.filter((d) => d.id !== Number(btn.closest('[data-dur-id]').dataset.durId));
+			renderDurationRows();
+		});
+		document.getElementById('daily-add-dur-row').addEventListener('click', () => { durations.push({ id: nextDurId++, included: true, h: '', m: '' }); renderDurationRows(); });
+		document.getElementById('daily-reset-dur').addEventListener('click', () => { durations = [{ id: 1, included: true, h: '', m: '' }, { id: 2, included: true, h: '', m: '' }]; nextDurId = 3; renderDurationRows(); });
+
+		['sub-a-h', 'sub-a-m', 'sub-b-h', 'sub-b-m'].forEach((id) => {
+			const el = document.getElementById(id);
+			el.addEventListener('input', () => {
+				el.value = el.value.replace(/[^0-9]/g, '');
+				if (id.endsWith('-m')) el.value = el.value.slice(0, 2);
+				const a = Engine.parseDuration(document.getElementById('sub-a-h').value, document.getElementById('sub-a-m').value);
+				const b = Engine.parseDuration(document.getElementById('sub-b-h').value, document.getElementById('sub-b-m').value);
+				if (!a.valid || !b.valid) { document.getElementById('sub-res-hhmm').textContent = 'Erreur'; return; }
+				const diff = Engine.subtractDurations(a.minutes, b.minutes);
+				document.getElementById('sub-res-hhmm').textContent = Engine.convertToHHMM(diff, 'h');
+				document.getElementById('sub-res-dec').textContent = Engine.convertToDecimal(diff);
+				document.getElementById('sub-res-min').textContent = `${diff} min`;
+			});
+		});
+
+		renderClockRows();
+		renderDurationRows();
+	});
+})(window, document);
+""",
+
+    "calculette-tools/calculators/weekly-timesheet/weekly-timesheet.php": r"""<?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+class Calculette_Weekly_Timesheet_Module {
+	public static function render() {
+		wp_enqueue_style( 'calculette-core-css' );
+		wp_enqueue_style( 'calculette-weekly-css' );
+		wp_enqueue_script( 'calculette-engine-js' );
+		wp_enqueue_script( 'calculette-weekly-js' );
+		ob_start();
+		?>
+		<section class="calc-module-container calc-weekly-wrapper" aria-labelledby="weekly-title">
+			<header class="calc-module-header no-print">
+				<h1 id="weekly-title">Feuille d'Heures Hebdomadaire (Lundi – Dimanche)</h1>
+				<p>Saisissez vos horaires jour par jour. Vos données sont sauvegardées automatiquement dans votre navigateur pour chaque semaine ISO.</p>
+			</header>
+			<div class="calc-print-header print-only">
+				<div class="calc-print-top">
+					<div><strong id="print-site-title">Feuille d'Heures Hebdomadaire</strong><div id="print-week-label"></div></div>
+					<div class="calc-print-meta"><div><strong>Employé :</strong> <span id="print-employee-val">____________________</span></div><div><strong>Imprimé le :</strong> <span id="print-date-val"></span></div></div>
+				</div>
+			</div>
+			<div class="calc-panel calc-weekly-controls no-print">
+				<div class="calc-week-nav">
+					<button type="button" id="wk-prev" class="calc-btn calc-btn-secondary">← Semaine préc.</button>
+					<div class="calc-week-badge" aria-live="polite"><strong id="wk-number-display">Semaine --</strong><span id="wk-range-display">--/--/---- au --/--/----</span></div>
+					<button type="button" id="wk-current" class="calc-btn calc-btn-secondary">Aujourd'hui</button>
+					<button type="button" id="wk-next" class="calc-btn calc-btn-secondary">Semaine suiv. →</button>
+				</div>
+				<div class="calc-week-actions">
+					<label class="calc-inline-field"><span>Employé (optionnel) :</span><input type="text" id="wk-employee-name" class="calc-input" placeholder="Nom & Prénom"></label>
+					<button type="button" id="wk-export-csv" class="calc-btn calc-btn-secondary">Export CSV</button>
+					<button type="button" id="wk-export-pdf" class="calc-btn calc-btn-secondary">Export PDF</button>
+					<button type="button" id="wk-print" class="calc-btn calc-btn-primary">Imprimer (A4)</button>
+					<button type="button" id="wk-reset-all" class="calc-btn calc-btn-danger">Vider la semaine</button>
+				</div>
+			</div>
+			<div class="calc-day-toggles no-print" role="group" aria-label="Afficher ou masquer des jours">
+				<span class="calc-toggle-heading">Jours affichés :</span>
+				<label><input type="checkbox" data-day-vis="0" checked> Lun</label>
+				<label><input type="checkbox" data-day-vis="1" checked> Mar</label>
+				<label><input type="checkbox" data-day-vis="2" checked> Mer</label>
+				<label><input type="checkbox" data-day-vis="3" checked> Jeu</label>
+				<label><input type="checkbox" data-day-vis="4" checked> Ven</label>
+				<label><input type="checkbox" data-day-vis="5" checked> Sam</label>
+				<label><input type="checkbox" data-day-vis="6" checked> Dim</label>
+				<span id="wk-save-indicator" class="calc-save-status" aria-live="polite">✓ Sauvegardé localement</span>
+			</div>
+			<div id="weekly-error-box" class="calc-error-banner" role="alert" hidden></div>
+			<div class="calc-table-scroll">
+				<table class="calc-table calc-weekly-table" aria-label="Tableau hebdomadaire des heures">
+					<thead>
+						<tr>
+							<th scope="col">Jour &amp; Date</th><th scope="col" class="col-check no-print">Incl.</th><th scope="col">Début</th><th scope="col">Fin</th><th scope="col">Pause</th><th scope="col">Durée Nette</th><th scope="col">Décimal</th><th scope="col" class="no-print">Intervalles</th><th scope="col">Total Jour</th>
+						</tr>
+					</thead>
+					<tbody id="wk-tbody"></tbody>
+				</table>
+			</div>
+			<div class="calc-summary-box" style="margin-top: 1.5rem;" aria-live="polite">
+				<div><span class="calc-stat-label">Total Brut Hebdo</span><span class="calc-stat-value" id="wk-total-gross">00:00</span></div>
+				<div><span class="calc-stat-label">Total Pauses</span><span class="calc-stat-value" id="wk-total-breaks">00:00</span></div>
+				<div><span class="calc-stat-label">Total Net Hebdomadaire</span><span class="calc-stat-value" id="wk-total-net" style="color: var(--calc-green);">00:00</span></div>
+				<div><span class="calc-stat-label">Total Décimal</span><span class="calc-stat-value" id="wk-total-decimal">0.00</span></div>
+				<div><span class="calc-stat-label">Total Minutes</span><span class="calc-stat-value" id="wk-total-minutes">0 min</span></div>
+			</div>
+			<div class="calc-print-signatures print-only">
+				<div class="calc-sig-box"><strong>Signature de l'employé :</strong><div class="calc-sig-line"></div></div>
+				<div class="calc-sig-box"><strong>Validation Responsable / RH :</strong><div class="calc-sig-line"></div></div>
+			</div>
+		</section>
+		<?php
+		return ob_get_clean();
+	}
+}
+""",
+
+    "calculette-tools/calculators/weekly-timesheet/weekly-timesheet.css": r""".calc-weekly-controls { display: flex; flex-direction: column; gap: 1rem; }
+.calc-week-nav, .calc-week-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.calc-week-badge { display: flex; flex-direction: column; align-items: center; background: #FFFFFF; border: 1px solid var(--calc-border); border-radius: 8px; padding: 0.45rem 1.25rem; }
+.calc-week-badge strong { font-size: 1.1rem; color: var(--calc-navy); }
+.calc-week-badge span { font-size: 0.85rem; color: var(--calc-navy-muted); }
+.calc-inline-field { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 500; }
+.calc-day-toggles { display: flex; flex-wrap: wrap; align-items: center; gap: 0.85rem; margin-bottom: 1rem; padding: 0.65rem 1rem; background: var(--calc-panel-grey); border: 1px solid var(--calc-border); border-radius: 8px; }
+.calc-toggle-heading { font-weight: 600; }
+.calc-save-status { margin-left: auto; font-size: 0.85rem; color: var(--calc-green); font-weight: 600; }
+.calc-weekly-table td { vertical-align: middle; }
+.calc-day-cell { background: var(--calc-panel-grey); min-width: 130px; }
+.calc-day-name { display: block; font-weight: 700; }
+.calc-day-date { display: block; font-size: 0.82rem; color: var(--calc-navy-muted); }
+.calc-day-total-cell { background: var(--calc-panel-blue); font-weight: 700; text-align: center; min-width: 95px; }
+.calc-day-total-cell small { display: block; font-weight: 500; color: var(--calc-navy-muted); }
+.calc-mini-btn { padding: 0.3rem 0.55rem; font-size: 0.82rem; min-height: 32px; }
+.print-only { display: none; }
+@media print {
+	@page { size: A4 portrait; margin: 12mm; }
+	.no-print { display: none !important; }
+	.print-only { display: block !important; }
+	.calc-weekly-wrapper { max-width: 100% !important; padding: 0 !important; }
+	.calc-print-header { border-bottom: 2px solid #0F172A; padding-bottom: 8px; margin-bottom: 12px; }
+	.calc-print-top { display: flex; justify-content: space-between; align-items: flex-start; }
+	.calc-weekly-table th, .calc-weekly-table td { padding: 4px 6px !important; font-size: 11px !important; border: 1px solid #334155 !important; }
+	.calc-weekly-table tr { break-inside: avoid; page-break-inside: avoid; }
+	.calc-input-time-part { border: none !important; background: transparent !important; padding: 0 !important; width: 1.5rem !important; font-size: 11px !important; }
+	.calc-summary-box { border: 1px solid #334155 !important; padding: 8px !important; margin-top: 10px !important; }
+	.calc-stat-value { font-size: 14px !important; }
+	.calc-print-signatures { display: flex !important; justify-content: space-between; gap: 2rem; margin-top: 24px; break-inside: avoid; }
+	.calc-sig-box { flex: 1; border: 1px solid #94A3B8; padding: 8px 12px; height: 68px; font-size: 11px; }
+}
+""",
+
+    "calculette-tools/calculators/weekly-timesheet/weekly-timesheet.js": r"""(function (window, document) {
+	'use strict';
+	document.addEventListener('DOMContentLoaded', function () {
+		const mount = document.querySelector('.calc-weekly-wrapper');
+		if (!mount || !window.CalculetteEngine) return;
+		const Engine = window.CalculetteEngine;
+		Engine.bindAutoTabInputs(mount);
+
+		const DAY_NAMES = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+		const STORAGE_PREFIX = 'calculette_wk_v1_';
+		let referenceDate = new Date();
+		let weekData = null;
+		let state = null;
+
+		const tbody = document.getElementById('wk-tbody');
+		const errorBox = document.getElementById('weekly-error-box');
+		const saveIndicator = document.getElementById('wk-save-indicator');
+		const employeeInput = document.getElementById('wk-employee-name');
+
+		function createDefaultWeekState() {
+			return {
+				employeeName: '',
+				days: DAY_NAMES.map((name, idx) => ({
+					dayIndex: idx, name, visible: true,
+					intervals: [{ id: 1, included: true, sh: '', sm: '', eh: '', em: '', bh: '', bm: '' }]
+				}))
+			};
+		}
+
+		function loadWeek(dateObj) {
+			weekData = Engine.getISOWeekData(dateObj);
+			try {
+				const raw = window.localStorage.getItem(STORAGE_PREFIX + weekData.key);
+				state = raw ? JSON.parse(raw) : createDefaultWeekState();
+			} catch (err) { state = createDefaultWeekState(); }
+			employeeInput.value = state.employeeName || '';
+			mount.querySelectorAll('[data-day-vis]').forEach((cb) => {
+				cb.checked = state.days[Number(cb.dataset.dayVis)].visible !== false;
+			});
+			updateHeaderMeta();
+			renderTable();
+		}
+
+		function persistState() {
+			if (!weekData || !state) return;
+			try {
+				window.localStorage.setItem(STORAGE_PREFIX + weekData.key, JSON.stringify(state));
+				saveIndicator.textContent = '✓ Sauvegardé localement';
+			} catch (err) { saveIndicator.textContent = '⚠ Stockage local indisponible'; }
+		}
+
+		function formatDateFR(dateObj) {
+			return `${String(dateObj.getUTCDate()).padStart(2, '0')}/${String(dateObj.getUTCMonth() + 1).padStart(2, '0')}/${dateObj.getUTCFullYear()}`;
+		}
+
+		function updateHeaderMeta() {
+			const startStr = formatDateFR(weekData.dates[0]);
+			const endStr = formatDateFR(weekData.dates[6]);
+			document.getElementById('wk-number-display').textContent = `Semaine ${String(weekData.week).padStart(2, '0')} (${weekData.year})`;
+			document.getElementById('wk-range-display').textContent = `Du ${startStr} au ${endStr}`;
+			document.getElementById('print-week-label').textContent = `Semaine ${String(weekData.week).padStart(2, '0')} — Du ${startStr} au ${endStr}`;
+			if (window.CalculetteConfig && window.CalculetteConfig.companyName) {
+				document.getElementById('print-site-title').textContent = window.CalculetteConfig.companyName;
+			}
+		}
+
+		function renderTable() {
+			tbody.innerHTML = '';
+			state.days.forEach((day, dIdx) => {
+				if (!day.visible) return;
+				const dateStr = formatDateFR(weekData.dates[dIdx]);
+				const rowSpan = day.intervals.length;
+				day.intervals.forEach((iv, iIdx) => {
+					const tr = document.createElement('tr');
+					tr.dataset.row = `${dIdx}-${iv.id}`;
+					tr.dataset.dayIdx = dIdx;
+					tr.dataset.ivId = iv.id;
+					if (!iv.included) tr.classList.add('calc-row-excluded');
+					let html = '';
+					if (iIdx === 0) html += `<td class="calc-day-cell" rowspan="${rowSpan}"><span class="calc-day-name">${day.name}</span><span class="calc-day-date">${dateStr}</span></td>`;
+					html += `
+						<td class="col-check no-print"><input type="checkbox" data-wk-action="toggle" ${iv.included ? 'checked' : ''}></td>
+						<td><div class="calc-time-group"><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="sh" data-next-focus="sm" value="${iv.sh}" placeholder="08"><span>:</span><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="sm" data-next-focus="eh" value="${iv.sm}" placeholder="00"></div></td>
+						<td><div class="calc-time-group"><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="eh" data-next-focus="em" value="${iv.eh}" placeholder="17"><span>:</span><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="em" data-next-focus="bh" value="${iv.em}" placeholder="00"></div></td>
+						<td><div class="calc-time-group"><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="bh" data-next-focus="bm" value="${iv.bh}" placeholder="01"><span>:</span><input type="text" inputmode="numeric" class="calc-input calc-input-time-part calc-auto-tab" data-field="bm" value="${iv.bm}" placeholder="00"></div></td>
+						<td><strong data-wk-out="dur">00:00</strong></td>
+						<td><span data-wk-out="dec">0.00</span></td>
+						<td class="no-print" style="white-space:nowrap;">
+							<button type="button" class="calc-btn calc-btn-secondary calc-mini-btn" data-wk-action="add-iv">+ Plage</button>
+							${day.intervals.length > 1 ? `<button type="button" class="calc-btn calc-btn-danger calc-mini-btn" data-wk-action="del-iv">✕</button>` : ''}
+							${iIdx === 0 ? `<button type="button" class="calc-btn calc-btn-secondary calc-mini-btn" data-wk-action="clear-day">↺</button>` : ''}
+						</td>
+					`;
+					if (iIdx === 0) html += `<td class="calc-day-total-cell" rowspan="${rowSpan}" data-day-total="${dIdx}"><span>00:00</span><small>0.00 h</small></td>`;
+					tr.innerHTML = html;
+					tbody.appendChild(tr);
+				});
+			});
+			recalculateAll();
+		}
+
+		function recalculateAll() {
+			let errorMsg = '';
+			const computedDays = [];
+			state.days.forEach((day, dIdx) => {
+				const computedIntervals = [];
+				day.intervals.forEach((iv) => {
+					const tr = tbody.querySelector(`tr[data-row="${dIdx}-${iv.id}"]`);
+					const startObj = Engine.parseClockTime(iv.sh, iv.sm);
+					const endObj = Engine.parseClockTime(iv.eh, iv.em);
+					const breakObj = Engine.parseDuration(iv.bh, iv.bm);
+					let valid = false, empty = true, grossMinutes = 0, netMinutes = 0;
+					if (!breakObj.valid) { if (day.visible && iv.included) errorMsg = `${day.name} : ${breakObj.error}`; }
+					else {
+						const res = Engine.calculateInterval(startObj, endObj, breakObj.minutes, { autoOvernight: true });
+						if (!res.valid) { if (day.visible && iv.included) errorMsg = `${day.name} : ${res.error}`; }
+						else { valid = true; empty = res.empty; grossMinutes = res.grossMinutes; netMinutes = res.netMinutes; }
+					}
+					if (tr) {
+						tr.querySelector('[data-wk-out="dur"]').textContent = valid ? Engine.convertToHHMM(netMinutes) : '--:--';
+						tr.querySelector('[data-wk-out="dec"]').textContent = valid ? Engine.convertToDecimal(netMinutes) : '--';
+					}
+					computedIntervals.push({ included: iv.included, valid, empty, grossMinutes, breakMinutes: empty ? 0 : breakObj.minutes, netMinutes });
+				});
+				const dayTotals = Engine.calculateDailyTotal(computedIntervals);
+				const dayTotalCell = tbody.querySelector(`[data-day-total="${dIdx}"]`);
+				if (dayTotalCell) dayTotalCell.innerHTML = `<span>${Engine.convertToHHMM(dayTotals.netMinutes)}</span><small>${Engine.convertToDecimal(dayTotals.netMinutes)} h</small>`;
+				computedDays.push({ visible: day.visible, intervals: computedIntervals });
+			});
+			errorBox.textContent = errorMsg;
+			errorBox.hidden = !errorMsg;
+			const wkTotals = Engine.calculateWeeklyTotal(computedDays);
+			document.getElementById('wk-total-gross').textContent = Engine.convertToHHMM(wkTotals.grossMinutes);
+			document.getElementById('wk-total-breaks').textContent = Engine.convertToHHMM(wkTotals.breakMinutes);
+			document.getElementById('wk-total-net').textContent = Engine.convertToHHMM(wkTotals.netMinutes);
+			document.getElementById('wk-total-decimal').textContent = Engine.convertToDecimal(wkTotals.netMinutes);
+			document.getElementById('wk-total-minutes').textContent = `${wkTotals.netMinutes} min`;
+		}
+
+		tbody.addEventListener('input', (e) => {
+			const tr = e.target.closest('tr');
+			if (!tr || !e.target.dataset.field) return;
+			const iv = state.days[Number(tr.dataset.dayIdx)].intervals.find((x) => x.id === Number(tr.dataset.ivId));
+			if (iv) { iv[e.target.dataset.field] = e.target.value; recalculateAll(); persistState(); }
+		});
+		tbody.addEventListener('change', (e) => {
+			if (e.target.dataset.wkAction !== 'toggle') return;
+			const tr = e.target.closest('tr');
+			const iv = state.days[Number(tr.dataset.dayIdx)].intervals.find((x) => x.id === Number(tr.dataset.ivId));
+			if (iv) { iv.included = e.target.checked; tr.classList.toggle('calc-row-excluded', !iv.included); recalculateAll(); persistState(); }
+		});
+		tbody.addEventListener('click', (e) => {
+			const btn = e.target.closest('[data-wk-action]');
+			if (!btn) return;
+			const tr = btn.closest('tr');
+			const dIdx = Number(tr.dataset.dayIdx);
+			const ivId = Number(tr.dataset.ivId);
+			const day = state.days[dIdx];
+			const action = btn.dataset.wkAction;
+			if (action === 'add-iv') {
+				const maxId = day.intervals.reduce((m, x) => Math.max(m, x.id), 0);
+				day.intervals.push({ id: maxId + 1, included: true, sh: '', sm: '', eh: '', em: '', bh: '', bm: '' });
+				persistState(); renderTable();
+			} else if (action === 'del-iv' && day.intervals.length > 1) {
+				day.intervals = day.intervals.filter((x) => x.id !== ivId);
+				persistState(); renderTable();
+			} else if (action === 'clear-day') {
+				day.intervals = [{ id: 1, included: true, sh: '', sm: '', eh: '', em: '', bh: '', bm: '' }];
+				persistState(); renderTable();
+			}
+		});
+		mount.querySelectorAll('[data-day-vis]').forEach((cb) => {
+			cb.addEventListener('change', () => { state.days[Number(cb.dataset.dayVis)].visible = cb.checked; persistState(); renderTable(); });
+		});
+		employeeInput.addEventListener('input', () => { state.employeeName = employeeInput.value; persistState(); });
+		document.getElementById('wk-prev').addEventListener('click', () => { referenceDate.setDate(referenceDate.getDate() - 7); loadWeek(referenceDate); });
+		document.getElementById('wk-next').addEventListener('click', () => { referenceDate.setDate(referenceDate.getDate() + 7); loadWeek(referenceDate); });
+		document.getElementById('wk-current').addEventListener('click', () => { referenceDate = new Date(); loadWeek(referenceDate); });
+		document.getElementById('wk-reset-all').addEventListener('click', () => {
+			if (!window.confirm('Effacer toutes les saisies de cette semaine ?')) return;
+			const emp = state.employeeName; state = createDefaultWeekState(); state.employeeName = emp; persistState(); renderTable();
+		});
+		document.getElementById('wk-export-csv').addEventListener('click', () => {
+			const rows = [['Semaine', 'Date', 'Jour', 'Debut', 'Fin', 'Pause', 'Duree Nette (HH:MM)', 'Heures Decimales']];
+			let totalNetMin = 0;
+			state.days.forEach((day, dIdx) => {
+				if (!day.visible) return;
+				const dateStr = formatDateFR(weekData.dates[dIdx]);
+				day.intervals.forEach((iv) => {
+					if (!iv.included) return;
+					const s = Engine.parseClockTime(iv.sh, iv.sm);
+					const e = Engine.parseClockTime(iv.eh, iv.em);
+					const b = Engine.parseDuration(iv.bh, iv.bm);
+					const res = Engine.calculateInterval(s, e, b.valid ? b.minutes : 0, { autoOvernight: true });
+					if (res.valid && !res.empty) {
+						totalNetMin += res.netMinutes;
+						rows.push([weekData.key, dateStr, day.name, Engine.convertToHHMM(s.minutes), Engine.convertToHHMM(e.minutes), Engine.convertToHHMM(b.minutes), Engine.convertToHHMM(res.netMinutes), Engine.convertToDecimal(res.netMinutes).replace('.', ',')]);
+					}
+				});
+			});
+			rows.push(['', '', '', '', '', 'TOTAL SEMAINE', Engine.convertToHHMM(totalNetMin), Engine.convertToDecimal(totalNetMin).replace('.', ',')]);
+			const blob = new Blob(['\uFEFF' + rows.map((r) => r.join(';')).join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement('a'); a.href = url; a.download = `feuille-heures-${weekData.key}.csv`; a.click(); URL.revokeObjectURL(url);
+		});
+		function preparePrintView() {
+			document.getElementById('print-employee-val').textContent = state.employeeName.trim() || '____________________________';
+			document.getElementById('print-date-val').textContent = new Date().toLocaleDateString('fr-FR');
+		}
+		document.getElementById('wk-print').addEventListener('click', () => { preparePrintView(); window.print(); });
+		document.getElementById('wk-export-pdf').addEventListener('click', () => { preparePrintView(); window.print(); });
+		loadWeek(referenceDate);
+	});
+})(window, document);
+""",
+
+    "calculette-tools/calculators/time-converter/time-converter.php": r"""<?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+class Calculette_Time_Converter_Module {
+	public static function render( $mode = 'all' ) {
+		wp_enqueue_style( 'calculette-core-css' );
+		wp_enqueue_style( 'calculette-converter-css' );
+		wp_enqueue_script( 'calculette-engine-js' );
+		wp_enqueue_script( 'calculette-converter-js' );
+		$mode = sanitize_key( $mode );
+		ob_start();
+		?>
+		<section class="calc-module-container calc-conv-wrapper" data-conv-mode="<?php echo esc_attr( $mode ); ?>" aria-labelledby="conv-main-title">
+			<header class="calc-module-header">
+				<h1 id="conv-main-title">Outils de Conversion d'Heures &amp; Minutes</h1>
+				<p>Convertissez instantanément vos heures sexagésimales (HH:MM) en centièmes d'heure décimaux, minutes totales, ou effectuez des additions et soustractions de durées.</p>
+			</header>
+			<div class="calc-conv-grid">
+				<article class="calc-card calc-conv-card" data-tool="decimal">
+					<h2>1. Heures (HH:MM) → Heures Décimales</h2>
+					<p class="calc-muted">Formule : Heures + (Minutes ÷ 60). Ex : 07:30 = 7.50</p>
+					<div class="calc-conv-inputs"><input type="text" inputmode="numeric" id="conv-hh-in" class="calc-input calc-input-dur-h" placeholder="07"><span>h</span><input type="text" inputmode="numeric" id="conv-mm-in" class="calc-input calc-input-time-part" maxlength="2" placeholder="45"><span>min</span></div>
+					<div class="calc-conv-result" aria-live="polite"><span>Résultat décimal :</span><strong id="conv-hh-to-dec-out">0.00 h</strong></div>
+				</article>
+				<article class="calc-card calc-conv-card" data-tool="decimal">
+					<h2>2. Heures Décimales → Heures (HH:MM)</h2>
+					<p class="calc-muted">Ex : 7.75 heures décimales = 07h45 (465 minutes).</p>
+					<div class="calc-conv-inputs"><input type="text" inputmode="decimal" id="conv-dec-in" class="calc-input" placeholder="7.75"><span>heures</span></div>
+					<div class="calc-conv-result" aria-live="polite"><span>Résultat HH:MM :</span><strong id="conv-dec-to-hh-out">00:00</strong></div>
+				</article>
+				<article class="calc-card calc-conv-card" data-tool="min2hr">
+					<h2>3. Minutes → Heures &amp; Minutes</h2>
+					<p class="calc-muted">Ex : 450 minutes = 7h30 (7.50 heures décimales).</p>
+					<div class="calc-conv-inputs"><input type="text" inputmode="numeric" id="conv-min-in" class="calc-input" placeholder="450"><span>minutes</span></div>
+					<div class="calc-conv-result" aria-live="polite"><span>Équivalent :</span><strong id="conv-min-to-hh-out">00h00 (0.00 h)</strong></div>
+				</article>
+				<article class="calc-card calc-conv-card" data-tool="hr2min">
+					<h2>4. Heures → Total Minutes</h2>
+					<p class="calc-muted">Accepte les heures décimales (ex : 7.5) ou entières.</p>
+					<div class="calc-conv-inputs"><input type="text" inputmode="decimal" id="conv-hr-in" class="calc-input" placeholder="7.5"><span>heures</span></div>
+					<div class="calc-conv-result" aria-live="polite"><span>Total en minutes :</span><strong id="conv-hr-to-min-out">0 min</strong></div>
+				</article>
+				<article class="calc-card calc-conv-card" data-tool="addition">
+					<h2>5. Addition Rapide de Durées</h2>
+					<p class="calc-muted">Additionnez plusieurs durées dépassant 24h.</p>
+					<div id="conv-add-rows" class="calc-duration-list"></div>
+					<div style="margin-top:0.6rem;"><button type="button" id="conv-add-btn" class="calc-btn calc-btn-primary calc-mini-btn">+ Ajouter</button></div>
+					<div class="calc-conv-result" aria-live="polite"><span>Total :</span><strong id="conv-add-out">00:00 (0.00 h)</strong></div>
+				</article>
+				<article class="calc-card calc-conv-card" data-tool="subtraction">
+					<h2>6. Soustraction de Durées (A − B)</h2>
+					<p class="calc-muted">Prend en charge les écarts négatifs. Ex : 88h15 − 60h55 = 27h20.</p>
+					<div class="calc-conv-inputs"><strong>A :</strong><input type="text" inputmode="numeric" id="conv-sub-ah" class="calc-input calc-input-dur-h" placeholder="88"> h <input type="text" inputmode="numeric" id="conv-sub-am" class="calc-input calc-input-time-part" maxlength="2" placeholder="15"></div>
+					<div class="calc-conv-inputs" style="margin-top:0.5rem;"><strong>B :</strong><input type="text" inputmode="numeric" id="conv-sub-bh" class="calc-input calc-input-dur-h" placeholder="60"> h <input type="text" inputmode="numeric" id="conv-sub-bm" class="calc-input calc-input-time-part" maxlength="2" placeholder="55"></div>
+					<div class="calc-conv-result" aria-live="polite"><span>Différence :</span><strong id="conv-sub-out">00h00 (0.00 h)</strong></div>
+				</article>
+			</div>
+			<section class="calc-panel" style="margin-top: 2rem;" aria-labelledby="ref-table-title">
+				<h2 id="ref-table-title">Tableau de Correspondance Minutes → Centièmes d'Heure (00 à 59 min)</h2>
+				<div class="calc-ref-grid" id="conv-reference-tables"></div>
+			</section>
+		</section>
+		<?php
+		return ob_get_clean();
+	}
+}
+""",
+
+    "calculette-tools/calculators/time-converter/time-converter.css": r""".calc-conv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 1.25rem; }
+.calc-conv-card.is-highlighted { border: 2px solid var(--calc-green); background: var(--calc-panel-blue); }
+.calc-conv-inputs { display: flex; align-items: center; flex-wrap: wrap; gap: 0.45rem; margin: 0.75rem 0; }
+.calc-conv-result { margin-top: auto; padding: 0.75rem 1rem; background: var(--calc-panel-blue); border: 1px solid #BFDBFE; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+.calc-conv-result strong { font-size: 1.15rem; color: var(--calc-navy); font-variant-numeric: tabular-nums; }
+.calc-ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+.calc-ref-table th, .calc-ref-table td { padding: 0.35rem 0.5rem; font-size: 0.88rem; text-align: center; font-variant-numeric: tabular-nums; }
+""",
+
+    "calculette-tools/calculators/time-converter/time-converter.js": r"""(function (window, document) {
+	'use strict';
+	document.addEventListener('DOMContentLoaded', function () {
+		const mount = document.querySelector('.calc-conv-wrapper');
+		if (!mount || !window.CalculetteEngine) return;
+		const Engine = window.CalculetteEngine;
+		const mode = mount.dataset.convMode || 'all';
+		if (mode !== 'all') mount.querySelectorAll(`[data-tool="${mode}"]`).forEach((c) => c.classList.add('is-highlighted'));
+
+		const hhIn = document.getElementById('conv-hh-in'), mmIn = document.getElementById('conv-mm-in'), hhToDecOut = document.getElementById('conv-hh-to-dec-out');
+		function updateHHToDec() {
+			const parsed = Engine.parseDuration(hhIn.value, mmIn.value);
+			hhToDecOut.textContent = parsed.valid ? `${Engine.convertToDecimal(parsed.minutes)} h (${parsed.minutes} min)` : parsed.error;
+		}
+		hhIn.addEventListener('input', updateHHToDec); mmIn.addEventListener('input', updateHHToDec);
+
+		const decIn = document.getElementById('conv-dec-in'), decToHhOut = document.getElementById('conv-dec-to-hh-out');
+		decIn.addEventListener('input', () => {
+			if (decIn.value.trim() === '') { decToHhOut.textContent = '00:00'; return; }
+			const val = parseFloat(decIn.value.replace(',', '.'));
+			if (Number.isNaN(val)) { decToHhOut.textContent = 'Valeur invalide'; return; }
+			const totalMins = Math.round(val * 60);
+			decToHhOut.textContent = `${Engine.convertToHHMM(totalMins, 'h')} (${totalMins} min)`;
+		});
+
+		const minIn = document.getElementById('conv-min-in'), minToHhOut = document.getElementById('conv-min-to-hh-out');
+		minIn.addEventListener('input', () => {
+			if (minIn.value.trim() === '') { minToHhOut.textContent = '00h00 (0.00 h)'; return; }
+			const val = Number(minIn.value.trim());
+			minToHhOut.textContent = Number.isInteger(val) ? `${Engine.convertToHHMM(val, 'h')} (${Engine.convertToDecimal(val)} h)` : 'Entier requis';
+		});
+
+		const hrIn = document.getElementById('conv-hr-in'), hrToMinOut = document.getElementById('conv-hr-to-min-out');
+		hrIn.addEventListener('input', () => {
+			if (hrIn.value.trim() === '') { hrToMinOut.textContent = '0 min'; return; }
+			const val = parseFloat(hrIn.value.replace(',', '.'));
+			if (Number.isNaN(val)) { hrToMinOut.textContent = 'Valeur invalide'; return; }
+			const mins = Engine.convertToMinutes(val, 0);
+			hrToMinOut.textContent = `${mins} minutes (${Engine.convertToHHMM(mins, 'h')})`;
+		});
+
+		const addRowsContainer = document.getElementById('conv-add-rows'), addOut = document.getElementById('conv-add-out');
+		let addItems = [{ id: 1, h: '', m: '' }, { id: 2, h: '', m: '' }], nextAddId = 3;
+		function renderAddItems() {
+			addRowsContainer.innerHTML = '';
+			addItems.forEach((item) => {
+				const div = document.createElement('div');
+				div.className = 'calc-dur-item'; div.dataset.id = item.id;
+				div.innerHTML = `<input type="text" inputmode="numeric" class="calc-input calc-input-dur-h" data-part="h" value="${item.h}" placeholder="02"> h <input type="text" inputmode="numeric" class="calc-input calc-input-time-part" data-part="m" maxlength="2" value="${item.m}" placeholder="30"> ${addItems.length > 2 ? `<button type="button" class="calc-btn calc-btn-danger calc-mini-btn" data-del="${item.id}">✕</button>` : ''}`;
+				addRowsContainer.appendChild(div);
+			});
+			calcAddItems();
+		}
+		function calcAddItems() {
+			const mins = [];
+			for (const item of addItems) {
+				const p = Engine.parseDuration(item.h, item.m);
+				if (!p.valid) { addOut.textContent = p.error; return; }
+				mins.push(p.minutes);
+			}
+			const total = Engine.addDurations(mins);
+			addOut.textContent = `${Engine.convertToHHMM(total, 'h')} (${Engine.convertToDecimal(total)} h)`;
+		}
+		addRowsContainer.addEventListener('input', (e) => {
+			const row = e.target.closest('[data-id]');
+			if (!row) return;
+			const item = addItems.find((x) => x.id === Number(row.dataset.id));
+			if (item) { item[e.target.dataset.part] = e.target.value; calcAddItems(); }
+		});
+		addRowsContainer.addEventListener('click', (e) => {
+			const btn = e.target.closest('[data-del]');
+			if (btn) { addItems = addItems.filter((x) => x.id !== Number(btn.dataset.del)); renderAddItems(); }
+		});
+		document.getElementById('conv-add-btn').addEventListener('click', () => { addItems.push({ id: nextAddId++, h: '', m: '' }); renderAddItems(); });
+		renderAddItems();
+
+		const subOut = document.getElementById('conv-sub-out');
+		['conv-sub-ah', 'conv-sub-am', 'conv-sub-bh', 'conv-sub-bm'].forEach((id) => {
+			document.getElementById(id).addEventListener('input', () => {
+				const a = Engine.parseDuration(document.getElementById('conv-sub-ah').value, document.getElementById('conv-sub-am').value);
+				const b = Engine.parseDuration(document.getElementById('conv-sub-bh').value, document.getElementById('conv-sub-bm').value);
+				if (!a.valid || !b.valid) { subOut.textContent = 'Entrée invalide'; return; }
+				const diff = Engine.subtractDurations(a.minutes, b.minutes);
+				subOut.textContent = `${Engine.convertToHHMM(diff, 'h')} (${Engine.convertToDecimal(diff)} h)`;
+			});
+		});
+
+		const refGrid = document.getElementById('conv-reference-tables');
+		for (let col = 0; col < 4; col++) {
+			const startMin = col * 15, endMin = startMin + 14;
+			const table = document.createElement('table');
+			table.className = 'calc-table calc-ref-table';
+			let rowsHtml = '';
+			for (let m = startMin; m <= endMin; m++) {
+				rowsHtml += `<tr><td><strong>${String(m).padStart(2, '0')} min</strong></td><td>00:${String(m).padStart(2, '0')}</td><td>${(m / 60).toFixed(4)}</td><td>${((m / 60) * 100).toFixed(2)}%</td></tr>`;
+			}
+			table.innerHTML = `<thead><tr><th>Min</th><th>HH:MM</th><th>Décimal</th><th>% Heure</th></tr></thead><tbody>${rowsHtml}</tbody>`;
+			refGrid.appendChild(table);
+		}
+	});
+})(window, document);
+""",
+
+    "calculette-tools/calculators/hip-roof/hip-roof.php": r"""<?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+class Calculette_Hip_Roof_Module {
+	public static function render() {
+		wp_enqueue_style( 'calculette-core-css' );
+		wp_enqueue_style( 'calculette-roof-css' );
+		wp_enqueue_script( 'calculette-engine-js' );
+		wp_enqueue_script( 'calculette-roof-js' );
+		ob_start();
+		?>
+		<section class="calc-module-container calc-roof-wrapper" aria-labelledby="roof-main-title">
+			<header class="calc-module-header">
+				<h1 id="roof-main-title">Calculateur de Toiture à Croupe (Charpente)</h1>
+				<p>Calculs géométriques précis en unités métriques : arêtiers, chevrons communs, empannons, pannes, angles de coupe et surfaces de versants (herses).</p>
+			</header>
+			<div id="roof-error-box" class="calc-error-banner" role="alert" hidden></div>
+			<div class="calc-roof-layout">
+				<div class="calc-panel calc-roof-inputs">
+					<div class="calc-roof-toolbar">
+						<h2>Paramètres de la Toiture</h2>
+						<div style="display:flex; gap:0.5rem;">
+							<button type="button" id="roof-preset-regular" class="calc-btn calc-btn-secondary calc-mini-btn">Croupe Régulière</button>
+							<button type="button" id="roof-preset-skewed" class="calc-btn calc-btn-secondary calc-mini-btn">Croupe Biaisée</button>
+						</div>
+					</div>
+					<p class="calc-muted">Cochez le cadenas (🔒) pour verrouiller une dimension connue lors de la modification des pentes.</p>
+					<div class="calc-roof-form-grid">
+						<div class="calc-roof-field"><label for="rf-height">Hauteur du faîtage (H) [m]</label><div class="calc-lock-row"><input type="number" step="0.001" min="0.01" id="rf-height" class="calc-input" value="2.500"><label class="calc-lock-toggle"><input type="checkbox" id="lock-height" checked> 🔒</label></div></div>
+						<div class="calc-roof-field"><label for="rf-run1">Reculement chevron versant 1 (R1) [m]</label><div class="calc-lock-row"><input type="number" step="0.001" min="0.01" id="rf-run1" class="calc-input" value="4.000"><label class="calc-lock-toggle"><input type="checkbox" id="lock-run1"> 🔒</label></div></div>
+						<div class="calc-roof-field"><label for="rf-deg1">Pente versant 1 [° degrés]</label><input type="number" step="0.01" min="1" max="85" id="rf-deg1" class="calc-input" value="32.01"></div>
+						<div class="calc-roof-field"><label for="rf-pct1">Pente versant 1 [%]</label><input type="number" step="0.1" min="1" max="1000" id="rf-pct1" class="calc-input" value="62.5"></div>
+						<div class="calc-roof-field"><label for="rf-deg2">Pente versant 2 (opposé) [° degrés]</label><input type="number" step="0.01" min="1" max="85" id="rf-deg2" class="calc-input" value="32.01"></div>
+						<div class="calc-roof-field"><label for="rf-pct2">Pente versant 2 [%]</label><input type="number" step="0.1" min="1" max="1000" id="rf-pct2" class="calc-input" value="62.5"></div>
+						<div class="calc-roof-field"><label for="rf-degh">Pente de croupe [° degrés]</label><input type="number" step="0.01" min="1" max="85" id="rf-degh" class="calc-input" value="32.01"></div>
+						<div class="calc-roof-field"><label for="rf-pcth">Pente de croupe [%]</label><input type="number" step="0.1" min="1" max="1000" id="rf-pcth" class="calc-input" value="62.5"></div>
+						<div class="calc-roof-field"><label for="rf-eaves1">Longueur sablière 1 [m]</label><input type="number" step="0.01" min="0.1" id="rf-eaves1" class="calc-input" value="12.00"></div>
+						<div class="calc-roof-field"><label for="rf-eaves2">Longueur sablière 2 [m]</label><input type="number" step="0.01" min="0.1" id="rf-eaves2" class="calc-input" value="12.00"></div>
+					</div>
+				</div>
+				<div class="calc-card calc-roof-diagram-card">
+					<h2>Schéma Géométrique en Plan</h2>
+					<svg id="roof-svg-diagram" viewBox="0 0 420 260" role="img" aria-label="Plan géométrique de la toiture à croupe">
+						<rect x="20" y="30" width="380" height="200" fill="#F0F7FF" stroke="#0F172A" stroke-width="2"/>
+						<line x1="20" y1="30" x2="130" y2="130" stroke="#16A34A" stroke-width="2.5"/>
+						<line x1="20" y1="230" x2="130" y2="130" stroke="#16A34A" stroke-width="2.5"/>
+						<line x1="400" y1="30" x2="290" y2="130" stroke="#16A34A" stroke-width="2.5"/>
+						<line x1="400" y1="230" x2="290" y2="130" stroke="#16A34A" stroke-width="2.5"/>
+						<line x1="130" y1="130" x2="290" y2="130" stroke="#DC2626" stroke-width="3"/>
+						<text x="210" y="22" text-anchor="middle" font-size="12" fill="#0F172A" font-weight="bold" id="svg-lbl-sab1">Sablière 1</text>
+						<text x="210" y="248" text-anchor="middle" font-size="12" fill="#0F172A" font-weight="bold" id="svg-lbl-sab2">Sablière 2</text>
+						<text x="210" y="122" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="bold" id="svg-lbl-ridge">Faîtage</text>
+						<text x="65" y="75" font-size="11" fill="#15803D" font-weight="bold">Arêtier 1</text>
+						<text x="65" y="195" font-size="11" fill="#15803D" font-weight="bold">Arêtier 2</text>
+					</svg>
+					<div class="calc-roof-quick-stats" id="roof-quick-summary" aria-live="polite"></div>
+				</div>
+			</div>
+			<div class="calc-roof-results-grid" aria-live="polite">
+				<div class="calc-card"><h3>1. Arêtiers (Hip Rafters 1 &amp; 2)</h3><div class="calc-table-scroll"><table class="calc-table"><thead><tr><th>Mesure</th><th>Arêtier 1</th><th>Arêtier 2</th></tr></thead><tbody id="res-hip-rafters"></tbody></table></div></div>
+				<div class="calc-card"><h3>2. Chevrons Communs</h3><div class="calc-table-scroll"><table class="calc-table"><thead><tr><th>Mesure</th><th>Versant 1</th><th>Versant 2</th><th>Croupe</th></tr></thead><tbody id="res-common-rafters"></tbody></table></div></div>
+				<div class="calc-card"><h3>3. Empannons &amp; Angles de Coupe</h3><div class="calc-table-scroll"><table class="calc-table"><thead><tr><th>Coupe / Géométrie</th><th>Versant 1</th><th>Versant 2</th><th>Croupe</th></tr></thead><tbody id="res-jack-rafters"></tbody></table></div></div>
+				<div class="calc-card"><h3>4. Pannes (Purlins)</h3><div class="calc-table-scroll"><table class="calc-table"><thead><tr><th>Angle de Taille</th><th>Long Pan 1</th><th>Long Pan 2</th><th>Croupe</th></tr></thead><tbody id="res-purlins"></tbody></table></div></div>
+				<div class="calc-card"><h3>5. Surfaces des Versants (Herses)</h3><div class="calc-table-scroll"><table class="calc-table"><thead><tr><th>Versant / Section</th><th>Surface Réelle (m²)</th><th>Projection au Sol (m²)</th></tr></thead><tbody id="res-surfaces"></tbody></table></div></div>
+			</div>
+		</section>
+		<?php
+		return ob_get_clean();
+	}
+}
+""",
+
+    "calculette-tools/calculators/hip-roof/hip-roof.css": r""".calc-roof-layout { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+@media (max-width: 900px) { .calc-roof-layout { grid-template-columns: 1fr; } }
+.calc-roof-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.5rem; }
+.calc-roof-toolbar h2, .calc-roof-diagram-card h2 { margin: 0; font-size: 1.25rem; }
+.calc-roof-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.9rem; margin-top: 1rem; }
+.calc-roof-field label { display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 0.3rem; }
+.calc-roof-field .calc-input { width: 100%; }
+.calc-lock-row { display: flex; align-items: center; gap: 0.4rem; }
+.calc-lock-toggle { display: inline-flex; align-items: center; gap: 0.2rem; cursor: pointer; user-select: none; font-size: 0.9rem; }
+#roof-svg-diagram { width: 100%; height: auto; margin: 1rem 0; border-radius: 8px; background: #FFFFFF; }
+.calc-roof-quick-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; background: var(--calc-panel-blue); padding: 0.85rem; border-radius: 8px; font-size: 0.9rem; }
+.calc-roof-results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.25rem; }
+.calc-roof-results-grid h3 { margin-top: 0; color: var(--calc-navy); border-bottom: 1px solid var(--calc-border); padding-bottom: 0.5rem; }
+.calc-roof-results-grid td:not(:first-child) { font-variant-numeric: tabular-nums; font-weight: 600; }
+""",
+
+    "calculette-tools/calculators/hip-roof/hip-roof.js": r"""(function (window, document) {
+	'use strict';
+	document.addEventListener('DOMContentLoaded', function () {
+		const mount = document.querySelector('.calc-roof-wrapper');
+		if (!mount) return;
+		const RAD2DEG = 180 / Math.PI, DEG2RAD = Math.PI / 180;
+		const elHeight = document.getElementById('rf-height'), elRun1 = document.getElementById('rf-run1');
+		const elDeg1 = document.getElementById('rf-deg1'), elPct1 = document.getElementById('rf-pct1');
+		const elDeg2 = document.getElementById('rf-deg2'), elPct2 = document.getElementById('rf-pct2');
+		const elDegH = document.getElementById('rf-degh'), elPctH = document.getElementById('rf-pcth');
+		const elEaves1 = document.getElementById('rf-eaves1'), elEaves2 = document.getElementById('rf-eaves2');
+		const lockHeight = document.getElementById('lock-height'), errorBox = document.getElementById('roof-error-box');
+
+		const degToPct = (deg) => Math.tan(deg * DEG2RAD) * 100;
+		const pctToDeg = (pct) => Math.atan(pct / 100) * RAD2DEG;
+		const fmtM = (v) => `${v.toFixed(3)} m`;
+		const fmtDeg = (v) => `${v.toFixed(2)}°`;
+		const fmtArea = (v) => `${v.toFixed(2)} m²`;
+
+		function handleInputChange(source) {
+			let H = parseFloat(elHeight.value), R1 = parseFloat(elRun1.value);
+			let deg1 = parseFloat(elDeg1.value), pct1 = parseFloat(elPct1.value);
+			let deg2 = parseFloat(elDeg2.value), pct2 = parseFloat(elPct2.value);
+			let degH = parseFloat(elDegH.value), pctH = parseFloat(elPctH.value);
+
+			if (source === 'deg1' && deg1 > 0 && deg1 < 89) {
+				elPct1.value = degToPct(deg1).toFixed(2);
+				if (lockHeight.checked && H > 0) elRun1.value = (H / Math.tan(deg1 * DEG2RAD)).toFixed(3);
+				else if (R1 > 0) elHeight.value = (R1 * Math.tan(deg1 * DEG2RAD)).toFixed(3);
+			} else if (source === 'pct1' && pct1 > 0) {
+				deg1 = pctToDeg(pct1); elDeg1.value = deg1.toFixed(2);
+				if (lockHeight.checked && H > 0) elRun1.value = (H / (pct1 / 100)).toFixed(3);
+				else if (R1 > 0) elHeight.value = (R1 * (pct1 / 100)).toFixed(3);
+			} else if (source === 'height' && H > 0 && R1 > 0) {
+				deg1 = Math.atan(H / R1) * RAD2DEG; elDeg1.value = deg1.toFixed(2); elPct1.value = degToPct(deg1).toFixed(2);
+			} else if (source === 'run1' && R1 > 0) {
+				if (lockHeight.checked && H > 0) { deg1 = Math.atan(H / R1) * RAD2DEG; elDeg1.value = deg1.toFixed(2); elPct1.value = degToPct(deg1).toFixed(2); }
+				else if (deg1 > 0) elHeight.value = (R1 * Math.tan(deg1 * DEG2RAD)).toFixed(3);
+			} else if (source === 'deg2' && deg2 > 0 && deg2 < 89) elPct2.value = degToPct(deg2).toFixed(2);
+			else if (source === 'pct2' && pct2 > 0) elDeg2.value = pctToDeg(pct2).toFixed(2);
+			else if (source === 'degh' && degH > 0 && degH < 89) elPctH.value = degToPct(degH).toFixed(2);
+			else if (source === 'pcth' && pctH > 0) elDegH.value = pctToDeg(pctH).toFixed(2);
+			calculateAll();
+		}
+
+		function calculateAll() {
+			const H = parseFloat(elHeight.value), R1 = parseFloat(elRun1.value);
+			const deg1 = parseFloat(elDeg1.value), deg2 = parseFloat(elDeg2.value), degH = parseFloat(elDegH.value);
+			const eaves1 = parseFloat(elEaves1.value), eaves2 = parseFloat(elEaves2.value);
+
+			if ([H, R1, deg1, deg2, degH, eaves1, eaves2].some((v) => Number.isNaN(v) || v <= 0) || deg1 >= 89 || deg2 >= 89 || degH >= 89) {
+				errorBox.textContent = 'Erreur : Toutes les dimensions et pentes doivent être strictement positives (angles < 89°).';
+				errorBox.hidden = false; return;
+			}
+			const R2 = H / Math.tan(deg2 * DEG2RAD), Rh = H / Math.tan(degH * DEG2RAD), totalSpan = R1 + R2;
+			const maxEaves = Math.max(eaves1, eaves2);
+			if (2 * Rh > maxEaves) {
+				errorBox.textContent = `Configuration géométrique impossible : le double reculement de croupe (${(2 * Rh).toFixed(2)} m) dépasse la sablière (${maxEaves.toFixed(2)} m).`;
+				errorBox.hidden = false; return;
+			}
+			errorBox.hidden = true;
+
+			const L_com1 = Math.hypot(H, R1), L_com2 = Math.hypot(H, R2), L_comH = Math.hypot(H, Rh);
+			const R_hip1 = Math.hypot(R1, Rh), R_hip2 = Math.hypot(R2, Rh);
+			const L_hip1 = Math.hypot(H, R_hip1), L_hip2 = Math.hypot(H, R_hip2);
+			const pitch_hip1 = Math.atan(H / R_hip1) * RAD2DEG, pitch_hip2 = Math.atan(H / R_hip2) * RAD2DEG;
+			const planAngle1 = Math.atan(Rh / R1) * RAD2DEG, planAngle2 = Math.atan(Rh / R2) * RAD2DEG;
+
+			const sideBevel1_long = Math.asin(Math.sin(pitch_hip1 * DEG2RAD) * Math.cos(planAngle1 * DEG2RAD)) * RAD2DEG;
+			const sideBevel1_hip = Math.asin(Math.sin(pitch_hip1 * DEG2RAD) * Math.sin(planAngle1 * DEG2RAD)) * RAD2DEG;
+			const sideBevel2_long = Math.asin(Math.sin(pitch_hip2 * DEG2RAD) * Math.cos(planAngle2 * DEG2RAD)) * RAD2DEG;
+			const sideBevel2_hip = Math.asin(Math.sin(pitch_hip2 * DEG2RAD) * Math.sin(planAngle2 * DEG2RAD)) * RAD2DEG;
+
+			const jackCheek1 = Math.atan(Math.cos(deg1 * DEG2RAD) * (Rh / R1)) * RAD2DEG;
+			const jackCheek2 = Math.atan(Math.cos(deg2 * DEG2RAD) * (Rh / R2)) * RAD2DEG;
+			const jackCheekH1 = Math.atan(Math.cos(degH * DEG2RAD) * (R1 / Rh)) * RAD2DEG;
+
+			const purlinHipAngle1 = Math.atan(Math.sin(deg1 * DEG2RAD) * (Rh / R1)) * RAD2DEG;
+			const purlinHipAngle2 = Math.atan(Math.sin(deg2 * DEG2RAD) * (Rh / R2)) * RAD2DEG;
+			const purlinHipAngleH = Math.atan(Math.sin(degH * DEG2RAD) * (R1 / Rh)) * RAD2DEG;
+
+			const ridgeLen = Math.max(0, eaves1 - 2 * Rh);
+			const planArea1 = ((eaves1 + ridgeLen) / 2) * R1, planArea2 = ((eaves2 + ridgeLen) / 2) * R2;
+			const planAreaHipsTotal = 2 * (0.5 * totalSpan * Rh);
+			const trueArea1 = planArea1 / Math.cos(deg1 * DEG2RAD), trueArea2 = planArea2 / Math.cos(deg2 * DEG2RAD);
+			const trueAreaHips = planAreaHipsTotal / Math.cos(degH * DEG2RAD);
+			const totalTrueArea = trueArea1 + trueArea2 + trueAreaHips, totalPlanArea = planArea1 + planArea2 + planAreaHipsTotal;
+
+			document.getElementById('roof-quick-summary').innerHTML = `<div><strong>Hauteur (H) :</strong> ${fmtM(H)}</div><div><strong>Portée totale :</strong> ${fmtM(totalSpan)}</div><div><strong>Longueur faîtage :</strong> ${fmtM(ridgeLen)}</div><div><strong>Surface totale :</strong> ${fmtArea(totalTrueArea)}</div>`;
+			document.getElementById('svg-lbl-sab1').textContent = `Sablière 1 (${eaves1.toFixed(2)} m)`;
+			document.getElementById('svg-lbl-sab2').textContent = `Sablière 2 (${eaves2.toFixed(2)} m)`;
+			document.getElementById('svg-lbl-ridge').textContent = `Faîtage (${ridgeLen.toFixed(2)} m)`;
+
+			document.getElementById('res-hip-rafters').innerHTML = `
+				<tr><td>Projection horizontale</td><td>${fmtM(R_hip1)}</td><td>${fmtM(R_hip2)}</td></tr>
+				<tr><td>Longueur réelle arêtier</td><td>${fmtM(L_hip1)}</td><td>${fmtM(L_hip2)}</td></tr>
+				<tr><td>Pente de l'arêtier</td><td>${fmtDeg(pitch_hip1)} (${degToPct(pitch_hip1).toFixed(1)}%)</td><td>${fmtDeg(pitch_hip2)} (${degToPct(pitch_hip2).toFixed(1)}%)</td></tr>
+				<tr><td>Coupe d'aplomb</td><td>${fmtDeg(90 - pitch_hip1)}</td><td>${fmtDeg(90 - pitch_hip2)}</td></tr>
+				<tr><td>Coupe de niveau</td><td>${fmtDeg(pitch_hip1)}</td><td>${fmtDeg(pitch_hip2)}</td></tr>
+				<tr><td>Angle en plan (côté long pan)</td><td>${fmtDeg(planAngle1)}</td><td>${fmtDeg(planAngle2)}</td></tr>
+				<tr><td>Délardement côté long pan</td><td>${fmtDeg(sideBevel1_long)}</td><td>${fmtDeg(sideBevel2_long)}</td></tr>
+				<tr><td>Délardement côté croupe</td><td>${fmtDeg(sideBevel1_hip)}</td><td>${fmtDeg(sideBevel2_hip)}</td></tr>
+			`;
+			document.getElementById('res-common-rafters').innerHTML = `
+				<tr><td>Projection horizontale</td><td>${fmtM(R1)}</td><td>${fmtM(R2)}</td><td>${fmtM(Rh)}</td></tr>
+				<tr><td>Longueur réelle chevron</td><td>${fmtM(L_com1)}</td><td>${fmtM(L_com2)}</td><td>${fmtM(L_comH)}</td></tr>
+				<tr><td>Pente du versant</td><td>${fmtDeg(deg1)} (${degToPct(deg1).toFixed(1)}%)</td><td>${fmtDeg(deg2)} (${degToPct(deg2).toFixed(1)}%)</td><td>${fmtDeg(degH)} (${degToPct(degH).toFixed(1)}%)</td></tr>
+				<tr><td>Coupe d'aplomb</td><td>${fmtDeg(90 - deg1)}</td><td>${fmtDeg(90 - deg2)}</td><td>${fmtDeg(90 - degH)}</td></tr>
+				<tr><td>Coupe de niveau</td><td>${fmtDeg(deg1)}</td><td>${fmtDeg(deg2)}</td><td>${fmtDeg(degH)}</td></tr>
+			`;
+			document.getElementById('res-jack-rafters').innerHTML = `
+				<tr><td>Coupe d'aplomb</td><td>${fmtDeg(90 - deg1)}</td><td>${fmtDeg(90 - deg2)}</td><td>${fmtDeg(90 - degH)}</td></tr>
+				<tr><td>Coupe de niveau</td><td>${fmtDeg(deg1)}</td><td>${fmtDeg(deg2)}</td><td>${fmtDeg(degH)}</td></tr>
+				<tr><td>Coupe biais sur arêtier</td><td>${fmtDeg(jackCheek1)}</td><td>${fmtDeg(jackCheek2)}</td><td>${fmtDeg(jackCheekH1)}</td></tr>
+			`;
+			document.getElementById('res-purlins').innerHTML = `
+				<tr><td>Angle d'inclinaison</td><td>${fmtDeg(deg1)}</td><td>${fmtDeg(deg2)}</td><td>${fmtDeg(degH)}</td></tr>
+				<tr><td>Coupe d'aplomb</td><td>${fmtDeg(90 - deg1)}</td><td>${fmtDeg(90 - deg2)}</td><td>${fmtDeg(90 - degH)}</td></tr>
+				<tr><td>Angle d'assemblage sur arêtier</td><td>${fmtDeg(purlinHipAngle1)}</td><td>${fmtDeg(purlinHipAngle2)}</td><td>${fmtDeg(purlinHipAngleH)}</td></tr>
+			`;
+			document.getElementById('res-surfaces').innerHTML = `
+				<tr><td>Long pan 1 (Trapèze)</td><td>${fmtArea(trueArea1)}</td><td>${fmtArea(planArea1)}</td></tr>
+				<tr><td>Long pan 2 (Trapèze)</td><td>${fmtArea(trueArea2)}</td><td>${fmtArea(planArea2)}</td></tr>
+				<tr><td>2 Croupes (2 Triangles)</td><td>${fmtArea(trueAreaHips)}</td><td>${fmtArea(planAreaHipsTotal)}</td></tr>
+				<tr><td><strong>TOTAL TOITURE</strong></td><td><strong>${fmtArea(totalTrueArea)}</strong></td><td><strong>${fmtArea(totalPlanArea)}</strong></td></tr>
+			`;
+		}
+
+		elHeight.addEventListener('input', () => handleInputChange('height'));
+		elRun1.addEventListener('input', () => handleInputChange('run1'));
+		elDeg1.addEventListener('input', () => handleInputChange('deg1'));
+		elPct1.addEventListener('input', () => handleInputChange('pct1'));
+		elDeg2.addEventListener('input', () => handleInputChange('deg2'));
+		elPct2.addEventListener('input', () => handleInputChange('pct2'));
+		elDegH.addEventListener('input', () => handleInputChange('degh'));
+		elPctH.addEventListener('input', () => handleInputChange('pcth'));
+		elEaves1.addEventListener('input', () => handleInputChange('eaves1'));
+		elEaves2.addEventListener('input', () => handleInputChange('eaves2'));
+
+		document.getElementById('roof-preset-regular').addEventListener('click', () => {
+			elHeight.value = '2.500'; elRun1.value = '4.000'; elDeg1.value = '32.01'; elPct1.value = '62.5';
+			elDeg2.value = '32.01'; elPct2.value = '62.5'; elDegH.value = '32.01'; elPctH.value = '62.5';
+			elEaves1.value = '12.00'; elEaves2.value = '12.00'; calculateAll();
+		});
+		document.getElementById('roof-preset-skewed').addEventListener('click', () => {
+			elHeight.value = '2.800'; elRun1.value = '4.200'; elDeg1.value = '33.69'; elPct1.value = '66.7';
+			elDeg2.value = '40.00'; elPct2.value = '83.9'; elDegH.value = '38.00'; elPctH.value = '78.1';
+			elEaves1.value = '14.00'; elEaves2.value = '14.00'; calculateAll();
+		});
+		calculateAll();
+	});
+})(window, document);
+"""
+}
+
+def build():
+    for filepath, content in FILES.items():
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        with open(filepath, "w", encoding="utf-8", newline="\n") as f:
+            f.write(content.lstrip("\n"))
+
+    zip_filename = "calculette-tools.zip"
+    with zipfile.ZipFile(zip_filename, "w", zipfile.ZIP_DEFLATED) as zf:
+        for filepath in FILES:
+            zf.write(filepath, arcname=filepath)
+
+    print(f"Success! Created '{os.path.abspath('calculette-tools')}' and '{os.path.abspath(zip_filename)}'.")
+
+if __name__ == "__main__":
+    build()
