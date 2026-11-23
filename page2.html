@@ -3,139 +3,243 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colette-Calculator | Page 2 — Feuille Hebdo, Salaire &amp; Toiture</title>
+<title>Colette-Calculator | Page 2 — Salaire, Toiture &amp; Taux (Outils 04–06)</title>
 <style>
   :root {
-    --bg: #eef2f7;
+    --bg: #e2e8f0;
     --surface: #ffffff;
     --ink: #0f172a;
-    --muted: #475569;
-    --border: #94a3b8;
+    --muted: #334155;
+    --border: #64748b;
     --border-soft: #cbd5e1;
     --primary: #1a73e8;
     --primary-hover: #1557b0;
-    --primary-dark: #174ea6;
-    --soft: #eff6ff;
-    --warn-bg: #fefce8;
-    --warn-border: #fde047;
-    --warn-ink: #854d0e;
-    --radius: 14px;
-    --shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+    --primary-dark: #103c8c;
+    --soft: #dbeafe;
+    --warn-bg: #fef9c3;
+    --warn-border: #eab308;
+    --warn-ink: #713f12;
+    --radius: 16px;
+    --emboss-card: 0 10px 24px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    --emboss-btn: 0 3px 0 #103c8c, 0 5px 10px rgba(26, 115, 232, 0.25);
+    --emboss-sec: 0 3px 0 #64748b, 0 4px 8px rgba(15, 23, 42, 0.08);
   }
   *, *::before, *::after { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
+    background: linear-gradient(180deg, #dce5f2 0%, #e8eef6 100%);
     color: var(--ink);
     line-height: 1.6;
   }
-  .container { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 18px; }
+  .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 18px; }
 
-  .site-header { background: var(--surface); border-bottom: 1px solid var(--border-soft); position: sticky; top: 0; z-index: 30; }
+  .site-header {
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    border-bottom: 2px solid #94a3b8;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
   .nav-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 12px 0; }
-  .brand { font-weight: 800; font-size: 1.18rem; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 9px; }
-  .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); display: inline-block; }
+  .brand {
+    font-weight: 900; font-size: 1.24rem; color: var(--ink); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px; letter-spacing: -0.02em;
+  }
+  .brand-dot {
+    width: 12px; height: 12px; border-radius: 50%; background: var(--primary);
+    box-shadow: 0 0 0 3px #bfdbfe; display: inline-block;
+  }
   .nav-right { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-  .nav-menu { display: flex; flex-wrap: wrap; gap: 6px; }
+  .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; }
   .nav-menu a {
     display: inline-flex; align-items: center; justify-content: center;
-    color: var(--ink); background: #fff; border: 1px solid var(--border); border-bottom: 2px solid #64748b;
-    text-decoration: none; font-size: 0.8rem; font-weight: 700; padding: 5px 10px; border-radius: 7px; white-space: nowrap;
+    color: var(--ink); background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    border: 1.5px solid #64748b; border-bottom: 3px solid #475569;
+    text-decoration: none; font-size: 0.82rem; font-weight: 800; padding: 6px 12px; border-radius: 9px; white-space: nowrap;
   }
-  .nav-menu a:hover { color: var(--primary); background: var(--soft); border-color: var(--primary); }
-  .nav-menu a.active { color: #fff; background: var(--primary); border-color: var(--primary); }
-  .lang-btn { background: var(--ink); color: #fff; border: none; padding: 7px 13px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
-  .lang-btn:hover { background: var(--primary); }
+  .nav-menu a:hover { color: var(--primary-dark); background: #eff6ff; border-color: var(--primary); }
+  .nav-menu a.active {
+    color: #fff; background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+    border-color: #1e40af; border-bottom: 3px solid #172554;
+  }
+  .lang-btn {
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    color: #fff; border: 1px solid #0f172a; border-bottom: 3px solid #000;
+    padding: 6px 13px; border-radius: 9px; font-weight: 800; font-size: 0.82rem; cursor: pointer;
+  }
+  .lang-btn:hover { background: var(--primary); border-color: var(--primary-dark); }
 
-  .page-head { background: var(--surface); border-bottom: 1px solid var(--border-soft); padding: 24px 0 20px; }
-  .page-head h1 { margin: 0 0 6px; font-size: clamp(1.5rem, 3.2vw, 2.05rem); letter-spacing: -0.02em; }
-  .page-head p { margin: 0; color: var(--muted); font-size: 0.95rem; max-width: 780px; }
+  .page-head {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    border-bottom: 2px solid #cbd5e1;
+    padding: 24px 0 20px;
+  }
+  .page-head h1 { margin: 0 0 6px; font-size: clamp(1.5rem, 3.2vw, 2.1rem); font-weight: 900; letter-spacing: -0.02em; }
+  .page-head p { margin: 0; color: var(--muted); font-size: 0.96rem; font-weight: 500; max-width: 820px; }
 
-  .jump-strip { background: var(--surface); border-bottom: 1px solid var(--border-soft); padding: 10px 0; }
+  .jump-strip { background: #f8fafc; border-bottom: 2px solid #cbd5e1; padding: 11px 0; }
   .jump-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-  .jump-label { font-size: 0.76rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
+  .jump-label { font-size: 0.78rem; font-weight: 900; color: var(--ink); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
   .jump-pill {
-    display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px;
-    background: var(--soft); border: 1px solid #93c5fd; color: var(--primary-dark); text-decoration: none; font-size: 0.8rem; font-weight: 800;
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px; border-radius: 999px;
+    background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1.5px solid #60a5fa; border-bottom: 3px solid #2563eb;
+    color: var(--primary-dark); text-decoration: none; font-size: 0.82rem; font-weight: 800;
   }
-  .jump-pill:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .jump-pill:hover { background: var(--primary); color: #fff; border-color: var(--primary-dark); }
 
-  .page-flow { display: flex; flex-direction: column; gap: 24px; padding: 24px 0 28px; }
+  .page-flow { display: flex; flex-direction: column; gap: 26px; padding: 26px 0 32px; }
   .tool-card {
-    background: var(--surface); border: 2px solid #60a5fa; border-top: 5px solid var(--primary);
-    border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); width: 100%; scroll-margin-top: 76px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    border: 2px solid #3b82f6;
+    border-top: 6px solid var(--primary);
+    border-bottom: 4px solid #2563eb;
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--emboss-card);
+    width: 100%;
+    scroll-margin-top: 78px;
   }
-  .card-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--border-soft); }
-  .card-head h2 { margin: 0; font-size: 1.18rem; display: flex; align-items: center; gap: 10px; }
-  .step-tag { background: var(--primary); color: #fff; font-size: 0.8rem; font-weight: 800; padding: 3px 10px; border-radius: 7px; }
-  .tool-status { font-size: 0.74rem; font-weight: 800; color: var(--primary-dark); background: var(--soft); border: 1px solid #93c5fd; padding: 3px 10px; border-radius: 999px; }
-  .tool-intro { margin: 0 0 18px; color: var(--muted); font-size: 0.93rem; }
+  .card-head {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 10px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0;
+  }
+  .card-head h2 { margin: 0; font-size: 1.22rem; font-weight: 900; display: flex; align-items: center; gap: 10px; }
+  .step-tag {
+    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff; font-size: 0.82rem; font-weight: 900; padding: 4px 11px; border-radius: 8px;
+    box-shadow: 0 2px 0 #1e3a8a;
+  }
+  .tool-status {
+    font-size: 0.76rem; font-weight: 900; color: var(--primary-dark);
+    background: #dbeafe; border: 1.5px solid #60a5fa; padding: 4px 11px; border-radius: 999px;
+  }
+  .tool-intro { margin: 0 0 18px; color: var(--muted); font-size: 0.95rem; font-weight: 500; }
 
-  .tool-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 14px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-soft); }
-  .meta-box { background: #f8fafc; border: 1px solid var(--border-soft); border-radius: 12px; padding: 14px 16px; }
-  .meta-box h3 { margin: 0 0 6px; font-size: 0.94rem; }
-  .meta-box p, .meta-list { margin: 0; color: var(--muted); font-size: 0.89rem; }
+  .split-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+    gap: 18px; align-items: start;
+  }
+  .panel {
+    background: #ffffff; border: 1.5px solid #94a3b8; border-bottom: 3px solid #64748b;
+    border-radius: 12px; padding: 16px;
+  }
+  .field { margin-bottom: 12px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label { display: block; font-size: 0.8rem; font-weight: 800; color: var(--muted); margin-bottom: 5px; }
+  input[type="number"], input[type="text"], input[type="email"], textarea {
+    width: 100%; min-width: 0; padding: 9px 11px;
+    border: 2px solid #64748b; border-radius: 9px;
+    font-family: inherit; font-size: 0.96rem; font-weight: 700;
+    background: #ffffff; color: var(--ink);
+    box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.08);
+  }
+  textarea { min-height: 92px; resize: vertical; font-weight: 600; }
+  input:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.22); }
+
+  .presets { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+  .preset-btn {
+    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+    border: 1.5px solid #64748b; border-bottom: 3px solid #475569;
+    color: var(--ink); padding: 4px 11px; border-radius: 999px;
+    font-size: 0.8rem; font-weight: 800; cursor: pointer;
+  }
+  .preset-btn:hover { background: #eff6ff; border-color: var(--primary); color: var(--primary-dark); }
+
+  .res-row {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    padding: 10px 12px; border: 1.5px solid #cbd5e1; border-bottom: 3px solid #94a3b8;
+    border-radius: 9px; background: #f8fafc; margin-bottom: 8px;
+  }
+  .res-row:last-of-type { margin-bottom: 0; }
+  .res-row.highlight {
+    background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+    border-color: #3b82f6; border-bottom: 3px solid #1d4ed8; font-weight: 900;
+  }
+  .res-label { font-size: 0.88rem; color: var(--muted); font-weight: 700; }
+  .res-val { font-size: 0.96rem; font-weight: 900; color: var(--primary-dark); text-align: right; }
+
+  .diagram-box {
+    margin-bottom: 18px; padding: 14px;
+    background: #ffffff; border: 1.5px solid #94a3b8; border-bottom: 3px solid #64748b;
+    border-radius: 12px; text-align: center;
+  }
+  .diagram-caption { font-size: 0.82rem; font-weight: 800; color: var(--primary-dark); margin-top: 6px; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0 0; }
+  .btn {
+    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff; border: 1px solid #1e40af; padding: 10px 18px; border-radius: 10px;
+    font-weight: 800; font-size: 0.9rem; cursor: pointer; box-shadow: var(--emboss-btn);
+  }
+  .btn:hover { background: var(--primary-hover); }
+  .btn:active { transform: translateY(2px); }
+  .btn-sec {
+    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+    color: var(--ink); border: 1.5px solid #64748b; padding: 9px 16px; border-radius: 10px;
+    font-weight: 800; font-size: 0.88rem; cursor: pointer; box-shadow: var(--emboss-sec);
+  }
+  .btn-sec:hover { background: #e2e8f0; }
+  .btn-sec:active { transform: translateY(2px); }
+
+  .notice-box { margin-top: 12px; padding: 10px 14px; border-radius: 9px; background: var(--warn-bg); border: 1.5px solid var(--warn-border); color: var(--warn-ink); font-size: 0.88rem; font-weight: 700; display: none; }
+
+  .tool-meta-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 14px; margin-top: 20px; padding-top: 16px; border-top: 2px solid #e2e8f0;
+  }
+  .meta-box {
+    background: #ffffff; border: 1.5px solid #cbd5e1; border-bottom: 3px solid #94a3b8;
+    border-radius: 12px; padding: 14px 16px;
+  }
+  .meta-box h3 { margin: 0 0 6px; font-size: 0.96rem; font-weight: 800; color: var(--ink); }
+  .meta-box p, .meta-list { margin: 0; color: var(--muted); font-size: 0.9rem; }
   .meta-list { padding-left: 18px; }
   .meta-list li { margin-bottom: 5px; }
 
-  .between-content { background: var(--surface); border: 1px solid var(--border-soft); border-left: 4px solid var(--primary); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
-  .between-content h3 { margin: 0 0 6px; font-size: 1rem; }
-  .between-content p, .between-list { margin: 0 0 8px; color: var(--muted); font-size: 0.9rem; }
+  .between-content {
+    background: #ffffff; border: 1.5px solid #94a3b8; border-left: 6px solid var(--primary);
+    border-bottom: 3px solid #64748b; border-radius: var(--radius); padding: 18px 20px;
+    box-shadow: var(--emboss-card);
+  }
+  .between-content h3 { margin: 0 0 6px; font-size: 1.04rem; font-weight: 800; }
+  .between-content p, .between-list { margin: 0 0 8px; color: var(--muted); font-size: 0.92rem; }
   .between-list { padding-left: 18px; }
   .between-list li { margin-bottom: 4px; }
-  .example-strip { padding: 9px 12px; background: #f8fafc; border: 1px solid var(--border-soft); border-radius: 8px; font-size: 0.86rem; font-weight: 700; }
-
-  .ad-box { width: 100%; min-height: 92px; padding: 12px 16px; background: var(--surface); border: 2px dashed var(--border); border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 4px; }
-  .ad-tag { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: #f1f5f9; border: 1px solid var(--border-soft); padding: 2px 8px; border-radius: 999px; }
-  .ad-placeholder-text { font-size: 0.82rem; color: var(--muted); font-weight: 600; }
-
-  .week-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; background: #f8fafc; border: 1px solid var(--border-soft); border-radius: 10px; margin-bottom: 12px; }
-  .week-nav { display: flex; flex-wrap: wrap; gap: 6px; }
-  .day-box { display: grid; grid-template-columns: 165px minmax(0, 1fr) 170px; gap: 10px; align-items: start; border: 1px solid var(--border-soft); border-radius: 10px; padding: 9px 12px; margin-bottom: 8px; background: #fafcff; }
-  .day-box.off { opacity: 0.55; background: #f1f5f9; }
-  @media (max-width: 820px) { .day-box { grid-template-columns: 1fr; } }
-  .day-title { font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; padding-top: 5px; }
-  .slots-col { display: flex; flex-direction: column; gap: 6px; }
-  .slot-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 108px 80px 34px; gap: 6px; align-items: center; }
-  @media (max-width: 560px) { .slot-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-  input[type="time"], input[type="number"] { width: 100%; min-width: 0; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.92rem; font-weight: 700; background: #fff; color: var(--ink); }
-  input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.16); }
-  .out-pill { padding: 7px 8px; background: #dbeafe; border: 1.5px solid #60a5fa; border-radius: 8px; font-weight: 900; font-size: 0.82rem; color: var(--primary-dark); text-align: center; white-space: nowrap; }
-  .day-totals { display: flex; justify-content: flex-end; font-size: 0.86rem; font-weight: 800; color: var(--primary-dark); padding-top: 6px; }
-
-  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
-  .btn { background: var(--primary); color: #fff; border: none; padding: 9px 16px; border-radius: 9px; font-weight: 700; font-size: 0.88rem; cursor: pointer; }
-  .btn:hover { background: var(--primary-hover); }
-  .btn-sec { background: #f1f5f9; color: var(--ink); border: 1px solid var(--border); padding: 8px 14px; border-radius: 9px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
-  .btn-sec:hover { background: #e2e8f0; }
-  .btn-mini { background: #fff; color: var(--ink); border: 1px solid var(--border); padding: 5px 10px; border-radius: 7px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
-
-  .total-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; background: var(--soft); border: 1.5px solid #60a5fa; border-radius: 12px; font-weight: 800; }
-  .total-badge { background: #fff; border: 1.5px solid #60a5fa; padding: 5px 12px; border-radius: 8px; font-weight: 900; color: var(--primary-dark); }
-
-  .split-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: 20px; }
-  .field { margin-bottom: 12px; }
-  .field label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--muted); margin-bottom: 5px; }
-  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
-  .preset-btn { background: #f8fafc; border: 1px solid var(--border); color: var(--ink); padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; cursor: pointer; }
-  .res-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 9px 12px; border: 1px solid var(--border-soft); border-radius: 9px; background: #fafcff; margin-bottom: 8px; }
-  .res-row.highlight { background: var(--soft); border-color: #60a5fa; font-weight: 800; }
-  .res-label { font-size: 0.86rem; color: var(--muted); }
-  .res-val { font-size: 0.92rem; font-weight: 800; color: var(--primary-dark); }
-  .notice-box { margin-top: 10px; padding: 10px 14px; border-radius: 9px; background: var(--warn-bg); border: 1px solid var(--warn-border); color: var(--warn-ink); font-size: 0.86rem; font-weight: 600; display: none; }
-
-  .site-footer { width: 100%; border-top: 1px solid var(--border-soft); background: var(--surface); padding: 24px 0 34px; text-align: center; font-size: 0.86rem; color: var(--muted); margin-top: 28px; }
-  .footer-links { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-  .footer-links a { color: var(--muted); text-decoration: none; font-weight: 600; }
-  .footer-links a:hover { color: var(--primary); }
-
-  @media print {
-    .site-header, .jump-strip, .between-content, .ad-box, .site-footer, .toolbar, .week-nav, .btn-mini { display: none !important; }
-    body { background: #fff; }
+  .example-strip {
+    padding: 10px 13px; background: #eff6ff; border: 1.5px solid #93c5fd;
+    border-radius: 9px; font-size: 0.88rem; font-weight: 800; color: var(--primary-dark);
   }
+
+  .ad-box {
+    width: 100%; min-height: 96px; padding: 14px 16px;
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    border: 2px dashed #64748b; border-radius: var(--radius);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 5px;
+  }
+  .ad-tag { font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); background: #e2e8f0; border: 1px solid #94a3b8; padding: 2px 9px; border-radius: 999px; }
+  .ad-placeholder-text { font-size: 0.84rem; color: var(--muted); font-weight: 700; }
+
+  .contact-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 18px; align-items: start;
+  }
+  .info-note {
+    background: #f8fafc; border: 1.5px solid #cbd5e1; border-bottom: 3px solid #94a3b8;
+    border-radius: 12px; padding: 16px; color: var(--muted); font-size: 0.92rem;
+  }
+  .info-note h3 { margin: 0 0 8px; font-size: 1rem; font-weight: 800; color: var(--ink); }
+
+  .site-footer {
+    width: 100%; border-top: 2px solid #94a3b8; background: #ffffff;
+    padding: 24px 0 34px; text-align: center; font-size: 0.88rem; color: var(--muted); margin-top: 28px;
+  }
+  .footer-links { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+  .footer-links a { color: var(--ink); text-decoration: none; font-weight: 800; }
+  .footer-links a:hover { color: var(--primary); }
 </style>
 </head>
 <body>
@@ -145,9 +249,9 @@
     <a href="index.html" class="brand"><span class="brand-dot"></span>Colette-Calculator</a>
     <div class="nav-right">
       <nav class="nav-menu">
-        <a href="index.html" class="active" data-t="navHome">Home (Outils 01–03)</a>
-        <a href="page2.html" data-t="navP2">Page 2 (Outils 04–06)</a>
-        <a href="pages.html" data-t="navInfo">About &amp; Legal</a>
+        <a href="index.html" data-t="navHome">Home (Outils 01–03)</a>
+        <a href="page2.html" class="active" data-t="navP2">Page 2 (Outils 04–06)</a>
+        <a href="#contact-section" data-t="navContact">Contact</a>
       </nav>
       <button type="button" id="langBtn" class="lang-btn" onclick="toggleLang()">EN</button>
     </div>
@@ -156,122 +260,68 @@
 
 <section class="page-head">
   <div class="container">
-    <h1 data-t="pageTitle">Colette-Calculator — Page 2 : Feuille Hebdo, Salaire &amp; Toiture</h1>
-    <p data-t="pageSub">3 outils supplémentaires sur la Page 2 avec guides pratiques entre les outils et emplacements publicitaires.</p>
+    <h1 data-t="pageTitle">Colette-Calculator — Page 2 : Salaire, Toiture &amp; Taux</h1>
+    <p data-t="pageSub">Page 2 : 3 nouveaux calculateurs (heures &amp; salaire, charpente toiture en croupe et taux journalier/horaire) avec guides, publicités et contact.</p>
   </div>
 </section>
 
 <div class="jump-strip">
   <div class="container jump-inner">
     <span class="jump-label" data-t="jumpLabel">Accès direct :</span>
-    <a href="index.html" class="jump-pill"><span data-t="navP1">← Page 1 (3 Outils)</span></a>
-    <a href="#tool-04" class="jump-pill">04 • <span data-t="jump4">Feuille Hebdo</span></a>
-    <a href="#tool-05" class="jump-pill">05 • <span data-t="jump5">Heures &amp; Salaire</span></a>
-    <a href="#tool-06" class="jump-pill">06 • <span data-t="jump6">Toiture Croupe</span></a>
+    <a href="index.html" class="jump-pill">← <span data-t="jumpHome">Home (01–03)</span></a>
+    <a href="#tool-04" class="jump-pill">04 • <span data-t="jump4">Heures &amp; Salaire</span></a>
+    <a href="#tool-05" class="jump-pill">05 • <span data-t="jump5">Toiture en Croupe</span></a>
+    <a href="#tool-06" class="jump-pill">06 • <span data-t="jump6">Taux &amp; Forfait</span></a>
+    <a href="#contact-section" class="jump-pill"><span data-t="navContact">Contact</span></a>
   </div>
 </div>
 
 <main class="container">
   <div class="page-flow">
 
+    <!-- TOOL 04 -->
     <section class="tool-card" id="tool-04" aria-labelledby="t4Heading">
       <div class="card-head">
-        <h2 id="t4Heading"><span class="step-tag">04</span> <span data-t="t4Name">Feuille de Pointage Hebdomadaire</span></h2>
+        <h2 id="t4Heading"><span class="step-tag">04</span> <span data-t="t4Name">Calculateur Heures de Travail &amp; Salaire</span></h2>
         <span class="tool-status" data-t="liveBadge">Outil Actif</span>
       </div>
-      <p class="tool-intro" data-t="t4Desc">Saisissez vos heures du lundi au dimanche, ajoutez des coupures par jour, changez de semaine et imprimez ou copiez le total.</p>
-
-      <div class="week-bar">
-        <div>
-          <strong id="weekLabel">Semaine</strong>
-          <span id="weekDates" style="margin-left:8px;color:var(--muted);font-weight:700;font-size:0.84rem;"></span>
-        </div>
-        <div class="week-nav">
-          <button type="button" class="btn-sec" id="prevWeekBtn" data-t="btnPrevWeek">← Préc.</button>
-          <button type="button" class="btn-sec" id="currWeekBtn" data-t="btnCurrWeek">Actuelle</button>
-          <button type="button" class="btn-sec" id="nextWeekBtn" data-t="btnNextWeek">Suiv. →</button>
-        </div>
-      </div>
-
-      <div id="daysContainer"></div>
-
-      <div class="toolbar">
-        <button type="button" class="btn" id="printWeekBtn" data-t="btnPrint">Version imprimable</button>
-        <button type="button" class="btn-sec" id="resetWeekBtn" data-t="btnResetWeek">Reset semaine (0)</button>
-      </div>
-
-      <div class="total-bar">
-        <div>
-          <strong data-t="lblWeekTotal">TOTAL HEBDOMADAIRE</strong>
-          <span id="activeDaysCount" style="margin-left:8px;font-size:0.84rem;color:var(--muted);"></span>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <span class="total-badge" id="weekTotalHM">00h 00min</span>
-          <span class="total-badge" id="weekTotalDec">0.00 h</span>
-          <button type="button" class="btn-mini" id="copyWeekBtn" data-t="btnCopy">Copier</button>
-        </div>
-      </div>
-
-      <div class="tool-meta-grid">
-        <div class="meta-box">
-          <h3 data-t="lblFeatures">Fonctionnalités</h3>
-          <ul class="meta-list">
-            <li data-t="t4F1">Grille complète du lundi au dimanche avec cases jour actif / repos.</li>
-            <li data-t="t4F2">Ajout de plusieurs plages (+) par journée et navigation par semaine.</li>
-            <li data-t="t4F3">Sauvegarde locale dans le navigateur, copie et vue imprimable.</li>
-          </ul>
-        </div>
-        <div class="meta-box">
-          <h3 data-t="lblUse">Utilisation (Use)</h3>
-          <p data-t="t4U1">Conçu pour suivre les heures d'une semaine complète, préparer un relevé d'heures ou vérifier un total hebdomadaire en centièmes.</p>
-        </div>
-      </div>
-    </section>
-
-    <article class="between-content">
-      <h3 data-t="c4Title">Suivre sa semaine complète du lundi au dimanche</h3>
-      <p data-t="c4P1">Cochez uniquement les jours travaillés et utilisez le bouton + pour ajouter une coupure du midi sur une journée donnée.</p>
-      <ul class="between-list">
-        <li data-t="c4B1">Chaque semaine est conservée localement dans votre navigateur.</li>
-        <li data-t="c4B2">Cliquez sur Version imprimable pour imprimer uniquement la feuille de pointage.</li>
-      </ul>
-      <div class="example-strip" data-t="c4Ex">Exemple : 5 jours × 07h 30min = 37h 30min (37.50 h) sur la semaine.</div>
-    </article>
-
-    <div class="ad-box" aria-label="Advertisement 4">
-      <span class="ad-tag" data-t="adLabel">Publicité / Ad Space</span>
-      <span class="ad-placeholder-text" data-t="ad4Text">Emplacement publicitaire entre l'outil 04 et l'outil 05 (728×90 / Responsive)</span>
-    </div>
-
-    <section class="tool-card" id="tool-05" aria-labelledby="t5Heading">
-      <div class="card-head">
-        <h2 id="t5Heading"><span class="step-tag">05</span> <span data-t="t5Name">Calculateur Heures de Travail &amp; Salaire</span></h2>
-        <span class="tool-status" data-t="liveBadge">Outil Actif</span>
-      </div>
-      <p class="tool-intro" data-t="t5Desc">Estimez votre rémunération à partir d'un taux horaire, d'heures normales et d'heures supplémentaires majorées.</p>
+      <p class="tool-intro" data-t="secPayDesc">Calculez le montant brut estimé à partir du taux horaire, des heures normales et des heures supplémentaires majorées.</p>
 
       <div class="split-grid">
-        <div>
-          <div class="field"><label for="inRate" data-t="lblRate">Taux horaire (€ / heure)</label><input type="number" id="inRate" step="0.01" min="0" value="0"></div>
-          <div class="field"><label for="inRegHours" data-t="lblReg">Heures normales (décimal 1/100e)</label><input type="number" id="inRegHours" step="0.01" min="0" value="0"></div>
-          <div class="field"><label for="inOtHours" data-t="lblOt">Heures supplémentaires (décimal 1/100e)</label><input type="number" id="inOtHours" step="0.01" min="0" value="0"></div>
+        <div class="panel">
           <div class="field">
-            <label for="inOtPct" data-t="lblOtPct">Majoration heures sup (%)</label>
-            <input type="number" id="inOtPct" step="1" min="0" value="0">
+            <label for="inRate" data-t="lblRate">Taux horaire (€ / h)</label>
+            <input type="number" id="inRate" step="0.01" min="0" value="0">
+          </div>
+          <div class="field">
+            <label for="inReg" data-t="lblReg">Heures normales (décimal 1/100e)</label>
+            <input type="number" id="inReg" step="0.01" min="0" value="0">
+          </div>
+          <div class="field">
+            <label for="inOt" data-t="lblOt">Heures supplémentaires (décimal 1/100e)</label>
+            <input type="number" id="inOt" step="0.01" min="0" value="0">
+          </div>
+          <div class="field">
+            <label for="inPct" data-t="lblPct">Majoration heures sup (%)</label>
+            <input type="number" id="inPct" step="1" min="0" value="0">
             <div class="presets">
               <button type="button" class="preset-btn" data-ot="10">+10%</button>
               <button type="button" class="preset-btn" data-ot="25">+25%</button>
               <button type="button" class="preset-btn" data-ot="50">+50%</button>
             </div>
           </div>
-          <div class="toolbar"><button type="button" class="btn-sec" id="resetPayBtn" data-t="btnReset">Reset (0)</button></div>
+          <div class="toolbar">
+            <button type="button" class="btn-sec" id="resetPayBtn" data-t="btnReset">Reset (0)</button>
+            <button type="button" class="btn" id="copyPayBtn" data-t="btnCopy">Copier</button>
+          </div>
         </div>
-        <div>
-          <div class="res-row"><span class="res-label" data-t="rTotalHours">Total heures travaillées</span><span class="res-val" id="outTotalHours">0.00 h (00h 00min)</span></div>
-          <div class="res-row"><span class="res-label" data-t="rBasePay">Montant heures normales</span><span class="res-val" id="outBasePay">0.00 €</span></div>
-          <div class="res-row"><span class="res-label" data-t="rOtRate">Taux horaire majoré</span><span class="res-val" id="outOtRate">0.00 € / h</span></div>
-          <div class="res-row"><span class="res-label" data-t="rOtPay">Montant heures supplémentaires</span><span class="res-val" id="outOtPay">0.00 €</span></div>
-          <div class="res-row highlight"><span class="res-label" data-t="rGrandTotal">TOTAL ESTIMÉ</span><span class="res-val" id="outGrandTotal">0.00 €</span></div>
+
+        <div class="panel">
+          <div class="res-row"><span class="res-label" data-t="rTotH">Total heures</span><span class="res-val" id="outTotH">0.00 h</span></div>
+          <div class="res-row"><span class="res-label" data-t="rBase">Montant normal</span><span class="res-val" id="outBase">0.00 €</span></div>
+          <div class="res-row"><span class="res-label" data-t="rOtRate">Taux majoré</span><span class="res-val" id="outOtRate">0.00 € / h</span></div>
+          <div class="res-row"><span class="res-label" data-t="rOt">Montant heures sup</span><span class="res-val" id="outOt">0.00 €</span></div>
+          <div class="res-row highlight"><span class="res-label" data-t="rTotal">TOTAL ESTIMÉ</span><span class="res-val" id="outTotal">0.00 €</span></div>
         </div>
       </div>
 
@@ -279,60 +329,77 @@
         <div class="meta-box">
           <h3 data-t="lblFeatures">Fonctionnalités</h3>
           <ul class="meta-list">
-            <li data-t="t5F1">Calcul séparé des heures normales et des heures supplémentaires.</li>
-            <li data-t="t5F2">Boutons rapides de majoration (+10%, +25%, +50%) ou saisie libre.</li>
-            <li data-t="t5F3">Affichage détaillé du taux majoré et du total estimé.</li>
+            <li data-t="t4F1">Calcul instantané des heures normales et supplémentaires majorées.</li>
+            <li data-t="t4F2">Boutons rapides +10%, +25%, +50% et saisie libre du pourcentage.</li>
+            <li data-t="t4F3">Affichage du taux majoré, du total d'heures et copie en un clic.</li>
           </ul>
         </div>
         <div class="meta-box">
           <h3 data-t="lblUse">Utilisation (Use)</h3>
-          <p data-t="t5U1">Pratique pour estimer une paie, vérifier un décompte d'heures supplémentaires ou chiffrer une prestation horaire.</p>
+          <p data-t="t4U1">Permet d'estimer rapidement une rémunération, vérifier des heures majorées ou chiffrer du temps de travail.</p>
         </div>
       </div>
     </section>
 
     <article class="between-content">
-      <h3 data-t="c5Title">Calculer heures normales et heures supplémentaires</h3>
-      <p data-t="c5P1">Saisissez vos heures en décimal 1/100e (par exemple 35.00 h normales et 4.50 h supplémentaires) puis choisissez votre taux de majoration.</p>
+      <h3 data-t="c1Title">Comment calculer des heures supplémentaires majorées ?</h3>
+      <p data-t="c1P1">Entrez d'abord le taux horaire et les heures en centièmes (par exemple 35.00 h normales et 4.50 h supplémentaires), puis choisissez le pourcentage de majoration.</p>
       <ul class="between-list">
-        <li data-t="c5B1">Le taux majoré est égal au taux horaire × (1 + % majoration / 100).</li>
-        <li data-t="c5B2">Le total additionne automatiquement les heures normales et majorées.</li>
+        <li data-t="c1B1">Le taux majoré est égal au taux horaire multiplié par (1 + % / 100).</li>
+        <li data-t="c1B2">Cliquez sur Reset (0) pour remettre tous les champs à zéro.</li>
       </ul>
-      <div class="example-strip" data-t="c5Ex">Exemple : 15,00 €/h × 35 h = 525,00 € + 4 h à +25% (18,75 €/h = 75,00 €) = 600,00 €.</div>
+      <div class="example-strip" data-t="c1Ex">Exemple : 15,00 €/h × 35,00 h (525,00 €) + 4,00 h à +25% (18,75 €/h = 75,00 €) = 600,00 €.</div>
     </article>
 
-    <div class="ad-box" aria-label="Advertisement 5">
+    <div class="ad-box" id="adSlot1" aria-label="Advertisement 1">
       <span class="ad-tag" data-t="adLabel">Publicité / Ad Space</span>
-      <span class="ad-placeholder-text" data-t="ad5Text">Emplacement publicitaire entre l'outil 05 et l'outil 06 (728×90 / Responsive)</span>
+      <span class="ad-placeholder-text" data-t="ad1Text">Emplacement publicitaire entre l'outil 04 et l'outil 05 (728×90 / Responsive)</span>
     </div>
 
-    <section class="tool-card" id="tool-06" aria-labelledby="t6Heading">
+    <!-- TOOL 05 -->
+    <section class="tool-card" id="tool-05" aria-labelledby="t5Heading">
       <div class="card-head">
-        <h2 id="t6Heading"><span class="step-tag">06</span> <span data-t="t6Name">Calculateur Charpente : Toiture en Croupe</span></h2>
+        <h2 id="t5Heading"><span class="step-tag">05</span> <span data-t="t5Name">Calculateur Charpente : Toiture en Croupe</span></h2>
         <span class="tool-status" data-t="liveBadge">Outil Actif</span>
       </div>
-      <p class="tool-intro" data-t="t6Desc">Calculez le faîtage, les chevrons d'emprunt, l'arêtier, les pentes, les angles de coupe et la surface des 4 versants d'une toiture en croupe.</p>
+      <p class="tool-intro" data-t="secRoofDesc">Calculez le faîtage, les chevrons d'emprunt, l'arêtier réel, les pentes, les angles de coupe et la surface des 4 pans.</p>
+
+      <div class="diagram-box" aria-label="Hip roof diagram">
+        <svg viewBox="0 0 640 220" width="100%" style="max-width:590px;height:auto;display:block;margin:0 auto;">
+          <rect x="38" y="28" width="322" height="146" rx="5" fill="#eff6ff" stroke="#1d4ed8" stroke-width="3"/>
+          <line x1="38" y1="28" x2="124" y2="101" stroke="#dc2626" stroke-width="3"/>
+          <line x1="38" y1="174" x2="124" y2="101" stroke="#dc2626" stroke-width="3"/>
+          <line x1="360" y1="28" x2="274" y2="101" stroke="#dc2626" stroke-width="3"/>
+          <line x1="360" y1="174" x2="274" y2="101" stroke="#dc2626" stroke-width="3"/>
+          <line x1="124" y1="101" x2="274" y2="101" stroke="#0f172a" stroke-width="4"/>
+          <text x="199" y="90" text-anchor="middle" font-size="12" font-weight="800" fill="#0f172a" id="svgFait">Faîtage: 0.00 m</text>
+          <text x="199" y="194" text-anchor="middle" font-size="12" font-weight="800" fill="#1d4ed8" id="svgEgout">Égout: 0.00 m</text>
+          <polygon points="430,168 602,168 516,60" fill="#dbeafe" stroke="#1d4ed8" stroke-width="3"/>
+          <line x1="516" y1="60" x2="516" y2="168" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="5,4"/>
+          <text x="523" y="122" font-size="12" font-weight="800" fill="#b91c1c" id="svgH">H: 0.00 m</text>
+        </svg>
+        <div class="diagram-caption" data-t="diagCap">Schéma : vue en plan (faîtage, égout, emprunts, arêtiers) &amp; coupe verticale (hauteur H)</div>
+      </div>
 
       <div class="split-grid">
-        <div>
-          <div class="field"><label for="inEmpPan" data-t="lblEmpPan">Emprunt du long pan (m)</label><input type="number" id="inEmpPan" step="0.01" min="0" value="0"></div>
-          <div class="field"><label for="inEmpCroupe" data-t="lblEmpCroupe">Emprunt de la croupe (m)</label><input type="number" id="inEmpCroupe" step="0.01" min="0" value="0"></div>
-          <div class="field"><label for="inEgout" data-t="lblEgout">Longueur totale de la ligne d'égout (m)</label><input type="number" id="inEgout" step="0.01" min="0" value="0"></div>
-          <div class="field"><label for="inHaut" data-t="lblHaut">Hauteur de couronnement H (m)</label><input type="number" id="inHaut" step="0.01" min="0" value="0"></div>
+        <div class="panel">
+          <div class="field"><label for="inPan" data-t="lblPan">Emprunt long pan (m)</label><input type="number" id="inPan" step="0.01" min="0" value="0"></div>
+          <div class="field"><label for="inCr" data-t="lblCr">Emprunt croupe (m)</label><input type="number" id="inCr" step="0.01" min="0" value="0"></div>
+          <div class="field"><label for="inEg" data-t="lblEg">Longueur égout (m)</label><input type="number" id="inEg" step="0.01" min="0" value="0"></div>
+          <div class="field"><label for="inH" data-t="lblH">Hauteur H (m)</label><input type="number" id="inH" step="0.01" min="0" value="0"></div>
+          <div id="roofNotice" class="notice-box" role="status"></div>
           <div class="toolbar"><button type="button" class="btn-sec" id="resetRoofBtn" data-t="btnReset">Reset (0)</button></div>
         </div>
-        <div>
-          <div class="res-row"><span class="res-label" data-t="rFaitage">Longueur du faîtage</span><span class="res-val" id="outFaitage">0.00 m</span></div>
-          <div class="res-row"><span class="res-label" data-t="rChevPan">Chevron d'emprunt (long pan)</span><span class="res-val" id="outChevPan">0.00 m</span></div>
-          <div class="res-row"><span class="res-label" data-t="rChevCroupe">Chevron d'emprunt (croupe)</span><span class="res-val" id="outChevCroupe">0.00 m</span></div>
-          <div class="res-row"><span class="res-label" data-t="rAretierPlan">Projection horizontale de l'arêtier</span><span class="res-val" id="outAretierPlan">0.00 m</span></div>
-          <div class="res-row highlight"><span class="res-label" data-t="rAretierReel">Longueur réelle de l'arêtier</span><span class="res-val" id="outAretierReel">0.00 m</span></div>
-          <div class="res-row"><span class="res-label" data-t="rPentePan">Pente du long pan (degrés / %)</span><span class="res-val" id="outPentePan">0.00° (0.0 %)</span></div>
-          <div class="res-row"><span class="res-label" data-t="rPenteCroupe">Pente de la croupe (degrés / %)</span><span class="res-val" id="outPenteCroupe">0.00° (0.0 %)</span></div>
-          <div class="res-row"><span class="res-label" data-t="rCoupeAplomb">Angle de coupe d'aplomb (arêtier)</span><span class="res-val" id="outCoupeAplomb">0.00°</span></div>
-          <div class="res-row"><span class="res-label" data-t="rCoupePied">Angle de coupe de pied (arêtier)</span><span class="res-val" id="outCoupePied">0.00°</span></div>
-          <div class="res-row highlight"><span class="res-label" data-t="rSurface">Surface totale des versants (4 pans)</span><span class="res-val" id="outSurface">0.00 m²</span></div>
-          <div id="roofNotice" class="notice-box" role="status"></div>
+
+        <div class="panel">
+          <div class="res-row"><span class="res-label" data-t="rFait">Faîtage</span><span class="res-val" id="outFait">0.00 m</span></div>
+          <div class="res-row"><span class="res-label" data-t="rChevPan">Chevron long pan</span><span class="res-val" id="outChevPan">0.00 m</span></div>
+          <div class="res-row"><span class="res-label" data-t="rChevCr">Chevron croupe</span><span class="res-val" id="outChevCr">0.00 m</span></div>
+          <div class="res-row highlight"><span class="res-label" data-t="rArReel">Arêtier réel</span><span class="res-val" id="outArReel">0.00 m</span></div>
+          <div class="res-row"><span class="res-label" data-t="rPentePan">Pente long pan</span><span class="res-val" id="outPentePan">0.00° (0.0 %)</span></div>
+          <div class="res-row"><span class="res-label" data-t="rCoupeAplomb">Coupe d'aplomb</span><span class="res-val" id="outCoupeAplomb">0.00°</span></div>
+          <div class="res-row"><span class="res-label" data-t="rCoupePied">Coupe de pied</span><span class="res-val" id="outCoupePied">0.00°</span></div>
+          <div class="res-row highlight"><span class="res-label" data-t="rSurf">Surface 4 pans</span><span class="res-val" id="outSurf">0.00 m²</span></div>
         </div>
       </div>
 
@@ -340,32 +407,128 @@
         <div class="meta-box">
           <h3 data-t="lblFeatures">Fonctionnalités</h3>
           <ul class="meta-list">
-            <li data-t="t6F1">Calcul instantané du faîtage, des chevrons et de l'arêtier réel.</li>
-            <li data-t="t6F2">Pentes en degrés et pourcentage plus angles d'aplomb et de pied.</li>
-            <li data-t="t6F3">Estimation globale de la surface des 4 pans en m².</li>
+            <li data-t="t5F1">Calcul du faîtage, chevrons d'emprunt, projection et arêtier réel.</li>
+            <li data-t="t5F2">Pente en degrés et pourcentage plus angles de coupe d'aplomb et de pied.</li>
+            <li data-t="t5F3">Surface totale des 4 versants en m² avec schéma mis à jour.</li>
           </ul>
         </div>
         <div class="meta-box">
           <h3 data-t="lblUse">Utilisation (Use)</h3>
-          <p data-t="t6U1">Destiné aux charpentiers, artisans et bricoleurs pour préparer un tracé, vérifier des longueurs de pièces ou estimer une surface de couverture.</p>
+          <p data-t="t5U1">Conçu pour la charpente et le bâtiment afin de vérifier les cotes, angles et surfaces d'une toiture à quatre pans.</p>
         </div>
       </div>
     </section>
 
-    <div class="ad-box" aria-label="Advertisement 6">
+    <article class="between-content">
+      <h3 data-t="c2Title">Comment lire les mesures d'une toiture en croupe ?</h3>
+      <p data-t="c2P1">Renseignez l'emprunt du long pan, l'emprunt de la croupe, la longueur totale de l'égout et la hauteur H pour obtenir immédiatement toutes les valeurs.</p>
+      <ul class="between-list">
+        <li data-t="c2B1">Si la longueur d'égout est inférieure ou égale à 2 × emprunt croupe, le faîtage vaut 0.00 m.</li>
+        <li data-t="c2B2">Les angles de coupe aident à préparer l'aplomb et le pied de l'arêtier.</li>
+      </ul>
+      <div class="example-strip" data-t="c2Ex">Exemple : Emprunt long pan 4.20 m, Croupe 3.20 m, Égout 11.40 m, H 2.80 m → Faîtage 5.00 m, Arêtier réel 5.98 m.</div>
+    </article>
+
+    <div class="ad-box" id="adSlot2" aria-label="Advertisement 2">
       <span class="ad-tag" data-t="adLabel">Publicité / Ad Space</span>
-      <span class="ad-placeholder-text" data-t="ad6Text">Emplacement publicitaire après l'outil 06 (728×90 / Responsive)</span>
+      <span class="ad-placeholder-text" data-t="ad2Text">Emplacement publicitaire entre l'outil 05 et l'outil 06 (728×90 / Responsive)</span>
     </div>
+
+    <!-- TOOL 06 -->
+    <section class="tool-card" id="tool-06" aria-labelledby="t6Heading">
+      <div class="card-head">
+        <h2 id="t6Heading"><span class="step-tag">06</span> <span data-t="t6Name">Calculateur Taux Horaire &amp; Forfait Journalier</span></h2>
+        <span class="tool-status" data-t="liveBadge">Outil Actif</span>
+      </div>
+      <p class="tool-intro" data-t="secRateDesc">Convertissez un tarif journalier en taux horaire ou calculez le montant d'un forfait selon le nombre de jours et d'heures par jour.</p>
+
+      <div class="split-grid">
+        <div class="panel">
+          <div class="field"><label for="inDayRate" data-t="lblDayRate">Tarif journalier (€ / jour)</label><input type="number" id="inDayRate" step="0.01" min="0" value="0"></div>
+          <div class="field"><label for="inDayHours" data-t="lblDayHours">Heures par jour</label><input type="number" id="inDayHours" step="0.01" min="0" value="0"></div>
+          <div class="field"><label for="inDaysCount" data-t="lblDaysCount">Nombre de jours</label><input type="number" id="inDaysCount" step="0.5" min="0" value="0"></div>
+          <div class="toolbar"><button type="button" class="btn-sec" id="resetRateBtn" data-t="btnReset">Reset (0)</button></div>
+        </div>
+
+        <div class="panel">
+          <div class="res-row"><span class="res-label" data-t="rEqHourly">Équivalent horaire</span><span class="res-val" id="outEqHourly">0.00 € / h</span></div>
+          <div class="res-row"><span class="res-label" data-t="rTotalHoursPlan">Total heures prévues</span><span class="res-val" id="outTotalHoursPlan">0.00 h</span></div>
+          <div class="res-row highlight"><span class="res-label" data-t="rMissionTotal">TOTAL PÉRIODE / MISSION</span><span class="res-val" id="outMissionTotal">0.00 €</span></div>
+        </div>
+      </div>
+
+      <div class="tool-meta-grid">
+        <div class="meta-box">
+          <h3 data-t="lblFeatures">Fonctionnalités</h3>
+          <ul class="meta-list">
+            <li data-t="t6F1">Conversion immédiate entre tarif journalier et taux horaire.</li>
+            <li data-t="t6F2">Calcul du volume d'heures et du montant total sur plusieurs jours.</li>
+            <li data-t="t6F3">Fonctionne avec les jours fractionnés (ex. 2.5 jours).</li>
+          </ul>
+        </div>
+        <div class="meta-box">
+          <h3 data-t="lblUse">Utilisation (Use)</h3>
+          <p data-t="t6U1">Pratique pour les missions, chantiers, prestations journalières et comparaisons entre forfait jour et tarif horaire.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="ad-box" id="adSlot3" aria-label="Advertisement 3">
+      <span class="ad-tag" data-t="adLabel">Publicité / Ad Space</span>
+      <span class="ad-placeholder-text" data-t="ad3Text">Emplacement publicitaire après l'outil 06 (728×90 / Responsive)</span>
+    </div>
+
+    <!-- CONTACT & INFO SECTION -->
+    <section class="tool-card" id="contact-section" aria-labelledby="contactHeading">
+      <div class="card-head">
+        <h2 id="contactHeading"><span class="step-tag">✉</span> <span data-t="contactTitle">Contact &amp; Informations</span></h2>
+        <span class="tool-status" data-t="contactBadge">Support</span>
+      </div>
+      <p class="tool-intro" data-t="contactIntro">Envoyez un message, une suggestion d'outil ou un retour sur les calculs de la page.</p>
+
+      <div class="contact-grid">
+        <form class="panel" id="contactForm">
+          <div class="field">
+            <label for="cName" data-t="cLblName">Nom</label>
+            <input type="text" id="cName" placeholder="Votre nom">
+          </div>
+          <div class="field">
+            <label for="cEmail" data-t="cLblEmail">Email</label>
+            <input type="email" id="cEmail" placeholder="nom@exemple.com">
+          </div>
+          <div class="field">
+            <label for="cMsg" data-t="cLblMsg">Message</label>
+            <textarea id="cMsg" placeholder="Votre question ou suggestion..."></textarea>
+          </div>
+          <div class="toolbar">
+            <button type="submit" class="btn" id="cSendBtn" data-t="cBtnSend">Envoyer</button>
+            <button type="button" class="btn-sec" id="cClearBtn" data-t="btnReset">Reset (0)</button>
+          </div>
+          <div id="cStatus" class="notice-box" role="status"></div>
+        </form>
+
+        <div class="info-note">
+          <h3 id="about" data-t="aboutTitle">À propos / About</h3>
+          <p data-t="aboutText">Colette-Calculator propose des outils simples et rapides pour le calcul du temps, des pauses, des heures décimales, de la paie et de la charpente.</p>
+          <h3 id="terms" style="margin-top:14px;" data-t="termsTitle">Conditions &amp; Mentions</h3>
+          <p id="disclaimer" data-t="termsText">Les résultats fournis sont indicatifs et doivent être vérifiés avant toute paie, facturation ou exécution de chantier.</p>
+        </div>
+      </div>
+    </section>
 
   </div>
 </main>
 
 <footer class="site-footer">
   <div class="container">
-    <div>Colette-Calculator</div>
+    <div><strong>Colette-Calculator</strong></div>
     <div class="footer-links">
-      <a href="index.html" data-t="navP1">← Page 1 (3 Outils)</a>
-      <a href="page2.html" data-t="navP2">Page 2 (3 Outils)</a>
+      <a href="index.html" data-t="navHome">Home (Outils 01–03)</a>
+      <a href="page2.html" data-t="navP2">Page 2 (Outils 04–06)</a>
+      <a href="#contact-section" data-t="navContact">Contact</a>
+      <a href="#about" data-t="fAbout">About</a>
+      <a href="#terms" data-t="fTerms">Terms</a>
+      <a href="#disclaimer" data-t="fDisclaimer">Disclaimer</a>
     </div>
   </div>
 </footer>
@@ -373,265 +536,260 @@
 <script>
 (function () {
   const LANG_KEY = "colette_calc_lang_v1";
-  const STORE_PREFIX = "colette_hebdo_v1_";
   let lang = "fr";
-  let weekOffset = 0;
 
   const dict = {
     fr: {
-      btn: "EN", navP1: "← Page 1 (3 Outils)", navP2: "Page 2 (3 Outils)",
-      pageTitle: "Colette-Calculator — Page 2 : Feuille Hebdo, Salaire & Toiture",
-      pageSub: "3 outils supplémentaires sur la Page 2 avec guides pratiques entre les outils et emplacements publicitaires.",
-      jumpLabel: "Accès direct :", jump4: "Feuille Hebdo", jump5: "Heures & Salaire", jump6: "Toiture Croupe",
-      liveBadge: "Outil Actif", btnReset: "Reset (0)", lblFeatures: "Fonctionnalités", lblUse: "Utilisation (Use)",
+      btn: "EN", navHome: "Home (Outils 01–03)", navP2: "Page 2 (Outils 04–06)", navContact: "Contact",
+      fAbout: "About", fTerms: "Terms", fDisclaimer: "Disclaimer",
+      pageTitle: "Colette-Calculator — Page 2 : Salaire, Toiture & Taux",
+      pageSub: "Page 2 : 3 nouveaux calculateurs (heures & salaire, charpente toiture en croupe et taux journalier/horaire) avec guides, publicités et contact.",
+      jumpLabel: "Accès direct :", jumpHome: "Home (01–03)", jump4: "Heures & Salaire", jump5: "Toiture en Croupe", jump6: "Taux & Forfait",
+      liveBadge: "Outil Actif", btnReset: "Reset (0)", btnCopy: "Copier", btnCopied: "Copié !",
+      lblFeatures: "Fonctionnalités", lblUse: "Utilisation (Use)",
       adLabel: "Publicité / Ad Space",
-      ad4Text: "Emplacement publicitaire entre l'outil 04 et l'outil 05 (728×90 / Responsive)",
-      ad5Text: "Emplacement publicitaire entre l'outil 05 et l'outil 06 (728×90 / Responsive)",
-      ad6Text: "Emplacement publicitaire après l'outil 06 (728×90 / Responsive)",
-      t4Name: "Feuille de Pointage Hebdomadaire",
-      t4Desc: "Saisissez vos heures du lundi au dimanche, ajoutez des coupures par jour, changez de semaine et imprimez ou copiez le total.",
-      btnPrevWeek: "← Préc.", btnCurrWeek: "Actuelle", btnNextWeek: "Suiv. →",
-      btnPrint: "Version imprimable", btnResetWeek: "Reset semaine (0)", btnCopy: "Copier", btnCopied: "Copié !",
-      confirmResetMsg: "Réinitialiser toutes les heures saisies pour cette semaine ?",
-      lblWeekTotal: "TOTAL HEBDOMADAIRE", weekWord: "Semaine",
-      activeDaysFmt: n => `${n} ${n > 1 ? "jours actifs" : "jour actif"}`,
-      days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
-      t4F1: "Grille complète du lundi au dimanche avec cases jour actif / repos.",
-      t4F2: "Ajout de plusieurs plages (+) par journée et navigation par semaine.",
-      t4F3: "Sauvegarde locale dans le navigateur, copie et vue imprimable.",
-      t4U1: "Conçu pour suivre les heures d'une semaine complète, préparer un relevé d'heures ou vérifier un total hebdomadaire en centièmes.",
-      c4Title: "Suivre sa semaine complète du lundi au dimanche",
-      c4P1: "Cochez uniquement les jours travaillés et utilisez le bouton + pour ajouter une coupure du midi sur une journée donnée.",
-      c4B1: "Chaque semaine est conservée localement dans votre navigateur.",
-      c4B2: "Cliquez sur Version imprimable pour imprimer uniquement la feuille de pointage.",
-      c4Ex: "Exemple : 5 jours × 07h 30min = 37h 30min (37.50 h) sur la semaine.",
-      t5Name: "Calculateur Heures de Travail & Salaire",
-      t5Desc: "Estimez votre rémunération à partir d'un taux horaire, d'heures normales et d'heures supplémentaires majorées.",
-      lblRate: "Taux horaire (€ / heure)", lblReg: "Heures normales (décimal 1/100e)",
-      lblOt: "Heures supplémentaires (décimal 1/100e)", lblOtPct: "Majoration heures sup (%)",
-      rTotalHours: "Total heures travaillées", rBasePay: "Montant heures normales",
-      rOtRate: "Taux horaire majoré", rOtPay: "Montant heures supplémentaires", rGrandTotal: "TOTAL ESTIMÉ",
-      t5F1: "Calcul séparé des heures normales et des heures supplémentaires.",
-      t5F2: "Boutons rapides de majoration (+10%, +25%, +50%) ou saisie libre.",
-      t5F3: "Affichage détaillé du taux majoré et du total estimé.",
-      t5U1: "Pratique pour estimer une paie, vérifier un décompte d'heures supplémentaires ou chiffrer une prestation horaire.",
-      c5Title: "Calculer heures normales et heures supplémentaires",
-      c5P1: "Saisissez vos heures en décimal 1/100e (par exemple 35.00 h normales et 4.50 h supplémentaires) puis choisissez votre taux de majoration.",
-      c5B1: "Le taux majoré est égal au taux horaire × (1 + % majoration / 100).",
-      c5B2: "Le total additionne automatiquement les heures normales et majorées.",
-      c5Ex: "Exemple : 15,00 €/h × 35 h = 525,00 € + 4 h à +25% (18,75 €/h = 75,00 €) = 600,00 €.",
-      t6Name: "Calculateur Charpente : Toiture en Croupe",
-      t6Desc: "Calculez le faîtage, les chevrons d'emprunt, l'arêtier, les pentes, les angles de coupe et la surface des 4 versants d'une toiture en croupe.",
-      lblEmpPan: "Emprunt du long pan (m)", lblEmpCroupe: "Emprunt de la croupe (m)",
-      lblEgout: "Longueur totale de la ligne d'égout (m)", lblHaut: "Hauteur de couronnement H (m)",
-      ridgeShortMsg: "La longueur d'égout est inférieure ou égale à 2 × emprunt croupe : le faîtage est ramené à 0.00 m.",
-      rFaitage: "Longueur du faîtage", rChevPan: "Chevron d'emprunt (long pan)", rChevCroupe: "Chevron d'emprunt (croupe)",
-      rAretierPlan: "Projection horizontale de l'arêtier", rAretierReel: "Longueur réelle de l'arêtier",
-      rPentePan: "Pente du long pan (degrés / %)", rPenteCroupe: "Pente de la croupe (degrés / %)",
-      rCoupeAplomb: "Angle de coupe d'aplomb (arêtier)", rCoupePied: "Angle de coupe de pied (arêtier)", rSurface: "Surface totale des versants (4 pans)",
-      t6F1: "Calcul instantané du faîtage, des chevrons et de l'arêtier réel.",
-      t6F2: "Pentes en degrés et pourcentage plus angles d'aplomb et de pied.",
-      t6F3: "Estimation globale de la surface des 4 pans en m².",
-      t6U1: "Destiné aux charpentiers, artisans et bricoleurs pour préparer un tracé, vérifier des longueurs de pièces ou estimer une surface de couverture."
+      ad1Text: "Emplacement publicitaire entre l'outil 04 et l'outil 05 (728×90 / Responsive)",
+      ad2Text: "Emplacement publicitaire entre l'outil 05 et l'outil 06 (728×90 / Responsive)",
+      ad3Text: "Emplacement publicitaire après l'outil 06 (728×90 / Responsive)",
+      t4Name: "Calculateur Heures de Travail & Salaire",
+      secPayDesc: "Calculez le montant brut estimé à partir du taux horaire, des heures normales et des heures supplémentaires majorées.",
+      lblRate: "Taux horaire (€ / h)", lblReg: "Heures normales (décimal 1/100e)", lblOt: "Heures supplémentaires (décimal 1/100e)", lblPct: "Majoration heures sup (%)",
+      rTotH: "Total heures", rBase: "Montant normal", rOtRate: "Taux majoré", rOt: "Montant heures sup", rTotal: "TOTAL ESTIMÉ",
+      t4F1: "Calcul instantané des heures normales et supplémentaires majorées.",
+      t4F2: "Boutons rapides +10%, +25%, +50% et saisie libre du pourcentage.",
+      t4F3: "Affichage du taux majoré, du total d'heures et copie en un clic.",
+      t4U1: "Permet d'estimer rapidement une rémunération, vérifier des heures majorées ou chiffrer du temps de travail.",
+      c1Title: "Comment calculer des heures supplémentaires majorées ?",
+      c1P1: "Entrez d'abord le taux horaire et les heures en centièmes (par exemple 35.00 h normales et 4.50 h supplémentaires), puis choisissez le pourcentage de majoration.",
+      c1B1: "Le taux majoré est égal au taux horaire multiplié par (1 + % / 100).",
+      c1B2: "Cliquez sur Reset (0) pour remettre tous les champs à zéro.",
+      c1Ex: "Exemple : 15,00 €/h × 35,00 h (525,00 €) + 4,00 h à +25% (18,75 €/h = 75,00 €) = 600,00 €.",
+      t5Name: "Calculateur Charpente : Toiture en Croupe",
+      secRoofDesc: "Calculez le faîtage, les chevrons d'emprunt, l'arêtier réel, les pentes, les angles de coupe et la surface des 4 pans.",
+      diagCap: "Schéma : vue en plan (faîtage, égout, emprunts, arêtiers) & coupe verticale (hauteur H)",
+      lblPan: "Emprunt long pan (m)", lblCr: "Emprunt croupe (m)", lblEg: "Longueur égout (m)", lblH: "Hauteur H (m)",
+      ridgeNotice: "L'égout est inférieur ou égal à 2 × emprunt croupe : le faîtage est ramené à 0.00 m.",
+      rFait: "Faîtage", rChevPan: "Chevron long pan", rChevCr: "Chevron croupe", rArReel: "Arêtier réel",
+      rPentePan: "Pente long pan", rCoupeAplomb: "Coupe d'aplomb", rCoupePied: "Coupe de pied", rSurf: "Surface 4 pans",
+      t5F1: "Calcul du faîtage, chevrons d'emprunt, projection et arêtier réel.",
+      t5F2: "Pente en degrés et pourcentage plus angles de coupe d'aplomb et de pied.",
+      t5F3: "Surface totale des 4 versants en m² avec schéma mis à jour.",
+      t5U1: "Conçu pour la charpente et le bâtiment afin de vérifier les cotes, angles et surfaces d'une toiture à quatre pans.",
+      c2Title: "Comment lire les mesures d'une toiture en croupe ?",
+      c2P1: "Renseignez l'emprunt du long pan, l'emprunt de la croupe, la longueur totale de l'égout et la hauteur H pour obtenir immédiatement toutes les valeurs.",
+      c2B1: "Si la longueur d'égout est inférieure ou égale à 2 × emprunt croupe, le faîtage vaut 0.00 m.",
+      c2B2: "Les angles de coupe aident à préparer l'aplomb et le pied de l'arêtier.",
+      c2Ex: "Exemple : Emprunt long pan 4.20 m, Croupe 3.20 m, Égout 11.40 m, H 2.80 m → Faîtage 5.00 m, Arêtier réel 5.98 m.",
+      t6Name: "Calculateur Taux Horaire & Forfait Journalier",
+      secRateDesc: "Convertissez un tarif journalier en taux horaire ou calculez le montant d'un forfait selon le nombre de jours et d'heures par jour.",
+      lblDayRate: "Tarif journalier (€ / jour)", lblDayHours: "Heures par jour", lblDaysCount: "Nombre de jours",
+      rEqHourly: "Équivalent horaire", rTotalHoursPlan: "Total heures prévues", rMissionTotal: "TOTAL PÉRIODE / MISSION",
+      t6F1: "Conversion immédiate entre tarif journalier et taux horaire.",
+      t6F2: "Calcul du volume d'heures et du montant total sur plusieurs jours.",
+      t6F3: "Fonctionne avec les jours fractionnés (ex. 2.5 jours).",
+      t6U1: "Pratique pour les missions, chantiers, prestations journalières et comparaisons entre forfait jour et tarif horaire.",
+      contactTitle: "Contact & Informations", contactBadge: "Support",
+      contactIntro: "Envoyez un message, une suggestion d'outil ou un retour sur les calculs de la page.",
+      cLblName: "Nom", cLblEmail: "Email", cLblMsg: "Message", cBtnSend: "Envoyer",
+      cSentMsg: "Message prêt / enregistré localement sur cette page.",
+      aboutTitle: "À propos / About",
+      aboutText: "Colette-Calculator propose des outils simples et rapides pour le calcul du temps, des pauses, des heures décimales, de la paie et de la charpente.",
+      termsTitle: "Conditions & Mentions",
+      termsText: "Les résultats fournis sont indicatifs et doivent être vérifiés avant toute paie, facturation ou exécution de chantier."
     },
     en: {
-      btn: "FR", navP1: "← Page 1 (3 Tools)", navP2: "Page 2 (3 Tools)",
-      pageTitle: "Colette-Calculator — Page 2: Weekly, Pay & Hip Roof",
-      pageSub: "3 more tools on Page 2 with guides between tools and ad spaces.",
-      jumpLabel: "Quick jump:", jump4: "Weekly Sheet", jump5: "Hours & Pay", jump6: "Hip Roof",
-      liveBadge: "Active Tool", btnReset: "Reset (0)", lblFeatures: "Features", lblUse: "Use",
+      btn: "FR", navHome: "Home (Tools 01–03)", navP2: "Page 2 (Tools 04–06)", navContact: "Contact",
+      fAbout: "About", fTerms: "Terms", fDisclaimer: "Disclaimer",
+      pageTitle: "Colette-Calculator — Page 2: Pay, Hip Roof & Day Rate",
+      pageSub: "Page 2: 3 new calculators (working hours & pay, hip roof framing, and day/hourly rate) with guides, ad slots, and contact.",
+      jumpLabel: "Quick jump:", jumpHome: "Home (01–03)", jump4: "Hours & Pay", jump5: "Hip Roof", jump6: "Day & Hourly Rate",
+      liveBadge: "Active Tool", btnReset: "Reset (0)", btnCopy: "Copy", btnCopied: "Copied!",
+      lblFeatures: "Features", lblUse: "Use",
       adLabel: "Advertisement / Ad Space",
-      ad4Text: "Visible ad slot between Tool 04 and Tool 05 (728×90 / Responsive)",
-      ad5Text: "Visible ad slot between Tool 05 and Tool 06 (728×90 / Responsive)",
-      ad6Text: "Visible ad slot below Tool 06 (728×90 / Responsive)",
-      t4Name: "Weekly Timesheet Calculator",
-      t4Desc: "Enter hours from Monday to Sunday, add split slots per day, switch weeks, and print or copy your total.",
-      btnPrevWeek: "← Prev.", btnCurrWeek: "Current", btnNextWeek: "Next →",
-      btnPrint: "Printable view", btnResetWeek: "Reset week (0)", btnCopy: "Copy", btnCopied: "Copied!",
-      confirmResetMsg: "Reset all entered hours for this week?",
-      lblWeekTotal: "WEEKLY TOTAL", weekWord: "Week",
-      activeDaysFmt: n => `${n} ${n === 1 ? "active day" : "active days"}`,
-      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      t4F1: "Monday through Sunday grid with active / off day checkboxes.",
-      t4F2: "Add multiple slots (+) per day and navigate between weeks.",
-      t4F3: "Local browser persistence, copy button, and printable view.",
-      t4U1: "Built to track a full week's hours, prepare a timesheet summary, or verify weekly totals in hundredths.",
-      c4Title: "Tracking a Full Week From Monday to Sunday",
-      c4P1: "Keep worked days checked and click + to add a lunch break or split shift on any day.",
-      c4B1: "Each week is saved locally in your browser.",
-      c4B2: "Click Printable view to print just the timesheet card.",
-      c4Ex: "Example: 5 days × 07h 30min = 37h 30min (37.50 h) for the week.",
-      t5Name: "Working Hours & Pay Calculator",
-      t5Desc: "Estimate pay from an hourly rate, regular hours, and overtime hours with a percentage bonus.",
-      lblRate: "Hourly rate (€ / hour)", lblReg: "Regular hours (decimal 1/100e)",
-      lblOt: "Overtime hours (decimal 1/100e)", lblOtPct: "Overtime bonus (%)",
-      rTotalHours: "Total hours worked", rBasePay: "Regular hours pay",
-      rOtRate: "Overtime hourly rate", rOtPay: "Overtime pay", rGrandTotal: "ESTIMATED TOTAL",
-      t5F1: "Separate calculation for regular hours and overtime hours.",
-      t5F2: "Quick bonus presets (+10%, +25%, +50%) or custom percentage input.",
-      t5F3: "Clear breakdown of overtime rate and estimated total.",
-      t5U1: "Helpful for estimating paychecks, checking overtime math, or pricing hourly work.",
-      c5Title: "Calculating Regular & Overtime Pay",
-      c5P1: "Enter decimal 1/100e hours (for example 35.00 regular and 4.50 overtime) and set your overtime markup.",
-      c5B1: "Overtime rate equals hourly rate × (1 + overtime % / 100).",
-      c5B2: "Total combines regular pay and overtime pay automatically.",
-      c5Ex: "Example: €15.00/h × 35 h = €525.00 + 4 h at +25% (€18.75/h = €75.00) = €600.00.",
-      t6Name: "Framing Calculator: Hip Roof",
-      t6Desc: "Calculate ridge length, common rafters, hip projection and true hip length, pitches, cut angles, and 4-slope surface area.",
-      lblEmpPan: "Main slope run / emprunt (m)", lblEmpCroupe: "Hip end run / emprunt (m)",
-      lblEgout: "Total eave line length (m)", lblHaut: "Crown height H (m)",
-      ridgeShortMsg: "Eave length is less than or equal to 2 × hip run: ridge length is clamped to 0.00 m.",
-      rFaitage: "Ridge length", rChevPan: "Common rafter (main slope)", rChevCroupe: "Common rafter (hip end)",
-      rAretierPlan: "Horizontal hip projection", rAretierReel: "True hip rafter length",
-      rPentePan: "Main slope pitch (deg / %)", rPenteCroupe: "Hip end pitch (deg / %)",
-      rCoupeAplomb: "Hip plumb cut angle", rCoupePied: "Hip seat / level cut angle", rSurface: "Total roof area (4 slopes)",
-      t6F1: "Instant ridge, common rafter, and true hip rafter calculations.",
-      t6F2: "Pitches in degrees and percent plus plumb and seat cut angles.",
-      t6F3: "Total 4-slope roof area in m².",
-      t6U1: "Made for framers, builders, and DIYers checking roof geometry, rafter lengths, or covering area."
+      ad1Text: "Visible ad slot between Tool 04 and Tool 05 (728×90 / Responsive)",
+      ad2Text: "Visible ad slot between Tool 05 and Tool 06 (728×90 / Responsive)",
+      ad3Text: "Visible ad slot below Tool 06 (728×90 / Responsive)",
+      t4Name: "Working Hours & Pay Calculator",
+      secPayDesc: "Calculate estimated gross pay from hourly rate, regular hours, and overtime hours with a markup percentage.",
+      lblRate: "Hourly rate (€ / h)", lblReg: "Regular hours (decimal 1/100e)", lblOt: "Overtime hours (decimal 1/100e)", lblPct: "Overtime markup (%)",
+      rTotH: "Total hours", rBase: "Regular pay", rOtRate: "Overtime rate", rOt: "Overtime pay", rTotal: "ESTIMATED TOTAL",
+      t4F1: "Instant calculation of regular hours and marked-up overtime hours.",
+      t4F2: "Quick +10%, +25%, +50% buttons plus custom percentage input.",
+      t4F3: "Displays overtime rate, total hours, and one-click copy.",
+      t4U1: "Use it to estimate pay, check overtime calculations, or price worked hours.",
+      c1Title: "How to Calculate Marked-Up Overtime Hours",
+      c1P1: "Enter your hourly rate and decimal hours (for example 35.00 regular h and 4.50 overtime h), then pick a markup percentage.",
+      c1B1: "Overtime rate equals hourly rate multiplied by (1 + % / 100).",
+      c1B2: "Click Reset (0) to return all fields to zero.",
+      c1Ex: "Example: €15.00/h × 35.00 h (€525.00) + 4.00 h at +25% (€18.75/h = €75.00) = €600.00.",
+      t5Name: "Framing Calculator: Hip Roof",
+      secRoofDesc: "Calculate ridge length, common rafters, true hip rafter, pitch, cut angles, and 4-slope surface area.",
+      diagCap: "Diagram: plan view (ridge, eave, runs, hips) & vertical section (height H)",
+      lblPan: "Main slope run (m)", lblCr: "Hip end run (m)", lblEg: "Eave length (m)", lblH: "Height H (m)",
+      ridgeNotice: "Eave length is less than or equal to 2 × hip run: ridge is clamped to 0.00 m.",
+      rFait: "Ridge", rChevPan: "Common rafter (pan)", rChevCr: "Common rafter (hip)", rArReel: "True hip",
+      rPentePan: "Main slope pitch", rCoupeAplomb: "Plumb cut angle", rCoupePied: "Seat cut angle", rSurf: "4-slope area",
+      t5F1: "Calculates ridge, common rafters, hip plan run, and true hip rafter.",
+      t5F2: "Slope in degrees and percent plus plumb and seat cut angles.",
+      t5F3: "Total 4-slope surface area in m² with live diagram labels.",
+      t5U1: "Built for framing and construction to check dimensions, angles, and surface areas on a four-slope roof.",
+      c2Title: "How to Read Hip Roof Framing Measurements",
+      c2P1: "Enter main slope run, hip end run, total eave length, and height H to get all framing values right away.",
+      c2B1: "If eave length is at most 2 × hip run, ridge length is 0.00 m.",
+      c2B2: "Cut angles help prepare plumb and seat cuts on hip rafters.",
+      c2Ex: "Example: Main run 4.20 m, Hip run 3.20 m, Eave 11.40 m, H 2.80 m → Ridge 5.00 m, True hip 5.98 m.",
+      t6Name: "Hourly & Daily Rate Calculator",
+      secRateDesc: "Convert a daily rate into an hourly equivalent or calculate total pay across days and daily hours.",
+      lblDayRate: "Daily rate (€ / day)", lblDayHours: "Hours per day", lblDaysCount: "Number of days",
+      rEqHourly: "Equivalent hourly rate", rTotalHoursPlan: "Total planned hours", rMissionTotal: "PERIOD / PROJECT TOTAL",
+      t6F1: "Instant conversion between daily rate and hourly equivalent.",
+      t6F2: "Calculates total hours and total amount across multiple days.",
+      t6F3: "Supports fractional days (e.g. 2.5 days).",
+      t6U1: "Useful for work assignments, site days, daily rates, and comparing day vs. hourly pricing.",
+      contactTitle: "Contact & Information", contactBadge: "Support",
+      contactIntro: "Send a message, tool suggestion, or feedback on this page's calculations.",
+      cLblName: "Name", cLblEmail: "Email", cLblMsg: "Message", cBtnSend: "Send",
+      cSentMsg: "Message noted locally on this page.",
+      aboutTitle: "About",
+      aboutText: "Colette-Calculator offers simple, fast tools for time tracking, breaks, decimal hours, pay, and framing.",
+      termsTitle: "Terms & Disclaimer",
+      termsText: "All outputs are for estimation only and should be verified before payroll, invoicing, or construction work."
     }
   };
 
-  function fmtHM(mins) { const abs = Math.abs(Math.round(mins)); return `${String(Math.floor(abs / 60)).padStart(2, "0")}h ${String(abs % 60).padStart(2, "0")}min`; }
-  function calcSlotInfo(s) {
-    if (!s.start || !s.end) return { mins: 0 };
-    const [sh, sm] = s.start.split(":").map(Number), [eh, em] = s.end.split(":").map(Number);
-    if ([sh, sm, eh, em].some(Number.isNaN)) return { mins: 0 };
-    const a = sh * 60 + sm; let b = eh * 60 + em; if (b < a) b += 1440;
-    return { mins: Math.max(0, b - a) };
-  }
-  function getMondayOfWeek(offset) {
-    const now = new Date(), day = now.getDay(), diff = day === 0 ? -6 : 1 - day;
-    const mon = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diff + offset * 7);
-    mon.setHours(0, 0, 0, 0); return mon;
-  }
-  function getWeekKey(mon) { return `${STORE_PREFIX}${mon.getFullYear()}-${String(mon.getMonth() + 1).padStart(2, "0")}-${String(mon.getDate()).padStart(2, "0")}`; }
-  function getISOWeek(date) {
-    const tmp = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    const dayNum = tmp.getUTCDay() || 7; tmp.setUTCDate(tmp.getUTCDate() + 4 - dayNum);
-    const yStart = new Date(Date.UTC(tmp.getUTCFullYear(), 0, 1));
-    return Math.ceil((((tmp - yStart) / 86400000) + 1) / 7);
-  }
-  function fmtShort(d) { return d.toLocaleDateString(lang === "fr" ? "fr-FR" : "en-GB", { day: "2-digit", month: "2-digit" }); }
-  function defaultWeek() { return Array.from({ length: 7 }, (_, i) => ({ active: i < 5, slots: [{ start: "00:00", end: "00:00" }] })); }
-  function loadWeek(mon) { try { const raw = localStorage.getItem(getWeekKey(mon)); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length === 7) return p; } } catch (e) {} return defaultWeek(); }
-  function saveWeek(mon, data) { try { localStorage.setItem(getWeekKey(mon), JSON.stringify(data)); } catch (e) {} }
-
-  function updateWeekTotals(data) {
-    const d = dict[lang]; let wMins = 0, active = 0;
-    data.forEach((day, di) => {
-      if (day.active) active++;
-      let dMins = 0;
-      day.slots.forEach((sl, si) => {
-        const m = calcSlotInfo(sl).mins; if (day.active) dMins += m;
-        const p1 = document.getElementById(`w-dur-${di}-${si}`), p2 = document.getElementById(`w-dec-${di}-${si}`);
-        if (p1) p1.textContent = fmtHM(m); if (p2) p2.textContent = `${(m / 60).toFixed(2)} h`;
-      });
-      if (day.active) wMins += dMins;
-      const dt = document.getElementById(`w-daytot-${di}`); if (dt) dt.textContent = `${fmtHM(dMins)} · ${(dMins / 60).toFixed(2)} h`;
-    });
-    document.getElementById("activeDaysCount").textContent = d.activeDaysFmt(active);
-    document.getElementById("weekTotalHM").textContent = fmtHM(wMins);
-    document.getElementById("weekTotalDec").textContent = `${(wMins / 60).toFixed(2)} h`;
-  }
-
-  function buildWeekDOM() {
-    const d = dict[lang], mon = getMondayOfWeek(weekOffset), sun = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + 6);
-    document.getElementById("weekLabel").textContent = `${d.weekWord} ${getISOWeek(mon)} (${mon.getFullYear()})`;
-    document.getElementById("weekDates").textContent = `${fmtShort(mon)} → ${fmtShort(sun)}`;
-    const data = loadWeek(mon), wrap = document.getElementById("daysContainer"); wrap.innerHTML = "";
-    data.forEach((day, di) => {
-      const dateObj = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + di);
-      const box = document.createElement("div"); box.className = "day-box" + (day.active ? "" : " off");
-      const title = document.createElement("div"); title.className = "day-title";
-      const chk = document.createElement("input"); chk.type = "checkbox"; chk.checked = !!day.active;
-      chk.addEventListener("change", () => { const cur = loadWeek(mon); cur[di].active = chk.checked; saveWeek(mon, cur); box.classList.toggle("off", !chk.checked); updateWeekTotals(cur); });
-      const sp = document.createElement("span"); sp.innerHTML = `${d.days[di]} <small style="color:var(--muted);font-weight:600;">${fmtShort(dateObj)}</small>`;
-      title.append(chk, sp);
-
-      const col = document.createElement("div"); col.className = "slots-col";
-      day.slots.forEach((sl, si) => {
-        const r = document.createElement("div"); r.className = "slot-row";
-        const i1 = document.createElement("input"); i1.type = "time"; i1.value = sl.start;
-        i1.addEventListener("input", () => { const cur = loadWeek(mon); cur[di].slots[si].start = i1.value; saveWeek(mon, cur); updateWeekTotals(cur); });
-        const i2 = document.createElement("input"); i2.type = "time"; i2.value = sl.end;
-        i2.addEventListener("input", () => { const cur = loadWeek(mon); cur[di].slots[si].end = i2.value; saveWeek(mon, cur); updateWeekTotals(cur); });
-        const p1 = document.createElement("div"); p1.className = "out-pill"; p1.id = `w-dur-${di}-${si}`;
-        const p2 = document.createElement("div"); p2.className = "out-pill"; p2.id = `w-dec-${di}-${si}`;
-        const btn = document.createElement("button"); btn.type = "button"; btn.className = "btn-mini";
-        if (si === 0) { btn.textContent = "+"; btn.addEventListener("click", () => { const cur = loadWeek(mon); cur[di].slots.push({ start: "00:00", end: "00:00" }); saveWeek(mon, cur); buildWeekDOM(); }); }
-        else { btn.textContent = "×"; btn.addEventListener("click", () => { const cur = loadWeek(mon); if (cur[di].slots.length > 1) { cur[di].slots.splice(si, 1); saveWeek(mon, cur); buildWeekDOM(); } }); }
-        r.append(i1, i2, p1, p2, btn); col.appendChild(r);
-      });
-      const tot = document.createElement("div"); tot.className = "day-totals"; tot.id = `w-daytot-${di}`;
-      box.append(title, col, tot); wrap.appendChild(box);
-    });
-    updateWeekTotals(data);
-  }
+  function clampNonNeg(el) { const v = parseFloat(el.value); if (!Number.isNaN(v) && v < 0) el.value = "0"; }
 
   function calcPay() {
-    ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => { const el = document.getElementById(id); if (parseFloat(el.value) < 0) el.value = "0"; });
-    const rate = parseFloat(document.getElementById("inRate").value) || 0, reg = parseFloat(document.getElementById("inRegHours").value) || 0;
-    const ot = parseFloat(document.getElementById("inOtHours").value) || 0, pct = parseFloat(document.getElementById("inOtPct").value) || 0;
-    const totH = reg + ot, base = reg * rate, otRate = rate * (1 + pct / 100), otPay = ot * otRate;
-    document.getElementById("outTotalHours").textContent = `${totH.toFixed(2)} h (${fmtHM(totH * 60)})`;
-    document.getElementById("outBasePay").textContent = `${base.toFixed(2)} €`;
+    const rate = Math.max(0, parseFloat(document.getElementById("inRate").value) || 0);
+    const reg = Math.max(0, parseFloat(document.getElementById("inReg").value) || 0);
+    const ot = Math.max(0, parseFloat(document.getElementById("inOt").value) || 0);
+    const pct = Math.max(0, parseFloat(document.getElementById("inPct").value) || 0);
+    const otRate = rate * (1 + pct / 100);
+    const base = reg * rate;
+    const otPay = ot * otRate;
+    document.getElementById("outTotH").textContent = `${(reg + ot).toFixed(2)} h`;
+    document.getElementById("outBase").textContent = `${base.toFixed(2)} €`;
     document.getElementById("outOtRate").textContent = `${otRate.toFixed(2)} € / h`;
-    document.getElementById("outOtPay").textContent = `${otPay.toFixed(2)} €`;
-    document.getElementById("outGrandTotal").textContent = `${(base + otPay).toFixed(2)} €`;
+    document.getElementById("outOt").textContent = `${otPay.toFixed(2)} €`;
+    document.getElementById("outTotal").textContent = `${(base + otPay).toFixed(2)} €`;
   }
 
   function calcRoof() {
-    const d = dict[lang];
-    ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => { const el = document.getElementById(id); if (parseFloat(el.value) < 0) el.value = "0"; });
-    const pan = parseFloat(document.getElementById("inEmpPan").value) || 0, cr = parseFloat(document.getElementById("inEmpCroupe").value) || 0;
-    const eg = parseFloat(document.getElementById("inEgout").value) || 0, h = parseFloat(document.getElementById("inHaut").value) || 0;
-    const rawFait = eg - 2 * cr, fait = Math.max(0, rawFait), notice = document.getElementById("roofNotice");
-    if (eg > 0 && rawFait < 0) { notice.textContent = d.ridgeShortMsg; notice.style.display = "block"; } else { notice.style.display = "none"; }
-    const cp = Math.hypot(pan, h), cc = Math.hypot(cr, h), arPlan = Math.hypot(pan, cr), arReel = Math.hypot(arPlan, h);
-    const pDeg = pan > 0 ? Math.atan2(h, pan) * 180 / Math.PI : 0, pPct = pan > 0 ? (h / pan) * 100 : 0;
-    const cDeg = cr > 0 ? Math.atan2(h, cr) * 180 / Math.PI : 0, cPct = cr > 0 ? (h / cr) * 100 : 0;
-    const aplomb = arReel > 0 ? Math.atan2(arPlan, h) * 180 / Math.PI : 0, pied = arPlan > 0 ? Math.atan2(h, arPlan) * 180 / Math.PI : 0;
+    const pan = Math.max(0, parseFloat(document.getElementById("inPan").value) || 0);
+    const cr = Math.max(0, parseFloat(document.getElementById("inCr").value) || 0);
+    const eg = Math.max(0, parseFloat(document.getElementById("inEg").value) || 0);
+    const h = Math.max(0, parseFloat(document.getElementById("inH").value) || 0);
+    const rawFait = eg - 2 * cr;
+    const fait = Math.max(0, rawFait);
+    const notice = document.getElementById("roofNotice");
+    if (eg > 0 && rawFait < 0) { notice.textContent = dict[lang].ridgeNotice; notice.style.display = "block"; }
+    else { notice.style.display = "none"; }
+
+    const cp = Math.hypot(pan, h);
+    const cc = Math.hypot(cr, h);
+    const arPlan = Math.hypot(pan, cr);
+    const arReel = Math.hypot(arPlan, h);
+    const deg = pan > 0 ? (Math.atan2(h, pan) * 180) / Math.PI : 0;
+    const pct = pan > 0 ? (h / pan) * 100 : 0;
+    const aplomb = arReel > 0 ? (Math.atan2(arPlan, h) * 180) / Math.PI : 0;
+    const pied = arPlan > 0 ? (Math.atan2(h, arPlan) * 180) / Math.PI : 0;
     const surf = 2 * (((fait + eg) / 2) * cp) + 2 * (0.5 * pan * cc);
-    document.getElementById("outFaitage").textContent = `${fait.toFixed(2)} m`;
+
+    document.getElementById("outFait").textContent = `${fait.toFixed(2)} m`;
     document.getElementById("outChevPan").textContent = `${cp.toFixed(2)} m`;
-    document.getElementById("outChevCroupe").textContent = `${cc.toFixed(2)} m`;
-    document.getElementById("outAretierPlan").textContent = `${arPlan.toFixed(2)} m`;
-    document.getElementById("outAretierReel").textContent = `${arReel.toFixed(2)} m`;
-    document.getElementById("outPentePan").textContent = `${pDeg.toFixed(2)}° (${pPct.toFixed(1)} %)`;
-    document.getElementById("outPenteCroupe").textContent = `${cDeg.toFixed(2)}° (${cPct.toFixed(1)} %)`;
+    document.getElementById("outChevCr").textContent = `${cc.toFixed(2)} m`;
+    document.getElementById("outArReel").textContent = `${arReel.toFixed(2)} m`;
+    document.getElementById("outPentePan").textContent = `${deg.toFixed(2)}° (${pct.toFixed(1)} %)`;
     document.getElementById("outCoupeAplomb").textContent = `${aplomb.toFixed(2)}°`;
     document.getElementById("outCoupePied").textContent = `${pied.toFixed(2)}°`;
-    document.getElementById("outSurface").textContent = `${surf.toFixed(2)} m²`;
+    document.getElementById("outSurf").textContent = `${surf.toFixed(2)} m²`;
+
+    document.getElementById("svgFait").textContent = (lang === "fr" ? "Faîtage: " : "Ridge: ") + fait.toFixed(2) + " m";
+    document.getElementById("svgEgout").textContent = (lang === "fr" ? "Égout: " : "Eave: ") + eg.toFixed(2) + " m";
+    document.getElementById("svgH").textContent = "H: " + h.toFixed(2) + " m";
+  }
+
+  function calcRate() {
+    const dayRate = Math.max(0, parseFloat(document.getElementById("inDayRate").value) || 0);
+    const dayHours = Math.max(0, parseFloat(document.getElementById("inDayHours").value) || 0);
+    const daysCount = Math.max(0, parseFloat(document.getElementById("inDaysCount").value) || 0);
+    const eqHourly = dayHours > 0 ? dayRate / dayHours : 0;
+    const totalHoursPlan = dayHours * daysCount;
+    const missionTotal = dayRate * daysCount;
+    document.getElementById("outEqHourly").textContent = `${eqHourly.toFixed(2)} € / h`;
+    document.getElementById("outTotalHoursPlan").textContent = `${totalHoursPlan.toFixed(2)} h`;
+    document.getElementById("outMissionTotal").textContent = `${missionTotal.toFixed(2)} €`;
   }
 
   function applyLang() {
-    document.documentElement.lang = lang; const d = dict[lang];
+    document.documentElement.lang = lang;
+    const d = dict[lang];
     document.getElementById("langBtn").textContent = d.btn;
-    document.querySelectorAll("[data-t]").forEach(el => { const k = el.getAttribute("data-t"); if (d[k] && typeof d[k] === "string") el.textContent = d[k]; });
-    buildWeekDOM(); calcPay(); calcRoof();
+    document.querySelectorAll("[data-t]").forEach(el => {
+      const k = el.getAttribute("data-t");
+      if (d[k]) el.textContent = d[k];
+    });
+    calcPay();
+    calcRoof();
+    calcRate();
   }
 
-  window.toggleLang = function () { lang = lang === "fr" ? "en" : "fr"; try { localStorage.setItem(LANG_KEY, lang); } catch (e) {} applyLang(); };
+  window.toggleLang = function () {
+    lang = lang === "fr" ? "en" : "fr";
+    try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+    applyLang();
+  };
 
   document.addEventListener("DOMContentLoaded", function () {
     try { const s = localStorage.getItem(LANG_KEY); if (s === "en" || s === "fr") lang = s; } catch (e) {}
-    document.getElementById("prevWeekBtn").addEventListener("click", () => { weekOffset--; buildWeekDOM(); });
-    document.getElementById("currWeekBtn").addEventListener("click", () => { weekOffset = 0; buildWeekDOM(); });
-    document.getElementById("nextWeekBtn").addEventListener("click", () => { weekOffset++; buildWeekDOM(); });
-    document.getElementById("printWeekBtn").addEventListener("click", () => window.print());
-    document.getElementById("resetWeekBtn").addEventListener("click", () => { if (!window.confirm(dict[lang].confirmResetMsg)) return; const m = getMondayOfWeek(weekOffset); saveWeek(m, defaultWeek()); buildWeekDOM(); });
-    document.getElementById("copyWeekBtn").addEventListener("click", function () {
-      const btn = this, d = dict[lang], m = getMondayOfWeek(weekOffset);
-      const txt = `${d.weekWord} ${getISOWeek(m)} (${m.getFullYear()}) — ${document.getElementById("weekTotalHM").textContent} (${document.getElementById("weekTotalDec").textContent})`;
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).catch(() => {});
-      btn.textContent = d.btnCopied; setTimeout(() => { btn.textContent = d.btnCopy; }, 1500);
+
+    ["inRate", "inReg", "inOt", "inPct"].forEach(id => {
+      document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcPay(); });
     });
-    ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => document.getElementById(id).addEventListener("input", calcPay));
-    document.querySelectorAll("[data-ot]").forEach(b => b.addEventListener("click", () => { document.getElementById("inOtPct").value = b.getAttribute("data-ot"); calcPay(); }));
-    document.getElementById("resetPayBtn").addEventListener("click", () => { ["inRate", "inRegHours", "inOtHours", "inOtPct"].forEach(id => { document.getElementById(id).value = "0"; }); calcPay(); });
-    ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => document.getElementById(id).addEventListener("input", calcRoof));
-    document.getElementById("resetRoofBtn").addEventListener("click", () => { ["inEmpPan", "inEmpCroupe", "inEgout", "inHaut"].forEach(id => { document.getElementById(id).value = "0"; }); calcRoof(); });
+    document.querySelectorAll("[data-ot]").forEach(btn => {
+      btn.addEventListener("click", function () {
+        document.getElementById("inPct").value = this.getAttribute("data-ot");
+        calcPay();
+      });
+    });
+    document.getElementById("resetPayBtn").addEventListener("click", () => {
+      ["inRate", "inReg", "inOt", "inPct"].forEach(id => { document.getElementById(id).value = "0"; });
+      calcPay();
+    });
+    document.getElementById("copyPayBtn").addEventListener("click", function () {
+      const btn = this, d = dict[lang], txt = `${document.getElementById("outTotal").textContent} (${document.getElementById("outTotH").textContent})`;
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).catch(() => {});
+      btn.textContent = d.btnCopied;
+      setTimeout(() => { btn.textContent = d.btnCopy; }, 1500);
+    });
+
+    ["inPan", "inCr", "inEg", "inH"].forEach(id => {
+      document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcRoof(); });
+    });
+    document.getElementById("resetRoofBtn").addEventListener("click", () => {
+      ["inPan", "inCr", "inEg", "inH"].forEach(id => { document.getElementById(id).value = "0"; });
+      calcRoof();
+    });
+
+    ["inDayRate", "inDayHours", "inDaysCount"].forEach(id => {
+      document.getElementById(id).addEventListener("input", function () { clampNonNeg(this); calcRate(); });
+    });
+    document.getElementById("resetRateBtn").addEventListener("click", () => {
+      ["inDayRate", "inDayHours", "inDaysCount"].forEach(id => { document.getElementById(id).value = "0"; });
+      calcRate();
+    });
+
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const box = document.getElementById("cStatus");
+      box.textContent = dict[lang].cSentMsg;
+      box.style.display = "block";
+    });
+    document.getElementById("cClearBtn").addEventListener("click", function () {
+      ["cName", "cEmail", "cMsg"].forEach(id => { document.getElementById(id).value = ""; });
+      document.getElementById("cStatus").style.display = "none";
+    });
+
     applyLang();
   });
 })();
